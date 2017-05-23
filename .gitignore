@@ -2,4 +2,5 @@ bin/
 *.swp
 middleware/
 obj/
+*.out
 

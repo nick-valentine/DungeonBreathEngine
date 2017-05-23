@@ -23,7 +23,6 @@ void ConfigLoader::load()
         std::string key, value;
         ifile>>key>>value;
         configuration[key] = value;
-        std::cout<<key<<" "<<value<<"\n";
     }
     ifile.close();
 

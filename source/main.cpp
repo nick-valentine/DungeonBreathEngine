@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "../headers/ConfigLoader.h"
+#include "../headers/Logger/ConsoleLogger.h"
 
 void handleEvents(sf::RenderWindow &window);
 
@@ -10,6 +11,8 @@ int main()
     int resolutionX = ConfigLoader::getIntOption("resolutionX", 200);
     int resolutionY = ConfigLoader::getIntOption("resolutionY", 200);
     const int frameFrequency = 33333; // 1/30 of a second
+
+    ConsoleLogger logger;
 
     sf::RenderWindow window(sf::VideoMode(resolutionX, resolutionY), "Zelda Clone");
     sf::CircleShape shape(100.f);
@@ -22,6 +25,7 @@ int main()
 
         delta = timer.restart().asMicroseconds();
         sf::sleep(sf::microseconds(std::max(frameFrequency - delta, 0.0f)));
+        logger.info("delta: %f", delta);
 
         handleEvents(window);
 

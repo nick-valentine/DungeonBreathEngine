@@ -390,7 +390,7 @@
 	<string>
 	<vector>
 
-1495513208 source:c:\users\nick\documents\projects\zeldaclone\source\main.cpp
+1495513374 source:c:\users\nick\documents\projects\zeldaclone\source\main.cpp
 	<SFML/Graphics.hpp>
 	"../headers/ConfigLoader.h"
 	"../headers/Logger/ConsoleLogger.h"
@@ -404,7 +404,7 @@
 	<string>
 	<iostream>
 
-1495512088 source:c:\users\nick\documents\projects\zeldaclone\source\configloader.cpp
+1495513374 source:c:\users\nick\documents\projects\zeldaclone\source\configloader.cpp
 	"../headers/ConfigLoader.h"
 
 1495511952 c:\users\nick\documents\projects\zeldaclone\headers\configloader.h
@@ -416,16 +416,16 @@
 	<utility>
 	<iostream>
 
-1495513014 source:c:\users\nick\documents\projects\zeldaclone\source\logger\consolelogger.cpp
+1495513374 source:c:\users\nick\documents\projects\zeldaclone\source\logger\consolelogger.cpp
 	"../../headers/Logger/ConsoleLogger.h"
 
-1495513019 c:\users\nick\documents\projects\zeldaclone\headers\logger\consolelogger.h
+1495513374 c:\users\nick\documents\projects\zeldaclone\headers\logger\consolelogger.h
 	<stdarg.h>
 	<stdio.h>
 	<stdlib.h>
 	"Logger.h"
 
-1495513196 c:\users\nick\documents\projects\zeldaclone\headers\logger\logger.h
+1495513374 c:\users\nick\documents\projects\zeldaclone\headers\logger\logger.h
 	<stdarg.h>
 	<stdio.h>
 	<algorithm>
@@ -433,6 +433,6 @@
 	<ctime>
 	"../ConfigLoader.h"
 
-1495513192 source:c:\users\nick\documents\projects\zeldaclone\source\logger\logger.cpp
+1495513374 source:c:\users\nick\documents\projects\zeldaclone\source\logger\logger.cpp
 	"../../headers/Logger/Logger.h"
 

@@ -1,4 +1,4 @@
-#include "../headers/TextureMap.h"
+#include "TextureMap.h"
 
 std::map<std::string, sf::Texture> TextureMap::texMap;
 

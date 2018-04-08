@@ -1,20 +1,20 @@
 #ifndef ACTOR_H
 #define ACTOR_H
 
-#include <SFML/Graphics.gpp>
-#include <SFML/Vector2.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 #include <string>
 #include <vector>
 
+#include "Logger/Logger.h"
 #include "TextureMap.h"
 
 class Actor;
 
 struct pain {
     int raw_dmg;
-    CollideType direction;
+    sf::Vector2f force;
     Actor *attacker;
-    int knockback
 };
 
 class Actor
@@ -23,7 +23,7 @@ public:
     Actor(sf::Vector2i pos, sf::Vector2i scale, std::string image_name);
     virtual ~Actor();
 
-    virtual void update(int delta) = 0;
+    virtual void update(int delta, Logger *logger);
     virtual void draw(sf::RenderWindow &window) = 0;
     virtual void hurt(pain p);
 
@@ -32,13 +32,19 @@ public:
 
     sf::Vector2f get_velocity() const;
     void set_velocity(sf::Vector2f vel);
+
+    virtual Actor *clone() = 0;
+protected:
+    int add_sprite(sf::IntRect pos);
+    sf::Sprite *get_sprite(int index);
+    int get_num_sprites() const;
 private:
     sf::Vector2f velocity;
     sf::Rect<int> rect;
 
     sf::Texture *tex;
     std::string texture_name;
-    std::vector<sf::Sprite> sprites
+    std::vector<sf::Sprite> sprites;
 
     TextureMap my_map;
 };

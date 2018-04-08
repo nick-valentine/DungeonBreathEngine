@@ -1,4 +1,4 @@
-#include "../../headers/Logger/Logger.h"
+#include "Logger.h"
 
 const std::string Logger::levelStrings[5] = {
     "NONE",

@@ -1,4 +1,4 @@
-#include "../headers/ConfigLoader.h"
+#include "ConfigLoader.h"
 
 const std::string ConfigLoader::configPath = "./GameData/config.txt";
 const std::string ConfigLoader::versionPath = "./GameData/version.txt";

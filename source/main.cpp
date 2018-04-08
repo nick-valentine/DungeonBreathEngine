@@ -1,7 +1,8 @@
 #include <SFML/Graphics.hpp>
 
-#include "../headers/ConfigLoader.h"
-#include "../headers/Logger/ConsoleLogger.h"
+#include "ConfigLoader.h"
+#include "Logger/ConsoleLogger.h"
+#include "Hero.h"
 
 void handleEvents(sf::RenderWindow &window);
 
@@ -12,11 +13,11 @@ int main()
     int resolutionY = ConfigLoader::getIntOption("resolutionY", 200);
     const int frameFrequency = 33333; // 1/30 of a second
 
-    ConsoleLogger logger;
+    Logger *logger = new ConsoleLogger();
 
-    sf::RenderWindow window(sf::VideoMode(resolutionX, resolutionY), "Zelda Clone");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    sf::RenderWindow window(sf::VideoMode(resolutionX, resolutionY), "DungeonBreath");
+
+    Hero hero(sf::Vector2i(100,100), sf::Vector2i(100, 100));
 
     sf::Clock timer;
 
@@ -25,15 +26,16 @@ int main()
 
         delta = timer.restart().asMicroseconds();
         sf::sleep(sf::microseconds(std::max(frameFrequency - delta, 0.0f)));
-        logger.info("delta: %f", delta);
 
         handleEvents(window);
+        hero.update(delta, logger);
 
         window.clear(sf::Color::Black);
-        window.draw(shape);
+        hero.draw(window);
         window.display();
     }
 
+    delete logger;
     return 0;
 }
 

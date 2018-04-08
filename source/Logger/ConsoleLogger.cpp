@@ -1,4 +1,4 @@
-#include "../../headers/Logger/ConsoleLogger.h"
+#include "ConsoleLogger.h"
 
 ConsoleLogger::ConsoleLogger()
 {

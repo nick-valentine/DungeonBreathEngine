@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="DungeonBreath" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/ZeldaClone" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/ZeldaClone" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wnon-virtual-dtor" />
+			<Add option="-Wshadow" />
+			<Add option="-Wredundant-decls" />
+			<Add option="-Wcast-align" />
+			<Add option="-Winline" />
+			<Add option="-Wunreachable-code" />
+			<Add option="-Wmissing-declarations" />
+			<Add option="-Wmissing-include-dirs" />
+			<Add option="-Wswitch-enum" />
+			<Add option="-Wswitch-default" />
+			<Add option="-Weffc++" />
+			<Add option="-Wzero-as-null-pointer-constant" />
+			<Add option="-Wmain" />
+			<Add option="-pedantic" />
+			<Add option="-Wextra" />
+			<Add option="-std=c++0x" />
+			<Add option="-pg" />
+			<Add option="-m32" />
+			<Add directory="middleware/sfml_2_4_2/include" />
+		</Compiler>
+		<Linker>
+			<Add option="-pg -lgmon" />
+			<Add option="-m32" />
+			<Add library="sfml-graphics" />
+			<Add library="sfml-window" />
+			<Add library="sfml-audio" />
+			<Add library="sfml-network" />
+			<Add library="sfml-system" />
+			<Add directory="middleware/sfml_2_4_2/lib" />
+		</Linker>
+		<Unit filename=".gitignore" />
+		<Unit filename="GameData/config.txt" />
+		<Unit filename="GameData/version.txt" />
+		<Unit filename="ZeldaClone.depend" />
+		<Unit filename="ZeldaClone.layout" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Audio.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Audio/AlResource.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Audio/Export.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Audio/InputSoundFile.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Audio/Listener.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Audio/Music.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Audio/OutputSoundFile.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Audio/Sound.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Audio/SoundBuffer.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Audio/SoundBufferRecorder.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Audio/SoundFileFactory.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Audio/SoundFileReader.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Audio/SoundFileWriter.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Audio/SoundRecorder.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Audio/SoundSource.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Audio/SoundStream.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Config.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/BlendMode.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/CircleShape.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/Color.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/ConvexShape.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/Drawable.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/Export.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/Font.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/Glsl.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/Glyph.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/Image.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/PrimitiveType.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/Rect.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/RectangleShape.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/RenderStates.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/RenderTarget.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/RenderTexture.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/RenderWindow.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/Shader.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/Shape.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/Sprite.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/Text.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/Texture.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/Transform.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/Transformable.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/Vertex.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/VertexArray.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Graphics/View.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Main.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Network.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Network/Export.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Network/Ftp.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Network/Http.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Network/IpAddress.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Network/Packet.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Network/Socket.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Network/SocketHandle.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Network/SocketSelector.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Network/TcpListener.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Network/TcpSocket.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Network/UdpSocket.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/OpenGL.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/System.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/System/Clock.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/System/Err.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/System/Export.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/System/FileInputStream.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/System/InputStream.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/System/Lock.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/System/MemoryInputStream.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/System/Mutex.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/System/NativeActivity.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/System/NonCopyable.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/System/Sleep.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/System/String.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/System/Thread.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/System/ThreadLocal.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/System/ThreadLocalPtr.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/System/Time.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/System/Utf.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/System/Vector2.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/System/Vector3.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Window.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Window/Context.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Window/ContextSettings.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Window/Event.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Window/Export.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Window/GlResource.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Window/Joystick.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Window/Keyboard.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Window/Mouse.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Window/Sensor.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Window/Touch.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Window/VideoMode.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Window/Window.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Window/WindowHandle.hpp" />
+		<Unit filename="middleware/sfml_2_4_2/include/SFML/Window/WindowStyle.hpp" />
+		<Unit filename="source/Actor.cpp" />
+		<Unit filename="source/Actor.h" />
+		<Unit filename="source/ConfigLoader.cpp" />
+		<Unit filename="source/ConfigLoader.h" />
+		<Unit filename="source/Logger/ConsoleLogger.cpp" />
+		<Unit filename="source/Logger/ConsoleLogger.h" />
+		<Unit filename="source/Logger/Logger.cpp" />
+		<Unit filename="source/Logger/Logger.h" />
+		<Unit filename="source/TextureMap.cpp" />
+		<Unit filename="source/TextureMap.h" />
+		<Unit filename="source/main.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

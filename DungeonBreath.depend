@@ -445,11 +445,13 @@
 1523231035 source:c:\users\nick\documents\projects\dungeonbreath\source\logger\logger.cpp
 	"Logger.h"
 
-1523231651 source:c:\users\nick\documents\projects\dungeonbreath\source\main.cpp
+1523237641 source:c:\users\nick\documents\projects\dungeonbreath\source\main.cpp
 	<SFML/Graphics.hpp>
 	"ConfigLoader.h"
 	"Logger/ConsoleLogger.h"
 	"Hero.h"
+	"Scene.h"
+	"MainMenuScene.h"
 
 1486739997 c:\users\nick\documents\projects\dungeonbreath\middleware\sfml_2_4_2\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -859,7 +861,7 @@
 	<string>
 	<iostream>
 
-1523231624 source:c:\users\nick\documents\projects\dungeonbreath\source\hero.cpp
+1523236496 source:c:\users\nick\documents\projects\dungeonbreath\source\hero.cpp
 	"Hero.h"
 
 1523236407 c:\users\nick\documents\projects\dungeonbreath\source\hero.h
@@ -888,4 +890,13 @@
 	<string>
 	<ctime>
 	"../ConfigLoader.h"
+
+1523237331 c:\users\nick\documents\projects\dungeonbreath\source\scene.h
+	<SFML/Graphics.hpp>
+	<SFML/Window.hpp>
+	<SFML/System.hpp>
+	"Logger/Logger.h"
+
+1523237661 c:\users\nick\documents\projects\dungeonbreath\source\mainmenuscene.h
+	"Scene.h"
 

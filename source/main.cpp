@@ -3,6 +3,8 @@
 #include "ConfigLoader.h"
 #include "Logger/ConsoleLogger.h"
 #include "Hero.h"
+#include "Scene.h"
+#include "MainMenuScene.h"
 
 void handleEvents(sf::RenderWindow &window);
 
@@ -17,6 +19,7 @@ int main()
 
     sf::RenderWindow window(sf::VideoMode(resolutionX, resolutionY), "DungeonBreath");
 
+    Scene *main_menu = new MainMenuScene(sf::Vector2i(resolutionX, resolutionY));
     Hero hero(sf::Vector2i(100,100), sf::Vector2i(100, 100));
 
     sf::Clock timer;
@@ -28,13 +31,16 @@ int main()
         sf::sleep(sf::microseconds(std::max(frameFrequency - delta, 0.0f)));
 
         handleEvents(window);
+        main_menu->update(delta, window, logger);
         hero.update(delta, logger);
 
         window.clear(sf::Color::Black);
+        main_menu->draw(window);
         hero.draw(window);
         window.display();
     }
 
+    delete main_menu;
     delete logger;
     return 0;
 }

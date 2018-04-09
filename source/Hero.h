@@ -17,14 +17,8 @@ public:
     Actor *clone();
 
 private:
-    constexpr static double accel_x = 1.5;
-    constexpr static double accel_y = 1.5;
-
-    constexpr static double vel_damp = 10.f;
-
+    constexpr static float velocity = 5.0;
     constexpr static int anim_speed = 10;
-
-    sf::Vector2f acceleration;
 
     int active_sprite = 0;
     int update_count = 0;

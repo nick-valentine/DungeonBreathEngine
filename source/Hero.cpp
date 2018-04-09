@@ -5,8 +5,6 @@ Hero::Hero(sf::Vector2i pos, sf::Vector2i scale) : Actor(pos, scale, "./GameData
     this->add_sprite(sf::IntRect(0, 0, 100, 100));
     this->add_sprite(sf::IntRect(100, 0, 100, 100));
     this->add_sprite(sf::IntRect(0, 100, 100, 100));
-
-    this->acceleration = sf::Vector2f(0.f, 0.f);
 }
 
 Hero::~Hero()
@@ -15,39 +13,26 @@ Hero::~Hero()
 
 void Hero::update(int delta, Logger *logger)
 {
+    sf::Vector2f vel(0,0);
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        this->acceleration.x = accel_x;
+        vel.x = velocity;
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        this->acceleration.x = -accel_x;
+        vel.x = -velocity;
     } else {
-        this->acceleration.x = 0;
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-        this->acceleration.y = -accel_y;
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-        this->acceleration.y = accel_y;
-    } else {
-        this->acceleration.y = 0;
-    }
-
-    auto vel = this->get_velocity();
-    vel = vel + this->acceleration;
-    vel.x = vel.x - (vel.x / vel_damp);
-    vel.y = vel.y - (vel.y / vel_damp);
-
-    if ((vel.x < 1 && vel.x > 0) ||
-        (vel.x > -1 && vel.x < 0))  {
         vel.x = 0;
     }
 
-    if ((vel.y < 1 && vel.y > 0) ||
-        (vel.y > -1 && vel.y < 0)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+        vel.y = -velocity;
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+        vel.y = velocity;
+    } else {
         vel.y = 0;
     }
 
-    logger->info("hero velocity: %d, %d", vel.x, vel.y);
     this->set_velocity(vel);
+
+    logger->info("hero velocity: %1.1f, %1.1f", vel.x, vel.y);
 
     this->update_count++;
     if (this->update_count > anim_speed) {

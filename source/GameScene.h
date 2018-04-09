@@ -1,14 +1,15 @@
-#ifndef MAINMENUSCENE_H
-#define MAINMENUSCENE_H
+#ifndef GAMESCENE_H
+#define GAMESCENE_H
 
 #include "Scene.h"
-#include "Button.h"
 
-class MainMenuScene : public Scene
+#include "Hero.h"
+
+class GameScene : public Scene
 {
 public:
-    MainMenuScene(sf::Vector2i size);
-    ~MainMenuScene();
+    GameScene(sf::Vector2i size);
+    ~GameScene();
 
     void update(int delta, sf::RenderWindow &window, Logger *logger);
     void draw(sf::RenderWindow &window);
@@ -18,11 +19,10 @@ public:
 private:
     sf::View main_window;
 
+    Hero hero;
+
     Scene::Status state;
     Scene* next_scene;
-
-    Button play_button;
-    Button exit_button;
 };
 
-#endif // MAINMENUSCENE_H
+#endif // GAMESCENE_H

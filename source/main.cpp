@@ -19,8 +19,7 @@ int main()
 
     sf::RenderWindow window(sf::VideoMode(resolutionX, resolutionY), "DungeonBreath");
 
-    Scene *main_menu = new MainMenuScene(sf::Vector2i(resolutionX, resolutionY));
-    Hero hero(sf::Vector2i(100,100), sf::Vector2i(100, 100));
+    Scene *current_scene = new MainMenuScene(sf::Vector2i(resolutionX, resolutionY));
 
     sf::Clock timer;
 
@@ -31,16 +30,23 @@ int main()
         sf::sleep(sf::microseconds(std::max(frameFrequency - delta, 0.0f)));
 
         handleEvents(window);
-        main_menu->update(delta, window, logger);
-        hero.update(delta, logger);
+        current_scene->update(delta, window, logger);
 
         window.clear(sf::Color::Black);
-        main_menu->draw(window);
-        hero.draw(window);
+        current_scene->draw(window);
         window.display();
+
+        Scene::Status state = current_scene->status();
+        if (state == Scene::Status::exit_program) {
+            break;
+        } else if (state == Scene::Status::switch_scene) {
+            Scene *next = current_scene->new_scene();
+            delete current_scene;
+            current_scene = next;
+        }
     }
 
-    delete main_menu;
+    delete current_scene;
     delete logger;
     return 0;
 }

@@ -1,37 +1,22 @@
 #include "TextureMap.h"
 
-std::map<std::string, sf::Texture> TextureMap::texMap;
+std::map<std::string, sf::Texture> TextureMap::tex_map;
 
-TextureMap::TextureMap()
+sf::Texture *TextureMap::request(std::string file_name)
 {
 
-}
-
-TextureMap::~TextureMap()
-{
-
-}
-
-sf::Texture *TextureMap::request(std::string fileName)
-{
-    if (this->texMap.find(fileName) == texMap.end()) {
-        //texture not found in map, load from file
+    if (this->tex_map.find(file_name) == tex_map.end()) {
         sf::Texture temp;
-        if (!temp.loadFromFile(fileName)) {
-            //texture could not be loaded
-            exit(1);
-        } else {
-            //texture loaded, add to map and return it
-            texMap[fileName] = temp;
-            return &texMap[fileName];
+        if (!temp.loadFromFile(file_name)) {
+            throw FileNotFoundException();
         }
-    } else {
-        //texture already loaded
-        return &texMap[fileName];
+        tex_map[file_name] = temp;
+        return &tex_map[file_name];
     }
+    return &tex_map[file_name];
 }
 
 void TextureMap::clear()
 {
-    texMap.clear();
+    tex_map.clear();
 }

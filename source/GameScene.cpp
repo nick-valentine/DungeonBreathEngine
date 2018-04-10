@@ -12,18 +12,22 @@ GameScene::GameScene(sf::Vector2i size) :
 
 GameScene::~GameScene()
 {
-
+    MusicManager::stop();
 }
 
 void GameScene::update(int delta, sf::RenderWindow &window, Logger *logger)
 {
-        this->hero.update(delta, logger);
-        this->tile.update(delta);
+    if (first_loop) {
+        first_loop = false;
+        MusicManager::play(MusicManager::Song::playing_game);
+    }
+    this->hero.update(delta, logger);
+    this->tile.update(delta);
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-            this->state = Scene::Status::switch_scene;
-            this->next_scene = new MainMenuScene(this->size);
-        }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+        this->state = Scene::Status::switch_scene;
+        this->next_scene = new MainMenuScene(this->size);
+    }
 }
 
 void GameScene::draw(sf::RenderWindow &window)

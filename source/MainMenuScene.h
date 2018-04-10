@@ -1,6 +1,7 @@
 #ifndef MAINMENUSCENE_H
 #define MAINMENUSCENE_H
 
+#include "MusicManager.h"
 #include "Scene.h"
 #include "Button.h"
 
@@ -23,6 +24,8 @@ private:
 
     Button play_button;
     Button exit_button;
+
+    bool first_loop = true;
 };
 
 #endif // MAINMENUSCENE_H

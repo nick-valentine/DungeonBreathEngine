@@ -175,6 +175,8 @@
 		<Unit filename="source/Logger/Logger.h" />
 		<Unit filename="source/MainMenuScene.cpp" />
 		<Unit filename="source/MainMenuScene.h" />
+		<Unit filename="source/MusicManager.cpp" />
+		<Unit filename="source/MusicManager.h" />
 		<Unit filename="source/Scene.cpp" />
 		<Unit filename="source/Scene.h" />
 		<Unit filename="source/TextureMap.cpp" />

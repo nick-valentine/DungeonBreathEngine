@@ -3,6 +3,7 @@
 
 #include "Scene.h"
 
+#include "MusicManager.h"
 #include "Hero.h"
 #include "Tile.h"
 
@@ -25,6 +26,8 @@ private:
 
     Scene::Status state;
     Scene* next_scene;
+
+    bool first_loop = true;
 };
 
 #endif // GAMESCENE_H

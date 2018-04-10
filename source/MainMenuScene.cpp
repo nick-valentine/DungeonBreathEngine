@@ -12,10 +12,16 @@ MainMenuScene::MainMenuScene(sf::Vector2i size) :
 
 MainMenuScene::~MainMenuScene()
 {
+    MusicManager::stop();
 }
 
 void MainMenuScene::update(int delta, sf::RenderWindow &window, Logger *logger)
 {
+    if (first_loop) {
+        first_loop = false;
+        MusicManager::play(MusicManager::Song::main_menu);
+    }
+
     this->play_button.update(delta, window);
     this->exit_button.update(delta, window);
 

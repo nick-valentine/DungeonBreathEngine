@@ -5,7 +5,7 @@ std::map<std::string, sf::Texture> TextureMap::tex_map;
 sf::Texture *TextureMap::request(std::string file_name)
 {
 
-    if (this->tex_map.find(file_name) == tex_map.end()) {
+    if (tex_map.find(file_name) == tex_map.end()) {
         sf::Texture temp;
         if (!temp.loadFromFile(file_name)) {
             throw FileNotFoundException();

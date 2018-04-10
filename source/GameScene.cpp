@@ -3,6 +3,7 @@
 
 GameScene::GameScene(sf::Vector2i size) :
     hero(sf::Vector2i(100, 100), sf::Vector2i(100, 100)),
+    tile(sf::Rect<int>(0, 0, 200, 200), sf::Vector2i(0, 0)),
     Scene(size),
     state(Scene::Status::nothing)
 {
@@ -17,6 +18,7 @@ GameScene::~GameScene()
 void GameScene::update(int delta, sf::RenderWindow &window, Logger *logger)
 {
         this->hero.update(delta, logger);
+        this->tile.update(delta);
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
             this->state = Scene::Status::switch_scene;
@@ -27,6 +29,7 @@ void GameScene::update(int delta, sf::RenderWindow &window, Logger *logger)
 void GameScene::draw(sf::RenderWindow &window)
 {
     window.setView(this->main_window);
+    this->tile.draw(window);
     this->hero.draw(window);
 }
 

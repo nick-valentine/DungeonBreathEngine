@@ -11,9 +11,9 @@
 class TextureMap
 {
 public:
-    TextureMap() = default;
+    TextureMap() = delete;
 
-    sf::Texture *request(std::string file_name);
+    static sf::Texture *request(std::string file_name);
     static void clear();
 private:
     static std::map<std::string, sf::Texture> tex_map;

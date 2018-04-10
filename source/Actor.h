@@ -45,8 +45,6 @@ private:
     sf::Texture *tex;
     std::string texture_name;
     std::vector<sf::Sprite> sprites;
-
-    TextureMap my_map;
 };
 
 #endif // ACTOR_H

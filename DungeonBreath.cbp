@@ -62,8 +62,6 @@
 		<Unit filename=".gitignore" />
 		<Unit filename="GameData/config.txt" />
 		<Unit filename="GameData/version.txt" />
-		<Unit filename="ZeldaClone.depend" />
-		<Unit filename="ZeldaClone.layout" />
 		<Unit filename="middleware/sfml_2_4_2/include/SFML/Audio.hpp" />
 		<Unit filename="middleware/sfml_2_4_2/include/SFML/Audio/AlResource.hpp" />
 		<Unit filename="middleware/sfml_2_4_2/include/SFML/Audio/Export.hpp" />
@@ -160,14 +158,29 @@
 		<Unit filename="middleware/sfml_2_4_2/include/SFML/Window/WindowStyle.hpp" />
 		<Unit filename="source/Actor.cpp" />
 		<Unit filename="source/Actor.h" />
+		<Unit filename="source/Button.cpp" />
+		<Unit filename="source/Button.h" />
 		<Unit filename="source/ConfigLoader.cpp" />
 		<Unit filename="source/ConfigLoader.h" />
+		<Unit filename="source/Exceptions.h" />
+		<Unit filename="source/FontMap.cpp" />
+		<Unit filename="source/FontMap.h" />
+		<Unit filename="source/GameScene.cpp" />
+		<Unit filename="source/GameScene.h" />
+		<Unit filename="source/Hero.cpp" />
+		<Unit filename="source/Hero.h" />
 		<Unit filename="source/Logger/ConsoleLogger.cpp" />
 		<Unit filename="source/Logger/ConsoleLogger.h" />
 		<Unit filename="source/Logger/Logger.cpp" />
 		<Unit filename="source/Logger/Logger.h" />
+		<Unit filename="source/MainMenuScene.cpp" />
+		<Unit filename="source/MainMenuScene.h" />
+		<Unit filename="source/Scene.cpp" />
+		<Unit filename="source/Scene.h" />
 		<Unit filename="source/TextureMap.cpp" />
 		<Unit filename="source/TextureMap.h" />
+		<Unit filename="source/Tile.cpp" />
+		<Unit filename="source/Tile.h" />
 		<Unit filename="source/main.cpp" />
 		<Extensions>
 			<code_completion />

@@ -19,6 +19,7 @@ public:
 private:
     constexpr static float velocity = 5.0;
     constexpr static int anim_speed = 10;
+    constexpr static float scale_modifier = 25.0;
 
     int active_sprite = 0;
     int update_count = 0;

@@ -4,6 +4,7 @@
 #include "Scene.h"
 
 #include "Hero.h"
+#include "Tile.h"
 
 class GameScene : public Scene
 {
@@ -20,6 +21,7 @@ private:
     sf::View main_window;
 
     Hero hero;
+    Tile tile;
 
     Scene::Status state;
     Scene* next_scene;

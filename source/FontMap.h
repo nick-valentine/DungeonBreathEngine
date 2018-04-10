@@ -11,9 +11,9 @@
 class FontMap
 {
 public:
-    FontMap() = default;
+    FontMap() = delete;
 
-    sf::Font *request(std::string file_name);
+    static sf::Font *request(std::string file_name);
     static void clear();
 private:
     static std::map<std::string, sf::Font> font_map;

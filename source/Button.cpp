@@ -10,8 +10,7 @@ Button::Button(sf::Rect<int> pos, std::string contents) : debug_draw(), font(), 
     this->debug_draw.setOutlineThickness(1);
     this->debug_draw.setFillColor(sf::Color::Transparent);
 
-    FontMap fm;
-    this->font = fm.request("./GameData/font.ttf");
+    this->font = FontMap::request("./GameData/font.ttf");
     this->text.setString(contents);
     this->text.setFont(*this->font);
     this->text.setCharacterSize(30);

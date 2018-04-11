@@ -862,10 +862,10 @@
 	<iostream>
 	"Exceptions.h"
 
-1523414231 source:c:\users\nick\documents\projects\dungeonbreath\source\hero.cpp
+1523457040 source:c:\users\nick\documents\projects\dungeonbreath\source\hero.cpp
 	"Hero.h"
 
-1523421664 c:\users\nick\documents\projects\dungeonbreath\source\hero.h
+1523456170 c:\users\nick\documents\projects\dungeonbreath\source\hero.h
 	"Actor.h"
 	"Animation.h"
 	"SpriteSet.h"

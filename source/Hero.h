@@ -37,12 +37,17 @@ private:
     constexpr static int anim_speed = 10;
     constexpr static float scale_modifier = 25.0;
 
+    void change_state(Facing f, Action a);
+    inline void set_animation();
+
     Facing dir;
     Action act;
 
     Animation *current_animation;
     Animation walk_forwards;
     Animation walk_backwards;
+    Animation walk_left;
+    Animation walk_right;
 };
 
 #endif //HERO_H

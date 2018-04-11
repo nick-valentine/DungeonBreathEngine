@@ -4,19 +4,31 @@ Hero::Hero(sf::Vector2i pos, sf::Vector2i scale) :
     Actor(pos, scale),
     dir(down),
     act(idle),
-    current_animation(nullptr),
     walk_forwards(TextureMap::request(sprite_sheet)),
-    walk_backwards(TextureMap::request(sprite_sheet))
+    walk_backwards(TextureMap::request(sprite_sheet)),
+    walk_left(TextureMap::request(sprite_sheet)),
+    walk_right(TextureMap::request(sprite_sheet)),
+    current_animation(&walk_forwards)
 {
     walk_forwards.add_sprite(sf::IntRect(0, 0, 1, 2));
     walk_forwards.add_sprite(sf::IntRect(1, 0, 1, 2));
     walk_forwards.add_sprite(sf::IntRect(2, 0, 1, 2));
     walk_forwards.add_sprite(sf::IntRect(3, 0, 1, 2));
 
+    walk_right.add_sprite(sf::IntRect(0, 1, 1, 2));
+    walk_right.add_sprite(sf::IntRect(1, 1, 1, 2));
+    walk_right.add_sprite(sf::IntRect(2, 1, 1, 2));
+    walk_right.add_sprite(sf::IntRect(3, 1, 1, 2));
+
     walk_backwards.add_sprite(sf::IntRect(0, 2, 1, 2));
     walk_backwards.add_sprite(sf::IntRect(1, 2, 1, 2));
     walk_backwards.add_sprite(sf::IntRect(2, 2, 1, 2));
     walk_backwards.add_sprite(sf::IntRect(3, 2, 1, 2));
+
+    walk_left.add_sprite(sf::IntRect(0, 3, 1, 2));
+    walk_left.add_sprite(sf::IntRect(1, 3, 1, 2));
+    walk_left.add_sprite(sf::IntRect(2, 3, 1, 2));
+    walk_left.add_sprite(sf::IntRect(3, 3, 1, 2));
 }
 
 Hero::~Hero()
@@ -26,45 +38,35 @@ Hero::~Hero()
 void Hero::update(int delta, Logger *logger)
 {
     sf::Vector2f vel(0,0);
+    Facing face;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         vel.x = velocity;
-        dir = right;
+        face = right;
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         vel.x = -velocity;
-        dir = left;
+        face = left;
     } else {
         vel.x = 0;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         vel.y = -velocity;
-        dir = up;
+        face = up;
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
         vel.y = velocity;
-        dir = down;
+        face = down;
     } else {
         vel.y = 0;
     }
 
+    change_state(face, act);
     this->set_velocity(vel);
-
-    switch (dir) {
-    case up:
-        current_animation = &walk_backwards;
-        break;
-    case down:
-        current_animation = &walk_forwards;
-        break;
-    default:
-        current_animation = &walk_forwards;
-    }
+    this->set_animation();
 
     if (vel.x == 0 && vel.y == 0) {
-        act = idle;
-        current_animation->pause();
+        change_state(dir, idle);
     } else {
-        act = walking;
-        current_animation->play();
+        change_state(dir, walking);
     }
 
     current_animation->update(delta);
@@ -74,7 +76,6 @@ void Hero::update(int delta, Logger *logger)
 void Hero::draw(sf::RenderWindow &window)
 {
     current_animation->draw(window, this->get_rect());
-    //walk_forwards.draw(window, this->get_rect());
 }
 
 void Hero::hurt(pain p)
@@ -85,4 +86,45 @@ Actor *Hero::clone()
 {
     Hero *temp = new Hero(*this);
     return temp;
+}
+
+void Hero::set_animation()
+{
+    switch (dir) {
+    case up:
+        current_animation = &walk_backwards;
+        break;
+    case right:
+        current_animation = &walk_right;
+        break;
+    case down:
+        current_animation = &walk_forwards;
+        break;
+    case left:
+        current_animation = &walk_left;
+        break;
+    default:
+        current_animation = &walk_forwards;
+    }
+}
+
+void Hero::change_state(Facing f, Action a)
+{
+    static Facing last_f;
+    static Action last_a;
+    if (f != last_f || a != last_a) {
+        current_animation->reset();
+    }
+
+    if (a == idle) {
+        current_animation->pause();
+    } else {
+        current_animation->play();
+    }
+
+    last_f = dir;
+    last_a = act;
+
+    dir = f;
+    act = a;
 }

@@ -25,7 +25,6 @@ public:
     void update(int delta);
     void draw(sf::RenderWindow &window, sf::IntRect pos);
 private:
-    constexpr static float scale_modifier = 25.0f;
     constexpr static int base_speed = 100000;
     SpriteSet frames;
     int anim_speed = 0;

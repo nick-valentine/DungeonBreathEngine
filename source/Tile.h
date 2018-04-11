@@ -15,7 +15,6 @@ public:
     void draw(sf::RenderWindow &window);
 private:
     constexpr static int sprite_size = 16;
-    constexpr static float scale_factor = 25.0;
 
     sf::Sprite sprite;
     sf::Texture *tex;

@@ -13,7 +13,7 @@ Tile::Tile(sf::Rect<int> pos, sf::Vector2i sprite_pos)
         )
     );
     this->sprite.setPosition(pos.left, pos.top);
-    this->sprite.setScale(pos.width / scale_factor, pos.height / scale_factor);
+    this->sprite.setScale(pos.width, pos.height);
     this->rect = pos;
 }
 

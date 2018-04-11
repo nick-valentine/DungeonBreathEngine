@@ -862,7 +862,7 @@
 	<iostream>
 	"Exceptions.h"
 
-1523457040 source:c:\users\nick\documents\projects\dungeonbreath\source\hero.cpp
+1523457128 source:c:\users\nick\documents\projects\dungeonbreath\source\hero.cpp
 	"Hero.h"
 
 1523456170 c:\users\nick\documents\projects\dungeonbreath\source\hero.h
@@ -927,7 +927,8 @@
 	"GameScene.h"
 	"MainMenuScene.h"
 
-1523334920 c:\users\nick\documents\projects\dungeonbreath\source\gamescene.h
+1523457613 c:\users\nick\documents\projects\dungeonbreath\source\gamescene.h
+	<vector>
 	"Scene.h"
 	"MusicManager.h"
 	"Hero.h"
@@ -942,10 +943,10 @@
 1523284311 source:c:\users\nick\documents\projects\dungeonbreath\source\fontmap.cpp
 	"FontMap.h"
 
-1523331159 source:c:\users\nick\documents\projects\dungeonbreath\source\tile.cpp
+1523457545 source:c:\users\nick\documents\projects\dungeonbreath\source\tile.cpp
 	"Tile.h"
 
-1523331069 c:\users\nick\documents\projects\dungeonbreath\source\tile.h
+1523457535 c:\users\nick\documents\projects\dungeonbreath\source\tile.h
 	<SFML/Graphics.hpp>
 	<SFML/Window.hpp>
 	"TextureMap.h"
@@ -1064,10 +1065,10 @@
 1523335314 source:c:\users\nick\documents\projects\dungeonbreath\source\musicmanager.cpp
 	"MusicManager.h"
 
-1523427260 source:c:\users\nick\documents\projects\dungeonbreath\source\animation.cpp
+1523457488 source:c:\users\nick\documents\projects\dungeonbreath\source\animation.cpp
 	"Animation.h"
 
-1523427245 c:\users\nick\documents\projects\dungeonbreath\source\animation.h
+1523457557 c:\users\nick\documents\projects\dungeonbreath\source\animation.h
 	<SFML/Graphics.hpp>
 	<vector>
 	"SpriteSet.h"

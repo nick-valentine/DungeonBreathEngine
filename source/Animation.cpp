@@ -42,6 +42,6 @@ void Animation::draw(sf::RenderWindow &window, sf::IntRect pos)
 {
     auto spr = frames.get_sprite(current_frame);
     spr->setPosition(pos.left, pos.top);
-    spr->setScale(pos.width / scale_modifier, pos.height / scale_modifier);
+    spr->setScale(pos.width, pos.height);
     window.draw(*spr);
 }

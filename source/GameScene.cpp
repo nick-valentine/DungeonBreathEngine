@@ -2,12 +2,18 @@
 #include "MainMenuScene.h"
 
 GameScene::GameScene(sf::Vector2i size) :
-    hero(sf::Vector2i(100, 100), sf::Vector2i(100, 100)),
-    tile(sf::Rect<int>(0, 0, 200, 200), sf::Vector2i(0, 0)),
+    hero(sf::Vector2i(100, 100), sf::Vector2i(4, 4)),
     Scene(size),
     state(Scene::Status::nothing)
 {
     this->main_window.reset(sf::FloatRect(0, 0, size.x, size.y));
+
+    const int sprite_size = 64;
+    for (auto i = 0; i < 20; ++i) {
+        for (auto j = 0; j < 20; ++j) {
+            tileset.push_back(Tile(sf::Rect<int>(i*sprite_size, j*sprite_size, 4, 4), sf::Vector2i(0, 0)));
+        }
+    }
 }
 
 GameScene::~GameScene()
@@ -22,7 +28,9 @@ void GameScene::update(int delta, sf::RenderWindow &window, Logger *logger)
         MusicManager::play(MusicManager::Song::playing_game);
     }
     this->hero.update(delta, logger);
-    this->tile.update(delta);
+    for (auto& value: tileset) {
+        value.update(delta);
+    }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
         this->state = Scene::Status::switch_scene;
@@ -33,7 +41,9 @@ void GameScene::update(int delta, sf::RenderWindow &window, Logger *logger)
 void GameScene::draw(sf::RenderWindow &window)
 {
     window.setView(this->main_window);
-    this->tile.draw(window);
+    for (auto& value: tileset) {
+        value.draw(window);
+    }
     this->hero.draw(window);
 }
 

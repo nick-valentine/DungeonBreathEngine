@@ -1,6 +1,8 @@
 #ifndef GAMESCENE_H
 #define GAMESCENE_H
 
+#include <vector>
+
 #include "Scene.h"
 
 #include "MusicManager.h"
@@ -22,7 +24,7 @@ private:
     sf::View main_window;
 
     Hero hero;
-    Tile tile;
+    std::vector<Tile> tileset;
 
     Scene::Status state;
     Scene* next_scene;

@@ -158,6 +158,8 @@
 		<Unit filename="middleware/sfml_2_4_2/include/SFML/Window/WindowStyle.hpp" />
 		<Unit filename="source/Actor.cpp" />
 		<Unit filename="source/Actor.h" />
+		<Unit filename="source/Animation.cpp" />
+		<Unit filename="source/Animation.h" />
 		<Unit filename="source/Button.cpp" />
 		<Unit filename="source/Button.h" />
 		<Unit filename="source/ConfigLoader.cpp" />

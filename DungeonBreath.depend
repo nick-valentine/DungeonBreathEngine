@@ -844,10 +844,10 @@
 1523284217 source:c:\users\nick\documents\projects\dungeonbreath\source\texturemap.cpp
 	"TextureMap.h"
 
-1523284276 source:c:\users\nick\documents\projects\dungeonbreath\source\actor.cpp
+1523420850 source:c:\users\nick\documents\projects\dungeonbreath\source\actor.cpp
 	"Actor.h"
 
-1523284268 c:\users\nick\documents\projects\dungeonbreath\source\actor.h
+1523420859 c:\users\nick\documents\projects\dungeonbreath\source\actor.h
 	<SFML/Graphics.hpp>
 	<SFML/System.hpp>
 	<string>
@@ -862,11 +862,13 @@
 	<iostream>
 	"Exceptions.h"
 
-1523330715 source:c:\users\nick\documents\projects\dungeonbreath\source\hero.cpp
+1523414231 source:c:\users\nick\documents\projects\dungeonbreath\source\hero.cpp
 	"Hero.h"
 
-1523329271 c:\users\nick\documents\projects\dungeonbreath\source\hero.h
+1523421664 c:\users\nick\documents\projects\dungeonbreath\source\hero.h
 	"Actor.h"
+	"Animation.h"
+	"SpriteSet.h"
 	"Logger/Logger.h"
 
 1495511952 c:\users\nick\documents\projects\dungeonbreath\source\configloader.h
@@ -1059,6 +1061,20 @@
 	<vector>
 	"Exceptions.h"
 
-1523334804 source:c:\users\nick\documents\projects\dungeonbreath\source\musicmanager.cpp
+1523335314 source:c:\users\nick\documents\projects\dungeonbreath\source\musicmanager.cpp
 	"MusicManager.h"
+
+1523427260 source:c:\users\nick\documents\projects\dungeonbreath\source\animation.cpp
+	"Animation.h"
+
+1523427245 c:\users\nick\documents\projects\dungeonbreath\source\animation.h
+	<SFML/Graphics.hpp>
+	<vector>
+	"SpriteSet.h"
+
+1523413871 c:\users\nick\documents\projects\dungeonbreath\source\spriteset.h
+	<SFML/Graphics.hpp>
+
+1523414255 source:c:\users\nick\documents\projects\dungeonbreath\source\spriteset.cpp
+	"SpriteSet.h"
 

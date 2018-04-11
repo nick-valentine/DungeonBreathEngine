@@ -20,7 +20,7 @@ struct pain {
 class Actor
 {
 public:
-    Actor(sf::Vector2i pos, sf::Vector2i scale, std::string image_name);
+    Actor(sf::Vector2i pos, sf::Vector2i scale);
     virtual ~Actor();
 
     virtual void update(int delta, Logger *logger);
@@ -34,17 +34,9 @@ public:
     void set_velocity(sf::Vector2f vel);
 
     virtual Actor *clone() = 0;
-protected:
-    int add_sprite(sf::IntRect pos);
-    sf::Sprite *get_sprite(int index);
-    int get_num_sprites() const;
 private:
     sf::Vector2f velocity;
     sf::Rect<int> rect;
-
-    sf::Texture *tex;
-    std::string texture_name;
-    std::vector<sf::Sprite> sprites;
 };
 
 #endif // ACTOR_H

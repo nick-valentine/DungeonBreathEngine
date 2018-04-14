@@ -4,6 +4,7 @@
 #include "Logger/ConsoleLogger.h"
 #include "Hero.h"
 #include "Scene.h"
+#include "Input.h"
 #include "MainMenuScene.h"
 
 void handleEvents(sf::RenderWindow &window);
@@ -20,6 +21,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(resolution_x, resolution_y), "DungeonBreath");
 
     Scene *current_scene = new MainMenuScene(sf::Vector2i(resolution_x, resolution_y));
+    Input input;
 
     sf::Clock timer;
 
@@ -30,7 +32,7 @@ int main()
         sf::sleep(sf::microseconds(std::max(frame_frequency - delta, 0.0f)));
 
         handleEvents(window);
-        current_scene->update(delta, window, logger);
+        current_scene->update(delta, window, &input, logger);
 
         window.clear(sf::Color::Black);
         current_scene->draw(window);

@@ -11,7 +11,7 @@ public:
     MainMenuScene(sf::Vector2i size);
     ~MainMenuScene();
 
-    void update(int delta, sf::RenderWindow &window, Logger *logger);
+    void update(int delta, sf::RenderWindow &window, Input *input, Logger *logger);
     void draw(sf::RenderWindow &window);
 
     Scene::Status status();

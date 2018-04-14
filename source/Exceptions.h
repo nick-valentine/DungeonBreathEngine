@@ -7,4 +7,10 @@ struct FileNotFoundException : public std::exception {
     }
 };
 
+struct InvalidConfigException : public std::exception {
+    const char * what () const throw () {
+        return "Invalid Config";
+    }
+};
+
 #endif // EXCEPTION_H

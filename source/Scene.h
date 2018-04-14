@@ -6,6 +6,7 @@
 #include <SFML/System.hpp>
 
 #include "Logger/Logger.h"
+#include "Input.h"
 
 class Scene
 {
@@ -19,7 +20,7 @@ public:
     Scene(sf::Vector2i size);
     virtual ~Scene();
 
-    virtual void update(int delta, sf::RenderWindow &window, Logger *logger) = 0;
+    virtual void update(int delta, sf::RenderWindow &window, Input *input, Logger *logger) = 0;
     virtual void draw(sf::RenderWindow &window) = 0;
 
     virtual Status status() = 0;

@@ -1,6 +1,6 @@
 bin/
 *.swp
-middleware/
 obj/
 *.out
-
+*.depend
+*.layout

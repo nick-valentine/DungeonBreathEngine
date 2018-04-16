@@ -1,7 +1,7 @@
 #include "ConfigLoader.h"
 
-const std::string ConfigLoader::configPath = "./GameData/config.txt";
-const std::string ConfigLoader::versionPath = "./GameData/version.txt";
+const std::string ConfigLoader::config_path = "./GameData/config.txt";
+const std::string ConfigLoader::version_path = "./GameData/version.txt";
 std::map<std::string, std::string> ConfigLoader::configuration = std::map<std::string, std::string>();
 std::string ConfigLoader::version = std::string();
 
@@ -18,7 +18,7 @@ ConfigLoader::~ConfigLoader()
 void ConfigLoader::load()
 {
     std::ifstream ifile;
-    ifile.open(ConfigLoader::configPath.c_str());
+    ifile.open(ConfigLoader::config_path.c_str());
     while (ifile.good()) {
         std::string key, value;
         ifile>>key>>value;
@@ -26,7 +26,7 @@ void ConfigLoader::load()
     }
     ifile.close();
 
-    ifile.open(ConfigLoader::versionPath.c_str());
+    ifile.open(ConfigLoader::version_path.c_str());
     while (ifile.good()) {
         ifile>>version;
     }
@@ -36,23 +36,23 @@ void ConfigLoader::load()
 void ConfigLoader::save()
 {
     std::ofstream ofile;
-    ofile.open(ConfigLoader::configPath.c_str());
+    ofile.open(ConfigLoader::config_path.c_str());
     for (c_iter it = ConfigLoader::configuration.begin(); it != ConfigLoader::configuration.end(); ++it) {
         ofile<<it->first<<" "<<it->second<<"\n";
     }
     ofile.close();
 }
 
-std::string ConfigLoader::getVersion()
+std::string ConfigLoader::get_version()
 {
     return version;
 }
 
-int ConfigLoader::getIntOption(std::string key, int defaultTo)
+int ConfigLoader::get_int_option(std::string key, int default_to)
 {
     std::stringstream dss;
-    dss<<defaultTo;
-    std::string value = ConfigLoader::getStringOption(key, dss.str());
+    dss<<default_to;
+    std::string value = ConfigLoader::get_string_option(key, dss.str());
     std::stringstream ss;
     ss.str(value);
     int x;
@@ -60,35 +60,35 @@ int ConfigLoader::getIntOption(std::string key, int defaultTo)
     return x;
 }
 
-std::string ConfigLoader::getStringOption(std::string key, std::string defaultTo)
+std::string ConfigLoader::get_string_option(std::string key, std::string default_to)
 {
     c_iter it = ConfigLoader::configuration.find(key);
     if (it != ConfigLoader::configuration.end()) {
         return it->second;
     } else {
-        if (defaultTo != "-1") {
-            ConfigLoader::mutateOption(key, defaultTo);
+        if (default_to != "-1") {
+            ConfigLoader::mutate_option(key, default_to);
             ConfigLoader::save();
         }
-        return defaultTo;
+        return default_to;
     }
 }
 
-void ConfigLoader::mutateOption(std::string key, int value)
+void ConfigLoader::mutate_option(std::string key, int value)
 {
     std::stringstream ss;
     std::string s;
     ss<<value;
     s = ss.str();
-    ConfigLoader::mutateOption(key, s);
+    ConfigLoader::mutate_option(key, s);
 }
 
-void ConfigLoader::mutateOption(std::string key, std::string value)
+void ConfigLoader::mutate_option(std::string key, std::string value)
 {
     ConfigLoader::configuration[key] = value;
 }
 
-std::vector< std::pair<std::string, std::string> > ConfigLoader::getAllOptions()
+std::vector< std::pair<std::string, std::string> > ConfigLoader::get_all_options()
 {
     std::vector< std::pair<std::string, std::string> > options;
     for (c_iter it = ConfigLoader::configuration.begin(); it != ConfigLoader::configuration.end(); ++it) {

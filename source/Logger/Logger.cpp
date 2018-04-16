@@ -14,7 +14,7 @@ void Logger::configure()
 {
     //do not let errors be suppressed
     Logger::logLevel = std::max(
-        ConfigLoader::getIntOption("logLevel", 0),
+        ConfigLoader::get_int_option("logLevel", 0),
         int(WARN)
     );
 }

@@ -8,6 +8,7 @@
 
 #include "Logger/Logger.h"
 #include "TextureMap.h"
+#include "Input.h"
 
 class Actor;
 
@@ -23,7 +24,7 @@ public:
     Actor(sf::Vector2i pos, sf::Vector2i scale);
     virtual ~Actor();
 
-    virtual void update(int delta, Logger *logger);
+    virtual void update(int delta, Input *input, Logger *logger);
     virtual void draw(sf::RenderWindow &window) = 0;
     virtual void hurt(pain p);
 

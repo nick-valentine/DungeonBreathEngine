@@ -35,24 +35,24 @@ Hero::~Hero()
 {
 }
 
-void Hero::update(int delta, Logger *logger)
+void Hero::update(int delta, Input *input, Logger *logger)
 {
     sf::Vector2f vel(0,0);
     Facing face;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+    if (input->is_key_pressed(Input::Key::right)) {
         vel.x = velocity;
         face = right;
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+    } else if (input->is_key_pressed(Input::Key::left)) {
         vel.x = -velocity;
         face = left;
     } else {
         vel.x = 0;
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+    if (input->is_key_pressed(Input::Key::up)) {
         vel.y = -velocity;
         face = up;
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+    } else if (input->is_key_pressed(Input::Key::down)) {
         vel.y = velocity;
         face = down;
     } else {
@@ -70,7 +70,7 @@ void Hero::update(int delta, Logger *logger)
     }
 
     current_animation->update(delta);
-    Actor::update(delta, logger);
+    Actor::update(delta, input, logger);
 }
 
 void Hero::draw(sf::RenderWindow &window)

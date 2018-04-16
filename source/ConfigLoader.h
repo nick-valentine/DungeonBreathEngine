@@ -19,23 +19,23 @@ public:
     static void load();
     static void save();
 
-    static std::string getVersion();
+    static std::string get_version();
 
-    static int getIntOption(std::string key, int defaultTo = -1);
-    static std::string getStringOption(std::string key, std::string defaultTo = "");
+    static int get_int_option(std::string key, int default_to = -1);
+    static std::string get_string_option(std::string key, std::string default_to = "");
 
-    static void mutateOption(std::string key, int value);
-    static void mutateOption(std::string key, std::string value);
+    static void mutate_option(std::string key, int value);
+    static void mutate_option(std::string key, std::string value);
 
-    static std::vector< std::pair<std::string, std::string> > getAllOptions();
+    static std::vector< std::pair<std::string, std::string> > get_all_options();
 private:
     typedef std::map<std::string, std::string>::iterator c_iter;
 
     ConfigLoader();
     ~ConfigLoader();
 
-    static const std::string configPath;
-    static const std::string versionPath;
+    static const std::string config_path;
+    static const std::string version_path;
 
     /**
      * map of key to value

@@ -10,7 +10,7 @@ Actor::~Actor()
 {
 }
 
-void Actor::update(int delta, Logger *logger)
+void Actor::update(int delta, Input *input, Logger *logger)
 {
     this->rect.left += this->velocity.x;
     this->rect.top += this->velocity.y;

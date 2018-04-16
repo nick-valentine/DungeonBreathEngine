@@ -25,7 +25,7 @@ public:
     Hero(sf::Vector2i pos, sf::Vector2i scale);
     ~Hero();
 
-    void update(int delta, Logger *logger);
+    void update(int delta, Input *input, Logger *logger);
     void draw(sf::RenderWindow &window);
     void hurt(pain p);
 

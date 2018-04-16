@@ -4,6 +4,7 @@
 #include "Logger/ConsoleLogger.h"
 #include "Hero.h"
 #include "Scene.h"
+#include "Input.h"
 #include "MainMenuScene.h"
 
 void handleEvents(sf::RenderWindow &window);
@@ -11,15 +12,16 @@ void handleEvents(sf::RenderWindow &window);
 int main()
 {
     ConfigLoader::load();
-    int resolutionX = ConfigLoader::getIntOption("resolutionX", 200);
-    int resolutionY = ConfigLoader::getIntOption("resolutionY", 200);
-    const int frameFrequency = 33333; // 1/30 of a second
+    int resolution_x = ConfigLoader::get_int_option("resolution_x", 200);
+    int resolution_y = ConfigLoader::get_int_option("resolution_y", 200);
+    const int frame_frequency = 33333; // 1/30 of a second
 
     Logger *logger = new ConsoleLogger();
 
-    sf::RenderWindow window(sf::VideoMode(resolutionX, resolutionY), "DungeonBreath");
+    sf::RenderWindow window(sf::VideoMode(resolution_x, resolution_y), "DungeonBreath");
 
-    Scene *current_scene = new MainMenuScene(sf::Vector2i(resolutionX, resolutionY));
+    Scene *current_scene = new MainMenuScene(sf::Vector2i(resolution_x, resolution_y));
+    Input input;
 
     sf::Clock timer;
 
@@ -27,10 +29,10 @@ int main()
     while (window.isOpen()) {
 
         delta = timer.restart().asMicroseconds();
-        sf::sleep(sf::microseconds(std::max(frameFrequency - delta, 0.0f)));
+        sf::sleep(sf::microseconds(std::max(frame_frequency - delta, 0.0f)));
 
         handleEvents(window);
-        current_scene->update(delta, window, logger);
+        current_scene->update(delta, window, &input, logger);
 
         window.clear(sf::Color::Black);
         current_scene->draw(window);

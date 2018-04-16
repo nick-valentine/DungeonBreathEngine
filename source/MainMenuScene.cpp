@@ -15,7 +15,7 @@ MainMenuScene::~MainMenuScene()
     MusicManager::stop();
 }
 
-void MainMenuScene::update(int delta, sf::RenderWindow &window, Logger *logger)
+void MainMenuScene::update(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
 {
     if (first_loop) {
         first_loop = false;

@@ -1,2 +1,9 @@
-resolutionX 1280
-resolutionY 720
+
+move_down j:0:1:20:1
+move_left j:0:1:-20:0
+move_right j:0:1:20:0
+move_up j:0:1:-20:1
+escape k:esc
+accept k:enter
+resolution_x 1280
+resolution_y 720

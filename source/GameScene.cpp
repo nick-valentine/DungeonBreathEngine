@@ -21,18 +21,18 @@ GameScene::~GameScene()
     MusicManager::stop();
 }
 
-void GameScene::update(int delta, sf::RenderWindow &window, Logger *logger)
+void GameScene::update(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
 {
     if (first_loop) {
         first_loop = false;
         MusicManager::play(MusicManager::Song::playing_game);
     }
-    this->hero.update(delta, logger);
+    this->hero.update(delta, input, logger);
     for (auto& value: tileset) {
         value.update(delta);
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+    if (input->is_key_pressed(Input::Key::escape)) {
         this->state = Scene::Status::switch_scene;
         this->next_scene = new MainMenuScene(this->size);
     }

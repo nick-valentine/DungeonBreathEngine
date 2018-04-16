@@ -164,6 +164,8 @@
 		<Unit filename="source/Button.h" />
 		<Unit filename="source/ConfigLoader.cpp" />
 		<Unit filename="source/ConfigLoader.h" />
+		<Unit filename="source/DeviceButton.cpp" />
+		<Unit filename="source/DeviceButton.h" />
 		<Unit filename="source/Exceptions.h" />
 		<Unit filename="source/FontMap.cpp" />
 		<Unit filename="source/FontMap.h" />
@@ -171,6 +173,8 @@
 		<Unit filename="source/GameScene.h" />
 		<Unit filename="source/Hero.cpp" />
 		<Unit filename="source/Hero.h" />
+		<Unit filename="source/Input.cpp" />
+		<Unit filename="source/Input.h" />
 		<Unit filename="source/Logger/ConsoleLogger.cpp" />
 		<Unit filename="source/Logger/ConsoleLogger.h" />
 		<Unit filename="source/Logger/Logger.cpp" />

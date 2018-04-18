@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
+#include "TextureMap.h"
 #include "FontMap.h"
 
 class Button
@@ -15,11 +16,18 @@ public:
     void draw(sf::RenderWindow &window);
 
     bool pressed();
+	void set_hover(bool hover);
 private:
     bool was_pressed;
+	bool is_hover;
     sf::Font *font;
     sf::Text text;
     sf::Rect<int> rect;
+
+	sf::Texture *background;
+	sf::Sprite back;
+	sf::Sprite back_hover;
+	sf::Sprite back_press;
 
     sf::RectangleShape debug_draw;
 };

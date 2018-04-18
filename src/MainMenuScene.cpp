@@ -4,8 +4,8 @@
 MainMenuScene::MainMenuScene(sf::Vector2i size) :
     Scene(size),
     state(Scene::Status::nothing),
-    play_button(sf::Rect<int>(10, size.y - 150, 135, 50), "New Game"),
-    exit_button(sf::Rect<int>(10, size.y - 100, 70, 50), "Exit")
+    play_button(sf::Rect<int>(10, size.y - 160, 300, 50), "New Game"),
+    exit_button(sf::Rect<int>(10, size.y - 100, 300, 50), "Exit")
 {
     this->main_window.reset(sf::FloatRect(0, 0, size.x, size.y));
 }

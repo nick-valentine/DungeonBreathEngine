@@ -4,4 +4,16 @@ obj/
 *.out
 *.depend
 *.layout
+*.vcxproj*
+*.sln
+*.dll
 doxygen/
+middleware/
+dungeonbreath.dir/
+x64/
+Debug/
+Release/
+CMakeFiles/
+.vs/
+CMakeCache.txt
+cmake_install.cmake

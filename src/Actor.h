@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "Logger/Logger.h"
+#include "Logger.h"
 #include "TextureMap.h"
 #include "Input.h"
 

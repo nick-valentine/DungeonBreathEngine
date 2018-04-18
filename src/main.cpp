@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "ConfigLoader.h"
-#include "Logger/ConsoleLogger.h"
+#include "ConsoleLogger.h"
 #include "Hero.h"
 #include "Scene.h"
 #include "Input.h"

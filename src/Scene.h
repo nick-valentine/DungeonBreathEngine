@@ -5,7 +5,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 
-#include "Logger/Logger.h"
+#include "Logger.h"
 #include "Input.h"
 
 class Scene

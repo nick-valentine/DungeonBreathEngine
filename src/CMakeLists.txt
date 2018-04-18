@@ -1,0 +1,21 @@
+SET (SOURCES
+    ${SOURCES}
+    ${CMAKE_CURRENT_SOURCE_DIR}/Actor.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Animation.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Button.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ConfigLoader.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ConsoleLogger.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/DeviceButton.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/FontMap.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/GameScene.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Hero.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Input.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Logger.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/MainMenuScene.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/MusicManager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Scene.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/SpriteSet.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/TextureMap.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Tile.cpp
+    PARENT_SCOPE
+)

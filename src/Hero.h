@@ -4,7 +4,7 @@
 #include "Actor.h"
 #include "Animation.h"
 #include "SpriteSet.h"
-#include "Logger/Logger.h"
+#include "Logger.h"
 
 class Hero : public Actor
 {

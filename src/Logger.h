@@ -7,7 +7,7 @@
 #include <string>
 #include <ctime>
 
-#include "../ConfigLoader.h"
+#include "ConfigLoader.h"
 
 class Logger
 {

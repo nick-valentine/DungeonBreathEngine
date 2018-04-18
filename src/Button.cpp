@@ -66,3 +66,8 @@ void Button::set_hover(bool hover)
 {
 	this->is_hover = hover;
 }
+
+void Button::set_pressed(bool pressed)
+{
+	this->was_pressed = pressed;
+}

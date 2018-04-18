@@ -1,3 +1,4 @@
 @todo:
-- Animation Manager
 - Tileset Manager
+- Button to get Input
+- ButtonGroup to switch back off gamepad mode on mouse input

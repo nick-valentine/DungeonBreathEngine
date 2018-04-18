@@ -5,9 +5,13 @@ MainMenuScene::MainMenuScene(sf::Vector2i size) :
     Scene(size),
     state(Scene::Status::nothing),
     play_button(sf::Rect<int>(10, size.y - 160, 300, 50), "New Game"),
-    exit_button(sf::Rect<int>(10, size.y - 100, 300, 50), "Exit")
+    exit_button(sf::Rect<int>(10, size.y - 100, 300, 50), "Exit"),
+	menu()
 {
     this->main_window.reset(sf::FloatRect(0, 0, size.x, size.y));
+
+	menu.add_button("play", &play_button);
+	menu.add_button("exit", &exit_button);
 }
 
 MainMenuScene::~MainMenuScene()
@@ -22,14 +26,14 @@ void MainMenuScene::update(int delta, sf::RenderWindow &window, Input *input, Lo
         MusicManager::play(MusicManager::Song::main_menu);
     }
 
-    this->play_button.update(delta, window);
-    this->exit_button.update(delta, window);
-
-    if (this->play_button.pressed()) {
+	this->menu.update(delta, input, window);
+	
+	std::string pressed = this->menu.pressed_button();
+    if (pressed == "play") {
         this->next_scene = new GameScene(this->size);
         this->state = Scene::Status::switch_scene;
     }
-    if (this->exit_button.pressed()) {
+    if (pressed == "exit") {
         this->next_scene = nullptr;
         this->state = Scene::Status::exit_program;
     }
@@ -38,8 +42,7 @@ void MainMenuScene::update(int delta, sf::RenderWindow &window, Input *input, Lo
 void MainMenuScene::draw(sf::RenderWindow &window)
 {
     window.setView(this->main_window);
-    this->play_button.draw(window);
-    this->exit_button.draw(window);
+	this->menu.draw(window);
 }
 
 Scene::Status MainMenuScene::status()

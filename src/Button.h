@@ -17,6 +17,7 @@ public:
 
     bool pressed();
 	void set_hover(bool hover);
+	void set_pressed(bool pressed);
 private:
     bool was_pressed;
 	bool is_hover;

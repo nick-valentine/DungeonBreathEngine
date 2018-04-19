@@ -34,6 +34,8 @@ private:
 
 	bool gamepad = false;
 	int selected = 0;
+
+	sf::Vector2i last_mouse_pos;
 };
 
 #endif //BUTTONGROUP_H

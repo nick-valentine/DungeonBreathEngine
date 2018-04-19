@@ -7,9 +7,14 @@ void ButtonGroup::add_button(std::string name, Button *b)
 
 void ButtonGroup::update(int delta, Input *input, sf::RenderWindow &window)
 {
-	for (const auto &i : this->buttons) {
-		i.second->update(delta, window);
+	sf::Vector2i mouse_pos = sf::Mouse::getPosition();
+	if (last_mouse_pos != mouse_pos) {
+		gamepad = false;
+		for (const auto &i : this->buttons) {
+			i.second->reset_hover_override();
+		}
 	}
+	last_mouse_pos = mouse_pos;
 
 	if (input->is_key_pressed(input->down)) {
 		gamepad = true;
@@ -26,9 +31,10 @@ void ButtonGroup::update(int delta, Input *input, sf::RenderWindow &window)
 		}
 
 		buttons[selected].second->set_hover(true);
-		if (input->is_key_pressed(input->accept)) {
-			buttons[selected].second->set_pressed(true);
-		}
+	}
+
+	for (const auto &i : this->buttons) {
+		i.second->update(delta, input, window);
 	}
 }
 

@@ -28,12 +28,12 @@ Button::Button(sf::Rect<int> pos, std::string contents) :
 	this->back_press.setPosition(sf::Vector2f(pos.left, pos.top));
 }
 
-void Button::update(int delta, sf::RenderWindow &window)
+void Button::update(int delta, Input *input, sf::RenderWindow &window)
 {
     this->was_pressed = false;
-	if (this->rect.contains(sf::Mouse::getPosition(window))) {
+	if (this->rect.contains(sf::Mouse::getPosition(window)) || (this->is_override_hover && this->is_hover)) {
 		this->is_hover = true;
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) || input->is_key_pressed(Input::accept)) {
 			this->was_pressed = true;
 		}
 	}
@@ -65,6 +65,12 @@ bool Button::pressed()
 void Button::set_hover(bool hover)
 {
 	this->is_hover = hover;
+	this->is_override_hover = true;
+}
+
+void Button::reset_hover_override()
+{
+	this->is_override_hover = false;
 }
 
 void Button::set_pressed(bool pressed)

@@ -41,7 +41,7 @@ void Animation::update(int delta)
 void Animation::draw(sf::RenderWindow &window, sf::IntRect pos)
 {
     auto spr = frames.get_sprite(current_frame);
-    spr->setPosition(pos.left, pos.top);
-    spr->setScale(pos.width, pos.height);
+    spr->setPosition(float(pos.left), float(pos.top));
+    spr->setScale(float(pos.width), float(pos.height));
     window.draw(*spr);
 }

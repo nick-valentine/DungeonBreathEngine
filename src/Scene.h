@@ -18,7 +18,7 @@ public:
     };
 
     Scene(sf::Vector2i size);
-    virtual ~Scene();
+    virtual ~Scene() = default;
 
     virtual void update(int delta, sf::RenderWindow &window, Input *input, Logger *logger) = 0;
     virtual void draw(sf::RenderWindow &window) = 0;

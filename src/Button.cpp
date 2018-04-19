@@ -6,8 +6,8 @@ Button::Button(sf::Rect<int> pos, std::string contents) :
 	background(TextureMap::request("./GameData/img/RPG_GUI_v1.png"))
 {
     this->debug_draw = sf::RectangleShape();
-    this->debug_draw.setPosition(sf::Vector2f(pos.left, pos.top));
-    this->debug_draw.setSize(sf::Vector2f(pos.width, pos.height));
+    this->debug_draw.setPosition(sf::Vector2f(float(pos.left), float(pos.top)));
+    this->debug_draw.setSize(sf::Vector2f(float(pos.width), float(pos.height)));
     this->debug_draw.setOutlineColor(sf::Color::Blue);
     this->debug_draw.setOutlineThickness(1);
     this->debug_draw.setFillColor(sf::Color::Transparent);
@@ -18,14 +18,14 @@ Button::Button(sf::Rect<int> pos, std::string contents) :
     this->text.setCharacterSize(30);
     this->text.setFillColor(sf::Color::White);
     this->text.setOutlineColor(sf::Color::Blue);
-    this->text.setPosition(pos.left + 50, pos.top);
+    this->text.setPosition(float(pos.left) + 50.0f, float(pos.top));
 
 	this->back = sf::Sprite(*background, sf::IntRect(0, 128, 300, 57));
-	this->back.setPosition(sf::Vector2f(pos.left, pos.top));
+	this->back.setPosition(sf::Vector2f(float(pos.left), float(pos.top)));
 	this->back_hover = sf::Sprite(*background, sf::IntRect(0, 285, 300, 57));
-	this->back_hover.setPosition(sf::Vector2f(pos.left, pos.top));
+	this->back_hover.setPosition(sf::Vector2f(float(pos.left), float(pos.top)));
 	this->back_press = sf::Sprite(*background, sf::IntRect(0, 360, 300, 57));
-	this->back_press.setPosition(sf::Vector2f(pos.left, pos.top));
+	this->back_press.setPosition(sf::Vector2f(float(pos.left), float(pos.top)));
 }
 
 void Button::update(int delta, Input *input, sf::RenderWindow &window)

@@ -12,8 +12,8 @@ Actor::~Actor()
 
 void Actor::update(int delta, Input *input, Logger *logger)
 {
-    this->rect.left += this->velocity.x;
-    this->rect.top += this->velocity.y;
+    this->rect.left += int(this->velocity.x);
+    this->rect.top += int(this->velocity.y);
 }
 
 void Actor::hurt(pain p)

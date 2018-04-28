@@ -16,7 +16,7 @@ int main()
     int resolution_y = ConfigLoader::get_int_option("resolution_y", 200);
     const int frame_frequency = 33333; // 1/30 of a second
 
-    Logger *logger = new ConsoleLogger();
+    ConsoleLogger logger;
 
     sf::RenderWindow window(sf::VideoMode(resolution_x, resolution_y), "DungeonBreath");
 
@@ -32,7 +32,7 @@ int main()
         sf::sleep(sf::microseconds(std::max(frame_frequency - delta, 0.0f)));
 
         handleEvents(window);
-        current_scene->update(delta, window, &input, logger);
+        current_scene->update(delta, window, &input, &logger);
 
         window.clear(sf::Color::Black);
         current_scene->draw(window);
@@ -49,7 +49,6 @@ int main()
     }
 
     delete current_scene;
-    delete logger;
     return 0;
 }
 

@@ -3,6 +3,7 @@
 
 #include "MusicManager.h"
 #include "Scene.h"
+#include "ButtonGroup.h"
 #include "Button.h"
 
 class MainMenuScene : public Scene
@@ -22,6 +23,7 @@ private:
     Scene::Status state;
     Scene* next_scene;
 
+	ButtonGroup menu;
     Button play_button;
     Button exit_button;
 

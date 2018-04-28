@@ -1,17 +1,27 @@
 #include "GameScene.h"
 #include "MainMenuScene.h"
+#include <iostream>
 
 GameScene::GameScene(sf::Vector2i size) :
-    hero(sf::Vector2i(100, 100), sf::Vector2i(4, 4)),
     Scene(size),
-    state(Scene::Status::nothing)
+    hero(sf::Vector2i(100, 100), sf::Vector2i(4, 4)),
+    state(Scene::Status::nothing),
+    tile_set(TextureMap::request("./GameData/img/Overworld.png"))
 {
     this->main_window.reset(sf::FloatRect(0, 0, size.x, size.y));
 
-    const int sprite_size = 64;
+    auto grass_tile = tile_set.make(sf::Vector2i(0,0));
     for (auto i = 0; i < 20; ++i) {
         for (auto j = 0; j < 20; ++j) {
-            tileset.push_back(Tile(sf::Rect<int>(i*sprite_size, j*sprite_size, 4, 4), sf::Vector2i(0, 0)));
+            tileset.push_back(
+                tile_set.spawn(
+                    grass_tile, 
+                    sf::Vector2i(
+                        i * TileSet::tile_size(), 
+                        j * TileSet::tile_size()
+                    )
+                )
+            );
         }
     }
 }

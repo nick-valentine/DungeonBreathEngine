@@ -7,7 +7,7 @@
 
 #include "MusicManager.h"
 #include "Hero.h"
-#include "Tile.h"
+#include "TileSet.h"
 
 class GameScene : public Scene
 {
@@ -24,6 +24,7 @@ private:
     sf::View main_window;
 
     Hero hero;
+    TileSet tile_set;
     std::vector<Tile> tileset;
 
     Scene::Status state;

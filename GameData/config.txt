@@ -1,8 +1,8 @@
 
-move_down j:0:1:40:1
-move_left j:0:1:-40:0
-move_right j:0:1:40:0
-move_up j:0:1:-40:1
+move_down k:s
+move_left k:a
+move_right k:d
+move_up k:w
 escape k:esc
 accept k:enter
 resolution_x 1280

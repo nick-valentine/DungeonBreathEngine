@@ -16,6 +16,7 @@ SET (SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Scene.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SpriteSet.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/TextureMap.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Tile.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ButtonGroup.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/TileSet.cpp
     PARENT_SCOPE
 )

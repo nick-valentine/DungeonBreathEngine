@@ -14,7 +14,7 @@ public:
     sf::Sprite *get_sprite(SpriteHandle name);
 
     size_t size();
-private:
+protected:
     int base_size;
     sf::Texture *tex;
     std::vector<sf::Sprite> sprites;

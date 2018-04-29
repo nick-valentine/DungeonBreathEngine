@@ -25,7 +25,7 @@ private:
 
     Hero hero;
     TileSet tile_set;
-    std::vector<Tile> tileset;
+    std::vector<Tile*> tileset;
 
     Scene::Status state;
     Scene* next_scene;

@@ -1,33 +1,96 @@
 #include "TileSet.h"
 
-Tile::Tile(sf::Sprite sprite, sf::Vector2i loc)
+StaticTile::StaticTile(sf::Sprite sprite) : Tile()
 {
     this->sprite = sprite;
-    this->sprite.setPosition(loc.x, loc.y);
-    this->sprite.setScale(scale, scale);
+    this->sprite.setScale(Tile::scale, Tile::scale);
 }
 
-void Tile::update(int delta)
+void StaticTile::set_location(sf::Vector2i loc)
+{
+    this->sprite.setPosition(loc.x, loc.y);
+}
+
+void StaticTile::update(int delta)
 {
 
 }
 
-void Tile::draw(sf::RenderWindow &window)
+void StaticTile::draw(sf::RenderWindow &window)
 {
     window.draw(this->sprite);
 }
 
-TileSet::TileSet(sf::Texture *tex, int base_size) : SpriteSet(tex,base_size)
+Tile *StaticTile::clone()
+{
+    StaticTile *temp = new StaticTile(*this);
+    return temp;
+}
+
+DynamicTile::DynamicTile(sf::Texture *tex, sf::Vector2i size_mod) : 
+    Tile(), anim(tex), loc(sf::Vector2i(0,0)), size_mod(size_mod)
+{
+
+}
+
+void DynamicTile::add_frame(sf::IntRect pos)
+{
+    anim.add_sprite(pos);
+}
+
+void DynamicTile::set_location(sf::Vector2i loc)
+{
+    this->loc = loc;
+}
+
+void DynamicTile::update(int delta)
+{
+    anim.update(delta);
+}
+
+void DynamicTile::draw(sf::RenderWindow &window)
+{
+    anim.draw(window, sf::IntRect(loc.x, loc.y, Tile::size(), Tile::size()));
+}
+
+Tile *DynamicTile::clone()
+{
+    DynamicTile *temp = new DynamicTile(*this);
+    return temp;
+}
+
+TileSet::TileSet(sf::Texture *tex, int base_size) : tex(tex), base_size(base_size), tiles()
 {
 }
 
-TileType TileSet::make(sf::Vector2i pos, sf::Vector2i size_mod)
+TileSet::~TileSet()
 {
-    return TileType(make_sprite(pos, size_mod));
+    for (size_t i = 0; i < tiles.size(); ++i) {
+        delete tiles[i];
+    }
 }
 
-Tile TileSet::spawn(TileType t, sf::Vector2i loc)
+TileType TileSet::make_static(sf::Vector2i pos, sf::Vector2i size_mod)
 {
-    auto spr = get_sprite(SpriteHandle(t));
-    return Tile(*spr, loc);
+    SpriteSet ss(tex, base_size);
+    auto t = ss.make_sprite(pos, size_mod);
+    tiles.push_back(new StaticTile(*ss.get_sprite(t)));
+    return tiles.size() - 1;
+}
+
+TileType TileSet::make_dynamic(std::vector<sf::Vector2i> pos, sf::Vector2i size_mod)
+{
+    DynamicTile *dt = new DynamicTile(tex, size_mod);
+    for (auto &p: pos){
+        dt->add_frame(sf::IntRect(p.x, p.y, size_mod.x, size_mod.y));
+    }
+    tiles.push_back(dt);
+    return tiles.size() - 1;
+}
+
+Tile *TileSet::spawn(TileType t, sf::Vector2i loc)
+{
+    auto tile = tiles[t]->clone();
+    tile->set_location(loc);
+    return tile;
 }

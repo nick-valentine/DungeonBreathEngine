@@ -15,20 +15,20 @@ Hero::Hero(sf::Vector2i pos, sf::Vector2i scale) :
     walk_forwards.add_sprite(sf::IntRect(2, 0, 1, 2));
     walk_forwards.add_sprite(sf::IntRect(3, 0, 1, 2));
 
-    walk_right.add_sprite(sf::IntRect(0, 1, 1, 2));
-    walk_right.add_sprite(sf::IntRect(1, 1, 1, 2));
-    walk_right.add_sprite(sf::IntRect(2, 1, 1, 2));
-    walk_right.add_sprite(sf::IntRect(3, 1, 1, 2));
+    walk_right.add_sprite(sf::IntRect(0, 2, 1, 2));
+    walk_right.add_sprite(sf::IntRect(1, 2, 1, 2));
+    walk_right.add_sprite(sf::IntRect(2, 2, 1, 2));
+    walk_right.add_sprite(sf::IntRect(3, 2, 1, 2));
 
-    walk_backwards.add_sprite(sf::IntRect(0, 2, 1, 2));
-    walk_backwards.add_sprite(sf::IntRect(1, 2, 1, 2));
-    walk_backwards.add_sprite(sf::IntRect(2, 2, 1, 2));
-    walk_backwards.add_sprite(sf::IntRect(3, 2, 1, 2));
+    walk_backwards.add_sprite(sf::IntRect(0, 4, 1, 2));
+    walk_backwards.add_sprite(sf::IntRect(1, 4, 1, 2));
+    walk_backwards.add_sprite(sf::IntRect(2, 4, 1, 2));
+    walk_backwards.add_sprite(sf::IntRect(3, 4, 1, 2));
 
-    walk_left.add_sprite(sf::IntRect(0, 3, 1, 2));
-    walk_left.add_sprite(sf::IntRect(1, 3, 1, 2));
-    walk_left.add_sprite(sf::IntRect(2, 3, 1, 2));
-    walk_left.add_sprite(sf::IntRect(3, 3, 1, 2));
+    walk_left.add_sprite(sf::IntRect(0, 6, 1, 2));
+    walk_left.add_sprite(sf::IntRect(1, 6, 1, 2));
+    walk_left.add_sprite(sf::IntRect(2, 6, 1, 2));
+    walk_left.add_sprite(sf::IntRect(3, 6, 1, 2));
 }
 
 Hero::~Hero()

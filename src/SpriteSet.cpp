@@ -10,8 +10,8 @@ SpriteHandle SpriteSet::make_sprite(sf::Vector2i pos, sf::Vector2i size_mod)
     sf::Sprite temp;
     temp.setTexture(*tex);
     temp.setTextureRect(sf::IntRect(
-        pos.x * base_size * size_mod.x,
-        pos.y * base_size * size_mod.y,
+        pos.x * base_size,
+        pos.y * base_size,
         base_size * size_mod.x,
         base_size * size_mod.y
     ));

@@ -15,10 +15,10 @@ GameScene::GameScene(sf::Vector2i size) :
         for (auto j = 0; j < 20; ++j) {
             world.push_back(
                 tile_set->spawn(
-                    TileSets::Overworld::grass,
+                    TileSets::Overworld::stone,
                     sf::Vector2i(
-                        i * TileSet::tile_size(), 
-                        j * TileSet::tile_size()
+                        i * TileSet::tile_size()*2, 
+                        j * TileSet::tile_size()*2
                     )
                 )
             );

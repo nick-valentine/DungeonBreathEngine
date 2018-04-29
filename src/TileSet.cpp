@@ -99,6 +99,7 @@ std::unique_ptr<TileSet> TileSets::overworld()
 {
     std::unique_ptr<TileSet> ts(new TileSet(TextureMap::request("./GameData/img/Overworld.png")));
     ts->make_static(sf::Vector2i(0,0));
+    ts->make_static(sf::Vector2i(4, 1), sf::Vector2i(2, 2));
     ts->make_dynamic(
         std::vector<sf::Vector2i>{
             sf::Vector2i(0,1),
@@ -109,6 +110,16 @@ std::unique_ptr<TileSet> TileSets::overworld()
             sf::Vector2i(1,2),
             sf::Vector2i(2,2),
             sf::Vector2i(3,2),
+        }
+    );
+    ts->make_dynamic(
+        std::vector<sf::Vector2i>{
+            sf::Vector2i(3, 3),
+            sf::Vector2i(4, 3),
+            sf::Vector2i(5, 3),
+            sf::Vector2i(3, 4),
+            sf::Vector2i(4, 4),
+            sf::Vector2i(5, 4),
         }
     );
 

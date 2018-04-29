@@ -93,7 +93,9 @@ private:
 namespace TileSets {
     enum Overworld {
         grass = 0,
-        water
+        stone,
+        wave,
+        water_circle_1,
     };
 
     std::unique_ptr<TileSet> overworld();

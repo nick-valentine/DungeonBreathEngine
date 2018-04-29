@@ -5,26 +5,17 @@
 GameScene::GameScene(sf::Vector2i size) :
     Scene(size),
     hero(sf::Vector2i(100, 100), sf::Vector2i(4, 4)),
-    tile_set(TextureMap::request("./GameData/img/Overworld.png")),
+    tile_set(TileSets::overworld()),
     state(Scene::Status::nothing)
 {
     this->main_window.reset(sf::FloatRect(0, 0, size.x, size.y));
 
-    auto grass_tile = tile_set.make_static(sf::Vector2i(0,0));
-    auto water_one = tile_set.make_dynamic(
-        std::vector<sf::Vector2i>{
-            sf::Vector2i(0,1),
-            sf::Vector2i(1,1),
-            sf::Vector2i(2,1),
-            sf::Vector2i(3,1),
-        }
-    );
 
     for (auto i = 0; i < 20; ++i) {
         for (auto j = 0; j < 20; ++j) {
-            tileset.push_back(
-                tile_set.spawn(
-                    i * j % 2, 
+            world.push_back(
+                tile_set->spawn(
+                    TileSets::Overworld::grass,
                     sf::Vector2i(
                         i * TileSet::tile_size(), 
                         j * TileSet::tile_size()
@@ -39,8 +30,8 @@ GameScene::~GameScene()
 {
     MusicManager::stop();
 
-    for (size_t i = 0; i < tileset.size(); ++i) {
-        delete tileset[i];
+    for (size_t i = 0; i < world.size(); ++i) {
+        delete world[i];
     }
 }
 
@@ -51,7 +42,7 @@ void GameScene::update(int delta, sf::RenderWindow &window, Input *input, Logger
         MusicManager::play(MusicManager::Song::playing_game);
     }
     this->hero.update(delta, input, logger);
-    for (auto& value: tileset) {
+    for (auto& value: world) {
         value->update(delta);
     }
 
@@ -64,7 +55,7 @@ void GameScene::update(int delta, sf::RenderWindow &window, Input *input, Logger
 void GameScene::draw(sf::RenderWindow &window)
 {
     window.setView(this->main_window);
-    for (auto& value: tileset) {
+    for (auto& value: world) {
         value->draw(window);
     }
     this->hero.draw(window);

@@ -3,7 +3,9 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <memory>
 
+#include "TextureMap.h"
 #include "SpriteSet.h"
 #include "Animation.h"
 
@@ -87,5 +89,15 @@ private:
     int base_size;
     std::vector<Tile*> tiles;
 };
+
+namespace TileSets {
+    enum Overworld {
+        grass = 0,
+        water
+    };
+
+    std::unique_ptr<TileSet> overworld();
+};
+
 
 #endif // TILESET_H

@@ -94,3 +94,23 @@ Tile *TileSet::spawn(TileType t, sf::Vector2i loc)
     tile->set_location(loc);
     return tile;
 }
+
+std::unique_ptr<TileSet> TileSets::overworld()
+{
+    std::unique_ptr<TileSet> ts(new TileSet(TextureMap::request("./GameData/img/Overworld.png")));
+    ts->make_static(sf::Vector2i(0,0));
+    ts->make_dynamic(
+        std::vector<sf::Vector2i>{
+            sf::Vector2i(0,1),
+            sf::Vector2i(1,1),
+            sf::Vector2i(2,1),
+            sf::Vector2i(3,1),
+            sf::Vector2i(0,2),
+            sf::Vector2i(1,2),
+            sf::Vector2i(2,2),
+            sf::Vector2i(3,2),
+        }
+    );
+
+    return ts;
+}

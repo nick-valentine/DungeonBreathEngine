@@ -24,8 +24,8 @@ private:
     sf::View main_window;
 
     Hero hero;
-    TileSet tile_set;
-    std::vector<Tile*> tileset;
+    std::unique_ptr<TileSet> tile_set;
+    std::vector<Tile*> world;
 
     Scene::Status state;
     Scene* next_scene;

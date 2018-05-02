@@ -4,8 +4,8 @@
 MainMenuScene::MainMenuScene(sf::Vector2i size) :
     Scene(size),
     state(Scene::Status::nothing),
-    play_button(sf::Rect<int>(10, size.y - 160, 300, 50), StringProvider::get(L"mainmenu.new_game_button")),
-    exit_button(sf::Rect<int>(10, size.y - 100, 300, 50), StringProvider::get(L"mainmenu.exit_button")),
+    play_button(sf::Rect<int>(10, size.y - 160, 300, 50), StringProvider::get("mainmenu.new_game_button")),
+    exit_button(sf::Rect<int>(10, size.y - 100, 300, 50), StringProvider::get("mainmenu.exit_button")),
 	menu()
 {
     this->main_window.reset(sf::FloatRect(0, 0, size.x, size.y));

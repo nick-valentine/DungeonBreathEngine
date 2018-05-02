@@ -1,7 +1,7 @@
  
 accept k:enter
 escape k:esc
-language eng
+language jp
 move_down k:s
 move_left k:a
 move_right k:d

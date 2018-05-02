@@ -13,12 +13,12 @@ class StringProvider
 public:
     StringProvider() = delete;
 
-    static void load(std::wstring lang);
+    static void load(std::string lang);
 
-    static sf::String get(std::wstring key);
+    static sf::String get(std::string key);
 private:
 
-    static std::map<std::wstring, sf::String> strings;
+    static std::map<std::string, sf::String> strings;
 };
 
 #endif //STRINGPROVIDER_H

@@ -1,7 +1,7 @@
 #include "Button.h"
 #include "Exceptions.h"
 
-Button::Button(sf::Rect<int> pos, std::string contents) : 
+Button::Button(sf::Rect<int> pos, sf::String contents) : 
 	debug_draw(), font(), text(), rect(pos), was_pressed(false),
 	background(TextureMap::request("./GameData/img/RPG_GUI_v1.png"))
 {
@@ -12,7 +12,7 @@ Button::Button(sf::Rect<int> pos, std::string contents) :
     this->debug_draw.setOutlineThickness(1);
     this->debug_draw.setFillColor(sf::Color::Transparent);
 
-    this->font = FontMap::request("./GameData/font.ttf");
+    this->font = FontMap::request("./GameData/font.unicode.ttf");
     this->text.setString(contents);
     this->text.setFont(*this->font);
     this->text.setCharacterSize(30);

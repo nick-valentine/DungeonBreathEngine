@@ -12,7 +12,7 @@ class Button
 {
 public:
     Button() = default;
-    Button(sf::Rect<int> pos, std::string contents);
+    Button(sf::Rect<int> pos, sf::String contents);
     void update(int delta, Input *input, sf::RenderWindow &window);
     void draw(sf::RenderWindow &window);
 

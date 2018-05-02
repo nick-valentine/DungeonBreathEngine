@@ -1,0 +1,2 @@
+mainmenu.new_game_button=YAAARRRR!!!
+mainmenu.exit_button=NOOOOOO!!!

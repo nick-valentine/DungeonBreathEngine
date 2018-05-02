@@ -18,5 +18,6 @@ SET (SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/TextureMap.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ButtonGroup.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/TileSet.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/StringProvider.cpp
     PARENT_SCOPE
 )

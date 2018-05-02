@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "ConfigLoader.h"
+#include "StringProvider.h"
 #include "ConsoleLogger.h"
 #include "Hero.h"
 #include "Scene.h"
@@ -12,6 +13,9 @@ void handleEvents(sf::RenderWindow &window);
 int main()
 {
     ConfigLoader::load();
+    sf::String lang = ConfigLoader::get_string_option("language", "eng");
+    StringProvider::load(lang);
+
     int resolution_x = ConfigLoader::get_int_option("resolution_x", 200);
     int resolution_y = ConfigLoader::get_int_option("resolution_y", 200);
     const int frame_frequency = 33333; // 1/30 of a second

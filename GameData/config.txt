@@ -1,9 +1,10 @@
-
+ 
+accept k:enter
+escape k:esc
+language eng
 move_down k:s
 move_left k:a
 move_right k:d
 move_up k:w
-escape k:esc
-accept k:enter
 resolution_x 1280
 resolution_y 720

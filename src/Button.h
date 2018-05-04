@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
+#include "Macros.h"
 #include "Input.h"
 
 class Button

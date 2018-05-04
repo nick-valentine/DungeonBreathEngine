@@ -1,5 +1,6 @@
 SET (SOURCES
     ${SOURCES}
+    ${CMAKE_CURRENT_SOURCE_DIR}/Strings.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Actor.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Animation.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Button.cpp

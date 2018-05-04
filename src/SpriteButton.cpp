@@ -33,9 +33,9 @@ SpriteButton ui::left(sf::IntRect pos)
     return SpriteButton(
         pos,
         TextureMap::request("./GameData/img/RPG_GUI_v1.png"),
-        sf::IntRect(320, 60, 50, 50),
-        sf::IntRect(320, 110, 50, 50),
-        sf::IntRect(320, 10, 50, 50)
+        sf::IntRect(320, 60, 40, 40),
+        sf::IntRect(320, 110, 40, 40),
+        sf::IntRect(320, 10, 40, 40)
     );
 }
 

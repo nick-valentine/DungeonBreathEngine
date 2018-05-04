@@ -32,7 +32,7 @@ void Button::update(int delta, Input *input, sf::RenderWindow &window)
 
 void Button::draw(sf::RenderWindow &window)
 {
-
+    #if DEBUG
 	if (this->was_pressed) {
         this->debug_draw.setOutlineColor(sf::Color::Blue);
 	} else if (this->is_hover) {
@@ -41,6 +41,7 @@ void Button::draw(sf::RenderWindow &window)
         this->debug_draw.setOutlineColor(sf::Color::White);
 	}
     window.draw(this->debug_draw);
+    #endif
 }
 
 bool Button::pressed()

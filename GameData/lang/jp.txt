@@ -1,2 +1,4 @@
 mainmenu.new_game_button=新しいゲーム
 mainmenu.exit_button=出口
+mainmenu.options_button=設定
+optionsmenu.back_button=前

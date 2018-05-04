@@ -10,6 +10,8 @@ class TextButton : public Button
 public:
     TextButton(sf::Rect<int> pos, sf::String contents);
     void draw(sf::RenderWindow &window);
+
+    void set_label(sf::String contents);
 private:
     Label label;
 

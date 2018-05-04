@@ -1,12 +1,15 @@
 #ifndef OPTIONSSCENE_H
 #define OPTIONSSCENE_H
 
+#include <fstream>
+
 #include "StringProvider.h"
 #include "MusicManager.h"
 #include "Scene.h"
 #include "ButtonGroup.h"
 #include "TextButton.h"
 #include "SpriteButton.h"
+#include "ConfigLoader.h"
 
 class OptionsScene : public Scene
 {
@@ -30,6 +33,14 @@ private:
     SpriteButton lang_button_right;
     TextButton back_button;
     ButtonGroup menu;
+    std::string last_pressed;
+
+    typedef std::pair<std::string, sf::String> langpair;
+    std::vector<langpair> langs;
+    size_t current_lang;
+
+    void load_supported_langs();
+    void set_language();
 };
 
 #endif //OPTIONSSCENE_H

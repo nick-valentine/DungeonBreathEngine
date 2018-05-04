@@ -16,7 +16,7 @@ void Label::draw(sf::RenderWindow &window)
     window.draw(this->text);
 }
 
-void Label::setString(sf::String str)
+void Label::set_string(sf::String str)
 {
     this->text.setString(str);
 }

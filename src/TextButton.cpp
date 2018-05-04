@@ -26,3 +26,7 @@ void TextButton::draw(sf::RenderWindow &window)
     Button::draw(window);
 }
 
+void TextButton::set_label(sf::String contents)
+{
+    label.set_string(contents);
+}

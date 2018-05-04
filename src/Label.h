@@ -11,7 +11,7 @@ public:
 
     void draw(sf::RenderWindow &window);
 
-    void setString(sf::String str);
+    void set_string(sf::String str);
 private:
     sf::Font *font;
     sf::Text text;

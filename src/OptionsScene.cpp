@@ -5,8 +5,9 @@ OptionsScene::OptionsScene(sf::Vector2i size) :
     Scene(size),
     state(Scene::Status::nothing),
     next_scene(nullptr),
+    lang_label(sf::IntRect(60, 100, 300, 50), "eng"),
     lang_button_left(ui::left(sf::IntRect(10, 100, 50, 50))),
-    lang_button_right(ui::right(sf::IntRect(110, 100, 50, 50))),
+    lang_button_right(ui::right(sf::IntRect(410, 100, 50, 50))),
     back_button(sf::Rect<int>(10, size.y - 100, 300, 50), StringProvider::get("optionsmenu.back_button")),
     menu()
 {
@@ -32,6 +33,7 @@ void OptionsScene::draw(sf::RenderWindow &window)
 {
     window.setView(this->main_window);
     this->menu.draw(window);
+    this->lang_label.draw(window);
 }
 
 Scene::Status OptionsScene::status()

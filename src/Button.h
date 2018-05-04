@@ -4,8 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
-#include "TextureMap.h"
-#include "FontMap.h"
 #include "Input.h"
 
 class Button

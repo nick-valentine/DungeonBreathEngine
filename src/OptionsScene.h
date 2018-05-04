@@ -25,6 +25,7 @@ private:
     Scene::Status state;
     Scene *next_scene;
 
+    Label lang_label;
     SpriteButton lang_button_left;
     SpriteButton lang_button_right;
     TextButton back_button;

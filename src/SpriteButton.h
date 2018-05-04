@@ -1,6 +1,7 @@
 #ifndef SPRITEBUTTON_H
 #define SPRITEBUTTON_H
 
+#include "TextureMap.h"
 #include "Button.h"
 
 class SpriteButton : public Button

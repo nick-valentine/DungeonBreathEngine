@@ -77,6 +77,7 @@ void OptionsScene::load_supported_langs()
             langs.push_back(langpair(key, Strings::utf8_to_sfml(label)));
         }
     }
+    ifile.close();
 }
 
 void OptionsScene::set_language()

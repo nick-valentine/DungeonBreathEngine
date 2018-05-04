@@ -22,6 +22,7 @@ void StringProvider::load(std::string lang)
             strings[key] = val;
         }
     }
+    ifile.close();
 }
 
 sf::String StringProvider::get(std::string key)

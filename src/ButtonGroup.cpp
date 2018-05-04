@@ -16,14 +16,19 @@ void ButtonGroup::update(int delta, Input *input, sf::RenderWindow &window)
 	}
 	last_mouse_pos = mouse_pos;
 
-	if (input->is_key_pressed(input->down)) {
+    auto down = input->is_key_pressed(input->down);
+	if (down && !last_down) {
 		gamepad = true;
 		selected = std::min(selected + 1, int(buttons.size()) - 1);
 	}
-	if (input->is_key_pressed(input->up)) {
+    last_down = down;
+
+    auto up = input->is_key_pressed(input->up);
+	if (up && !last_up) {
 		gamepad = true;
 		selected = std::max(selected - 1, 0);
 	}
+    last_up = up;
 
 	if (gamepad) {
 		for (const auto &i : this->buttons) {

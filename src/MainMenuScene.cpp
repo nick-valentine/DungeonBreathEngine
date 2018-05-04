@@ -1,16 +1,20 @@
 #include "MainMenuScene.h"
 #include "GameScene.h"
+#include "OptionsScene.h"
 
 MainMenuScene::MainMenuScene(sf::Vector2i size) :
     Scene(size),
     state(Scene::Status::nothing),
-    play_button(sf::Rect<int>(10, size.y - 160, 300, 50), StringProvider::get("mainmenu.new_game_button")),
+    next_scene(nullptr),
+    play_button(sf::Rect<int>(10, size.y - 220, 300, 50), StringProvider::get("mainmenu.new_game_button")),
+    options_button(sf::Rect<int>(10, size.y - 160, 300, 50), StringProvider::get("mainmenu.options_button")),
     exit_button(sf::Rect<int>(10, size.y - 100, 300, 50), StringProvider::get("mainmenu.exit_button")),
 	menu()
 {
     this->main_window.reset(sf::FloatRect(0, 0, size.x, size.y));
 
 	menu.add_button("play", &play_button);
+    menu.add_button("options", &options_button);
 	menu.add_button("exit", &exit_button);
 }
 
@@ -31,6 +35,10 @@ void MainMenuScene::update(int delta, sf::RenderWindow &window, Input *input, Lo
 	std::string pressed = this->menu.pressed_button();
     if (pressed == "play") {
         this->next_scene = new GameScene(this->size);
+        this->state = Scene::Status::switch_scene;
+    }
+    if (pressed == "options") {
+        this->next_scene = new OptionsScene(this->size);
         this->state = Scene::Status::switch_scene;
     }
     if (pressed == "exit") {

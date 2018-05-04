@@ -24,9 +24,10 @@ private:
     Scene::Status state;
     Scene* next_scene;
 
-	ButtonGroup menu;
     Button play_button;
+    Button options_button;
     Button exit_button;
+    ButtonGroup menu;
 
     bool first_loop = true;
 };

@@ -3,6 +3,8 @@ SET (SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Actor.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Animation.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Button.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/TextButton.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/SpriteButton.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ConfigLoader.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ConsoleLogger.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/DeviceButton.cpp

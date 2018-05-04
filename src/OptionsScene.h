@@ -5,7 +5,8 @@
 #include "MusicManager.h"
 #include "Scene.h"
 #include "ButtonGroup.h"
-#include "Button.h"
+#include "TextButton.h"
+#include "SpriteButton.h"
 
 class OptionsScene : public Scene
 {
@@ -24,7 +25,9 @@ private:
     Scene::Status state;
     Scene *next_scene;
 
-    Button back_button;
+    SpriteButton lang_button_left;
+    SpriteButton lang_button_right;
+    TextButton back_button;
     ButtonGroup menu;
 };
 

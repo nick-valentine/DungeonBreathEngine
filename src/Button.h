@@ -11,27 +11,21 @@
 class Button
 {
 public:
-    Button() = default;
-    Button(sf::Rect<int> pos, sf::String contents);
-    void update(int delta, Input *input, sf::RenderWindow &window);
-    void draw(sf::RenderWindow &window);
+    Button(sf::IntRect pos);
+    virtual ~Button() = default;
 
-    bool pressed();
-	void set_hover(bool hover);
-	void reset_hover_override();
-	void set_pressed(bool pressed);
-private:
+    virtual void update(int delta, Input *input, sf::RenderWindow &window);
+    virtual void draw(sf::RenderWindow &window);
+
+    virtual bool pressed();
+	virtual void set_hover(bool hover);
+	virtual void reset_hover_override();
+	virtual void set_pressed(bool pressed);
+protected:
     bool was_pressed;
 	bool is_hover;
 	bool is_override_hover;
-    sf::Font *font;
-    sf::Text text;
     sf::Rect<int> rect;
-
-	sf::Texture *background;
-	sf::Sprite back;
-	sf::Sprite back_hover;
-	sf::Sprite back_press;
 
     sf::RectangleShape debug_draw;
 };

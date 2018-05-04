@@ -5,7 +5,7 @@
 #include "MusicManager.h"
 #include "Scene.h"
 #include "ButtonGroup.h"
-#include "Button.h"
+#include "TextButton.h"
 
 class MainMenuScene : public Scene
 {
@@ -24,9 +24,9 @@ private:
     Scene::Status state;
     Scene* next_scene;
 
-    Button play_button;
-    Button options_button;
-    Button exit_button;
+    TextButton play_button;
+    TextButton options_button;
+    TextButton exit_button;
     ButtonGroup menu;
 
     bool first_loop = true;

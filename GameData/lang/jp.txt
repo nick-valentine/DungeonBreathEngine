@@ -1,3 +1,2 @@
-@todo: utf8 encoding doesnt yet work
 mainmenu.new_game_button=新しいゲーム
 mainmenu.exit_button=出口

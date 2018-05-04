@@ -7,6 +7,9 @@
 #include <fstream>
 #include <map>
 #include <vector>
+#include <codecvt>
+#include <cuchar>
+#include <cassert>
 
 class StringProvider
 {
@@ -19,6 +22,8 @@ public:
 private:
 
     static std::map<std::string, sf::String> strings;
+
+    static sf::String build_string(std::string s);
 };
 
 #endif //STRINGPROVIDER_H

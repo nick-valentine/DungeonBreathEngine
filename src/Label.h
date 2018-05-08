@@ -8,6 +8,7 @@ class Label
 {
 public:
     Label(sf::IntRect pos, sf::String contents);
+    Label(sf::IntRect pos, int contents);
 
     void draw(sf::RenderWindow &window);
 

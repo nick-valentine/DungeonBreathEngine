@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 
+#include "ConfigLoader.h"
 #include "Exceptions.h"
 
 class MusicManager
@@ -23,7 +24,10 @@ public:
     static void play(Song s);
     static void stop();
 
+    static void set_volume(float volume);
+
 private:
+    static float volume;
     static sf::Music music;
     static std::vector<std::string> song_files;
 };

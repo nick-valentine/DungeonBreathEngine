@@ -2,3 +2,4 @@ mainmenu.new_game_button=New Game
 mainmenu.exit_button=Exit
 mainmenu.options_button=Options
 optionsmenu.back_button=Back
+optionsmenu.key_bind_button=Key Bindings

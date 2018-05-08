@@ -2,6 +2,7 @@
 #define OPTIONSSCENE_H
 
 #include <fstream>
+#include <stdlib.h>
 
 #include "StringProvider.h"
 #include "MusicManager.h"
@@ -15,7 +16,7 @@ class OptionsScene : public Scene
 {
 public:
     OptionsScene(sf::Vector2i size);
-    ~OptionsScene() = default;
+    ~OptionsScene();
 
     void update(int delta, sf::RenderWindow &window, Input *input, Logger *logger);
     void draw(sf::RenderWindow &window);
@@ -31,16 +32,25 @@ private:
     Label lang_label;
     SpriteButton lang_button_left;
     SpriteButton lang_button_right;
+    Label volume_label;
+    SpriteButton volume_button_left;
+    SpriteButton volume_button_right;
+    TextButton key_bind_button;
     TextButton back_button;
     ButtonGroup menu;
     std::string last_pressed;
+
+    bool first_loop = true;
 
     typedef std::pair<std::string, sf::String> langpair;
     std::vector<langpair> langs;
     size_t current_lang;
 
+    int current_volume;
+
     void load_supported_langs();
     void set_language();
+    void set_volume();
 };
 
 #endif //OPTIONSSCENE_H

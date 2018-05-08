@@ -15,7 +15,7 @@ GameScene::GameScene(sf::Vector2i size) :
         for (auto j = 0; j < 20; ++j) {
             world.push_back(
                 tile_set->spawn(
-                    TileSets::Overworld::stone,
+                    TileSets::Overworld::water_to_thick_br,
                     sf::Vector2i(
                         i * TileSet::tile_size()*2, 
                         j * TileSet::tile_size()*2

@@ -5,6 +5,7 @@
 #include <SFML/Window.hpp>
 #include <memory>
 
+#include "Macros.h"
 #include "TextureMap.h"
 #include "SpriteSet.h"
 #include "Animation.h"
@@ -92,7 +93,23 @@ private:
 
 namespace TileSets {
     enum Overworld {
-        grass = 0,
+        grass_thick = 0,
+        grass_to_thick_tl,
+        grass_to_thick_tr,
+        grass_to_thick_bl,
+        grass_to_thick_br,
+        thick_to_grass_tl,
+        thick_to_grass_tr,
+        thick_to_grass_bl,
+        thick_to_grass_br,
+        thick_to_water_tl,
+        thick_to_water_tr,
+        thick_to_water_bl,
+        thick_to_water_br,
+        water_to_thick_tl,
+        water_to_thick_tr,
+        water_to_thick_bl,
+        water_to_thick_br,
         stone,
         wave,
         water_circle_1,

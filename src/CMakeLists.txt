@@ -24,5 +24,7 @@ SET (SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/ButtonGroup.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/TileSet.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/StringProvider.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/WorldGenerator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/World.cpp
     PARENT_SCOPE
 )

@@ -5,5 +5,6 @@
 #define DATADIR "./GameData/"
 #define IMGDIR DATADIR "img/"
 #define LANGDIR DATADIR "lang/"
+#define LEVELDIR DATADIR "levels/"
 
 #endif //MACROS_H

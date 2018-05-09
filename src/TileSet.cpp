@@ -98,21 +98,24 @@ Tile *TileSet::spawn(TileType t, sf::Vector2i loc)
 std::unique_ptr<TileSet> TileSets::overworld()
 {
     std::unique_ptr<TileSet> ts(new TileSet(TextureMap::request(IMGDIR "/Overworld.png")));
-    ts->make_static(sf::Vector2i(0,0));
-    ts->make_static(sf::Vector2i(0, 3), sf::Vector2i(2, 2));
+    ts->make_static(sf::Vector2i(0,0)); //grass thick
+    ts->make_static(sf::Vector2i(0, 3), sf::Vector2i(2, 2)); //grass to thick
     ts->make_static(sf::Vector2i(1, 3), sf::Vector2i(2, 2));
     ts->make_static(sf::Vector2i(0, 4), sf::Vector2i(2, 2));
     ts->make_static(sf::Vector2i(1, 4), sf::Vector2i(2, 2));
-    ts->make_static(sf::Vector2i(0, 6));
+    ts->make_static(sf::Vector2i(0, 6)); //thick to grass
     ts->make_static(sf::Vector2i(1, 6));
     ts->make_static(sf::Vector2i(0, 7));
     ts->make_static(sf::Vector2i(1, 7));
-    ts->make_static(sf::Vector2i(2, 6), sf::Vector2i(2, 2));
+    ts->make_static(sf::Vector2i(2, 6), sf::Vector2i(2, 2)); //thick to water
     ts->make_static(sf::Vector2i(3, 6), sf::Vector2i(2, 2));
     ts->make_static(sf::Vector2i(2, 7), sf::Vector2i(2, 2));
     ts->make_static(sf::Vector2i(3, 7), sf::Vector2i(2, 2));
-    ts->make_static(sf::Vector2i(2, 9));
-    ts->make_static(sf::Vector2i(3, 9));
+    ts->make_static(sf::Vector2i(3, 6)); //thick to water t
+    ts->make_static(sf::Vector2i(2, 7)); // l
+    ts->make_static(sf::Vector2i(4, 7)); // r
+    ts->make_static(sf::Vector2i(3, 8)); // b
+    ts->make_static(sf::Vector2i(3, 9)); // water to thick
     ts->make_static(sf::Vector2i(2, 10));
     ts->make_static(sf::Vector2i(3, 10));
     ts->make_static(sf::Vector2i(4, 1), sf::Vector2i(2, 2));

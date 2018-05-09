@@ -68,6 +68,7 @@ private:
 class TileSet 
 {
 public:
+    TileSet(std::string def_file);
     TileSet(sf::Texture *tex, int base_size = BASE_TILE_SIZE);
     ~TileSet();
 

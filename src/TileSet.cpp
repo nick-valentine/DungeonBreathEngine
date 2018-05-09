@@ -59,6 +59,11 @@ Tile *DynamicTile::clone()
     return temp;
 }
 
+TileSet::TileSet(std::string def_file)
+{
+    //@todo read from tilesetdir
+}
+
 TileSet::TileSet(sf::Texture *tex, int base_size) : tex(tex), base_size(base_size), tiles()
 {
 }

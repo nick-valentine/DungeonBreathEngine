@@ -24,6 +24,7 @@ private:
     Scene::Status state;
     Scene* next_scene;
 
+    TextButton tile_editor_button;
     TextButton play_button;
     TextButton options_button;
     TextButton exit_button;

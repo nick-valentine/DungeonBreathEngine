@@ -4,3 +4,4 @@ mainmenu.options_button=Options
 mainmenu.tile_editor_button=TileSets
 optionsmenu.back_button=Back
 optionsmenu.key_bind_button=Key Bindings
+tileseteditmenu.edit=Back to Editing

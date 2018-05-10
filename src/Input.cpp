@@ -44,6 +44,15 @@ bool Input::is_key_pressed(Key k)
     return buttons[k]->is_pressed();
 }
 
+std::vector<bool> Input::poll_all()
+{
+    std::vector<bool> presses;
+    for (int i = up; i < num_keys; ++i) {
+        presses.push_back(is_key_pressed(Key(i)));
+    }
+    return presses;
+}
+
 /**
  * The dsn for keyboard inputs should be trivially simple:
  * <input device>:[<input number>]:[<axis or button>]:[min value]:<specific button>

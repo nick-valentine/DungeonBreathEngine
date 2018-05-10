@@ -8,7 +8,7 @@ Label::Label(sf::IntRect pos, sf::String contents)
     this->text.setCharacterSize(30);
     this->text.setFillColor(sf::Color::White);
     this->text.setOutlineColor(sf::Color::Blue);
-    this->text.setPosition(float(pos.left) + 50.0f, float(pos.top));
+    this->text.setPosition(float(pos.left), float(pos.top));
 }
 
 void Label::draw(sf::RenderWindow &window)
@@ -19,4 +19,9 @@ void Label::draw(sf::RenderWindow &window)
 void Label::set_string(sf::String str)
 {
     this->text.setString(str);
+}
+
+void Label::set_character_size(int size)
+{
+    this->text.setCharacterSize(size);
 }

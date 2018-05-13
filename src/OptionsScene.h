@@ -38,7 +38,6 @@ private:
     TextButton key_bind_button;
     TextButton back_button;
     ButtonGroup menu;
-    std::string last_pressed;
 
     bool first_loop = true;
 

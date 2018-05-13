@@ -11,6 +11,7 @@
 #include "Strings.h"
 #include "Scene.h"
 #include "TextButton.h"
+#include "SpriteButton.h"
 #include "ButtonGroup.h"
 #include "StringProvider.h"
 #include "Label.h"
@@ -22,7 +23,7 @@ public:
     TileMarker(sf::IntRect pos, int label);
 
     void set_pos(int base_size, int x, int y);
-    void set_size(int x, int y);
+    void set_size(int base_size, int x, int y);
     void set_color(sf::Color c);
     
     void draw(sf::RenderWindow &window);
@@ -54,6 +55,8 @@ private:
     void draw_editing(sf::RenderWindow &window);
     void draw_menu(sf::RenderWindow &window);
 
+    void set_base_size_label();
+
     sf::View main_window;
 
     Scene::Status state;
@@ -73,11 +76,14 @@ private:
     TileMarker current_marker;
     int current_x;
     int current_y;
+    int current_width;
+    int current_height;
 
     ButtonGroup menu;
     std::string tileset;
     Label tileset_label;
     TextButton edit;
+
     TextButton back;
 };
 

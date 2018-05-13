@@ -20,6 +20,8 @@ public:
         right,
         escape,
         accept,
+        fire,
+        alt_fire,
         num_keys
     };
 

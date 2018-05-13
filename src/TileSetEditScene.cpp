@@ -27,10 +27,10 @@ void TileMarker::set_pos(int base_size, int x, int y)
     shape.setPosition(sf::Vector2f(float(pos.left), float(pos.top)));
 }
 
-void TileMarker::set_size(int x, int y)
+void TileMarker::set_size(int base_size, int x, int y)
 {
-    pos.width = x;
-    pos.height = y;
+    pos.width = x*base_size;
+    pos.height = y*base_size;
     shape.setSize(sf::Vector2f(float(pos.width), float(pos.height)));
 }
 
@@ -50,7 +50,7 @@ TileSetEditScene::TileSetEditScene(sf::Vector2i size, std::string tileset) : Sce
     next_scene(nullptr),
     inner_state(editing),
     current_marker(sf::IntRect(START_TEX_X, START_TEX_Y, 0, 0), 0),
-    current_x(0), current_y(0),
+    current_x(0), current_y(0), current_width(1), current_height(1),
     tileset(tileset),
     tileset_label(sf::IntRect(10, 10, 300, 50), Strings::utf8_to_sfml(tileset)),
     edit(sf::IntRect(size.x - 400, size.y - 160, 300, 50), StringProvider::get("tileseteditmenu.edit")),
@@ -92,7 +92,7 @@ TileSetEditScene::TileSetEditScene(sf::Vector2i size, std::string tileset) : Sce
     spr = sf::Sprite(*tex);
     spr.setPosition(sf::Vector2f(START_TEX_X, START_TEX_Y));
 
-    current_marker.set_size(base_size, base_size);
+    current_marker.set_size(base_size, 1, 1);
     current_marker.set_color(sf::Color::Red);
 
 }
@@ -136,24 +136,22 @@ void TileSetEditScene::update_editing(int delta, sf::RenderWindow &window, Input
 {
     auto new_input = input->poll_all();
 
-    if (new_input[Input::right] && !last_input[Input::right]) {
+    if (new_input[Input::up] && !last_input[Input::up] && new_input[Input::alt_fire]) {
+        current_height++;
+        current_marker.set_size(base_size, current_width, current_height);
+    } else if (new_input[Input::right] && !last_input[Input::right]) {
         current_x++;
         current_marker.set_pos(base_size, current_x, current_y);
-    }
-    if (new_input[Input::left] && !last_input[Input::left]) {
+    } else if (new_input[Input::left] && !last_input[Input::left]) {
         current_x--;
         current_marker.set_pos(base_size, current_x, current_y);
-    }
-    if (new_input[Input::up] && !last_input[Input::up]) {
+    } else if (new_input[Input::up] && !last_input[Input::up]) {
         current_y--;
         current_marker.set_pos(base_size, current_x, current_y);
-    }
-    if (new_input[Input::down] && !last_input[Input::down]) {
+    } else if (new_input[Input::down] && !last_input[Input::down]) {
         current_y++;
         current_marker.set_pos(base_size, current_x, current_y);
-    }
-
-    if (new_input[Input::escape] && !last_input[Input::escape]) {
+    } else if (new_input[Input::escape] && !last_input[Input::escape]) {
         inner_state = in_menu;
     }
 
@@ -163,7 +161,7 @@ void TileSetEditScene::update_editing(int delta, sf::RenderWindow &window, Input
 void TileSetEditScene::update_menu(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
 {
     menu.update(delta, input, window);
-    std::string pressed = this->menu.pressed_button();
+    std::string pressed = this->menu.neg_edge_button();
 
     if (pressed == "edit") {
         this->inner_state = editing;
@@ -180,7 +178,6 @@ void TileSetEditScene::draw_editing(sf::RenderWindow &window)
         i.draw(window);
     }
 
-
     current_marker.draw(window);
 }
 
@@ -188,3 +185,4 @@ void TileSetEditScene::draw_menu(sf::RenderWindow &window)
 {
     menu.draw(window);
 }
+

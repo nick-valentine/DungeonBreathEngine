@@ -17,13 +17,15 @@ public:
     virtual void draw(sf::RenderWindow &window);
 
     virtual bool pressed();
-	virtual void set_hover(bool hover);
-	virtual void reset_hover_override();
-	virtual void set_pressed(bool pressed);
+    virtual bool neg_edge();
+    virtual void set_hover(bool hover);
+    virtual void reset_hover_override();
+    virtual void set_pressed(bool pressed);
 protected:
     bool was_pressed;
-	bool is_hover;
-	bool is_override_hover;
+    bool last_pressed;
+    bool is_hover;
+    bool is_override_hover;
     sf::Rect<int> rect;
 
     sf::RectangleShape debug_draw;

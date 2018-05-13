@@ -136,9 +136,27 @@ void TileSetEditScene::update_editing(int delta, sf::RenderWindow &window, Input
 {
     auto new_input = input->poll_all();
 
-    if (new_input[Input::up] && !last_input[Input::up] && new_input[Input::alt_fire]) {
-        current_height++;
-        current_marker.set_size(base_size, current_width, current_height);
+    if (new_input[Input::alt_fire]) {
+        // alt fire puts into resize mode
+        if (new_input[Input::up] && !last_input[Input::up]) {
+            current_height--;
+            if (current_height == 0) {
+                current_height = 1;
+            }
+            current_marker.set_size(base_size, current_width, current_height);
+        } else if (new_input[Input::down] && !last_input[Input::down]) {
+            current_height++;
+            current_marker.set_size(base_size, current_width, current_height);
+        } else if (new_input[Input::left] && !last_input[Input::left]) {
+            current_width--;
+            if (current_width == 0) {
+                current_width = 1;
+            }
+            current_marker.set_size(base_size, current_width, current_height);
+        } else if (new_input[Input::right] && !last_input[Input::right]) {
+            current_width++;
+            current_marker.set_size(base_size, current_width, current_height);
+        }
     } else if (new_input[Input::right] && !last_input[Input::right]) {
         current_x++;
         current_marker.set_pos(base_size, current_x, current_y);

@@ -20,14 +20,16 @@
 class TileMarker
 {
 public:
-    TileMarker(sf::IntRect pos, int label);
+    TileMarker(int base_size, sf::IntRect pos, int label);
 
     void set_pos(int base_size, int x, int y);
     void set_size(int base_size, int x, int y);
     void set_color(sf::Color c);
+    sf::IntRect get_export_pos();
     
     void draw(sf::RenderWindow &window);
 private:
+    sf::IntRect export_pos;
     sf::IntRect pos;
     sf::RectangleShape shape;
     int label;
@@ -78,6 +80,8 @@ private:
     int current_y;
     int current_width;
     int current_height;
+    int current_id;
+    int current_sub_id;
 
     ButtonGroup menu;
     std::string tileset;

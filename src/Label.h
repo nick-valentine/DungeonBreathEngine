@@ -11,6 +11,7 @@ public:
 
     void draw(sf::RenderWindow &window);
 
+    void set_position(sf::Vector2i pos);
     void set_string(sf::String str);
     void set_character_size(int size);
 private:

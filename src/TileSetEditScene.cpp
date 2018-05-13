@@ -1,21 +1,24 @@
 #include "TileSetEditScene.h"
 #include "TileSetScene.h"
 
-#include <iostream>
-
 #define START_TEX_X 100.f
 #define START_TEX_Y 100.f
 
-TileMarker::TileMarker(sf::IntRect pos, int label) :
-    pos(pos), shape(), label(label), number_label(pos, "")
+TileMarker::TileMarker(int base_size, sf::IntRect pos, int label) :
+    export_pos(pos), pos(), shape(), label(label), number_label(pos, "")
 {
-    shape.setPosition(sf::Vector2f(float(pos.left), float(pos.top)));
-    shape.setSize(sf::Vector2f(float(pos.width), float(pos.height)));
+    this->pos.left = (export_pos.left * base_size) + START_TEX_X;
+    this->pos.top = (export_pos.top * base_size) + START_TEX_Y;
+    this->pos.width = (export_pos.width * base_size);
+    this->pos.height = (export_pos.height * base_size);
+    shape.setPosition(sf::Vector2f(float(this->pos.left), float(this->pos.top)));
+    shape.setSize(sf::Vector2f(float(this->pos.width), float(this->pos.height)));
     shape.setOutlineColor(sf::Color::Blue);
     shape.setOutlineThickness(1);
     shape.setFillColor(sf::Color::Transparent);
     char l[50];
     sprintf(l, "%d", label);
+    number_label.set_position(sf::Vector2i(this->pos.left, this->pos.top));
     number_label.set_character_size(14);
     number_label.set_string(l);
 
@@ -49,8 +52,9 @@ TileSetEditScene::TileSetEditScene(sf::Vector2i size, std::string tileset) : Sce
     state(Scene::nothing),
     next_scene(nullptr),
     inner_state(editing),
-    current_marker(sf::IntRect(START_TEX_X, START_TEX_Y, 0, 0), 0),
+    current_marker(16, sf::IntRect(START_TEX_X, START_TEX_Y, 0, 0), 0),
     current_x(0), current_y(0), current_width(1), current_height(1),
+    current_id(0), current_sub_id(0),
     tileset(tileset),
     tileset_label(sf::IntRect(10, 10, 300, 50), Strings::utf8_to_sfml(tileset)),
     edit(sf::IntRect(size.x - 400, size.y - 160, 300, 50), StringProvider::get("tileseteditmenu.edit")),
@@ -66,24 +70,21 @@ TileSetEditScene::TileSetEditScene(sf::Vector2i size, std::string tileset) : Sce
         throw FileNotFoundException();
     }
     ifile>>name>>size_key>>base_size>>texture_key>>texture_name;
-    int label = 0;
     while (ifile.good()) {
         std::string line;
         std::getline(ifile, line);
         std::stringstream ss(line);
-        int x, y, width, height;
+        int label, x, y, width, height;
+        ss>>label;
         do {
             ss>>x>>y>>width>>height;
-            x*=base_size;
-            x+=START_TEX_X;
-            y*=base_size;
-            y+=START_TEX_Y;
-            height*=base_size;
-            width*=base_size;
 
-            markers.push_back(TileMarker(sf::IntRect(x, y, width, height), label));
+            if (label > current_id) {
+                current_id = label+1;
+            }
+
+            markers.push_back(TileMarker(base_size, sf::IntRect(x, y, width, height), label));
         } while (ss.good());
-        ++label;
     }
     ifile.close();
 
@@ -171,6 +172,19 @@ void TileSetEditScene::update_editing(int delta, sf::RenderWindow &window, Input
         current_marker.set_pos(base_size, current_x, current_y);
     } else if (new_input[Input::escape] && !last_input[Input::escape]) {
         inner_state = in_menu;
+    } else if (new_input[Input::accept] && !last_input[Input::accept]) {
+        markers.push_back(
+            TileMarker(
+                base_size,
+                sf::IntRect(
+                    current_x, 
+                    current_y, 
+                    current_width, 
+                    current_height
+                ), current_id
+            )
+        );
+        current_id++;
     }
 
     last_input = new_input;

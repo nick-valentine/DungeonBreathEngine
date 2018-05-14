@@ -15,10 +15,10 @@ public:
 private:
     Label label;
 
-	sf::Texture *background;
-	sf::Sprite back;
-	sf::Sprite back_hover;
-	sf::Sprite back_press;
+    sf::Texture *background;
+    sf::Sprite back;
+    sf::Sprite back_hover;
+    sf::Sprite back_press;
 
 };
 

@@ -1,11 +1,13 @@
 #include "TileSetScene.h"
 #include "TileSetEditScene.h"
+#include "TileSetNewScene.h"
 #include "MainMenuScene.h"
 
 TileSetScene::TileSetScene(sf::Vector2i size) : Scene(size),
     state(Scene::nothing),
     next_scene(nullptr),
-    back(sf::IntRect(size.x - 400, size.y - 100, 300, 50), StringProvider::get("optionsmenu.back_button"))
+    new_set(sf::IntRect(size.x - 400, size.y - 160, 300, 50), StringProvider::get("tilesetmenu.new")),
+    back(sf::IntRect(size.x - 400, size.y - 100, 300, 50), StringProvider::get("tilesetmenu.back"))
 {
     std::vector<std::string> tileset_index;
     std::ifstream ifile(TILESETDIR "index.txt");
@@ -29,6 +31,7 @@ TileSetScene::TileSetScene(sf::Vector2i size) : Scene(size),
         tilesets.push_back(temp);
         menu.add_button(tileset_index[i], &tilesets[i]);
     }
+    menu.add_button("new", &new_set);
     menu.add_button("exit_menu", &back);
 }
 
@@ -44,6 +47,9 @@ void TileSetScene::update(int delta, sf::RenderWindow &window, Input *input, Log
 
     if (pressed == "exit_menu") {
         this->next_scene = new MainMenuScene(this->size);
+        this->state = Scene::Status::switch_scene;
+    } else if (pressed == "new") {
+        this->next_scene = new TileSetNewScene(this->size);
         this->state = Scene::Status::switch_scene;
     } else if (pressed != "") {
         this->next_scene = new TileSetEditScene(this->size, pressed);

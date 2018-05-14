@@ -4,6 +4,7 @@ SET (SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Actor.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Animation.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Button.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/FreeText.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Label.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/TextButton.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SpriteButton.cpp
@@ -14,6 +15,7 @@ SET (SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/GameScene.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/OptionsScene.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/TileSetScene.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/TileSetNewScene.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/TileSetEditScene.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Hero.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Input.cpp

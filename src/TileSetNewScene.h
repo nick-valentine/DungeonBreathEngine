@@ -1,5 +1,5 @@
-#ifndef TILESETSCENE_H
-#define TILESETSCENE_H
+#ifndef TILESETNEWSCENE_H
+#define TILESETNEWSCENE_H
 
 #include <vector>
 #include <fstream>
@@ -9,14 +9,15 @@
 #include "Strings.h"
 #include "Scene.h"
 #include "TextButton.h"
+#include "FreeText.h"
 #include "ButtonGroup.h"
 #include "StringProvider.h"
 
-class TileSetScene : public Scene
+class TileSetNewScene : public Scene
 {
 public:
-    TileSetScene(sf::Vector2i size);
-    ~TileSetScene();
+    TileSetNewScene(sf::Vector2i size);
+    ~TileSetNewScene();
 
     void update(int delta, sf::RenderWindow &window, Input *input, Logger *logger);
     void draw(sf::RenderWindow &window);
@@ -30,9 +31,10 @@ private:
     Scene *next_scene;
 
     ButtonGroup menu;
-    std::vector<TextButton> tilesets;
-    TextButton new_set;
+    FreeText name;
+    TextButton proceed;
     TextButton back;
 };
 
-#endif //TILESETSCENE_H
+
+#endif //TILESETNEWSCENE_H

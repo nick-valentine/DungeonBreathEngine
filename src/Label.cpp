@@ -26,6 +26,16 @@ void Label::set_string(sf::String str)
     this->text.setString(str);
 }
 
+sf::String Label::get_string()
+{
+    return this->text.getString();
+}
+
+void Label::set_color(sf::Color col)
+{
+    this->text.setFillColor(col);
+}
+
 void Label::set_character_size(int size)
 {
     this->text.setCharacterSize(size);

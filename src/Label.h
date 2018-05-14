@@ -13,6 +13,8 @@ public:
 
     void set_position(sf::Vector2i pos);
     void set_string(sf::String str);
+    sf::String get_string();
+    void set_color(sf::Color col);
     void set_character_size(int size);
 private:
     sf::Font *font;

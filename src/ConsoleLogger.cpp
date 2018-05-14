@@ -14,7 +14,7 @@ void ConsoleLogger::debug(const char *fmt, ...)
 {
     va_list args;
     va_start (args, fmt);
-    this->print(Logger::DEBUG, fmt, args);
+    this->print(Logger::VV, fmt, args);
     va_end(args);
 }
 

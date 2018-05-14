@@ -35,6 +35,9 @@ private:
 	bool gamepad = false;
 	int selected = 0;
 
+    bool last_up = false;
+    bool last_down = false;
+
 	sf::Vector2i last_mouse_pos;
 };
 

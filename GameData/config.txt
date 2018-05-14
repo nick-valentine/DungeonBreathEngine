@@ -1,10 +1,11 @@
  
 accept k:enter
 escape k:esc
-language jp
+language eng
 move_down k:s
 move_left k:a
 move_right k:d
 move_up k:w
 resolution_x 1280
 resolution_y 720
+volume 65

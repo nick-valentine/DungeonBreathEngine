@@ -1,3 +1,3 @@
-eng
-pirate
-jp
+eng English
+pirate Pirate
+jp 日本語

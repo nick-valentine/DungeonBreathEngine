@@ -6,3 +6,5 @@ optionsmenu.back_button=Back
 optionsmenu.key_bind_button=Key Bindings
 optionsmenu.volume_label=Volume
 tileseteditmenu.edit=Back to Editing
+tileseteditmenu.save=Save
+tileseteditmenu.back_button=Back

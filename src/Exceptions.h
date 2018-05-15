@@ -7,6 +7,12 @@ struct FileNotFoundException : public std::exception {
     }
 };
 
+struct FileNotWriteableException : public std::exception {
+    const char * what () const throw () {
+        return "File Not Writable";
+    }
+};
+
 struct InvalidConfigException : public std::exception {
     const char * what () const throw () {
         return "Invalid Config";

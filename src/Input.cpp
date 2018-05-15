@@ -6,7 +6,9 @@ const std::vector<std::string> Input::config_options = {
     "move_left",
     "move_right",
     "escape",
-    "accept"
+    "accept",
+    "fire",
+    "alt_fire"
 };
 
 const std::vector<std::string> Input::config_options_defaults = {
@@ -15,7 +17,9 @@ const std::vector<std::string> Input::config_options_defaults = {
     "k:d",
     "k:a",
     "k:esc",
-    "k:enter"
+    "k:enter",
+    "k:space",
+    "k:num1"
 };
 
 Input::Input() : key_map(), buttons()
@@ -42,6 +46,15 @@ Input::~Input()
 bool Input::is_key_pressed(Key k)
 {
     return buttons[k]->is_pressed();
+}
+
+std::vector<bool> Input::poll_all()
+{
+    std::vector<bool> presses;
+    for (int i = up; i < num_keys; ++i) {
+        presses.push_back(is_key_pressed(Key(i)));
+    }
+    return presses;
 }
 
 /**

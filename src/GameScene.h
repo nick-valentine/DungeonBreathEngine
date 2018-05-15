@@ -8,6 +8,7 @@
 #include "MusicManager.h"
 #include "Hero.h"
 #include "TileSet.h"
+#include "World.h"
 
 class GameScene : public Scene
 {
@@ -24,8 +25,7 @@ private:
     sf::View main_window;
 
     Hero hero;
-    std::unique_ptr<TileSet> tile_set;
-    std::vector<Tile*> world;
+    World world;
 
     Scene::Status state;
     Scene* next_scene;

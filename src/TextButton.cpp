@@ -1,7 +1,7 @@
 #include "TextButton.h"
 
 TextButton::TextButton(sf::Rect<int> pos, sf::String contents) : Button(pos),
-	 label(pos, contents), background(TextureMap::request("./GameData/img/RPG_GUI_v1.png"))
+	 label(sf::IntRect(pos.left+50.0f, pos.top, pos.width, pos.height), contents), background(TextureMap::request("./GameData/img/RPG_GUI_v1.png"))
 {
 	this->back = sf::Sprite(*background, sf::IntRect(0, 128, 300, 57));
 	this->back.setPosition(sf::Vector2f(float(pos.left), float(pos.top)));
@@ -24,6 +24,11 @@ void TextButton::draw(sf::RenderWindow &window)
 	}
     label.draw(window);
     Button::draw(window);
+}
+
+sf::String TextButton::get_label()
+{
+    return label.get_string();
 }
 
 void TextButton::set_label(sf::String contents)

@@ -20,6 +20,8 @@ public:
         right,
         escape,
         accept,
+        fire,
+        alt_fire,
         num_keys
     };
 
@@ -32,6 +34,7 @@ public:
     Input operator=(const Input &&other) = delete;
 
     bool is_key_pressed(Key k);
+    std::vector<bool> poll_all();
 private:
     const static std::vector<std::string> config_options;
     const static std::vector<std::string> config_options_defaults;

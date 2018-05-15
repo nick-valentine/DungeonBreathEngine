@@ -11,14 +11,15 @@ public:
     TextButton(sf::Rect<int> pos, sf::String contents);
     void draw(sf::RenderWindow &window);
 
+    sf::String get_label();
     void set_label(sf::String contents);
 private:
     Label label;
 
-	sf::Texture *background;
-	sf::Sprite back;
-	sf::Sprite back_hover;
-	sf::Sprite back_press;
+    sf::Texture *background;
+    sf::Sprite back;
+    sf::Sprite back_hover;
+    sf::Sprite back_press;
 
 };
 

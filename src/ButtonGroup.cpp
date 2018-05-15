@@ -59,3 +59,13 @@ std::string ButtonGroup::pressed_button()
     }
     return "";
 }
+
+std::string ButtonGroup::neg_edge_button()
+{
+    for (const auto &i : this->buttons) {
+        if (i.second->neg_edge()) {
+            return i.first;
+        }
+    }
+    return "";
+}

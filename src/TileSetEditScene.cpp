@@ -26,6 +26,7 @@ TileMarker::TileMarker(int base_size, sf::IntRect pos, int label, int sub_label)
 void TileMarker::set_pos(int base_size, int x, int y)
 {
     pos = sf::IntRect(x*base_size+START_TEX_X, y*base_size+START_TEX_Y, pos.width, pos.height);
+    number_label.set_position(sf::Vector2i(this->pos.left, this->pos.top));
     shape.setPosition(sf::Vector2f(float(pos.left), float(pos.top)));
 }
 

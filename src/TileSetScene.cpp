@@ -25,10 +25,11 @@ TileSetScene::TileSetScene(sf::Vector2i size) : Scene(size),
 
     ifile.close();
 
+    tilesets.reserve(tileset_index.size());
     for (size_t i = 0; i < tileset_index.size(); ++i) {
-        TextButton temp(sf::IntRect(10, (i+1) * 50, 300, 50), Strings::utf8_to_sfml(tileset_index[i]));
-
-        tilesets.push_back(temp);
+        tilesets.push_back(
+            TextButton(sf::IntRect(10, (i+1) * 50, 300, 50), Strings::utf8_to_sfml(tileset_index[i]))
+        );
         menu.add_button(tileset_index[i], &tilesets[i]);
     }
     menu.add_button("new", &new_set);

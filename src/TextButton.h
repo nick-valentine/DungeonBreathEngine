@@ -11,6 +11,7 @@ public:
     TextButton(sf::Rect<int> pos, sf::String contents);
     void draw(sf::RenderWindow &window);
 
+    sf::String get_label();
     void set_label(sf::String contents);
 private:
     Label label;

@@ -4,31 +4,27 @@ Hero::Hero(sf::Vector2i pos, sf::Vector2i scale) :
     Actor(pos, scale),
     dir(down),
     act(idle),
-    walk_forwards(TextureMap::request(sprite_sheet)),
-    walk_backwards(TextureMap::request(sprite_sheet)),
-    walk_left(TextureMap::request(sprite_sheet)),
-    walk_right(TextureMap::request(sprite_sheet)),
+    walk_forwards(TextureMap::request(sprite_sheet), 2),
+    walk_backwards(TextureMap::request(sprite_sheet), 2),
+    walk_left(TextureMap::request(sprite_sheet), 2),
+    walk_right(TextureMap::request(sprite_sheet), 2),
     current_animation(&walk_forwards)
 {
-    walk_forwards.add_sprite(sf::IntRect(0, 0, 1, 2));
-    walk_forwards.add_sprite(sf::IntRect(1, 0, 1, 2));
-    walk_forwards.add_sprite(sf::IntRect(2, 0, 1, 2));
-    walk_forwards.add_sprite(sf::IntRect(3, 0, 1, 2));
+    walk_forwards.add_sprite(sf::IntRect(0, 0, 2, 2));
+    walk_forwards.add_sprite(sf::IntRect(2, 0, 2, 2));
+    walk_forwards.add_sprite(sf::IntRect(4, 0, 2, 2));
 
-    walk_right.add_sprite(sf::IntRect(0, 2, 1, 2));
-    walk_right.add_sprite(sf::IntRect(1, 2, 1, 2));
-    walk_right.add_sprite(sf::IntRect(2, 2, 1, 2));
-    walk_right.add_sprite(sf::IntRect(3, 2, 1, 2));
+    walk_right.add_sprite(sf::IntRect(0, 2, 2, 2));
+    walk_right.add_sprite(sf::IntRect(2, 2, 2, 2));
+    walk_right.add_sprite(sf::IntRect(4, 2, 2, 2));
 
-    walk_backwards.add_sprite(sf::IntRect(0, 4, 1, 2));
-    walk_backwards.add_sprite(sf::IntRect(1, 4, 1, 2));
-    walk_backwards.add_sprite(sf::IntRect(2, 4, 1, 2));
-    walk_backwards.add_sprite(sf::IntRect(3, 4, 1, 2));
+    walk_backwards.add_sprite(sf::IntRect(6, 0, 2, 2));
+    walk_backwards.add_sprite(sf::IntRect(8, 0, 2, 2));
+    walk_backwards.add_sprite(sf::IntRect(10, 0, 2, 2));
 
-    walk_left.add_sprite(sf::IntRect(0, 6, 1, 2));
-    walk_left.add_sprite(sf::IntRect(1, 6, 1, 2));
-    walk_left.add_sprite(sf::IntRect(2, 6, 1, 2));
-    walk_left.add_sprite(sf::IntRect(3, 6, 1, 2));
+    walk_left.add_sprite(sf::IntRect(6, 2, 2, 2));
+    walk_left.add_sprite(sf::IntRect(8, 2, 2, 2));
+    walk_left.add_sprite(sf::IntRect(10, 2, 2, 2));
 }
 
 Hero::~Hero()

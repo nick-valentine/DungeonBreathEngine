@@ -6,7 +6,13 @@
 
 sf::String Strings::utf8_to_sfml(std::string s)
 {
-    std::setlocale(LC_ALL, "en_US.utf8");
+#if WINDOWS
+	setlocale(LC_ALL, "en_US.utf8");
+#endif
+#if LINUX
+	std::setlocale(LC_ALL, "en_US.utf8");
+#endif
+
 
     std::mbstate_t state{}; // zero-initialized to initial state
     char32_t c32;

@@ -8,4 +8,7 @@
 #define LEVELDIR DATADIR "levels/"
 #define TILESETDIR DATADIR "tilesets/"
 
+#define WINDOWS 1
+#define LINUX 0
+
 #endif //MACROS_H

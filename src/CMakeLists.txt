@@ -1,3 +1,5 @@
+add_subdirectory (lua)
+
 SET (SOURCES
     ${SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/Strings.cpp

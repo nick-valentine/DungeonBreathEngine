@@ -7,6 +7,7 @@
 #define LANGDIR DATADIR "lang/"
 #define LEVELDIR DATADIR "levels/"
 #define TILESETDIR DATADIR "tilesets/"
+#define SCRIPTDIR DATADIR "scripts/"
 
 #define WINDOWS 1
 #define LINUX 0

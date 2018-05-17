@@ -7,23 +7,19 @@
 #include "Scene.h"
 #include "Input.h"
 #include "MainMenuScene.h"
-
-#include "lua/lua.h"
-#include "lua/lualib.h"
-#include "lua/lauxlib.h"
+#include "Script.h"
 
 void handleEvents(sf::RenderWindow &window);
 
 int main()
 {
-	lua_State *S = luaL_newstate();
-	luaL_openlibs(S);
-	luaL_loadfile(S, SCRIPTDIR "main.lua");
-	lua_call(S, 0, 0);
-
     ConfigLoader::load();
     sf::String lang = ConfigLoader::get_string_option("language", "eng");
     StringProvider::load(lang);
+
+	Script s("main.lua");
+	lua::config::add(s.s);
+	s.call();
 
     int resolution_x = ConfigLoader::get_int_option("resolution_x", 200);
     int resolution_y = ConfigLoader::get_int_option("resolution_y", 200);

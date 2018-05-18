@@ -164,3 +164,65 @@ void Input::populate_key_map()
     key_map["space"] = sf::Keyboard::Space;
     key_map["enter"] = sf::Keyboard::Return;
 }
+
+
+void lua::input::add(Input *i, lua_State *s)
+{
+	static const struct luaL_Reg mylib[] = {
+		{ "is_key_pressed", is_key_pressed },
+		{ NULL, NULL }
+	};
+	lua_getglobal(s, "input");
+	if (lua_isnil(s, -1)) {
+		lua_pop(s, 1);
+		lua_newtable(s);
+	}
+	luaL_setfuncs(s, mylib, 0);
+
+	lua_pushlightuserdata(s, i);
+	lua_setfield(s, -2, "device");
+
+	lua_pushnumber(s, Input::up);
+	lua_setfield(s, -2, "up");
+
+	lua_pushnumber(s, Input::down);
+	lua_setfield(s, -2, "down");
+
+	lua_pushnumber(s, Input::left);
+	lua_setfield(s, -2, "left");
+
+	lua_pushnumber(s, Input::right);
+	lua_setfield(s, -2, "right");
+
+	lua_pushnumber(s, Input::escape);
+	lua_setfield(s, -2, "escape");
+
+	lua_pushnumber(s, Input::accept);
+	lua_setfield(s, -2, "accept");
+
+	lua_pushnumber(s, Input::fire);
+	lua_setfield(s, -2, "fire");
+
+	lua_pushnumber(s, Input::alt_fire);
+	lua_setfield(s, -2, "alt_fire");
+
+	lua_pushnumber(s, Input::num_keys);
+	lua_setfield(s, -2, "num_keys");
+
+	lua_setglobal(s, "input");
+}
+
+int lua::input::is_key_pressed(lua_State *s)
+{
+	Input *i = (Input *)lua_touserdata(s, 1);
+	if (!lua_isnumber(s, 2)) {
+		error(s, "arg 2 expected to be number");
+	}
+	auto key = (int) lua_tonumber(s, 2);
+	
+	auto pressed = i->is_key_pressed(Input::Key(key));
+
+	lua_pushnumber(s, pressed);
+
+	return 1;
+}

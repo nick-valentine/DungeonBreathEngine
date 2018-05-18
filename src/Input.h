@@ -10,6 +10,8 @@
 #include "DeviceButton.h"
 #include "Exceptions.h"
 
+#include "Script.h"
+
 class Input
 {
 public:
@@ -46,6 +48,13 @@ private:
 
     std::map<std::string, int> key_map;
     std::vector<DeviceButton*> buttons;
+};
+
+namespace lua {
+	namespace input {
+		void add(Input *i, lua_State *s);
+		int is_key_pressed(lua_State *s);
+	};
 };
 
 #endif // INPUT_H

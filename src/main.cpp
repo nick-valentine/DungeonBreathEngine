@@ -19,9 +19,12 @@ int main()
 
 	ConsoleLogger logger;
 
+	Input input;
+
 	Script s("main.lua");
 	lua::config::add(s.s);
 	lua::logger::add(&logger, s.s);
+	lua::input::add(&input, s.s);
 	s.call();
 
     int resolution_x = ConfigLoader::get_int_option("resolution_x", 200);
@@ -31,7 +34,6 @@ int main()
     sf::RenderWindow window(sf::VideoMode(resolution_x, resolution_y), "DungeonBreath");
 
     Scene *current_scene = new MainMenuScene(sf::Vector2i(resolution_x, resolution_y));
-    Input input;
 
     sf::Clock timer;
 

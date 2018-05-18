@@ -13,3 +13,5 @@ logger.info(logger.log, "hi", 5, 7)
 logger.debug(logger.log, "how")
 logger.warn(logger.log, "are")
 logger.error(logger.log, "you")
+
+logger.debug(logger.log, input.is_key_pressed(input.device, input.up));

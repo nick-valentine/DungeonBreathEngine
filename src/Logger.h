@@ -8,6 +8,7 @@
 #include <ctime>
 
 #include "ConfigLoader.h"
+#include "Script.h"
 
 class Logger
 {
@@ -34,6 +35,18 @@ protected:
 
     virtual std::string formatString(LogLevel level, const char *fmt, va_list args);
     std::string getTime();
+};
+
+namespace lua {
+	namespace logger {
+		void add(Logger *l, lua_State *s);
+		int debug(lua_State *s);
+		int info(lua_State *s);
+		int warn(lua_State *s);
+		int error(lua_State *s);
+		// log is to help the other functions, not to be added to lua
+		int log(Logger::LogLevel level, lua_State *s);
+	};
 };
 
 #endif // LOGGER_H

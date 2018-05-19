@@ -22,13 +22,15 @@ struct pain {
     Actor *attacker;
 };
 
+typedef std::shared_ptr<Tile> tile_ptr;
+
 class Actor
 {
 public:
     Actor(sf::Vector2i pos, sf::Vector2i scale);
     virtual ~Actor();
 
-	Actor(const Actor &other);
+    Actor(const Actor &other);
 
     virtual void update(int delta);
     virtual void draw(sf::RenderWindow &window);
@@ -40,36 +42,36 @@ public:
     sf::Vector2f get_velocity() const;
     void set_velocity(sf::Vector2f vel);
 
-	void set_tileset(int i);
+    void set_tileset(int i);
 
-	Tile *get_tile();
+    tile_ptr get_tile();
 
     virtual Actor *clone();
 private:
     sf::Vector2f velocity;
     sf::Rect<int> rect;
 
-	TileSet *t;
-	Tile *current_tile;
-	Input *input;
-	Logger *logger;
+    TileSet *t;
+    tile_ptr current_tile;
+    Input *input;
+    Logger *logger;
 
-	std::vector<Tile *> tileset_cache;
+    std::vector<tile_ptr> tileset_cache;
 
-	 Script s;
+     Script s;
 };
 
 namespace lua {
-	namespace actor {
-		void add(lua_State *L);
-		int get_rect(lua_State *L);
-		int get_velocity(lua_State *L);
-		int set_velocity(lua_State *L);
-		int set_tileset(lua_State *L);
-		int pause_anim(lua_State *L);
-		int play_anim(lua_State *L);
-		int reset_anim(lua_State *L);
-	};
+    namespace actor {
+        void add(lua_State *L);
+        int get_rect(lua_State *L);
+        int get_velocity(lua_State *L);
+        int set_velocity(lua_State *L);
+        int set_tileset(lua_State *L);
+        int pause_anim(lua_State *L);
+        int play_anim(lua_State *L);
+        int reset_anim(lua_State *L);
+    };
 };
 
 #endif // ACTOR_H

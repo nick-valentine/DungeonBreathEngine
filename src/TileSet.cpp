@@ -60,17 +60,17 @@ void DynamicTile::set_location(sf::Vector2i loc)
 
 void DynamicTile::play()
 {
-	anim.play();
+    anim.play();
 }
 
 void DynamicTile::pause()
 {
-	anim.pause();
+    anim.pause();
 }
 
 void DynamicTile::reset()
 {
-	anim.reset();
+    anim.reset();
 }
 
 void DynamicTile::update(int delta)
@@ -91,51 +91,50 @@ Tile *DynamicTile::clone()
 
 TileSet::TileSet(std::string def_file)
 {
-	std::string filename = TILESETDIR;
-	filename += def_file + ".txt";
-	std::ifstream ifile(filename);
-	if (!ifile.good()) {
-		throw new FileNotFoundException();
-	}
-	ifile >> this->name;
-	std::string key;
-	ifile >> key;
-	while (key != "---") {
-		if (key == "size") {
-			ifile >> base_size;
-		} else if (key == "tex") {
-			std::string tex_name = "";
-			ifile >> tex_name;
-			std::string filename = IMGDIR;
-			filename += tex_name;
-			tex = TextureMap::request(filename);
-		} else if (key == "anim_speed") {
-			ifile >> anim_speed;
-			std::cout << anim_speed << std::endl;
-		}
-		ifile >> key;
-	}
-	while (ifile.good()) {
-		std::string line;
-		std::getline(ifile, line);
-		std::stringstream ss(line + "\n");
-		int label = 0, x = 0, y = 0, width = 0, height = 0;
-		ss >> label >> x >> y >> width >> height;
-		std::vector<sf::Vector2i> positions;
-		while (ss.good()) {
-			positions.push_back(sf::Vector2i(x, y));
+    std::string filename = TILESETDIR;
+    filename += def_file + ".txt";
+    std::ifstream ifile(filename);
+    if (!ifile.good()) {
+        throw new FileNotFoundException();
+    }
+    ifile >> this->name;
+    std::string key;
+    ifile >> key;
+    while (key != "---") {
+        if (key == "size") {
+            ifile >> base_size;
+        } else if (key == "tex") {
+            std::string tex_name = "";
+            ifile >> tex_name;
+            std::string filename = IMGDIR;
+            filename += tex_name;
+            tex = TextureMap::request(filename);
+        } else if (key == "anim_speed") {
+            ifile >> anim_speed;
+        }
+        ifile >> key;
+    }
+    while (ifile.good()) {
+        std::string line;
+        std::getline(ifile, line);
+        std::stringstream ss(line + "\n");
+        int label = 0, x = 0, y = 0, width = 0, height = 0;
+        ss >> label >> x >> y >> width >> height;
+        std::vector<sf::Vector2i> positions;
+        while (ss.good()) {
+            positions.push_back(sf::Vector2i(x, y));
 
-			ss >> x >> y >> width >> height;
-		}
-		if (positions.size() == 1) {
-			auto pos = positions[0];
-			TileSet::make_static(label, pos, sf::Vector2i(width, height));
-		} else if (positions.size() > 1) {
-			TileSet::make_dynamic(label, positions, sf::Vector2i(width, height), anim_speed);
-		}
-	}
-	ifile.close();
-	
+            ss >> x >> y >> width >> height;
+        }
+        if (positions.size() == 1) {
+            auto pos = positions[0];
+            TileSet::make_static(label, pos, sf::Vector2i(width, height));
+        } else if (positions.size() > 1) {
+            TileSet::make_dynamic(label, positions, sf::Vector2i(width, height), anim_speed);
+        }
+    }
+    ifile.close();
+    
 }
 
 TileSet::TileSet(sf::Texture *tex, int base_size) : tex(tex), base_size(base_size), tiles()
@@ -144,21 +143,18 @@ TileSet::TileSet(sf::Texture *tex, int base_size) : tex(tex), base_size(base_siz
 
 TileSet::~TileSet()
 {
-    for (size_t i = 0; i < tiles.size(); ++i) {
-        delete tiles[i];
-    }
 }
 
 std::string TileSet::get_name() const
 {
-	return this->name;
+    return this->name;
 }
 
 TileType TileSet::make_static(int key, sf::Vector2i pos, sf::Vector2i size_mod)
 {
     SpriteSet ss(tex, base_size);
     auto t = ss.make_sprite(pos, size_mod);
-    tiles[key] = new StaticTile(*ss.get_sprite(t));
+    tiles[key] = std::unique_ptr<Tile>(new StaticTile(*ss.get_sprite(t)));
     return tiles.size() - 1;
 }
 
@@ -168,7 +164,7 @@ TileType TileSet::make_dynamic(int key, std::vector<sf::Vector2i> pos, sf::Vecto
     for (auto &p: pos){
         dt->add_frame(sf::IntRect(p.x, p.y, size_mod.x, size_mod.y));
     }
-    tiles[key] = dt;
+    tiles[key] = std::unique_ptr<Tile>(dt);
     return tiles.size() - 1;
 }
 

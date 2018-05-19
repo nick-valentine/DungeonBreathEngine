@@ -9,7 +9,7 @@
 #define TILESETDIR DATADIR "tilesets/"
 #define SCRIPTDIR DATADIR "scripts/"
 
-#define WINDOWS 1
-#define LINUX 0
+#define WINDOWS 0
+#define LINUX 1
 
 #endif //MACROS_H

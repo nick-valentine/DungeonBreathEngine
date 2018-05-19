@@ -20,25 +20,25 @@ typedef std::stack<StackItem> GameStack;
 
 int main()
 {
-	ConfigLoader::load();
-	std::string lang = ConfigLoader::get_string_option("language", "eng");
-	StringProvider::load(lang);
+    ConfigLoader::load();
+    std::string lang = ConfigLoader::get_string_option("language", "eng");
+    StringProvider::load(lang);
 
-	app_container.init();
-	Script s("main.lua");
-	s.call();
+    app_container.init();
+    Script s("main.lua");
+    s.call();
 
     int resolution_x = ConfigLoader::get_int_option("resolution_x", 200);
     int resolution_y = ConfigLoader::get_int_option("resolution_y", 200);
 
-	app_container.get_logger()->info("resolution: %d, %d", resolution_x, resolution_y);
+    app_container.get_logger()->info("resolution: %d, %d", resolution_x, resolution_y);
 
     const int frame_frequency = 33333; // 1/30 of a second
 
     sf::RenderWindow window(sf::VideoMode(resolution_x, resolution_y), "DungeonBreath");
 
-	GameStack stack;
-	stack.push(StackItem(new MainMenuScene(sf::Vector2i(resolution_x, resolution_y))));
+    GameStack stack;
+    stack.push(StackItem(new MainMenuScene(sf::Vector2i(resolution_x, resolution_y))));
     sf::Clock timer;
 
     int delta = 0;
@@ -59,14 +59,14 @@ int main()
             break;
         } else if (state == Scene::Status::push_scene) {
             Scene *next = stack.top()->new_scene();
-			stack.top()->reset_status();
+            stack.top()->reset_status();
             stack.push(StackItem(next));
-		} else if (state == Scene::Status::pop_scene) {
-			stack.pop();
-			if (stack.empty()) {
-				break;
-			}
-		}
+        } else if (state == Scene::Status::pop_scene) {
+            stack.pop();
+            if (stack.empty()) {
+                break;
+            }
+        }
     }
     return 0;
 }

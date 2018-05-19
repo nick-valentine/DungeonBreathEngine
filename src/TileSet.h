@@ -107,7 +107,7 @@ private:
     sf::Texture *tex;
     int base_size;
 	int anim_speed;
-    std::map<int, Tile*> tiles;
+    std::map<int, std::unique_ptr<Tile> > tiles;
 };
 
 #endif // TILESET_H

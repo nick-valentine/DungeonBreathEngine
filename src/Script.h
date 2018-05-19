@@ -4,12 +4,8 @@
 #include <string>
 
 #include "Macros.h"
-
 #include "Container.h"
-
-#include "lua/lua.h"
-#include "lua/lualib.h"
-#include "lua/lauxlib.h"
+#include "lua.h"
 
 class Script
 {

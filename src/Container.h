@@ -7,9 +7,7 @@
 #include "ConsoleLogger.h"
 #include  "Input.h"
 
-#include "lua/lua.h"
-#include "lua/lualib.h"
-#include "lua/lauxlib.h"
+#include "lua.h"
 
 // Container for global stateless services
 class Container

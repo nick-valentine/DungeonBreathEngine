@@ -28,6 +28,7 @@ public:
 
     Scene::Status status();
     Scene *new_scene();
+	void reset_status();
 private:
     void update_menu(int delta, sf::RenderWindow &window);
     void draw_menu(sf::RenderWindow &window);

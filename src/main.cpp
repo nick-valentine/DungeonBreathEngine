@@ -1,5 +1,8 @@
 #include <SFML/Graphics.hpp>
 
+#include <stack>
+#include <memory>
+
 #include "Container.h"
 #include "ConfigLoader.h"
 #include "StringProvider.h"
@@ -11,6 +14,9 @@
 Container app_container;
 
 void handleEvents(sf::RenderWindow &window);
+
+typedef std::unique_ptr<Scene> StackItem;
+typedef std::stack<StackItem> GameStack;
 
 int main()
 {
@@ -28,7 +34,8 @@ int main()
 
     sf::RenderWindow window(sf::VideoMode(resolution_x, resolution_y), "DungeonBreath");
 
-    Scene *current_scene = new MainMenuScene(sf::Vector2i(resolution_x, resolution_y));
+	GameStack stack;
+	stack.push(StackItem(new MainMenuScene(sf::Vector2i(resolution_x, resolution_y))));
     sf::Clock timer;
 
     int delta = 0;
@@ -38,23 +45,26 @@ int main()
         sf::sleep(sf::microseconds(sf::Int64(std::max(frame_frequency - float(delta), 0.0f))));
 
         handleEvents(window);
-        current_scene->update(delta, window);
+        stack.top()->update(delta, window);
 
         window.clear(sf::Color::Black);
-        current_scene->draw(window);
+        stack.top()->draw(window);
         window.display();
 
-        Scene::Status state = current_scene->status();
+        Scene::Status state = stack.top()->status();
         if (state == Scene::Status::exit_program) {
             break;
-        } else if (state == Scene::Status::switch_scene) {
-            Scene *next = current_scene->new_scene();
-            delete current_scene;
-            current_scene = next;
-        }
+        } else if (state == Scene::Status::push_scene) {
+            Scene *next = stack.top()->new_scene();
+			stack.top()->reset_status();
+            stack.push(StackItem(next));
+		} else if (state == Scene::Status::pop_scene) {
+			stack.pop();
+			if (stack.empty()) {
+				break;
+			}
+		}
     }
-
-    delete current_scene;
     return 0;
 }
 

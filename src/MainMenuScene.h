@@ -18,6 +18,7 @@ public:
 
     Scene::Status status();
     Scene *new_scene();
+	void reset_status();
 private:
     sf::View main_window;
 

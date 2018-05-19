@@ -115,7 +115,7 @@ void TileSetEditScene::update(int delta, sf::RenderWindow &window)
 void TileSetEditScene::draw(sf::RenderWindow &window)
 {
     window.draw(spr);
-    window.setView(this->main_window);
+    //window.setView(this->main_window);
     if (inner_state == editing) {
         draw_editing(window);
     } else {
@@ -195,7 +195,7 @@ void TileSetEditScene::update_menu(int delta, sf::RenderWindow &window)
         this->inner_state = editing;
     } else if (pressed == "exit_menu") {
         this->next_scene = new TileSetScene(this->size);
-        this->state = Scene::switch_scene;
+        this->state = Scene::push_scene;
     } else if (pressed == "save") {
         save_tile_set();
     }
@@ -328,4 +328,10 @@ void TileSetEditScene::delete_markers()
             --i;
         }
     }
+}
+
+void TileSetEditScene::reset_status()
+{
+	this->state = Scene::Status::nothing;
+	this->next_scene = nullptr;
 }

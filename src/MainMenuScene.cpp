@@ -23,7 +23,6 @@ MainMenuScene::MainMenuScene(sf::Vector2i size) :
 
 MainMenuScene::~MainMenuScene()
 {
-    MusicManager::stop();
 }
 
 void MainMenuScene::update(int delta, sf::RenderWindow &window)
@@ -38,19 +37,23 @@ void MainMenuScene::update(int delta, sf::RenderWindow &window)
     std::string pressed = this->menu.neg_edge_button();
     if (pressed == "play") {
         this->next_scene = new GameScene(this->size);
-        this->state = Scene::Status::switch_scene;
+        this->state = Scene::Status::push_scene;
+		MusicManager::stop();
     }
     if (pressed == "options") {
         this->next_scene = new OptionsScene(this->size);
-        this->state = Scene::Status::switch_scene;
+        this->state = Scene::Status::push_scene;
+		MusicManager::stop();
     }
     if (pressed == "tile_editor") {
         this->next_scene = new TileSetScene(this->size);
-        this->state = Scene::Status::switch_scene;
+        this->state = Scene::Status::push_scene;
+		MusicManager::stop();
     }
     if (pressed == "exit") {
         this->next_scene = nullptr;
-        this->state = Scene::Status::exit_program;
+        this->state = Scene::Status::pop_scene;
+		MusicManager::stop();
     }
 }
 
@@ -68,4 +71,10 @@ Scene::Status MainMenuScene::status()
 Scene *MainMenuScene::new_scene()
 {
     return this->next_scene;
+}
+
+void MainMenuScene::reset_status()
+{
+	this->state = Scene::Status::nothing;
+	this->next_scene = nullptr;
 }

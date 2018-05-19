@@ -50,7 +50,7 @@ void TileSetNewScene::update_menu(int delta, sf::RenderWindow &window)
     if (pressed == "proceed") {
         write_tileset_meta();
         this->next_scene = new TileSetEditScene(this->size, name.get_label());
-        this->state = Scene::Status::switch_scene;
+        this->state = Scene::Status::push_scene;
     } else if (pressed == "name") {
         pl_state = in_keyboard;
         current_button = &name;
@@ -65,7 +65,7 @@ void TileSetNewScene::update_menu(int delta, sf::RenderWindow &window)
         keyboard.set_input("");
     }else if (pressed == "back") {
         this->next_scene = new TileSetScene(size);
-        this->state = Scene::Status::switch_scene;
+        this->state = Scene::Status::push_scene;
     }
 }
 
@@ -80,7 +80,7 @@ void TileSetNewScene::draw_menu(sf::RenderWindow &window)
 void TileSetNewScene::update_keyboard(int delta, sf::RenderWindow &window)
 {
     keyboard.update(delta, window);
-    if (app_container.get_input()->is_key_pressed(Input::escape) || keyboard.status() == Scene::Status::switch_scene) {
+    if (app_container.get_input()->is_key_pressed(Input::escape) || keyboard.status() == Scene::Status::push_scene) {
         keyboard.reset_status();
 		app_container.get_logger()->info(keyboard.get_input().toAnsiString().c_str());
         current_button->set_label(keyboard.get_input());
@@ -107,4 +107,10 @@ void TileSetNewScene::write_tileset_meta()
     datafile<<"size "<<base_size.get_label().toUtf8().c_str()<<"\n";
     datafile<<"tex "<<spritesheet.get_label().toUtf8().c_str()<<"\n";
     datafile.close();
+}
+
+void TileSetNewScene::reset_status()
+{
+	this->state = Scene::Status::nothing;
+	this->next_scene = nullptr;
 }

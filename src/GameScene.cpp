@@ -1,5 +1,4 @@
 #include "GameScene.h"
-#include "MainMenuScene.h"
 
 GameScene::GameScene(sf::Vector2i size) :
     Scene(size),
@@ -12,7 +11,6 @@ GameScene::GameScene(sf::Vector2i size) :
 
 GameScene::~GameScene()
 {
-    MusicManager::stop();
 }
 
 void GameScene::update(int delta, sf::RenderWindow &window)
@@ -24,8 +22,8 @@ void GameScene::update(int delta, sf::RenderWindow &window)
     this->hero.update(delta);
     world.update(delta, window);
     if (app_container.get_input()->is_key_pressed(Input::Key::escape)) {
-        this->state = Scene::Status::switch_scene;
-        this->next_scene = new MainMenuScene(this->size);
+        this->state = Scene::Status::pop_scene;
+		MusicManager::stop();
     }
 }
 
@@ -45,4 +43,10 @@ Scene::Status GameScene::status()
 Scene *GameScene::new_scene()
 {
     return this->next_scene;
+}
+
+void GameScene::reset_status()
+{
+	this->state = Scene::Status::nothing;
+	this->next_scene = nullptr;
 }

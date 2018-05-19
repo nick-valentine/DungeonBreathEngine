@@ -54,7 +54,7 @@ void OptionsScene::update(int delta, sf::RenderWindow &window)
     if (pressed == "back") {
         ConfigLoader::save();
         this->next_scene = new MainMenuScene(this->size);
-        this->state = Scene::Status::switch_scene;
+        this->state = Scene::Status::push_scene;
     }
 
     if (pressed == "key_bind") {
@@ -140,3 +140,8 @@ void OptionsScene::set_volume()
     volume_label.set_string(volumeString);
 }
 
+void OptionsScene::reset_status()
+{
+	this->state = Scene::Status::nothing;
+	this->next_scene = nullptr;
+}

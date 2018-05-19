@@ -6,17 +6,17 @@
 #include "Scene.h"
 
 #include "MusicManager.h"
-#include "Hero.h"
+#include "Actor.h"
 #include "TileSet.h"
 #include "World.h"
 
 class GameScene : public Scene
 {
 public:
-    GameScene(sf::Vector2i size);
+    GameScene(sf::Vector2i size, Input *input, Logger *logger);
     ~GameScene();
 
-    void update(int delta, sf::RenderWindow &window, Input *input, Logger *logger);
+    void update(int delta, sf::RenderWindow &window);
     void draw(sf::RenderWindow &window);
 
     Scene::Status status();
@@ -24,7 +24,7 @@ public:
 private:
     sf::View main_window;
 
-    Hero hero;
+    Actor hero;
     World world;
 
     Scene::Status state;

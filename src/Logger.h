@@ -8,7 +8,7 @@
 #include <ctime>
 
 #include "ConfigLoader.h"
-#include "Script.h"
+#include "lua.h"
 
 class Logger
 {

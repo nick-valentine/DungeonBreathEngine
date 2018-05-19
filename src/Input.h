@@ -10,7 +10,7 @@
 #include "DeviceButton.h"
 #include "Exceptions.h"
 
-#include "Script.h"
+#include "lua.h"
 
 class Input
 {

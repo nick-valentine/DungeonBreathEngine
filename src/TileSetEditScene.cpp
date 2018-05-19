@@ -68,7 +68,7 @@ bool AnimComparator(TileMarker* i, TileMarker *j)
     return i->get_sub_label() < j->get_sub_label();
 }
 
-TileSetEditScene::TileSetEditScene(sf::Vector2i size, std::string tileset) : Scene(size),
+TileSetEditScene::TileSetEditScene(sf::Vector2i size, Input *input, Logger *logger, std::string tileset) : Scene(size, input, logger),
     state(Scene::nothing),
     next_scene(nullptr),
     inner_state(editing),
@@ -103,12 +103,12 @@ TileSetEditScene::~TileSetEditScene()
 
 }
 
-void TileSetEditScene::update(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
+void TileSetEditScene::update(int delta, sf::RenderWindow &window)
 {
     if (inner_state == editing) {
-        update_editing(delta, window, input, logger);
+        update_editing(delta, window);
     } else {
-        update_menu(delta, window, input, logger);
+        update_menu(delta, window);
     }
 }
 
@@ -133,7 +133,7 @@ Scene *TileSetEditScene::new_scene()
     return next_scene;
 }
 
-void TileSetEditScene::update_editing(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
+void TileSetEditScene::update_editing(int delta, sf::RenderWindow &window)
 {
     auto new_input = input->poll_all();
 
@@ -186,7 +186,7 @@ void TileSetEditScene::update_editing(int delta, sf::RenderWindow &window, Input
     last_input = new_input;
 }
 
-void TileSetEditScene::update_menu(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
+void TileSetEditScene::update_menu(int delta, sf::RenderWindow &window)
 {
     menu.update(delta, input, window);
     std::string pressed = this->menu.neg_edge_button();
@@ -194,7 +194,7 @@ void TileSetEditScene::update_menu(int delta, sf::RenderWindow &window, Input *i
     if (pressed == "edit") {
         this->inner_state = editing;
     } else if (pressed == "exit_menu") {
-        this->next_scene = new TileSetScene(this->size);
+        this->next_scene = new TileSetScene(this->size, this->input, this->logger);
         this->state = Scene::switch_scene;
     } else if (pressed == "save") {
         save_tile_set();

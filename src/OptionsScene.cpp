@@ -1,8 +1,8 @@
 #include "OptionsScene.h"
 #include "MainMenuScene.h"
 
-OptionsScene::OptionsScene(sf::Vector2i size) :
-    Scene(size),
+OptionsScene::OptionsScene(sf::Vector2i size, Input *input, Logger *logger) :
+    Scene(size, input, logger),
     state(Scene::Status::nothing),
     next_scene(nullptr),
     lang_label(sf::IntRect(60, 100, 300, 50), ConfigLoader::get_string_option("language", "eng")),
@@ -42,7 +42,7 @@ OptionsScene::~OptionsScene()
     MusicManager::stop();
 }
 
-void OptionsScene::update(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
+void OptionsScene::update(int delta, sf::RenderWindow &window)
 {
     if (first_loop) {
         first_loop = false;
@@ -53,7 +53,7 @@ void OptionsScene::update(int delta, sf::RenderWindow &window, Input *input, Log
     std::string pressed = this->menu.neg_edge_button();
     if (pressed == "back") {
         ConfigLoader::save();
-        this->next_scene = new MainMenuScene(this->size);
+        this->next_scene = new MainMenuScene(this->size, this->input, this->logger);
         this->state = Scene::Status::switch_scene;
     }
 

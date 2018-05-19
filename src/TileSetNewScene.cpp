@@ -2,7 +2,7 @@
 #include "TileSetScene.h"
 #include "TileSetEditScene.h"
 
-TileSetNewScene::TileSetNewScene(sf::Vector2i size) : Scene(size), keyboard(size)
+TileSetNewScene::TileSetNewScene(sf::Vector2i size, Input *input, Logger *logger) : Scene(size, input, logger), keyboard(size, input, logger)
 {
     menu.add_button("name", &name);
     menu.add_button("spritesheet", &spritesheet);
@@ -16,12 +16,12 @@ TileSetNewScene::~TileSetNewScene()
 
 }
 
-void TileSetNewScene::update(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
+void TileSetNewScene::update(int delta, sf::RenderWindow &window)
 {
     if (pl_state == in_menu) {
-        return update_menu(delta, window, input, logger);
+        return update_menu(delta, window);
     }
-    update_keyboard(delta, window, input, logger);
+    update_keyboard(delta, window);
 }
 
 void TileSetNewScene::draw(sf::RenderWindow &window)
@@ -42,14 +42,14 @@ Scene *TileSetNewScene::new_scene()
     return next_scene;
 }
 
-void TileSetNewScene::update_menu(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
+void TileSetNewScene::update_menu(int delta, sf::RenderWindow &window)
 {
     menu.update(delta, input, window);
     auto pressed = this->menu.neg_edge_button();
 
     if (pressed == "proceed") {
         write_tileset_meta();
-        this->next_scene = new TileSetEditScene(this->size, name.get_label());
+        this->next_scene = new TileSetEditScene(this->size, this->input, this->logger, name.get_label());
         this->state = Scene::Status::switch_scene;
     } else if (pressed == "name") {
         pl_state = in_keyboard;
@@ -64,7 +64,7 @@ void TileSetNewScene::update_menu(int delta, sf::RenderWindow &window, Input *in
         current_button = &base_size;
         keyboard.set_input("");
     }else if (pressed == "back") {
-        this->next_scene = new TileSetScene(size);
+        this->next_scene = new TileSetScene(size, input, logger);
         this->state = Scene::Status::switch_scene;
     }
 }
@@ -77,9 +77,9 @@ void TileSetNewScene::draw_menu(sf::RenderWindow &window)
     menu.draw(window);
 }
 
-void TileSetNewScene::update_keyboard(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
+void TileSetNewScene::update_keyboard(int delta, sf::RenderWindow &window)
 {
-    keyboard.update(delta, window, input, logger);
+    keyboard.update(delta, window);
     if (input->is_key_pressed(Input::escape) || keyboard.status() == Scene::Status::switch_scene) {
         keyboard.reset_status();
         logger->info(keyboard.get_input().toAnsiString().c_str());

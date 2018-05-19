@@ -1,11 +1,11 @@
 #include "KeyboardScene.h"
 
-KeyboardScene::KeyboardScene(sf::Vector2i size) :
-    Scene(size),
+KeyboardScene::KeyboardScene(sf::Vector2i size, Input *input, Logger *logger) :
+    Scene(size, input, logger),
     state(Scene::Status::nothing),
     next_scene(nullptr),
-    input(""),
-    input_label(sf::IntRect(50,50,300,50), input),
+    text_input(""),
+    input_label(sf::IntRect(50,50,300,50), text_input),
     current(0)
 {
     const int start_y = 100;
@@ -44,7 +44,7 @@ KeyboardScene::~KeyboardScene()
 
 }
 
-void KeyboardScene::update(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
+void KeyboardScene::update(int delta, sf::RenderWindow &window)
 {
     sf::Vector2i mouse_pos = sf::Mouse::getPosition();
     if (last_mouse_pos != mouse_pos) {
@@ -99,8 +99,8 @@ void KeyboardScene::update(int delta, sf::RenderWindow &window, Input *input, Lo
             const auto backspace = buttons.size() - 2;
             const auto back = backspace+1;
             if (i == backspace) {
-                if (this->input.getSize() > 0) {
-                    this->input.erase(this->input.getSize() - 1);
+                if (this->text_input.getSize() > 0) {
+                    this->text_input.erase(this->text_input.getSize() - 1);
                 }
             } else if (i == back) {
                 this->state = Scene::Status::switch_scene;
@@ -109,9 +109,9 @@ void KeyboardScene::update(int delta, sf::RenderWindow &window, Input *input, Lo
                 if (label == '_') {
                     label = ' ';
                 }
-                this->input += label;
+                this->text_input += label;
             }
-            this->input_label.set_string(this->input);
+            this->input_label.set_string(this->text_input);
         }
         last_pressed[i] = pressed;
     }
@@ -142,13 +142,13 @@ Scene *KeyboardScene::new_scene()
 
 void KeyboardScene::set_input(sf::String input)
 {
-    this->input = input;
-    this->input_label.set_string(this->input);
+    this->text_input = input;
+    this->input_label.set_string(this->text_input);
 }
 
 sf::String KeyboardScene::get_input()
 {
-    return this->input;
+    return this->text_input;
 }
 
 void KeyboardScene::add_button_range(char start, int count, int start_x, int start_y)

@@ -15,10 +15,10 @@
 class TileSetScene : public Scene
 {
 public:
-    TileSetScene(sf::Vector2i size);
+    TileSetScene(sf::Vector2i size, Input *input, Logger *logger);
     ~TileSetScene();
 
-    void update(int delta, sf::RenderWindow &window, Input *input, Logger *logger);
+    void update(int delta, sf::RenderWindow &window);
     void draw(sf::RenderWindow &window);
 
     Scene::Status status();

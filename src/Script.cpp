@@ -1,9 +1,13 @@
 #include "Script.h"
 
-Script::Script(std::string filename)
+Script::Script(std::string filename, Input *input, Logger *logger)
 {
+	this->name = filename;
 	s = luaL_newstate();
 	luaL_openlibs(s);
+	lua::config::add(s);
+	lua::logger::add(logger, s);
+	lua::input::add(input, s);
 	std::string full_path = SCRIPTDIR;
 	full_path += filename;
 	luaL_loadfile(s, full_path.c_str());
@@ -16,41 +20,17 @@ Script::~Script()
 
 void Script::call()
 {
-	lua_call(s, 0, 0);
+	lua_pcall(s, 0, 0, 0);
 }
 
-void lua::stacktrace(lua_State *L)
+std::string Script::get_field(std::string key)
 {
-	int top = lua_gettop(L);
-	for (int i = 1; i <= top; ++i) {
-		int t = lua_type(L, i);
-		switch (t) {
-		case LUA_TSTRING:
-			printf("`%s`", lua_tostring(L, i));
-			break;
-		case LUA_TBOOLEAN:
-			printf("%g", lua_tonumber(L, i));
-			break;
-		case LUA_TNUMBER:
-			printf("%g", lua_tonumber(L, i));
-			break;
-		default:
-			printf("%s", lua_typename(L, t));
-			break;
-		}
-		printf("  ");
+	lua_pushstring(s, key.c_str());
+	lua_gettable(s, -2);
+	if (!lua_isstring(s, -1)) {
+		lua::error(s, "value at key not string");
 	}
-	printf("\n");
-}
-
-void lua::error(lua_State *L, const char *fmt, ...)
-{
-	va_list argp;
-	va_start(argp, fmt);
-	vfprintf(stderr, fmt, argp);
-	va_end(argp);
-	printf("\n");
-	stacktrace(L);
-	lua_close(L);
-	exit(1);
+	std::string str = lua_tostring(s, -1);
+	lua_pop(s, 1);
+	return str;
 }

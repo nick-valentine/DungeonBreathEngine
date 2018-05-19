@@ -9,7 +9,7 @@
 #include <utility>
 #include <iostream>
 
-#include "Script.h"
+#include "lua.h"
 
 /**
  * Configuration Loader.

@@ -20,18 +20,18 @@ public:
         in_menu = 0,
         in_keyboard
     };
-    TileSetNewScene(sf::Vector2i size);
+    TileSetNewScene(sf::Vector2i size, Input *input, Logger *logger);
     ~TileSetNewScene();
 
-    void update(int delta, sf::RenderWindow &window, Input *input, Logger *logger);
+    void update(int delta, sf::RenderWindow &window);
     void draw(sf::RenderWindow &window);
 
     Scene::Status status();
     Scene *new_scene();
 private:
-    void update_menu(int delta, sf::RenderWindow &window, Input *input, Logger *logger);
+    void update_menu(int delta, sf::RenderWindow &window);
     void draw_menu(sf::RenderWindow &window);
-    void update_keyboard(int delta, sf::RenderWindow &window, Input *input, Logger *logger);
+    void update_keyboard(int delta, sf::RenderWindow &window);
     void draw_keyboard(sf::RenderWindow &window);
 
     void write_tileset_meta();

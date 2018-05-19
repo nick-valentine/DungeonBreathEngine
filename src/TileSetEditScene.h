@@ -46,17 +46,17 @@ public:
         editing = 0,
         in_menu
     };
-    TileSetEditScene(sf::Vector2i size, std::string tileset);
+    TileSetEditScene(sf::Vector2i size, Input *input, Logger *logger, std::string tileset);
     ~TileSetEditScene();
 
-    void update(int delta, sf::RenderWindow &window, Input *input, Logger *logger);
+    void update(int delta, sf::RenderWindow &window);
     void draw(sf::RenderWindow &window);
 
     Scene::Status status();
     Scene *new_scene();
 private:
-    void update_editing(int delta, sf::RenderWindow &window, Input *input, Logger *logger);
-    void update_menu(int delta, sf::RenderWindow &window, Input *input, Logger *logger);
+    void update_editing(int delta, sf::RenderWindow &window);
+    void update_menu(int delta, sf::RenderWindow &window);
     void draw_editing(sf::RenderWindow &window);
     void draw_menu(sf::RenderWindow &window);
 

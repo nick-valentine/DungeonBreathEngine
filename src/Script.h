@@ -2,11 +2,12 @@
 #define SCRIPT_H
 
 #include <string>
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 #include "Macros.h"
+
+#include "ConfigLoader.h"
+#include "Logger.h"
+#include  "Input.h"
 
 #include "lua/lua.h"
 #include "lua/lualib.h"
@@ -15,18 +16,17 @@
 class Script
 {
 public:
-	Script(std::string filename);
+	Script(std::string filename, Input *input, Logger *logger);
 	~Script();
 
 	void call();
+	/* assumes that the table is at the stack top */
+	std::string get_field(std::string key);
 
-
+	std::string name;
 	lua_State * s;
 };
 
-namespace lua {
-	void stacktrace(lua_State *L);
-	void error(lua_State *L, const char *fmt, ...);
-};
+
 
 #endif //SCRIPT_H

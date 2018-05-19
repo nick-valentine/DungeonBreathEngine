@@ -1,7 +1,9 @@
 #include "Hero.h"
 
-Hero::Hero(sf::Vector2i pos, sf::Vector2i scale) :
-    Actor(pos, scale),
+#if 0
+
+Hero::Hero(sf::Vector2i pos, sf::Vector2i scale, Input *input, Logger *logger) :
+    Actor(pos, scale, input, logger),
     dir(down),
     act(idle),
     walk_forwards(TextureMap::request(sprite_sheet), 2),
@@ -124,3 +126,5 @@ void Hero::change_state(Facing f, Action a)
     dir = f;
     act = a;
 }
+
+#endif

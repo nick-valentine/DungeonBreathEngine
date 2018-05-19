@@ -15,10 +15,10 @@
 class OptionsScene : public Scene
 {
 public:
-    OptionsScene(sf::Vector2i size);
+    OptionsScene(sf::Vector2i size, Input *input, Logger *logger);
     ~OptionsScene();
 
-    void update(int delta, sf::RenderWindow &window, Input *input, Logger *logger);
+    void update(int delta, sf::RenderWindow &window);
     void draw(sf::RenderWindow &window);
 
     Scene::Status status();

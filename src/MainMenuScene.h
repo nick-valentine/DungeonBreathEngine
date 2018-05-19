@@ -10,10 +10,10 @@
 class MainMenuScene : public Scene
 {
 public:
-    MainMenuScene(sf::Vector2i size);
+    MainMenuScene(sf::Vector2i size, Input *input, Logger *logger);
     ~MainMenuScene();
 
-    void update(int delta, sf::RenderWindow &window, Input *input, Logger *logger);
+    void update(int delta, sf::RenderWindow &window);
     void draw(sf::RenderWindow &window);
 
     Scene::Status status();

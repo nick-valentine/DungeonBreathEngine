@@ -19,12 +19,10 @@ int main()
 
 	ConsoleLogger logger;
 
+	// @todo: refactor logger into a container object in order to safely pass references around
 	Input input;
 
-	Script s("main.lua");
-	lua::config::add(s.s);
-	lua::logger::add(&logger, s.s);
-	lua::input::add(&input, s.s);
+	Script s("main.lua", &input, &logger);
 	s.call();
 
     int resolution_x = ConfigLoader::get_int_option("resolution_x", 200);
@@ -33,8 +31,8 @@ int main()
 
     sf::RenderWindow window(sf::VideoMode(resolution_x, resolution_y), "DungeonBreath");
 
-    Scene *current_scene = new MainMenuScene(sf::Vector2i(resolution_x, resolution_y));
-
+    Scene *current_scene = new MainMenuScene(sf::Vector2i(resolution_x, resolution_y), &input, &logger);
+	//logger.info("there");
     sf::Clock timer;
 
     int delta = 0;
@@ -44,7 +42,7 @@ int main()
         sf::sleep(sf::microseconds(sf::Int64(std::max(frame_frequency - float(delta), 0.0f))));
 
         handleEvents(window);
-        current_scene->update(delta, window, &input, &logger);
+        current_scene->update(delta, window);
 
         window.clear(sf::Color::Black);
         current_scene->draw(window);

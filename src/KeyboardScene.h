@@ -11,10 +11,10 @@
 class KeyboardScene : public Scene
 {
 public:
-    KeyboardScene(sf::Vector2i size);
+    KeyboardScene(sf::Vector2i size, Input *input, Logger *logger);
     ~KeyboardScene();
 
-    void update(int delta, sf::RenderWindow &window, Input *input, Logger *logger);
+    void update(int delta, sf::RenderWindow &window);
     void draw(sf::RenderWindow &window);
 
     void reset_status();
@@ -32,7 +32,7 @@ private:
     Scene::Status state;
     Scene *next_scene;
 
-    sf::String input;
+    sf::String text_input;
     Label input_label;
 
     bool gamepad = false;

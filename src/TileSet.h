@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <memory>
+#include <fstream>
+#include <sstream>
 
 #include "Macros.h"
 #include "TextureMap.h"
@@ -77,8 +79,10 @@ public:
     TileSet(const TileSet &&other) = delete;
     TileSet operator=(const TileSet &&other) = delete;
 
-    TileType make_static(sf::Vector2i pos, sf::Vector2i size_mod = sf::Vector2i(1,1));
-    TileType make_dynamic(std::vector<sf::Vector2i> pos, sf::Vector2i size_mod = sf::Vector2i(1,1));
+	std::string get_name() const;
+
+    TileType make_static(int key, sf::Vector2i pos, sf::Vector2i size_mod = sf::Vector2i(1,1));
+    TileType make_dynamic(int key, std::vector<sf::Vector2i> pos, sf::Vector2i size_mod = sf::Vector2i(1,1));
 
     Tile *spawn(TileType t, sf::Vector2i loc);
 
@@ -87,41 +91,10 @@ public:
         return BASE_TILE_SIZE * Tile::size();
     }
 private:
+	std::string name;
     sf::Texture *tex;
     int base_size;
-    std::vector<Tile*> tiles;
+    std::map<int, Tile*> tiles;
 };
-
-namespace TileSets {
-    enum Overworld {
-        grass_thick = 0,
-        grass_to_thick_tl,
-        grass_to_thick_tr,
-        grass_to_thick_bl,
-        grass_to_thick_br,
-        thick_to_grass_tl,
-        thick_to_grass_tr,
-        thick_to_grass_bl,
-        thick_to_grass_br,
-        thick_to_water_tl,
-        thick_to_water_tr,
-        thick_to_water_bl,
-        thick_to_water_br,
-        thick_to_water_t,
-        thick_to_water_l,
-        thick_to_water_r,
-        thick_to_water_b,
-        water_to_thick_tl,
-        water_to_thick_tr,
-        water_to_thick_bl,
-        water_to_thick_br,
-        stone,
-        wave,
-        water_circle_1,
-    };
-
-    std::unique_ptr<TileSet> overworld();
-};
-
 
 #endif // TILESET_H

@@ -2,7 +2,7 @@
 #include "TileSetScene.h"
 #include "TileSetEditScene.h"
 
-TileSetNewScene::TileSetNewScene(sf::Vector2i size, Input *input, Logger *logger) : Scene(size, input, logger), keyboard(size, input, logger)
+TileSetNewScene::TileSetNewScene(sf::Vector2i size) : Scene(size), keyboard(size)
 {
     menu.add_button("name", &name);
     menu.add_button("spritesheet", &spritesheet);
@@ -44,12 +44,12 @@ Scene *TileSetNewScene::new_scene()
 
 void TileSetNewScene::update_menu(int delta, sf::RenderWindow &window)
 {
-    menu.update(delta, input, window);
+    menu.update(delta, app_container.get_input(), window);
     auto pressed = this->menu.neg_edge_button();
 
     if (pressed == "proceed") {
         write_tileset_meta();
-        this->next_scene = new TileSetEditScene(this->size, this->input, this->logger, name.get_label());
+        this->next_scene = new TileSetEditScene(this->size, name.get_label());
         this->state = Scene::Status::switch_scene;
     } else if (pressed == "name") {
         pl_state = in_keyboard;
@@ -64,7 +64,7 @@ void TileSetNewScene::update_menu(int delta, sf::RenderWindow &window)
         current_button = &base_size;
         keyboard.set_input("");
     }else if (pressed == "back") {
-        this->next_scene = new TileSetScene(size, input, logger);
+        this->next_scene = new TileSetScene(size);
         this->state = Scene::Status::switch_scene;
     }
 }
@@ -80,9 +80,9 @@ void TileSetNewScene::draw_menu(sf::RenderWindow &window)
 void TileSetNewScene::update_keyboard(int delta, sf::RenderWindow &window)
 {
     keyboard.update(delta, window);
-    if (input->is_key_pressed(Input::escape) || keyboard.status() == Scene::Status::switch_scene) {
+    if (app_container.get_input()->is_key_pressed(Input::escape) || keyboard.status() == Scene::Status::switch_scene) {
         keyboard.reset_status();
-        logger->info(keyboard.get_input().toAnsiString().c_str());
+		app_container.get_logger()->info(keyboard.get_input().toAnsiString().c_str());
         current_button->set_label(keyboard.get_input());
         pl_state = in_menu;
     }

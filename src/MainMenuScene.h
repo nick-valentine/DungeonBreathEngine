@@ -10,7 +10,7 @@
 class MainMenuScene : public Scene
 {
 public:
-    MainMenuScene(sf::Vector2i size, Input *input, Logger *logger);
+    MainMenuScene(sf::Vector2i size);
     ~MainMenuScene();
 
     void update(int delta, sf::RenderWindow &window);

@@ -2,8 +2,8 @@
 
 #define TABLENAME "me"
 
-Actor::Actor(sf::Vector2i pos, sf::Vector2i scale, Input *input, Logger *logger) :
-	s("hero.lua", input, logger), t(nullptr), current_tile(nullptr),
+Actor::Actor(sf::Vector2i pos, sf::Vector2i scale) :
+	s("hero.lua"), t(nullptr), current_tile(nullptr),
 	input(input), logger(logger), tileset_cache()
 {
 	this->rect = sf::Rect<int>(pos.x, pos.y, scale.x, scale.y);
@@ -34,7 +34,7 @@ Actor::~Actor()
 }
 
 Actor::Actor(const Actor &other) :
-	s(other.s.name, other.input, other.logger), rect(other.rect),
+	s(other.s.name), rect(other.rect),
 	velocity(other.velocity), input(other.input), logger(other.logger),
 	tileset_cache()
 {
@@ -42,7 +42,7 @@ Actor::Actor(const Actor &other) :
 	this->current_tile = this->t->spawn(0, sf::Vector2i(this->rect.left, this->rect.top));
 }
 
-void Actor::update(int delta, Input *input, Logger *logger)
+void Actor::update(int delta)
 {
 	lua_getglobal(s.s, TABLENAME);
 	if (!lua_istable(s.s, -1)) {

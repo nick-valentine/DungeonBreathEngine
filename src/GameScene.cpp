@@ -1,10 +1,9 @@
 #include "GameScene.h"
 #include "MainMenuScene.h"
-#include <iostream>
 
-GameScene::GameScene(sf::Vector2i size, Input *input, Logger *logger) :
-    Scene(size, input, logger),
-    hero(sf::Vector2i(100, 100), sf::Vector2i(4, 4), input, logger),
+GameScene::GameScene(sf::Vector2i size) :
+    Scene(size),
+    hero(sf::Vector2i(100, 100), sf::Vector2i(4, 4)),
     world(std::unique_ptr<TileSet>(new TileSet("overworld")), std::unique_ptr<WorldGenerator>(new WorldLoader(LEVELDIR "demo.txt"))),
     state(Scene::Status::nothing)
 {
@@ -22,17 +21,18 @@ void GameScene::update(int delta, sf::RenderWindow &window)
         first_loop = false;
         MusicManager::play(MusicManager::Song::playing_game);
     }
-    this->hero.update(delta, input, logger);
-    world.update(delta, window, input, logger);
-    if (input->is_key_pressed(Input::Key::escape)) {
+    this->hero.update(delta);
+    world.update(delta, window);
+    if (app_container.get_input()->is_key_pressed(Input::Key::escape)) {
         this->state = Scene::Status::switch_scene;
-        this->next_scene = new MainMenuScene(this->size, this->input, this->logger);
+        this->next_scene = new MainMenuScene(this->size);
     }
 }
 
 void GameScene::draw(sf::RenderWindow &window)
 {
-    window.setView(this->main_window);
+	app_container.get_logger()->info("drawing game");
+    //window.setView(this->main_window);
     world.draw(window);
     this->hero.draw(window);
 }

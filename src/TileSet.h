@@ -106,6 +106,7 @@ private:
 	std::string name;
     sf::Texture *tex;
     int base_size;
+	int anim_speed;
     std::map<int, Tile*> tiles;
 };
 

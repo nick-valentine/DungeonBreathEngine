@@ -1,7 +1,5 @@
 #include "TileSet.h"
 
-#define NUM_VALUEPAIRS 2
-
 StaticTile::StaticTile(sf::Sprite sprite) : Tile()
 {
     this->sprite = sprite;
@@ -101,8 +99,8 @@ TileSet::TileSet(std::string def_file)
 	}
 	ifile >> this->name;
 	std::string key;
-	for (int i = 0; i < NUM_VALUEPAIRS; ++i) {
-		ifile >> key;
+	ifile >> key;
+	while (key != "---") {
 		if (key == "size") {
 			ifile >> base_size;
 		} else if (key == "tex") {
@@ -111,7 +109,11 @@ TileSet::TileSet(std::string def_file)
 			std::string filename = IMGDIR;
 			filename += tex_name;
 			tex = TextureMap::request(filename);
+		} else if (key == "anim_speed") {
+			ifile >> anim_speed;
+			std::cout << anim_speed << std::endl;
 		}
+		ifile >> key;
 	}
 	while (ifile.good()) {
 		std::string line;
@@ -129,7 +131,7 @@ TileSet::TileSet(std::string def_file)
 			auto pos = positions[0];
 			TileSet::make_static(label, pos, sf::Vector2i(width, height));
 		} else if (positions.size() > 1) {
-			TileSet::make_dynamic(label, positions, sf::Vector2i(width, height), 1);
+			TileSet::make_dynamic(label, positions, sf::Vector2i(width, height), anim_speed);
 		}
 	}
 	ifile.close();

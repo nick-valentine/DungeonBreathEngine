@@ -6,10 +6,10 @@
 #include <string>
 #include <vector>
 
-#include "Logger.h"
+#include "Container.h"
+
 #include "TextureMap.h"
 #include "TileSet.h"
-#include "Input.h"
 
 #include "lua.h"
 #include "Script.h"
@@ -25,12 +25,12 @@ struct pain {
 class Actor
 {
 public:
-    Actor(sf::Vector2i pos, sf::Vector2i scale, Input *input, Logger *logger);
+    Actor(sf::Vector2i pos, sf::Vector2i scale);
     virtual ~Actor();
 
 	Actor(const Actor &other);
 
-    virtual void update(int delta, Input *input, Logger *logger);
+    virtual void update(int delta);
     virtual void draw(sf::RenderWindow &window);
     virtual void hurt(pain p);
 

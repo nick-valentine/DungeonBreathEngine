@@ -5,9 +5,7 @@
 
 #include "Macros.h"
 
-#include "ConfigLoader.h"
-#include "Logger.h"
-#include  "Input.h"
+#include "Container.h"
 
 #include "lua/lua.h"
 #include "lua/lualib.h"
@@ -16,7 +14,7 @@
 class Script
 {
 public:
-	Script(std::string filename, Input *input, Logger *logger);
+	Script(std::string filename);
 	~Script();
 
 	void call();

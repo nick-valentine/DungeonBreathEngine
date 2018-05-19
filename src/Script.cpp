@@ -1,13 +1,11 @@
 #include "Script.h"
 
-Script::Script(std::string filename, Input *input, Logger *logger)
+Script::Script(std::string filename)
 {
 	this->name = filename;
 	s = luaL_newstate();
 	luaL_openlibs(s);
-	lua::config::add(s);
-	lua::logger::add(logger, s);
-	lua::input::add(input, s);
+	lua::container::add(s);
 	std::string full_path = SCRIPTDIR;
 	full_path += filename;
 	luaL_loadfile(s, full_path.c_str());

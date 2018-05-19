@@ -170,6 +170,7 @@ int lua::config::set(lua_State *L)
 	} else {
 		error(L, "config.set arg 2 not int or string");
 	}
+	return -1;
 }
 
 int lua::config::save(lua_State *L)

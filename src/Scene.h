@@ -17,7 +17,7 @@ public:
         switch_scene
     };
 
-    Scene(sf::Vector2i size, Input *input, Logger *logger);
+    Scene(sf::Vector2i size);
     virtual ~Scene() = default;
 
     virtual void update(int delta, sf::RenderWindow &window) = 0;
@@ -27,8 +27,6 @@ public:
     virtual Scene *new_scene() = 0;
 protected:
     sf::Vector2i size;
-	Input *input;
-	Logger *logger;
 };
 
 #endif // SCENE_H

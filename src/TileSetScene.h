@@ -15,7 +15,7 @@
 class TileSetScene : public Scene
 {
 public:
-    TileSetScene(sf::Vector2i size, Input *input, Logger *logger);
+    TileSetScene(sf::Vector2i size);
     ~TileSetScene();
 
     void update(int delta, sf::RenderWindow &window);

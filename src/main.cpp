@@ -1,28 +1,25 @@
 #include <SFML/Graphics.hpp>
 
+#include "Container.h"
 #include "ConfigLoader.h"
 #include "StringProvider.h"
-#include "ConsoleLogger.h"
-#include "Hero.h"
 #include "Scene.h"
-#include "Input.h"
 #include "MainMenuScene.h"
 #include "Script.h"
+
+// Global container instance
+Container app_container;
 
 void handleEvents(sf::RenderWindow &window);
 
 int main()
 {
-    ConfigLoader::load();
-    sf::String lang = ConfigLoader::get_string_option("language", "eng");
-    StringProvider::load(lang);
+	ConfigLoader::load();
+	std::string lang = ConfigLoader::get_string_option("language", "eng");
+	StringProvider::load(lang);
 
-	ConsoleLogger logger;
-
-	// @todo: refactor logger into a container object in order to safely pass references around
-	Input input;
-
-	Script s("main.lua", &input, &logger);
+	app_container.init();
+	Script s("main.lua");
 	s.call();
 
     int resolution_x = ConfigLoader::get_int_option("resolution_x", 200);
@@ -31,8 +28,7 @@ int main()
 
     sf::RenderWindow window(sf::VideoMode(resolution_x, resolution_y), "DungeonBreath");
 
-    Scene *current_scene = new MainMenuScene(sf::Vector2i(resolution_x, resolution_y), &input, &logger);
-	//logger.info("there");
+    Scene *current_scene = new MainMenuScene(sf::Vector2i(resolution_x, resolution_y));
     sf::Clock timer;
 
     int delta = 0;

@@ -3,7 +3,7 @@
 #include "TileSetNewScene.h"
 #include "MainMenuScene.h"
 
-TileSetScene::TileSetScene(sf::Vector2i size, Input *input, Logger *logger) : Scene(size, input, logger),
+TileSetScene::TileSetScene(sf::Vector2i size) : Scene(size),
     state(Scene::nothing),
     next_scene(nullptr),
     new_set(sf::IntRect(size.x - 400, size.y - 160, 300, 50), StringProvider::get("tilesetmenu.new")),
@@ -43,17 +43,17 @@ TileSetScene::~TileSetScene()
 
 void TileSetScene::update(int delta, sf::RenderWindow &window)
 {
-    menu.update(delta, input, window);
+    menu.update(delta, app_container.get_input(), window);
     std::string pressed = this->menu.neg_edge_button();
 
     if (pressed == "exit_menu") {
-        this->next_scene = new MainMenuScene(this->size, this->input, this->logger);
+        this->next_scene = new MainMenuScene(this->size);
         this->state = Scene::Status::switch_scene;
     } else if (pressed == "new") {
-        this->next_scene = new TileSetNewScene(this->size, this->input, this->logger);
+        this->next_scene = new TileSetNewScene(this->size);
         this->state = Scene::Status::switch_scene;
     } else if (pressed != "") {
-        this->next_scene = new TileSetEditScene(this->size, this->input, this->logger, pressed);
+        this->next_scene = new TileSetEditScene(this->size, pressed);
         this->state = Scene::Status::switch_scene;
     }
 }

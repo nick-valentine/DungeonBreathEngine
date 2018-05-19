@@ -68,7 +68,7 @@ bool AnimComparator(TileMarker* i, TileMarker *j)
     return i->get_sub_label() < j->get_sub_label();
 }
 
-TileSetEditScene::TileSetEditScene(sf::Vector2i size, Input *input, Logger *logger, std::string tileset) : Scene(size, input, logger),
+TileSetEditScene::TileSetEditScene(sf::Vector2i size, std::string tileset) : Scene(size),
     state(Scene::nothing),
     next_scene(nullptr),
     inner_state(editing),
@@ -135,7 +135,7 @@ Scene *TileSetEditScene::new_scene()
 
 void TileSetEditScene::update_editing(int delta, sf::RenderWindow &window)
 {
-    auto new_input = input->poll_all();
+    auto new_input = app_container.get_input()->poll_all();
 
     if (new_input[Input::alt_fire]) {
         // alt fire puts into resize mode
@@ -188,13 +188,13 @@ void TileSetEditScene::update_editing(int delta, sf::RenderWindow &window)
 
 void TileSetEditScene::update_menu(int delta, sf::RenderWindow &window)
 {
-    menu.update(delta, input, window);
+    menu.update(delta, app_container.get_input(), window);
     std::string pressed = this->menu.neg_edge_button();
 
     if (pressed == "edit") {
         this->inner_state = editing;
     } else if (pressed == "exit_menu") {
-        this->next_scene = new TileSetScene(this->size, this->input, this->logger);
+        this->next_scene = new TileSetScene(this->size);
         this->state = Scene::switch_scene;
     } else if (pressed == "save") {
         save_tile_set();
@@ -238,7 +238,19 @@ void TileSetEditScene::load_tile_set()
     if (!ifile.good()) {
         throw FileNotFoundException();
     }
-    ifile>>name>>size_key>>base_size>>texture_key>>texture_name;
+	ifile >> name;
+	std::string key;
+	ifile >> key;
+	while (key != "---") {
+		if (key == "size") {
+			ifile >> base_size;
+		} else if (key == "tex") {
+			ifile >> texture_name;
+		} else if (key == "anim_speed") {
+			ifile >> anim_speed;
+		}
+		ifile >> key;
+	}
     while (ifile.good()) {
         std::string line;
         std::getline(ifile, line);
@@ -271,6 +283,8 @@ void TileSetEditScene::save_tile_set()
     ofile<<tileset<<"\n";
     ofile<<"size "<<base_size<<"\n";
     ofile<<"tex "<<texture_name<<"\n";
+	ofile << "anim_speed " << 1 << "\n"; //@todo: implement
+	ofile << "---\n";
     std::vector<bool> written_ids(markers.size(), false);
     for (const auto &i : markers) {
         auto label = i.get_label();

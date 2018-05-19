@@ -1,7 +1,7 @@
 #include "KeyboardScene.h"
 
-KeyboardScene::KeyboardScene(sf::Vector2i size, Input *input, Logger *logger) :
-    Scene(size, input, logger),
+KeyboardScene::KeyboardScene(sf::Vector2i size) :
+    Scene(size),
     state(Scene::Status::nothing),
     next_scene(nullptr),
     text_input(""),
@@ -55,28 +55,28 @@ void KeyboardScene::update(int delta, sf::RenderWindow &window)
     }
     last_mouse_pos = mouse_pos;
 
-    auto down = input->is_key_pressed(input->down);
+    auto down = app_container.get_input()->is_key_pressed(app_container.get_input()->down);
     if (down && !last_down) {
         gamepad = true;
         current = std::min(current + full_width, int(buttons.size()) - 1);
     }
     last_down = down;
 
-    auto up = input->is_key_pressed(input->up);
+    auto up = app_container.get_input()->is_key_pressed(app_container.get_input()->up);
     if (up && !last_up) {
         gamepad = true;
         current = std::max(current - full_width, 0);
     }
     last_up = up;
 
-    auto left = input->is_key_pressed(input->left);
+    auto left = app_container.get_input()->is_key_pressed(app_container.get_input()->left);
     if (left&& !last_left) {
         gamepad = true;
         current = std::max(current - 1, 0);
     }
     last_left = left;
 
-    auto right = input->is_key_pressed(input->right);
+    auto right = app_container.get_input()->is_key_pressed(app_container.get_input()->right);
     if (right && !last_right) {
         gamepad = true;
         current = std::min(current + 1, int(buttons.size()) - 1);
@@ -92,7 +92,7 @@ void KeyboardScene::update(int delta, sf::RenderWindow &window)
     }
 
     for (size_t i = 0; i < buttons.size(); ++i) {
-        buttons[i].update(delta, input, window);
+        buttons[i].update(delta, app_container.get_input(), window);
 
         auto pressed = buttons[i].pressed();
         if (!pressed && last_pressed[i]) {

@@ -3,8 +3,8 @@
 #include "OptionsScene.h"
 #include "TileSetScene.h"
 
-MainMenuScene::MainMenuScene(sf::Vector2i size, Input *input, Logger *logger) :
-    Scene(size, input, logger),
+MainMenuScene::MainMenuScene(sf::Vector2i size) :
+    Scene(size),
     state(Scene::Status::nothing),
     next_scene(nullptr),
     tile_editor_button(sf::Rect<int>(10, size.y - 280, 300, 50), StringProvider::get("mainmenu.tile_editor_button")),
@@ -33,19 +33,19 @@ void MainMenuScene::update(int delta, sf::RenderWindow &window)
         MusicManager::play(MusicManager::Song::main_menu);
     }
 
-    this->menu.update(delta, input, window);
+    this->menu.update(delta, app_container.get_input(), window);
     
     std::string pressed = this->menu.neg_edge_button();
     if (pressed == "play") {
-        this->next_scene = new GameScene(this->size, this->input, this->logger);
+        this->next_scene = new GameScene(this->size);
         this->state = Scene::Status::switch_scene;
     }
     if (pressed == "options") {
-        this->next_scene = new OptionsScene(this->size, this->input, this->logger);
+        this->next_scene = new OptionsScene(this->size);
         this->state = Scene::Status::switch_scene;
     }
     if (pressed == "tile_editor") {
-        this->next_scene = new TileSetScene(this->size, this->input, this->logger);
+        this->next_scene = new TileSetScene(this->size);
         this->state = Scene::Status::switch_scene;
     }
     if (pressed == "exit") {

@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "Container.h"
+
 #include "StringProvider.h"
 #include "Scene.h"
 #include "KeyButton.h"
@@ -11,7 +13,7 @@
 class KeyboardScene : public Scene
 {
 public:
-    KeyboardScene(sf::Vector2i size, Input *input, Logger *logger);
+    KeyboardScene(sf::Vector2i size);
     ~KeyboardScene();
 
     void update(int delta, sf::RenderWindow &window);

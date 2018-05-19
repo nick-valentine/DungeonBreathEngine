@@ -5,10 +5,10 @@ std::map<std::string, sf::String> StringProvider::strings;
 void StringProvider::load(std::string lang)
 {
     strings.clear();
-    auto p = sf::String("./GameData/lang/") 
-        + sf::String(lang) 
-        + sf::String(".txt");
-    std::ifstream ifile(p.toAnsiString().c_str());
+	std::string p("./GameData/lang/");
+	p += lang;
+    p += ".txt";
+    std::ifstream ifile(p.c_str());
     while (ifile.good()) {
         std::string line;
         std::getline(ifile, line);

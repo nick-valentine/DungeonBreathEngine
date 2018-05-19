@@ -1,8 +1,8 @@
 #include "OptionsScene.h"
 #include "MainMenuScene.h"
 
-OptionsScene::OptionsScene(sf::Vector2i size, Input *input, Logger *logger) :
-    Scene(size, input, logger),
+OptionsScene::OptionsScene(sf::Vector2i size) :
+    Scene(size),
     state(Scene::Status::nothing),
     next_scene(nullptr),
     lang_label(sf::IntRect(60, 100, 300, 50), ConfigLoader::get_string_option("language", "eng")),
@@ -48,17 +48,17 @@ void OptionsScene::update(int delta, sf::RenderWindow &window)
         first_loop = false;
         MusicManager::play(MusicManager::Song::main_menu);
     }
-    this->menu.update(delta, input, window);
+    this->menu.update(delta, app_container.get_input(), window);
     
     std::string pressed = this->menu.neg_edge_button();
     if (pressed == "back") {
         ConfigLoader::save();
-        this->next_scene = new MainMenuScene(this->size, this->input, this->logger);
+        this->next_scene = new MainMenuScene(this->size);
         this->state = Scene::Status::switch_scene;
     }
 
     if (pressed == "key_bind") {
-        logger->info("todo: implement key bind state");
+		app_container.get_logger()->info("todo: implement key bind state");
     }
 
     if (pressed == "lang_left") {

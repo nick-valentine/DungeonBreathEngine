@@ -5,6 +5,7 @@
 
 #include "Scene.h"
 
+#include "Container.h"
 #include "MusicManager.h"
 #include "Actor.h"
 #include "TileSet.h"
@@ -13,7 +14,7 @@
 class GameScene : public Scene
 {
 public:
-    GameScene(sf::Vector2i size, Input *input, Logger *logger);
+    GameScene(sf::Vector2i size);
     ~GameScene();
 
     void update(int delta, sf::RenderWindow &window);

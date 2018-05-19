@@ -4,6 +4,8 @@
 #include <fstream>
 #include <stdlib.h>
 
+#include "Container.h"
+
 #include "StringProvider.h"
 #include "MusicManager.h"
 #include "Scene.h"
@@ -15,7 +17,7 @@
 class OptionsScene : public Scene
 {
 public:
-    OptionsScene(sf::Vector2i size, Input *input, Logger *logger);
+    OptionsScene(sf::Vector2i size);
     ~OptionsScene();
 
     void update(int delta, sf::RenderWindow &window);

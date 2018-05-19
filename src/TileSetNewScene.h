@@ -20,7 +20,7 @@ public:
         in_menu = 0,
         in_keyboard
     };
-    TileSetNewScene(sf::Vector2i size, Input *input, Logger *logger);
+    TileSetNewScene(sf::Vector2i size);
     ~TileSetNewScene();
 
     void update(int delta, sf::RenderWindow &window);

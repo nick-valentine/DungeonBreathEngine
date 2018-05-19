@@ -36,14 +36,14 @@ std::string Logger::formatString(LogLevel level, const char *fmt, va_list args)
 
 std::string Logger::getTime()
 {
-    char buffer[80];
-    time_t rawTime;
-    struct tm *timeInfo;
-    timeInfo = localtime(&rawTime);
-
-    strftime(buffer, sizeof(buffer), "%d-%m-%Y %I:%M:%S", timeInfo);
-    std::string time = buffer;
-    return time;
+//    char buffer[80];
+//    time_t rawTime;
+//    struct tm *timeInfo;
+//    timeInfo = localtime(&rawTime);
+//    strftime(buffer, sizeof(buffer), "%d-%m-%Y %I:%M:%S", timeInfo);
+//    std::string time = buffer;
+//    return time;
+	return "";
 }
 
 void lua::logger::add(Logger *l, lua_State *S)

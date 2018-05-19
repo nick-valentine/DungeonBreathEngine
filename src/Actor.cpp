@@ -97,7 +97,7 @@ void Actor::set_tileset(int i)
         current_tile = tileset_cache[i];
         return;
     }
-    while (tileset_cache.size() < i) {
+    while (tileset_cache.size() < i+1) {
         tileset_cache.push_back(tile_ptr());
     }
     tileset_cache[i].reset(t->spawn(i, sf::Vector2i(rect.left, rect.top)));

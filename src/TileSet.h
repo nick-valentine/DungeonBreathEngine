@@ -37,7 +37,7 @@ protected:
 class DynamicTile : public Tile
 {
 public:
-    DynamicTile(sf::Texture *tex, sf::Vector2i size_mod = sf::Vector2i(1,1));
+    DynamicTile(sf::Texture *tex, sf::Vector2i size_mod = sf::Vector2i(1,1), int anim_speed = 1, int base_size = 16);
     void add_frame(sf::IntRect pos);
 
     void set_location(sf::Vector2i loc);
@@ -82,7 +82,7 @@ public:
 	std::string get_name() const;
 
     TileType make_static(int key, sf::Vector2i pos, sf::Vector2i size_mod = sf::Vector2i(1,1));
-    TileType make_dynamic(int key, std::vector<sf::Vector2i> pos, sf::Vector2i size_mod = sf::Vector2i(1,1));
+    TileType make_dynamic(int key, std::vector<sf::Vector2i> pos, sf::Vector2i size_mod = sf::Vector2i(1,1), int anim_speed = 1);
 
     Tile *spawn(TileType t, sf::Vector2i loc);
 

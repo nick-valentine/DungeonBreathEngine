@@ -1,7 +1,7 @@
 #include "Animation.h"
 
-Animation::Animation(sf::Texture *tex, int anim_speed) :
-    frames(tex), anim_speed(anim_speed * base_speed)
+Animation::Animation(sf::Texture *tex, int anim_speed, int base_size) :
+    frames(tex, base_size), anim_speed(anim_speed * base_speed)
 {
 
 }

@@ -15,7 +15,7 @@ public:
         paused
     };
 
-    Animation(sf::Texture *tex, int anim_speed = 1);
+    Animation(sf::Texture *tex, int anim_speed = 1, int base_size = 16);
     void add_sprite(sf::IntRect pos);
 
     void play();

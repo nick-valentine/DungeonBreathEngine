@@ -29,8 +29,8 @@ Tile *StaticTile::clone()
     return temp;
 }
 
-DynamicTile::DynamicTile(sf::Texture *tex, sf::Vector2i size_mod) : 
-    Tile(), anim(tex), loc(sf::Vector2i(0,0)), size_mod(size_mod)
+DynamicTile::DynamicTile(sf::Texture *tex, sf::Vector2i size_mod, int anim_speed, int base_size) : 
+    Tile(), anim(tex, anim_speed, base_size), loc(sf::Vector2i(0,0)), size_mod(size_mod)
 {
 
 }
@@ -89,31 +89,17 @@ TileSet::TileSet(std::string def_file)
 		std::stringstream ss(line + "\n");
 		int label = 0, x = 0, y = 0, width = 0, height = 0;
 		ss >> label >> x >> y >> width >> height;
-		std::vector<sf::IntRect> positions;
+		std::vector<sf::Vector2i> positions;
 		while (ss.good()) {
-			positions.push_back(sf::IntRect(x, y, width, height));
+			positions.push_back(sf::Vector2i(x, y));
 
 			ss >> x >> y >> width >> height;
 		}
 		if (positions.size() == 1) {
 			auto pos = positions[0];
-			sf::Sprite temp;
-			temp.setTexture(*tex);
-			temp.setTextureRect(sf::IntRect(
-				pos.left * base_size,
-				pos.top * base_size,
-				base_size * pos.width,
-				base_size * pos.height
-			));
-			tiles[label] = new StaticTile(temp);
+			TileSet::make_static(label, pos, sf::Vector2i(width, height));
 		} else if (positions.size() > 1) {
-			auto size_mod_x = positions[0].width;
-			auto size_mod_y = positions[0].height;
-			auto temp = new DynamicTile(tex, sf::Vector2i(size_mod_x, size_mod_y));
-			for (const auto &pos : positions) {
-				temp->add_frame(pos);
-			}
-			tiles[label] = temp;
+			TileSet::make_dynamic(label, positions, sf::Vector2i(width, height), 1);
 		}
 	}
 	ifile.close();
@@ -144,9 +130,9 @@ TileType TileSet::make_static(int key, sf::Vector2i pos, sf::Vector2i size_mod)
     return tiles.size() - 1;
 }
 
-TileType TileSet::make_dynamic(int key, std::vector<sf::Vector2i> pos, sf::Vector2i size_mod)
+TileType TileSet::make_dynamic(int key, std::vector<sf::Vector2i> pos, sf::Vector2i size_mod, int anim_speed)
 {
-    DynamicTile *dt = new DynamicTile(tex, size_mod);
+    DynamicTile *dt = new DynamicTile(tex, size_mod, anim_speed, this->base_size);
     for (auto &p: pos){
         dt->add_frame(sf::IntRect(p.x, p.y, size_mod.x, size_mod.y));
     }

@@ -28,6 +28,9 @@ Actor::~Actor()
 {
 	delete t;
 	delete current_tile;
+	for (size_t i = 0; i < tileset_cache.size(); ++i) {
+		delete tileset_cache[i];
+	}
 }
 
 Actor::Actor(const Actor &other) :
@@ -106,6 +109,12 @@ void Actor::set_tileset(int i)
 		tileset_cache.push_back(nullptr);
 	}
 	tileset_cache[i] = t->spawn(i, sf::Vector2i(rect.left, rect.top));
+	current_tile = tileset_cache[i];
+}
+
+Tile *Actor::get_tile()
+{
+	return this->current_tile;
 }
 
 Actor *Actor::clone() 
@@ -120,6 +129,9 @@ void lua::actor::add(lua_State *L)
 		{ "get_velocity", get_velocity },
 		{ "set_velocity", set_velocity },
 		{ "set_tileset", set_tileset },
+		{ "pause_anim", pause_anim },
+		{ "play_anim", play_anim },
+		{ "reset_anim", reset_anim },
 		{ NULL, NULL }
 	};
 	lua_getglobal(L, "actor");
@@ -173,5 +185,32 @@ int lua::actor::set_velocity(lua_State *L)
 
 int lua::actor::set_tileset(lua_State *L)
 {
+	auto a = (Actor *)lua_touserdata(L, -2);
+	if (!lua_isnumber(L, -1)) {
+		lua::error(L, "param 1 not number");
+	}
+	auto i = (int) lua_tonumber(L, -1);
+	a->set_tileset(i);
+	return 0;
+}
+
+int lua::actor::pause_anim(lua_State *L)
+{
+	auto a = (Actor *)lua_touserdata(L, -1);
+	a->get_tile()->pause();
+	return 0;
+}
+
+int lua::actor::play_anim(lua_State *L)
+{
+	auto a = (Actor *)lua_touserdata(L, -1);
+	a->get_tile()->play();
+	return 0;
+}
+
+int lua::actor::reset_anim(lua_State *L)
+{
+	auto a = (Actor *)lua_touserdata(L, -1);
+	a->get_tile()->reset();
 	return 0;
 }

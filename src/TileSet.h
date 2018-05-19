@@ -22,6 +22,10 @@ public:
     virtual void set_location(sf::Vector2i loc) = 0;
     virtual ~Tile() = default;
 
+	virtual void play() = 0;
+	virtual void pause() = 0;
+	virtual void reset() = 0;
+
     virtual void update(int delta) = 0;
     virtual void draw(sf::RenderWindow &window) = 0;
 
@@ -42,6 +46,10 @@ public:
 
     void set_location(sf::Vector2i loc);
 
+	virtual void play();
+	virtual void pause();
+	virtual void reset();
+
     void update(int delta);
     void draw(sf::RenderWindow &window);
 
@@ -58,6 +66,10 @@ public:
     StaticTile(sf::Sprite sprite);
 
     void set_location(sf::Vector2i loc);
+
+	virtual void play();
+	virtual void pause();
+	virtual void reset();
 
     void update(int delta);
     void draw(sf::RenderWindow &window);

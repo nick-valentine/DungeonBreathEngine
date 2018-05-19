@@ -42,6 +42,8 @@ public:
 
 	void set_tileset(int i);
 
+	Tile *get_tile();
+
     virtual Actor *clone();
 private:
     sf::Vector2f velocity;
@@ -64,6 +66,9 @@ namespace lua {
 		int get_velocity(lua_State *L);
 		int set_velocity(lua_State *L);
 		int set_tileset(lua_State *L);
+		int pause_anim(lua_State *L);
+		int play_anim(lua_State *L);
+		int reset_anim(lua_State *L);
 	};
 };
 

@@ -13,6 +13,21 @@ void StaticTile::set_location(sf::Vector2i loc)
     this->sprite.setPosition(loc.x, loc.y);
 }
 
+void StaticTile::play()
+{
+
+}
+
+void StaticTile::pause()
+{
+
+}
+
+void StaticTile::reset()
+{
+
+}
+
 void StaticTile::update(int delta)
 {
 
@@ -43,6 +58,21 @@ void DynamicTile::add_frame(sf::IntRect pos)
 void DynamicTile::set_location(sf::Vector2i loc)
 {
     this->loc = loc;
+}
+
+void DynamicTile::play()
+{
+	anim.play();
+}
+
+void DynamicTile::pause()
+{
+	anim.pause();
+}
+
+void DynamicTile::reset()
+{
+	anim.reset();
 }
 
 void DynamicTile::update(int delta)

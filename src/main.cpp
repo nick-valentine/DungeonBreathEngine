@@ -30,6 +30,9 @@ int main()
 
     int resolution_x = ConfigLoader::get_int_option("resolution_x", 200);
     int resolution_y = ConfigLoader::get_int_option("resolution_y", 200);
+
+	app_container.get_logger()->info("resolution: %d, %d", resolution_x, resolution_y);
+
     const int frame_frequency = 33333; // 1/30 of a second
 
     sf::RenderWindow window(sf::VideoMode(resolution_x, resolution_y), "DungeonBreath");

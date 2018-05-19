@@ -1,5 +1,7 @@
 #include "GameScene.h"
 
+#define CAMERA_LAG 10.0
+
 GameScene::GameScene(sf::Vector2i size) :
     Scene(size),
     hero(sf::Vector2i(100, 100), sf::Vector2i(4, 4)),
@@ -25,12 +27,24 @@ void GameScene::update(int delta, sf::RenderWindow &window)
         this->state = Scene::Status::pop_scene;
 		MusicManager::stop();
     }
+
+	auto camera_center = this->main_window.getCenter();
+	auto target_camera_center = this->hero.get_rect();
+	target_camera_center.left = target_camera_center.left + (target_camera_center.width / 2);
+	target_camera_center.top = target_camera_center.top + (target_camera_center.height / 2);
+
+	sf::Vector2f camera_diff;
+	camera_diff.x = (target_camera_center.left - camera_center.x) / CAMERA_LAG;
+	camera_diff.y = (target_camera_center.top - camera_center.y) / CAMERA_LAG;
+
+	this->main_window.move(camera_diff);
+	app_container.get_logger()->info("game scene size: %d, %d", size.x, size.y);
 }
 
 void GameScene::draw(sf::RenderWindow &window)
 {
 	app_container.get_logger()->info("drawing game");
-    //window.setView(this->main_window);
+    window.setView(this->main_window);
     world.draw(window);
     this->hero.draw(window);
 }

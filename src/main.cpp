@@ -1,58 +1,73 @@
 #include <SFML/Graphics.hpp>
 
+#include <stack>
+#include <memory>
+
+#include "Container.h"
 #include "ConfigLoader.h"
 #include "StringProvider.h"
-#include "ConsoleLogger.h"
-#include "Hero.h"
 #include "Scene.h"
-#include "Input.h"
 #include "MainMenuScene.h"
+#include "Script.h"
+
+// Global container instance
+Container app_container;
 
 void handleEvents(sf::RenderWindow &window);
 
+typedef std::unique_ptr<Scene> StackItem;
+typedef std::stack<StackItem> GameStack;
+
 int main()
 {
-    ConfigLoader::load();
-    sf::String lang = ConfigLoader::get_string_option("language", "eng");
-    StringProvider::load(lang);
+	ConfigLoader::load();
+	std::string lang = ConfigLoader::get_string_option("language", "eng");
+	StringProvider::load(lang);
+
+	app_container.init();
+	Script s("main.lua");
+	s.call();
 
     int resolution_x = ConfigLoader::get_int_option("resolution_x", 200);
     int resolution_y = ConfigLoader::get_int_option("resolution_y", 200);
-    const int frame_frequency = 33333; // 1/30 of a second
 
-    ConsoleLogger logger;
+	app_container.get_logger()->info("resolution: %d, %d", resolution_x, resolution_y);
+
+    const int frame_frequency = 33333; // 1/30 of a second
 
     sf::RenderWindow window(sf::VideoMode(resolution_x, resolution_y), "DungeonBreath");
 
-    Scene *current_scene = new MainMenuScene(sf::Vector2i(resolution_x, resolution_y));
-    Input input;
-
+	GameStack stack;
+	stack.push(StackItem(new MainMenuScene(sf::Vector2i(resolution_x, resolution_y))));
     sf::Clock timer;
 
-    float delta = 0.0;
+    int delta = 0;
     while (window.isOpen()) {
 
-        delta = timer.restart().asMicroseconds();
-        sf::sleep(sf::microseconds(std::max(frame_frequency - delta, 0.0f)));
+        delta = int(timer.restart().asMicroseconds());
+        sf::sleep(sf::microseconds(sf::Int64(std::max(frame_frequency - float(delta), 0.0f))));
 
         handleEvents(window);
-        current_scene->update(delta, window, &input, &logger);
+        stack.top()->update(delta, window);
 
         window.clear(sf::Color::Black);
-        current_scene->draw(window);
+        stack.top()->draw(window);
         window.display();
 
-        Scene::Status state = current_scene->status();
+        Scene::Status state = stack.top()->status();
         if (state == Scene::Status::exit_program) {
             break;
-        } else if (state == Scene::Status::switch_scene) {
-            Scene *next = current_scene->new_scene();
-            delete current_scene;
-            current_scene = next;
-        }
+        } else if (state == Scene::Status::push_scene) {
+            Scene *next = stack.top()->new_scene();
+			stack.top()->reset_status();
+            stack.push(StackItem(next));
+		} else if (state == Scene::Status::pop_scene) {
+			stack.pop();
+			if (stack.empty()) {
+				break;
+			}
+		}
     }
-
-    delete current_scene;
     return 0;
 }
 

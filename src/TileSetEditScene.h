@@ -9,6 +9,7 @@
 #include "Macros.h"
 #include "Exceptions.h"
 #include "Strings.h"
+#include "Container.h"
 #include "Scene.h"
 #include "TextButton.h"
 #include "SpriteButton.h"
@@ -49,14 +50,15 @@ public:
     TileSetEditScene(sf::Vector2i size, std::string tileset);
     ~TileSetEditScene();
 
-    void update(int delta, sf::RenderWindow &window, Input *input, Logger *logger);
+    void update(int delta, sf::RenderWindow &window);
     void draw(sf::RenderWindow &window);
 
     Scene::Status status();
     Scene *new_scene();
+	void reset_status();
 private:
-    void update_editing(int delta, sf::RenderWindow &window, Input *input, Logger *logger);
-    void update_menu(int delta, sf::RenderWindow &window, Input *input, Logger *logger);
+    void update_editing(int delta, sf::RenderWindow &window);
+    void update_menu(int delta, sf::RenderWindow &window);
     void draw_editing(sf::RenderWindow &window);
     void draw_menu(sf::RenderWindow &window);
 
@@ -79,8 +81,8 @@ private:
     sf::Sprite spr;
 
     std::vector<TileMarker> markers;
-    std::string name, size_key, texture_key, texture_name;
-    int base_size;
+    std::string name, texture_name;
+    int base_size, anim_speed;
 
     std::vector<bool> last_input;
 

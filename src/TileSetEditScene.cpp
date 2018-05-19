@@ -103,19 +103,19 @@ TileSetEditScene::~TileSetEditScene()
 
 }
 
-void TileSetEditScene::update(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
+void TileSetEditScene::update(int delta, sf::RenderWindow &window)
 {
     if (inner_state == editing) {
-        update_editing(delta, window, input, logger);
+        update_editing(delta, window);
     } else {
-        update_menu(delta, window, input, logger);
+        update_menu(delta, window);
     }
 }
 
 void TileSetEditScene::draw(sf::RenderWindow &window)
 {
     window.draw(spr);
-    window.setView(this->main_window);
+    //window.setView(this->main_window);
     if (inner_state == editing) {
         draw_editing(window);
     } else {
@@ -133,9 +133,9 @@ Scene *TileSetEditScene::new_scene()
     return next_scene;
 }
 
-void TileSetEditScene::update_editing(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
+void TileSetEditScene::update_editing(int delta, sf::RenderWindow &window)
 {
-    auto new_input = input->poll_all();
+    auto new_input = app_container.get_input()->poll_all();
 
     if (new_input[Input::alt_fire]) {
         // alt fire puts into resize mode
@@ -186,16 +186,16 @@ void TileSetEditScene::update_editing(int delta, sf::RenderWindow &window, Input
     last_input = new_input;
 }
 
-void TileSetEditScene::update_menu(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
+void TileSetEditScene::update_menu(int delta, sf::RenderWindow &window)
 {
-    menu.update(delta, input, window);
+    menu.update(delta, app_container.get_input(), window);
     std::string pressed = this->menu.neg_edge_button();
 
     if (pressed == "edit") {
         this->inner_state = editing;
     } else if (pressed == "exit_menu") {
         this->next_scene = new TileSetScene(this->size);
-        this->state = Scene::switch_scene;
+        this->state = Scene::push_scene;
     } else if (pressed == "save") {
         save_tile_set();
     }
@@ -238,7 +238,19 @@ void TileSetEditScene::load_tile_set()
     if (!ifile.good()) {
         throw FileNotFoundException();
     }
-    ifile>>name>>size_key>>base_size>>texture_key>>texture_name;
+	ifile >> name;
+	std::string key;
+	ifile >> key;
+	while (key != "---") {
+		if (key == "size") {
+			ifile >> base_size;
+		} else if (key == "tex") {
+			ifile >> texture_name;
+		} else if (key == "anim_speed") {
+			ifile >> anim_speed;
+		}
+		ifile >> key;
+	}
     while (ifile.good()) {
         std::string line;
         std::getline(ifile, line);
@@ -271,6 +283,8 @@ void TileSetEditScene::save_tile_set()
     ofile<<tileset<<"\n";
     ofile<<"size "<<base_size<<"\n";
     ofile<<"tex "<<texture_name<<"\n";
+	ofile << "anim_speed " << 1 << "\n"; //@todo: implement
+	ofile << "---\n";
     std::vector<bool> written_ids(markers.size(), false);
     for (const auto &i : markers) {
         auto label = i.get_label();
@@ -314,4 +328,10 @@ void TileSetEditScene::delete_markers()
             --i;
         }
     }
+}
+
+void TileSetEditScene::reset_status()
+{
+	this->state = Scene::Status::nothing;
+	this->next_scene = nullptr;
 }

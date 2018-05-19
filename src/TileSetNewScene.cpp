@@ -16,12 +16,12 @@ TileSetNewScene::~TileSetNewScene()
 
 }
 
-void TileSetNewScene::update(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
+void TileSetNewScene::update(int delta, sf::RenderWindow &window)
 {
     if (pl_state == in_menu) {
-        return update_menu(delta, window, input, logger);
+        return update_menu(delta, window);
     }
-    update_keyboard(delta, window, input, logger);
+    update_keyboard(delta, window);
 }
 
 void TileSetNewScene::draw(sf::RenderWindow &window)
@@ -42,15 +42,15 @@ Scene *TileSetNewScene::new_scene()
     return next_scene;
 }
 
-void TileSetNewScene::update_menu(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
+void TileSetNewScene::update_menu(int delta, sf::RenderWindow &window)
 {
-    menu.update(delta, input, window);
+    menu.update(delta, app_container.get_input(), window);
     auto pressed = this->menu.neg_edge_button();
 
     if (pressed == "proceed") {
         write_tileset_meta();
         this->next_scene = new TileSetEditScene(this->size, name.get_label());
-        this->state = Scene::Status::switch_scene;
+        this->state = Scene::Status::push_scene;
     } else if (pressed == "name") {
         pl_state = in_keyboard;
         current_button = &name;
@@ -65,7 +65,7 @@ void TileSetNewScene::update_menu(int delta, sf::RenderWindow &window, Input *in
         keyboard.set_input("");
     }else if (pressed == "back") {
         this->next_scene = new TileSetScene(size);
-        this->state = Scene::Status::switch_scene;
+        this->state = Scene::Status::push_scene;
     }
 }
 
@@ -77,12 +77,12 @@ void TileSetNewScene::draw_menu(sf::RenderWindow &window)
     menu.draw(window);
 }
 
-void TileSetNewScene::update_keyboard(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
+void TileSetNewScene::update_keyboard(int delta, sf::RenderWindow &window)
 {
-    keyboard.update(delta, window, input, logger);
-    if (input->is_key_pressed(Input::escape) || keyboard.status() == Scene::Status::switch_scene) {
+    keyboard.update(delta, window);
+    if (app_container.get_input()->is_key_pressed(Input::escape) || keyboard.status() == Scene::Status::push_scene) {
         keyboard.reset_status();
-        logger->info(keyboard.get_input().toAnsiString().c_str());
+		app_container.get_logger()->info(keyboard.get_input().toAnsiString().c_str());
         current_button->set_label(keyboard.get_input());
         pl_state = in_menu;
     }
@@ -107,4 +107,10 @@ void TileSetNewScene::write_tileset_meta()
     datafile<<"size "<<base_size.get_label().toUtf8().c_str()<<"\n";
     datafile<<"tex "<<spritesheet.get_label().toUtf8().c_str()<<"\n";
     datafile.close();
+}
+
+void TileSetNewScene::reset_status()
+{
+	this->state = Scene::Status::nothing;
+	this->next_scene = nullptr;
 }

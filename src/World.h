@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#include "Container.h"
+
 #include "WorldGenerator.h"
 #include "TileSet.h"
 #include "Input.h"
@@ -19,7 +21,7 @@ public:
     World(std::unique_ptr<TileSet> &&tile_set, std::unique_ptr<WorldGenerator> &&gen);
     ~World();
 
-    void update(int delta, sf::RenderWindow &window, Input *input, Logger *logger);
+    void update(int delta, sf::RenderWindow &window);
     void draw(sf::RenderWindow &window);
 private:
     static constexpr int world_height = 20;

@@ -2,6 +2,8 @@
 #define LABEL_H
 
 #include <SFML/Graphics.hpp>
+
+#include "Macros.h"
 #include "FontMap.h"
 
 class Label

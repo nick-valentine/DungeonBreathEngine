@@ -1,5 +1,7 @@
 #include "ConfigLoader.h"
 
+#include <iostream>
+
 const std::string ConfigLoader::config_path = "./GameData/config.txt";
 const std::string ConfigLoader::version_path = "./GameData/version.txt";
 std::map<std::string, std::string> ConfigLoader::configuration = std::map<std::string, std::string>();
@@ -13,7 +15,7 @@ ConfigLoader::ConfigLoader()
 ConfigLoader::~ConfigLoader()
 {
 
-}
+} 
 
 void ConfigLoader::load()
 {
@@ -95,4 +97,84 @@ std::vector< std::pair<std::string, std::string> > ConfigLoader::get_all_options
         options.push_back(*it);
     }
     return options;
+}
+
+void lua::config::add(lua_State *L)
+{
+	static const struct luaL_Reg mylib[] = {
+		{"get_int", get_int},
+		{"get_string", get_string},
+		{"set", set},
+		{"save", save},
+		{NULL, NULL}
+	};
+	lua_getglobal(L, "config");
+	if (lua_isnil(L, -1)) {
+		lua_pop(L, 1);
+		lua_newtable(L);
+	}
+	luaL_setfuncs(L, mylib, 0);
+	lua_setglobal(L, "config");
+}
+
+int lua::config::get_int(lua_State *L)
+{
+	if (!lua_isstring(L, -2)) {
+		error(L, "config.get_int arg 1 not string");
+	}
+	auto c = lua_tostring(L, -2);
+	if (!lua_isnumber(L, -1)) {
+		error(L, "config.get_int arg 2 not int");
+	}
+	auto d = lua_tonumber(L, -1);
+
+	int n = ConfigLoader::get_int_option(c, d);
+
+	lua_pushnumber(L, n);
+
+	return 1;
+}
+
+int lua::config::get_string(lua_State *L)
+{
+	if (!lua_isstring(L, -2)) {
+		error(L, "config.get_string arg 1 not string");
+	}
+	auto c = lua_tostring(L, -2);
+	if (!lua_isstring(L, -1)) {
+		error(L, "config.get_string arg 2 not string");
+	}
+	auto d = lua_tostring(L, -1);
+
+	auto s = ConfigLoader::get_string_option(c, d);
+
+	lua_pushstring(L, s.c_str());
+
+	return 1;
+}
+
+int lua::config::set(lua_State *L)
+{
+	if (!lua_isstring(L, -2)) {
+		error(L, "config.set arg 1 not string");
+	}
+	auto c = lua_tostring(L, -2);
+	if (lua_isnumber(L, -1)) {
+		auto d = lua_tonumber(L, -1);
+		ConfigLoader::mutate_option(c, d);
+		return 0;
+	} else if (lua_isstring(L, -1)) {
+		auto d = lua_tostring(L, -1);
+		ConfigLoader::mutate_option(c, d);
+		return 0;
+	} else {
+		error(L, "config.set arg 2 not int or string");
+	}
+	return -1;
+}
+
+int lua::config::save(lua_State *L)
+{
+	ConfigLoader::save();
+	return 0;
 }

@@ -42,23 +42,23 @@ OptionsScene::~OptionsScene()
     MusicManager::stop();
 }
 
-void OptionsScene::update(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
+void OptionsScene::update(int delta, sf::RenderWindow &window)
 {
     if (first_loop) {
         first_loop = false;
         MusicManager::play(MusicManager::Song::main_menu);
     }
-    this->menu.update(delta, input, window);
+    this->menu.update(delta, app_container.get_input(), window);
     
     std::string pressed = this->menu.neg_edge_button();
     if (pressed == "back") {
         ConfigLoader::save();
         this->next_scene = new MainMenuScene(this->size);
-        this->state = Scene::Status::switch_scene;
+        this->state = Scene::Status::push_scene;
     }
 
     if (pressed == "key_bind") {
-        logger->info("todo: implement key bind state");
+		app_container.get_logger()->info("todo: implement key bind state");
     }
 
     if (pressed == "lang_left") {
@@ -140,3 +140,8 @@ void OptionsScene::set_volume()
     volume_label.set_string(volumeString);
 }
 
+void OptionsScene::reset_status()
+{
+	this->state = Scene::Status::nothing;
+	this->next_scene = nullptr;
+}

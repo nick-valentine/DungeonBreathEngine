@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "Container.h"
+
 #include "StringProvider.h"
 #include "Scene.h"
 #include "KeyButton.h"
@@ -14,7 +16,7 @@ public:
     KeyboardScene(sf::Vector2i size);
     ~KeyboardScene();
 
-    void update(int delta, sf::RenderWindow &window, Input *input, Logger *logger);
+    void update(int delta, sf::RenderWindow &window);
     void draw(sf::RenderWindow &window);
 
     void reset_status();
@@ -32,7 +34,7 @@ private:
     Scene::Status state;
     Scene *next_scene;
 
-    sf::String input;
+    sf::String text_input;
     Label input_label;
 
     bool gamepad = false;

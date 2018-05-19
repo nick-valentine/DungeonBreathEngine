@@ -2,7 +2,7 @@
 
 Label::Label(sf::IntRect pos, sf::String contents)
 {
-    this->font = FontMap::request("./GameData/font.unicode.ttf");
+    this->font = FontMap::request(DATADIR "font.unicode.ttf");
     this->text.setString(contents);
     this->text.setFont(*this->font);
     this->text.setCharacterSize(30);

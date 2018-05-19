@@ -1,6 +1,8 @@
 #ifndef HERO_H
 #define HERO_H
 
+#if 0
+
 #include "Actor.h"
 #include "Animation.h"
 #include "SpriteSet.h"
@@ -22,7 +24,7 @@ public:
         running
     };
 
-    Hero(sf::Vector2i pos, sf::Vector2i scale);
+    Hero(sf::Vector2i pos, sf::Vector2i scale, Input *input, Logger *logger);
     ~Hero();
 
     void update(int delta, Input *input, Logger *logger);
@@ -49,5 +51,7 @@ private:
     Animation walk_left;
     Animation walk_right;
 };
+
+#endif
 
 #endif //HERO_H

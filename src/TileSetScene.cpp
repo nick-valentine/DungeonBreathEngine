@@ -41,20 +41,20 @@ TileSetScene::~TileSetScene()
 
 }
 
-void TileSetScene::update(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
+void TileSetScene::update(int delta, sf::RenderWindow &window)
 {
-    menu.update(delta, input, window);
+    menu.update(delta, app_container.get_input(), window);
     std::string pressed = this->menu.neg_edge_button();
 
     if (pressed == "exit_menu") {
         this->next_scene = new MainMenuScene(this->size);
-        this->state = Scene::Status::switch_scene;
+        this->state = Scene::Status::push_scene;
     } else if (pressed == "new") {
         this->next_scene = new TileSetNewScene(this->size);
-        this->state = Scene::Status::switch_scene;
+        this->state = Scene::Status::push_scene;
     } else if (pressed != "") {
         this->next_scene = new TileSetEditScene(this->size, pressed);
-        this->state = Scene::Status::switch_scene;
+        this->state = Scene::Status::push_scene;
     }
 }
 
@@ -71,4 +71,10 @@ Scene::Status TileSetScene::status()
 Scene *TileSetScene::new_scene()
 {
     return next_scene;
+}
+
+void TileSetScene::reset_status()
+{
+	this->state = Scene::Status::nothing;
+	this->next_scene = nullptr;
 }

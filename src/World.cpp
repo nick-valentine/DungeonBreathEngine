@@ -13,7 +13,7 @@ World::~World()
     }
 }
 
-void World::update(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
+void World::update(int delta, sf::RenderWindow &window)
 {
     for (auto& value: world) {
         value->update(delta);

@@ -4,8 +4,8 @@ KeyboardScene::KeyboardScene(sf::Vector2i size) :
     Scene(size),
     state(Scene::Status::nothing),
     next_scene(nullptr),
-    input(""),
-    input_label(sf::IntRect(50,50,300,50), input),
+    text_input(""),
+    input_label(sf::IntRect(50,50,300,50), text_input),
     current(0)
 {
     const int start_y = 100;
@@ -44,7 +44,7 @@ KeyboardScene::~KeyboardScene()
 
 }
 
-void KeyboardScene::update(int delta, sf::RenderWindow &window, Input *input, Logger *logger)
+void KeyboardScene::update(int delta, sf::RenderWindow &window)
 {
     sf::Vector2i mouse_pos = sf::Mouse::getPosition();
     if (last_mouse_pos != mouse_pos) {
@@ -55,28 +55,28 @@ void KeyboardScene::update(int delta, sf::RenderWindow &window, Input *input, Lo
     }
     last_mouse_pos = mouse_pos;
 
-    auto down = input->is_key_pressed(input->down);
+    auto down = app_container.get_input()->is_key_pressed(app_container.get_input()->down);
     if (down && !last_down) {
         gamepad = true;
         current = std::min(current + full_width, int(buttons.size()) - 1);
     }
     last_down = down;
 
-    auto up = input->is_key_pressed(input->up);
+    auto up = app_container.get_input()->is_key_pressed(app_container.get_input()->up);
     if (up && !last_up) {
         gamepad = true;
         current = std::max(current - full_width, 0);
     }
     last_up = up;
 
-    auto left = input->is_key_pressed(input->left);
+    auto left = app_container.get_input()->is_key_pressed(app_container.get_input()->left);
     if (left&& !last_left) {
         gamepad = true;
         current = std::max(current - 1, 0);
     }
     last_left = left;
 
-    auto right = input->is_key_pressed(input->right);
+    auto right = app_container.get_input()->is_key_pressed(app_container.get_input()->right);
     if (right && !last_right) {
         gamepad = true;
         current = std::min(current + 1, int(buttons.size()) - 1);
@@ -92,26 +92,26 @@ void KeyboardScene::update(int delta, sf::RenderWindow &window, Input *input, Lo
     }
 
     for (size_t i = 0; i < buttons.size(); ++i) {
-        buttons[i].update(delta, input, window);
+        buttons[i].update(delta, app_container.get_input(), window);
 
         auto pressed = buttons[i].pressed();
         if (!pressed && last_pressed[i]) {
             const auto backspace = buttons.size() - 2;
             const auto back = backspace+1;
             if (i == backspace) {
-                if (this->input.getSize() > 0) {
-                    this->input.erase(this->input.getSize() - 1);
+                if (this->text_input.getSize() > 0) {
+                    this->text_input.erase(this->text_input.getSize() - 1);
                 }
             } else if (i == back) {
-                this->state = Scene::Status::switch_scene;
+                this->state = Scene::Status::push_scene;
             } else {
                 auto label = buttons[i].get_label();
                 if (label == '_') {
                     label = ' ';
                 }
-                this->input += label;
+                this->text_input += label;
             }
-            this->input_label.set_string(this->input);
+            this->input_label.set_string(this->text_input);
         }
         last_pressed[i] = pressed;
     }
@@ -128,6 +128,7 @@ void KeyboardScene::draw(sf::RenderWindow &window)
 void KeyboardScene::reset_status()
 {
     this->state = Scene::Status::nothing;
+	this->next_scene = nullptr;
 }
 
 Scene::Status KeyboardScene::status()
@@ -142,13 +143,13 @@ Scene *KeyboardScene::new_scene()
 
 void KeyboardScene::set_input(sf::String input)
 {
-    this->input = input;
-    this->input_label.set_string(this->input);
+    this->text_input = input;
+    this->input_label.set_string(this->text_input);
 }
 
 sf::String KeyboardScene::get_input()
 {
-    return this->input;
+    return this->text_input;
 }
 
 void KeyboardScene::add_button_range(char start, int count, int start_x, int start_y)

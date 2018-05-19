@@ -14,17 +14,19 @@ public:
     enum Status {
         nothing,
         exit_program,
-        switch_scene
+        push_scene,
+		pop_scene,
     };
 
     Scene(sf::Vector2i size);
     virtual ~Scene() = default;
 
-    virtual void update(int delta, sf::RenderWindow &window, Input *input, Logger *logger) = 0;
+    virtual void update(int delta, sf::RenderWindow &window) = 0;
     virtual void draw(sf::RenderWindow &window) = 0;
 
     virtual Status status() = 0;
     virtual Scene *new_scene() = 0;
+	virtual void reset_status() = 0;
 protected:
     sf::Vector2i size;
 };

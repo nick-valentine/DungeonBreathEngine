@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <memory>
+#include <fstream>
+#include <sstream>
 
 #include "Macros.h"
 #include "TextureMap.h"
@@ -20,6 +22,10 @@ public:
     virtual void set_location(sf::Vector2i loc) = 0;
     virtual ~Tile() = default;
 
+	virtual void play() = 0;
+	virtual void pause() = 0;
+	virtual void reset() = 0;
+
     virtual void update(int delta) = 0;
     virtual void draw(sf::RenderWindow &window) = 0;
 
@@ -35,10 +41,14 @@ protected:
 class DynamicTile : public Tile
 {
 public:
-    DynamicTile(sf::Texture *tex, sf::Vector2i size_mod = sf::Vector2i(1,1));
+    DynamicTile(sf::Texture *tex, sf::Vector2i size_mod = sf::Vector2i(1,1), int anim_speed = 1, int base_size = 16);
     void add_frame(sf::IntRect pos);
 
     void set_location(sf::Vector2i loc);
+
+	virtual void play();
+	virtual void pause();
+	virtual void reset();
 
     void update(int delta);
     void draw(sf::RenderWindow &window);
@@ -56,6 +66,10 @@ public:
     StaticTile(sf::Sprite sprite);
 
     void set_location(sf::Vector2i loc);
+
+	virtual void play();
+	virtual void pause();
+	virtual void reset();
 
     void update(int delta);
     void draw(sf::RenderWindow &window);
@@ -77,8 +91,10 @@ public:
     TileSet(const TileSet &&other) = delete;
     TileSet operator=(const TileSet &&other) = delete;
 
-    TileType make_static(sf::Vector2i pos, sf::Vector2i size_mod = sf::Vector2i(1,1));
-    TileType make_dynamic(std::vector<sf::Vector2i> pos, sf::Vector2i size_mod = sf::Vector2i(1,1));
+	std::string get_name() const;
+
+    TileType make_static(int key, sf::Vector2i pos, sf::Vector2i size_mod = sf::Vector2i(1,1));
+    TileType make_dynamic(int key, std::vector<sf::Vector2i> pos, sf::Vector2i size_mod = sf::Vector2i(1,1), int anim_speed = 1);
 
     Tile *spawn(TileType t, sf::Vector2i loc);
 
@@ -87,41 +103,11 @@ public:
         return BASE_TILE_SIZE * Tile::size();
     }
 private:
+	std::string name;
     sf::Texture *tex;
     int base_size;
-    std::vector<Tile*> tiles;
+	int anim_speed;
+    std::map<int, Tile*> tiles;
 };
-
-namespace TileSets {
-    enum Overworld {
-        grass_thick = 0,
-        grass_to_thick_tl,
-        grass_to_thick_tr,
-        grass_to_thick_bl,
-        grass_to_thick_br,
-        thick_to_grass_tl,
-        thick_to_grass_tr,
-        thick_to_grass_bl,
-        thick_to_grass_br,
-        thick_to_water_tl,
-        thick_to_water_tr,
-        thick_to_water_bl,
-        thick_to_water_br,
-        thick_to_water_t,
-        thick_to_water_l,
-        thick_to_water_r,
-        thick_to_water_b,
-        water_to_thick_tl,
-        water_to_thick_tr,
-        water_to_thick_bl,
-        water_to_thick_br,
-        stone,
-        wave,
-        water_circle_1,
-    };
-
-    std::unique_ptr<TileSet> overworld();
-};
-
 
 #endif // TILESET_H

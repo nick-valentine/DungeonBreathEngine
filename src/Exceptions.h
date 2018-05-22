@@ -19,4 +19,10 @@ struct InvalidConfigException : public std::exception {
     }
 };
 
+struct UnavailableActorException : public std::exception {
+	const char * what() const throw () {
+		return "Actor Not Available";
+	}
+};
+
 #endif // EXCEPTION_H

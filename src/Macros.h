@@ -9,7 +9,10 @@
 #define TILESETDIR DATADIR "tilesets/"
 #define SCRIPTDIR DATADIR "scripts/"
 
-#define WINDOWS 0
-#define LINUX 1
+// actordir is not a full path as Script.h automatically prepends SCRIPTDIR
+#define ACTORDIR "actors/"
+
+#define WINDOWS 1
+#define LINUX 0
 
 #endif //MACROS_H

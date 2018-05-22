@@ -2,8 +2,8 @@
 
 #define TABLENAME "me"
 
-Actor::Actor(sf::Vector2i pos, sf::Vector2i scale) :
-    s("hero.lua"), t(nullptr), current_tile(nullptr),
+Actor::Actor(sf::Vector2i pos, sf::Vector2i scale, std::string name) :
+    s(name), t(nullptr), current_tile(nullptr),
     input(input), logger(logger), tileset_cache()
 {
     this->rect = sf::Rect<int>(pos.x, pos.y, scale.x, scale.y);

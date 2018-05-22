@@ -27,7 +27,7 @@ typedef std::shared_ptr<Tile> tile_ptr;
 class Actor
 {
 public:
-    Actor(sf::Vector2i pos, sf::Vector2i scale);
+    Actor(sf::Vector2i pos, sf::Vector2i scale, std::string name);
     virtual ~Actor();
 
     Actor(const Actor &other);

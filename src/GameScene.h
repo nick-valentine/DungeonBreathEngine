@@ -7,7 +7,7 @@
 
 #include "Container.h"
 #include "MusicManager.h"
-#include "Actor.h"
+#include "ActorManager.h"
 #include "TileSet.h"
 #include "World.h"
 
@@ -26,11 +26,11 @@ public:
 private:
     sf::View main_window;
 
-    Actor hero;
-    World world;
+	ActorManager actorman;
+	World world;
 
-    Scene::Status state;
-    Scene* next_scene;
+    Scene::Status state = Scene::Status::nothing;
+    Scene* next_scene = nullptr;
 
     bool first_loop = true;
 };

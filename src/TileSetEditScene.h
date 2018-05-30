@@ -48,7 +48,7 @@ public:
         in_menu
     };
     TileSetEditScene(sf::Vector2i size, std::string tileset);
-    ~TileSetEditScene();
+    ~TileSetEditScene() = default;
 
     void update(int delta, sf::RenderWindow &window);
     void draw(sf::RenderWindow &window);

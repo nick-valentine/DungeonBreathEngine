@@ -103,7 +103,7 @@ void KeyboardScene::update(int delta, sf::RenderWindow &window)
                     this->text_input.erase(this->text_input.getSize() - 1);
                 }
             } else if (i == back) {
-                this->state = Scene::Status::push_scene;
+                this->state = Scene::Status::pop_scene;
             } else {
                 auto label = buttons[i].get_label();
                 if (label == '_') {

@@ -98,11 +98,6 @@ TileSetEditScene::TileSetEditScene(sf::Vector2i size, std::string tileset) : Sce
 
 }
 
-TileSetEditScene::~TileSetEditScene()
-{
-
-}
-
 void TileSetEditScene::update(int delta, sf::RenderWindow &window)
 {
     if (inner_state == editing) {

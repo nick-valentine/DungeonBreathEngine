@@ -22,7 +22,7 @@ public:
         in_keyboard
     };
     TileSetNewScene(sf::Vector2i size);
-    ~TileSetNewScene();
+    ~TileSetNewScene() = default;
 
     void update(int delta, sf::RenderWindow &window);
     void draw(sf::RenderWindow &window);

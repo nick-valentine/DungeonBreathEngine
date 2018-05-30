@@ -11,11 +11,6 @@ TileSetNewScene::TileSetNewScene(sf::Vector2i size) : Scene(size), keyboard(size
     menu.add_button("back", &back);
 }
 
-TileSetNewScene::~TileSetNewScene()
-{
-
-}
-
 void TileSetNewScene::update(int delta, sf::RenderWindow &window)
 {
     if (pl_state == in_menu) {
@@ -80,9 +75,9 @@ void TileSetNewScene::draw_menu(sf::RenderWindow &window)
 void TileSetNewScene::update_keyboard(int delta, sf::RenderWindow &window)
 {
     keyboard.update(delta, window);
-    if (app_container.get_input()->is_key_pressed(Input::escape) || keyboard.status() == Scene::Status::push_scene) {
+    if (app_container.get_input()->is_key_pressed(Input::escape) || keyboard.status() == Scene::Status::pop_scene) {
         keyboard.reset_status();
-		app_container.get_logger()->info(keyboard.get_input().toAnsiString().c_str());
+        app_container.get_logger()->info(keyboard.get_input().toAnsiString().c_str());
         current_button->set_label(keyboard.get_input());
         pl_state = in_menu;
     }
@@ -110,6 +105,6 @@ void TileSetNewScene::write_tileset_meta()
 
 void TileSetNewScene::reset_status()
 {
-	this->state = Scene::Status::nothing;
-	this->next_scene = nullptr;
+    this->state = Scene::Status::nothing;
+    this->next_scene = nullptr;
 }

@@ -22,13 +22,14 @@ public:
 private:
     sf::View main_window;
 
-    Scene::Status state;
-    Scene* next_scene;
+    Scene::Status state = Scene::Status::nothing;
+    Scene* next_scene = nullptr;
 
-    TextButton tile_editor_button;
-    TextButton play_button;
-    TextButton options_button;
-    TextButton exit_button;
+    TextButton level_edit_button = TextButton(sf::Rect<int>(10, size.y - 340, 300, 50), StringProvider::get("mainmenu.level_editor_button"));
+    TextButton tile_editor_button = TextButton(sf::Rect<int>(10, size.y - 280, 300, 50), StringProvider::get("mainmenu.tile_editor_button"));
+    TextButton play_button = TextButton(sf::Rect<int>(10, size.y - 220, 300, 50), StringProvider::get("mainmenu.new_game_button"));
+    TextButton options_button = TextButton(sf::Rect<int>(10, size.y - 160, 300, 50), StringProvider::get("mainmenu.options_button"));
+    TextButton exit_button = TextButton(sf::Rect<int>(10, size.y - 100, 300, 50), StringProvider::get("mainmenu.exit_button"));
     ButtonGroup menu;
 
     bool first_loop = true;

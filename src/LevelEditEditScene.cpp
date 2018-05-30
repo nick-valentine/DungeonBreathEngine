@@ -15,35 +15,18 @@ LevelEditEditScene::LevelEditEditScene(sf::Vector2i size, std::string name) : Sc
 
 void LevelEditEditScene::update(int delta, sf::RenderWindow &window)
 {
-    world->update(delta, window);
-    auto new_input = app_container.get_input()->poll_all();
-    if (new_input[Input::down] && !last_input[Input::down]) {
-        cursor.move(sf::Vector2f(0, TILE_SIZE));
-    } else if (new_input[Input::up] && !last_input[Input::up]) {
-        cursor.move(sf::Vector2f(0, -TILE_SIZE));
-    } else if (new_input[Input::left] && !last_input[Input::left]) {
-        cursor.move(sf::Vector2f(-TILE_SIZE, 0));
-    } else if (new_input[Input::right] && !last_input[Input::right]) {
-        cursor.move(sf::Vector2f(TILE_SIZE, 0));
-    } else if (new_input[Input::escape] && !last_input[Input::escape]) {
-        this->state = Scene::Status::pop_scene;
-        this->next_scene = nullptr;
+    if (cur_state == edit_level) {
+        return update_edit(delta, window);
     }
-    last_input = new_input;
-    auto target_camera_center = cursor.getPosition();
-    auto camera_center = this->main_window.getCenter();
-    sf::Vector2f camera_diff;
-    camera_diff.x = (target_camera_center.x - camera_center.x) / CAMERA_LAG;
-    camera_diff.y = (target_camera_center.y - camera_center.y) / CAMERA_LAG;
-
-    this->main_window.move(camera_diff);
+    return update_select(delta, window);
 }
 
 void LevelEditEditScene::draw(sf::RenderWindow &window)
 {
-    window.setView(this->main_window);
-    world->draw(window);
-    window.draw(cursor);
+    if (cur_state == edit_level) {
+        return draw_edit(window);
+    }
+    return draw_select(window);
 }
 
 Scene::Status LevelEditEditScene::status()
@@ -83,9 +66,60 @@ void LevelEditEditScene::load_level()
             )
         )
     );
+    tile_selector = std::unique_ptr<LevelEditTileScene>(
+        new LevelEditTileScene(
+            this->size,
+            tileset
+        )
+    );
 }
 
 void LevelEditEditScene::save_level()
 {
 
+}
+
+void LevelEditEditScene::update_edit(int delta, sf::RenderWindow &window)
+{
+    world->update(delta, window);
+    auto new_input = app_container.get_input()->poll_all();
+    if (new_input[Input::down] && !last_input[Input::down]) {
+        cursor.move(sf::Vector2f(0, TILE_SIZE));
+    } else if (new_input[Input::up] && !last_input[Input::up]) {
+        cursor.move(sf::Vector2f(0, -TILE_SIZE));
+    } else if (new_input[Input::left] && !last_input[Input::left]) {
+        cursor.move(sf::Vector2f(-TILE_SIZE, 0));
+    } else if (new_input[Input::right] && !last_input[Input::right]) {
+        cursor.move(sf::Vector2f(TILE_SIZE, 0));
+    } else if (new_input[Input::escape] && !last_input[Input::escape]) {
+        this->state = Scene::Status::pop_scene;
+        this->next_scene = nullptr;
+    } else if (new_input[Input::alt_fire] && !last_input[Input::alt_fire]) {
+        this->cur_state = select_tile;
+    }
+    last_input = new_input;
+    auto target_camera_center = cursor.getPosition();
+    auto camera_center = this->main_window.getCenter();
+    sf::Vector2f camera_diff;
+    camera_diff.x = (target_camera_center.x - camera_center.x) / CAMERA_LAG;
+    camera_diff.y = (target_camera_center.y - camera_center.y) / CAMERA_LAG;
+
+    this->main_window.move(camera_diff);
+}
+
+void LevelEditEditScene::draw_edit(sf::RenderWindow &window)
+{
+    window.setView(this->main_window);
+    world->draw(window);
+    window.draw(cursor);
+}
+
+void LevelEditEditScene::update_select(int delta, sf::RenderWindow &window)
+{
+    this->tile_selector->update(delta, window);
+}
+
+void LevelEditEditScene::draw_select(sf::RenderWindow &window)
+{
+    this->tile_selector->draw(window);
 }

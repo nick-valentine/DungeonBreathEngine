@@ -3,15 +3,21 @@
 
 #include <fstream>
 #include <sstream>
+#include <vector>
 
 #include "World.h"
 #include "Scene.h"
 #include "ButtonGroup.h"
 #include "Exceptions.h"
+#include "LevelEditTileScene.h"
 
 class LevelEditEditScene : public Scene
 {
 public:
+    enum game_state {
+        edit_level = 0,
+        select_tile
+    };
     LevelEditEditScene(sf::Vector2i size, std::string name);
     ~LevelEditEditScene() = default;
 
@@ -25,6 +31,11 @@ private:
     void load_level();
     void save_level();
 
+    void update_edit(int delta, sf::RenderWindow &window);
+    void draw_edit(sf::RenderWindow &window);
+    void update_select(int delta, sf::RenderWindow &window);
+    void draw_select(sf::RenderWindow &window);
+
     sf::View main_window;
 
     Scene::Status state = Scene::Status::nothing;
@@ -37,7 +48,10 @@ private:
     std::string name;
     std::string tileset;
 
+    std::unique_ptr<LevelEditTileScene> tile_selector = nullptr;
     ButtonGroup menu;
+
+    game_state cur_state = edit_level;
 
     std::vector<bool> last_input;
 };

@@ -194,8 +194,8 @@ void TileSetEditScene::update_menu(int delta, sf::RenderWindow &window)
     if (pressed == "edit") {
         this->inner_state = editing;
     } else if (pressed == "exit_menu") {
-        this->next_scene = new TileSetScene(this->size);
-        this->state = Scene::push_scene;
+        this->next_scene = nullptr;
+        this->state = Scene::pop_scene;
     } else if (pressed == "save") {
         save_tile_set();
     }

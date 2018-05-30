@@ -47,8 +47,8 @@ void TileSetScene::update(int delta, sf::RenderWindow &window)
     std::string pressed = this->menu.neg_edge_button();
 
     if (pressed == "exit_menu") {
-        this->next_scene = new MainMenuScene(this->size);
-        this->state = Scene::Status::push_scene;
+        this->next_scene = nullptr;
+        this->state = Scene::Status::pop_scene;
     } else if (pressed == "new") {
         this->next_scene = new TileSetNewScene(this->size);
         this->state = Scene::Status::push_scene;

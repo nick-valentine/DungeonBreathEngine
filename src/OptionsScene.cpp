@@ -53,12 +53,12 @@ void OptionsScene::update(int delta, sf::RenderWindow &window)
     std::string pressed = this->menu.neg_edge_button();
     if (pressed == "back") {
         ConfigLoader::save();
-        this->next_scene = new MainMenuScene(this->size);
-        this->state = Scene::Status::push_scene;
+        this->next_scene = nullptr;
+        this->state = Scene::Status::pop_scene;
     }
 
     if (pressed == "key_bind") {
-		app_container.get_logger()->info("todo: implement key bind state");
+        app_container.get_logger()->info("todo: implement key bind state");
     }
 
     if (pressed == "lang_left") {
@@ -142,6 +142,6 @@ void OptionsScene::set_volume()
 
 void OptionsScene::reset_status()
 {
-	this->state = Scene::Status::nothing;
-	this->next_scene = nullptr;
+    this->state = Scene::Status::nothing;
+    this->next_scene = nullptr;
 }

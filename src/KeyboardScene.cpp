@@ -128,7 +128,7 @@ void KeyboardScene::draw(sf::RenderWindow &window)
 void KeyboardScene::reset_status()
 {
     this->state = Scene::Status::nothing;
-	this->next_scene = nullptr;
+    this->next_scene = nullptr;
 }
 
 Scene::Status KeyboardScene::status()

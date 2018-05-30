@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <fstream>
-#include <filesystem>
 
 #include "Macros.h"
 #include "Exceptions.h"

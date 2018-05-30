@@ -64,8 +64,8 @@ void TileSetNewScene::update_menu(int delta, sf::RenderWindow &window)
         current_button = &base_size;
         keyboard.set_input("");
     }else if (pressed == "back") {
-        this->next_scene = new TileSetScene(size);
-        this->state = Scene::Status::push_scene;
+        this->next_scene = nullptr;
+        this->state = Scene::Status::pop_scene;
     }
 }
 

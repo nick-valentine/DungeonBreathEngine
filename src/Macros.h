@@ -12,7 +12,7 @@
 // actordir is not a full path as Script.h automatically prepends SCRIPTDIR
 #define ACTORDIR "actors/"
 
-#define WINDOWS 1
-#define LINUX 0
+#define WINDOWS 0
+#define LINUX 1
 
 #endif //MACROS_H

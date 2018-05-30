@@ -55,7 +55,7 @@ public:
 
     Scene::Status status();
     Scene *new_scene();
-	void reset_status();
+    void reset_status();
 private:
     void update_editing(int delta, sf::RenderWindow &window);
     void update_menu(int delta, sf::RenderWindow &window);

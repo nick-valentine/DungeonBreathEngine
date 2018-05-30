@@ -6,8 +6,10 @@
 #include <memory>
 #include <fstream>
 #include <sstream>
+#include <vector>
 
 #include "Macros.h"
+#include "Container.h"
 #include "TextureMap.h"
 #include "SpriteSet.h"
 #include "Animation.h"
@@ -22,9 +24,9 @@ public:
     virtual void set_location(sf::Vector2i loc) = 0;
     virtual ~Tile() = default;
 
-	virtual void play() = 0;
-	virtual void pause() = 0;
-	virtual void reset() = 0;
+    virtual void play() = 0;
+    virtual void pause() = 0;
+    virtual void reset() = 0;
 
     virtual void update(int delta) = 0;
     virtual void draw(sf::RenderWindow &window) = 0;
@@ -46,9 +48,9 @@ public:
 
     void set_location(sf::Vector2i loc);
 
-	virtual void play();
-	virtual void pause();
-	virtual void reset();
+    virtual void play();
+    virtual void pause();
+    virtual void reset();
 
     void update(int delta);
     void draw(sf::RenderWindow &window);
@@ -67,9 +69,9 @@ public:
 
     void set_location(sf::Vector2i loc);
 
-	virtual void play();
-	virtual void pause();
-	virtual void reset();
+    virtual void play();
+    virtual void pause();
+    virtual void reset();
 
     void update(int delta);
     void draw(sf::RenderWindow &window);
@@ -91,22 +93,24 @@ public:
     TileSet(const TileSet &&other) = delete;
     TileSet operator=(const TileSet &&other) = delete;
 
-	std::string get_name() const;
+    std::string get_name() const;
 
     TileType make_static(int key, sf::Vector2i pos, sf::Vector2i size_mod = sf::Vector2i(1,1));
     TileType make_dynamic(int key, std::vector<sf::Vector2i> pos, sf::Vector2i size_mod = sf::Vector2i(1,1), int anim_speed = 1);
 
     Tile *spawn(TileType t, sf::Vector2i loc);
 
+    std::vector<int> get_keys() const;
+
     constexpr static int tile_size()
     {
         return BASE_TILE_SIZE * Tile::size();
     }
 private:
-	std::string name;
+    std::string name;
     sf::Texture *tex;
     int base_size;
-	int anim_speed;
+    int anim_speed;
     std::map<int, std::unique_ptr<Tile> > tiles;
 };
 

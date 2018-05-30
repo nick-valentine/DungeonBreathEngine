@@ -93,6 +93,7 @@ TileSet::TileSet(std::string def_file)
 {
     std::string filename = TILESETDIR;
     filename += def_file + ".txt";
+    app_container.get_logger()->info(filename.c_str());
     std::ifstream ifile(filename);
     if (!ifile.good()) {
         throw new FileNotFoundException();
@@ -173,4 +174,13 @@ Tile *TileSet::spawn(TileType t, sf::Vector2i loc)
     auto tile = tiles[t]->clone();
     tile->set_location(loc);
     return tile;
+}
+
+std::vector<int> TileSet::get_keys() const
+{
+    std::vector<int> keys;
+    for (const auto &i : tiles) {
+        keys.push_back(i.first);
+    }
+    return keys;
 }

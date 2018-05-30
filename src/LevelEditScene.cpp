@@ -1,5 +1,6 @@
 #include "LevelEditScene.h"
 #include "LevelEditNewScene.h"
+#include "LevelEditEditScene.h"
 
 LevelEditScene::LevelEditScene(sf::Vector2i size) : Scene(size)
 {
@@ -32,8 +33,8 @@ void LevelEditScene::update(int delta, sf::RenderWindow &window)
         this->next_scene = new LevelEditNewScene(this->size);
         this->state = Scene::Status::push_scene;
     } else if (pressed != "") {
-        this->next_scene = nullptr;
-        // add next scene
+        this->next_scene = new LevelEditEditScene(this->size, pressed);
+        this->state = Scene::Status::push_scene;
     }
 }
 

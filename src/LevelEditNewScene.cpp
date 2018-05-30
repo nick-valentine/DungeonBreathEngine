@@ -1,4 +1,5 @@
 #include "LevelEditNewScene.h"
+#include "LevelEditEditScene.h"
 
 LevelEditNewScene::LevelEditNewScene(sf::Vector2i size) : Scene(size), keyboard(size)
 {
@@ -47,8 +48,8 @@ void LevelEditNewScene::update_menu(int delta, sf::RenderWindow &window)
 
     if (pressed == "proceed") {
         write_level_meta();
-        this->next_scene = nullptr;
-        //@todo: go to next scene
+        this->next_scene = new LevelEditEditScene(this->size, this->name.get_label().toAnsiString());
+        this->state = Scene::Status::push_scene;
     } else if (pressed == "name") {
         pl_state = in_keyboard;
         current_button = &name;

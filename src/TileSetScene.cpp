@@ -3,27 +3,13 @@
 #include "TileSetNewScene.h"
 #include "MainMenuScene.h"
 
-TileSetScene::TileSetScene(sf::Vector2i size) : Scene(size),
-    state(Scene::nothing),
-    next_scene(nullptr),
-    new_set(sf::IntRect(size.x - 400, size.y - 160, 300, 50), StringProvider::get("tilesetmenu.new")),
-    back(sf::IntRect(size.x - 400, size.y - 100, 300, 50), StringProvider::get("tilesetmenu.back"))
+TileSetScene::TileSetScene(sf::Vector2i size) : Scene(size)
 {
     std::vector<std::string> tileset_index;
-    std::ifstream ifile(TILESETDIR "index.txt");
 
-    if (!ifile.good()) {
-        throw FileNotFoundException();
-    }
-
-    std::string temp;
-    ifile>>temp;
-    while (ifile.good()) {
-        tileset_index.push_back(temp);
-        ifile>>temp;
+    for (const auto &i : index.get()) {
+        tileset_index.push_back(i);
     } 
-
-    ifile.close();
 
     tilesets.reserve(tileset_index.size());
     for (size_t i = 0; i < tileset_index.size(); ++i) {
@@ -75,6 +61,6 @@ Scene *TileSetScene::new_scene()
 
 void TileSetScene::reset_status()
 {
-	this->state = Scene::Status::nothing;
-	this->next_scene = nullptr;
+    this->state = Scene::Status::nothing;
+    this->next_scene = nullptr;
 }

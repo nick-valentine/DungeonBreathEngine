@@ -12,6 +12,7 @@
 #include "TextButton.h"
 #include "ButtonGroup.h"
 #include "StringProvider.h"
+#include "Index.h"
 
 class TileSetNewScene : public Scene
 {
@@ -38,6 +39,8 @@ private:
     void write_tileset_meta();
 
     sf::View main_window;
+
+    Index index = Index(TILESETDIR);
 
     Scene::Status state = Scene::nothing;
     Scene *next_scene = nullptr;

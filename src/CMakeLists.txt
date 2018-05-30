@@ -20,6 +20,8 @@ SET (SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/TileSetScene.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/TileSetNewScene.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/TileSetEditScene.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/LevelEditNewScene.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Index.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Hero.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Input.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Logger.cpp

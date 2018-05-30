@@ -95,9 +95,8 @@ void TileSetNewScene::draw_keyboard(sf::RenderWindow &window)
 
 void TileSetNewScene::write_tileset_meta()
 {
-    std::fstream index(TILESETDIR "index.txt", std::fstream::out | std::fstream::app);
-    index<<name.get_label().toUtf8().c_str()<<"\n";
-    index.close();
+    index.add(name.get_label().toAnsiString());
+    index.save();
 
     // @todo: this breaks internationalizatin a bit
     std::string filename = name.get_label().toAnsiString(); 

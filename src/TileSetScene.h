@@ -11,6 +11,7 @@
 #include "TextButton.h"
 #include "ButtonGroup.h"
 #include "StringProvider.h"
+#include "Index.h"
 
 class TileSetScene : public Scene
 {
@@ -27,13 +28,15 @@ public:
 private:
     sf::View main_window;
 
-    Scene::Status state;
-    Scene *next_scene;
+    Index index = Index(TILESETDIR);
+
+    Scene::Status state = Scene::nothing;
+    Scene *next_scene = nullptr;
 
     ButtonGroup menu;
     std::vector<TextButton> tilesets;
-    TextButton new_set;
-    TextButton back;
+    TextButton new_set = TextButton(sf::IntRect(size.x - 400, size.y - 160, 300, 50), StringProvider::get("tilesetmenu.new"));
+    TextButton back = TextButton(sf::IntRect(size.x - 400, size.y - 100, 300, 50), StringProvider::get("tilesetmenu.back"));
 };
 
 #endif //TILESETSCENE_H

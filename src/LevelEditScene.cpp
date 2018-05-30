@@ -19,6 +19,7 @@ LevelEditScene::LevelEditScene(sf::Vector2i size) : Scene(size)
     }
     menu.add_button("new", &new_level);
     menu.add_button("exit_menu", &back);
+    this->main_window.reset(sf::FloatRect(0, 0, size.x, size.y));
 }
 
 void LevelEditScene::update(int delta, sf::RenderWindow &window)
@@ -40,6 +41,7 @@ void LevelEditScene::update(int delta, sf::RenderWindow &window)
 
 void LevelEditScene::draw(sf::RenderWindow &window)
 {
+    window.setView(this->main_window);
     menu.draw(window);
 }
 

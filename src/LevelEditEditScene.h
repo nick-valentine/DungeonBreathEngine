@@ -31,6 +31,7 @@ private:
     Scene *next_scene = nullptr;
 
     std::unique_ptr<World> world = nullptr;
+    sf::RectangleShape cursor;
 
     std::string title;
     std::string name;
@@ -38,7 +39,7 @@ private:
 
     ButtonGroup menu;
 
-
+    std::vector<bool> last_input;
 };
 
 #endif //LEVELEDITEDITSCENE_H

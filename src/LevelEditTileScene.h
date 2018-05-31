@@ -26,6 +26,8 @@ private:
     sf::RectangleShape cursor;
 
     TileSet tileset;
+    std::vector<int> keys;
+    std::vector<std::unique_ptr<Tile> > tiles;
 
     std::vector<bool> last_input;
 };

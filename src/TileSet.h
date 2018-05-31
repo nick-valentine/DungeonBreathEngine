@@ -31,6 +31,8 @@ public:
     virtual void update(int delta) = 0;
     virtual void draw(sf::RenderWindow &window) = 0;
 
+    virtual sf::Vector2i get_size() = 0;
+
     virtual Tile *clone() = 0;
     constexpr static int size()
     {
@@ -52,6 +54,8 @@ public:
     virtual void pause();
     virtual void reset();
 
+    virtual sf::Vector2i get_size();
+
     void update(int delta);
     void draw(sf::RenderWindow &window);
 
@@ -72,6 +76,8 @@ public:
     virtual void play();
     virtual void pause();
     virtual void reset();
+
+    virtual sf::Vector2i get_size();
 
     void update(int delta);
     void draw(sf::RenderWindow &window);

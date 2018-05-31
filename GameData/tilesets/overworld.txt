@@ -1,6 +1,7 @@
 overworld
 size 16
 tex Overworld.png
+anim_speed 20
 ---
 0 0 0 1 1
 1 0 1 1 1 1 1 1 1 2 1 1 1 3 1 1 1 0 2 1 1 1 2 1 1 2 2 1 1 3 2 1 1

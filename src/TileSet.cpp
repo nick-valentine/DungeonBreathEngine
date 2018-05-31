@@ -26,6 +26,12 @@ void StaticTile::reset()
 
 }
 
+sf::Vector2i StaticTile::get_size()
+{
+    auto b = this->sprite.getLocalBounds();
+    return sf::Vector2i(b.width, b.height) * Tile::size();
+}
+
 void StaticTile::update(int delta)
 {
 
@@ -71,6 +77,11 @@ void DynamicTile::pause()
 void DynamicTile::reset()
 {
     anim.reset();
+}
+
+sf::Vector2i DynamicTile::get_size()
+{
+    return this->size_mod * BASE_TILE_SIZE * Tile::size();
 }
 
 void DynamicTile::update(int delta)

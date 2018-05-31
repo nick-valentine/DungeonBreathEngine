@@ -4,7 +4,7 @@
 
 GameScene::GameScene(sf::Vector2i size) :
     Scene(size),
-    world(std::unique_ptr<TileSet>(new TileSet("overworld")), std::unique_ptr<WorldGenerator>(new WorldLoader(LEVELDIR "demo.txt")))
+    world("overworld", std::unique_ptr<WorldGenerator>(new WorldLoader(LEVELDIR "demo.txt")))
 {
     this->main_window.reset(sf::FloatRect(0, 0, size.x, size.y));
     this->actorman.spawn("enemy", sf::Vector2i(300, 300));

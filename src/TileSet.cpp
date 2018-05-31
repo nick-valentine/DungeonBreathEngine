@@ -1,6 +1,6 @@
 #include "TileSet.h"
 
-StaticTile::StaticTile(sf::Sprite sprite) : Tile()
+StaticTile::StaticTile(int key, sf::Sprite sprite) : Tile(), key(key)
 {
     this->sprite = sprite;
     this->sprite.setScale(Tile::scale, Tile::scale);
@@ -32,6 +32,11 @@ void StaticTile::reset()
 
 }
 
+int StaticTile::get_key()
+{
+    return key;
+}
+
 sf::Vector2i StaticTile::get_size()
 {
     auto b = this->sprite.getLocalBounds();
@@ -54,8 +59,8 @@ Tile *StaticTile::clone()
     return temp;
 }
 
-DynamicTile::DynamicTile(sf::Texture *tex, sf::Vector2i size_mod, int anim_speed, int base_size) : 
-    Tile(), anim(tex, anim_speed, base_size), loc(sf::Vector2i(0,0)), size_mod(size_mod)
+DynamicTile::DynamicTile(int key, sf::Texture *tex, sf::Vector2i size_mod, int anim_speed, int base_size) : 
+    Tile(), anim(tex, anim_speed, base_size), loc(sf::Vector2i(0,0)), size_mod(size_mod), key(key)
 {
 
 }
@@ -88,6 +93,11 @@ void DynamicTile::pause()
 void DynamicTile::reset()
 {
     anim.reset();
+}
+
+int DynamicTile::get_key()
+{
+    return key;
 }
 
 sf::Vector2i DynamicTile::get_size()
@@ -177,13 +187,13 @@ TileType TileSet::make_static(int key, sf::Vector2i pos, sf::Vector2i size_mod)
 {
     SpriteSet ss(tex, base_size);
     auto t = ss.make_sprite(pos, size_mod);
-    tiles[key] = std::unique_ptr<Tile>(new StaticTile(*ss.get_sprite(t)));
+    tiles[key] = std::unique_ptr<Tile>(new StaticTile(key, *ss.get_sprite(t)));
     return tiles.size() - 1;
 }
 
 TileType TileSet::make_dynamic(int key, std::vector<sf::Vector2i> pos, sf::Vector2i size_mod, int anim_speed)
 {
-    DynamicTile *dt = new DynamicTile(tex, size_mod, anim_speed, this->base_size);
+    DynamicTile *dt = new DynamicTile(key, tex, size_mod, anim_speed, this->base_size);
     for (auto &p: pos){
         dt->add_frame(sf::IntRect(p.x, p.y, size_mod.x, size_mod.y));
     }

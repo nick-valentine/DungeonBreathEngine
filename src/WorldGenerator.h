@@ -21,7 +21,10 @@ public:
     WorldGenerator() = default;;
     virtual ~WorldGenerator() = default;
 
-    virtual Dimension::Room generate(std::unique_ptr<TileSet> &tile_set) = 0;
+    virtual Dimension::Room generate(std::string tile_set) = 0;
+    virtual std::string get_name() = 0;
+    virtual std::string get_filename() = 0;
+    virtual std::string get_tileset() = 0;
 private:
 };
 
@@ -31,10 +34,14 @@ public:
     WorldLoader(std::string file_name);
     virtual ~WorldLoader() = default;
 
-    virtual Dimension::Room generate(std::unique_ptr<TileSet> &tile_set);
+    virtual Dimension::Room generate(std::string tile_set);
+    virtual std::string get_name();
+    virtual std::string get_filename();
+    virtual std::string get_tileset();
 private:
-    Dimension::Layer spawn_layer(std::ifstream &ifile, std::unique_ptr<TileSet> &tile_set);
+    Dimension::Layer spawn_layer(std::ifstream &ifile, TileSet &tile_set);
     std::string file_name;
+    std::string tile_set;
 };
 
 #endif //WORLDGENERATOR_H

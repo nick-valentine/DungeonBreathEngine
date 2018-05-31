@@ -32,6 +32,7 @@ public:
     virtual void update(int delta) = 0;
     virtual void draw(sf::RenderWindow &window) = 0;
 
+    virtual int get_key() = 0;
     virtual sf::Vector2i get_size() = 0;
 
     virtual Tile *clone() = 0;
@@ -46,7 +47,7 @@ protected:
 class DynamicTile : public Tile
 {
 public:
-    DynamicTile(sf::Texture *tex, sf::Vector2i size_mod = sf::Vector2i(1,1), int anim_speed = 1, int base_size = 16);
+    DynamicTile(int key, sf::Texture *tex, sf::Vector2i size_mod = sf::Vector2i(1,1), int anim_speed = 1, int base_size = 16);
     void add_frame(sf::IntRect pos);
 
     sf::Vector2i get_location();
@@ -56,6 +57,7 @@ public:
     virtual void pause();
     virtual void reset();
 
+    virtual int get_key();
     virtual sf::Vector2i get_size();
 
     void update(int delta);
@@ -66,12 +68,13 @@ private:
     Animation anim;
     sf::Vector2i loc;
     sf::Vector2i size_mod;
+    int key;
 };
 
 class StaticTile : public Tile
 {
 public:
-    StaticTile(sf::Sprite sprite);
+    StaticTile(int key, sf::Sprite sprite);
 
     sf::Vector2i get_location();
     void set_location(sf::Vector2i loc);
@@ -80,6 +83,7 @@ public:
     virtual void pause();
     virtual void reset();
 
+    virtual int get_key();
     virtual sf::Vector2i get_size();
 
     void update(int delta);
@@ -88,6 +92,7 @@ public:
     Tile *clone();
 private:
     sf::Sprite sprite;
+    int key;
 };
 
 class TileSet 

@@ -43,10 +43,13 @@ void LevelEditTileScene::update(int delta, sf::RenderWindow &window)
     } else if (new_input[Input::right] && !last_input[Input::right]) {
         cursor.move(sf::Vector2f(TILE_SIZE, 0));
     } else if (!new_input[Input::escape] && last_input[Input::escape]) {
+        this->state = Scene::Status::pop_scene;
+        this->next_scene = nullptr;
+    } else if (!new_input[Input::fire] && last_input[Input::fire]) {
         update_selected();
         this->state = Scene::Status::pop_scene;
         this->next_scene = nullptr;
-    } 
+    }
 
     last_input = new_input;
     auto target_camera_center = cursor.getPosition();

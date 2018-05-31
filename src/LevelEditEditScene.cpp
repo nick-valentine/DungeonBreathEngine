@@ -91,12 +91,11 @@ void LevelEditEditScene::load_level()
     std::getline(ifile, title);
     ifile>>tileset;
     ifile.close();
+    std::cout<<tileset<<std::endl;
     tiles = std::unique_ptr<TileSet>(new TileSet(tileset));
     world = std::unique_ptr<World>(
         new World(
-            std::unique_ptr<TileSet>(
-                new TileSet(tileset)
-            ), 
+            tileset, 
             std::unique_ptr<WorldGenerator>(
                 new WorldLoader(LEVELDIR + filename)
             )
@@ -128,12 +127,15 @@ void LevelEditEditScene::update_edit(int delta, sf::RenderWindow &window)
     } else if (new_input[Input::right] && !last_input[Input::right]) {
         cursor.move(sf::Vector2i(TILE_SIZE, 0));
     } else if (!new_input[Input::escape] && last_input[Input::escape]) {
+        this->world->save();
         this->state = Scene::Status::pop_scene;
         this->next_scene = nullptr;
     } else if (new_input[Input::alt_fire] && !last_input[Input::alt_fire]) {
         this->cur_state = select_tile;
     } else if (new_input[Input::fire] && !last_input[Input::fire]) {
-        world->set_tile(tiles->spawn(selected_tile, cursor.get_location()), 0, cursor.get_location() / TILE_SIZE);
+        if (selected_tile != -1) {
+            world->set_tile(tiles->spawn(selected_tile, cursor.get_location()), 0, cursor.get_location() / TILE_SIZE);
+        }
     }
     last_input = new_input;
     auto target_camera_center = cursor.get_location();

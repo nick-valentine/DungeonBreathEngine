@@ -7,23 +7,48 @@ WorldLoader::WorldLoader(std::string file_name) : WorldGenerator(), file_name(fi
 
 }
 
-Dimension::Room WorldLoader::generate(std::unique_ptr<TileSet> &tile_set)
+Dimension::Room WorldLoader::generate(std::string tile_set)
 {
     auto world = Dimension::Room();
     std::ifstream ifile(file_name.c_str());
     if (!ifile.good()) {
         throw FileNotFoundException();
     }
-    std::string name;
+    std::string name, f_tileset;
     std::getline(ifile, name);
+    std::getline(ifile, f_tileset);
+    TileSet tileset(f_tileset);
+    this->tile_set = f_tileset;
     while (ifile.good()) {
-        world.push_back(spawn_layer(ifile, tile_set));
+        world.push_back(spawn_layer(ifile, tileset));
     }
     ifile.close();
     return world;
 }
 
-Dimension::Layer WorldLoader::spawn_layer(std::ifstream &ifile, std::unique_ptr<TileSet> &tile_set)
+std::string WorldLoader::get_name()
+{
+    std::ifstream ifile(file_name.c_str());
+    if (!ifile.good()) {
+        throw FileNotFoundException();
+    }
+    std::string name;
+    std::getline(ifile, name);
+    ifile.close();
+    return name;
+}
+
+std::string WorldLoader::get_filename()
+{
+    return this->file_name;
+}
+
+std::string WorldLoader::get_tileset()
+{
+    return this->tile_set;
+}
+
+Dimension::Layer WorldLoader::spawn_layer(std::ifstream &ifile, TileSet &tile_set)
 {
     std::string line;
     Dimension::Layer layer;
@@ -40,7 +65,7 @@ Dimension::Layer WorldLoader::spawn_layer(std::ifstream &ifile, std::unique_ptr<
                 layer[line_number].push_back(Dimension::TilePtr(nullptr));
             } else {
                 layer[line_number].push_back(
-                    Dimension::TilePtr(tile_set->spawn(
+                    Dimension::TilePtr(tile_set.spawn(
                         tile,
                         sf::Vector2i(
                             col_number * TileSet::tile_size(), 

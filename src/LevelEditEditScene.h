@@ -11,6 +11,24 @@
 #include "Exceptions.h"
 #include "LevelEditTileScene.h"
 
+namespace LevelEdit {
+    class Cursor {
+    public:
+        Cursor();
+        void move(sf::Vector2i offset);
+        sf::Vector2i get_location();
+
+        void draw(sf::RenderWindow &window);
+
+        void set_tile(Tile *tile);
+    private:
+        sf::Vector2i loc = sf::Vector2i(0, 0);
+        sf::Vector2i size;
+        sf::RectangleShape shape;
+        std::unique_ptr<Tile> current = nullptr;
+    };
+};
+
 class LevelEditEditScene : public Scene
 {
 public:
@@ -42,7 +60,9 @@ private:
     Scene *next_scene = nullptr;
 
     std::unique_ptr<World> world = nullptr;
-    sf::RectangleShape cursor;
+    std::unique_ptr<TileSet> tiles = nullptr;
+    LevelEdit::Cursor cursor;
+    int selected_tile;
 
     std::string title;
     std::string name;

@@ -6,6 +6,12 @@ StaticTile::StaticTile(sf::Sprite sprite) : Tile()
     this->sprite.setScale(Tile::scale, Tile::scale);
 }
 
+sf::Vector2i StaticTile::get_location()
+{
+    auto v = this->sprite.getPosition();
+    return sf::Vector2i(v.x, v.y);
+}
+
 void StaticTile::set_location(sf::Vector2i loc)
 {
     this->sprite.setPosition(loc.x, loc.y);
@@ -57,6 +63,11 @@ DynamicTile::DynamicTile(sf::Texture *tex, sf::Vector2i size_mod, int anim_speed
 void DynamicTile::add_frame(sf::IntRect pos)
 {
     anim.add_sprite(pos);
+}
+
+sf::Vector2i DynamicTile::get_location()
+{
+    return this->loc;
 }
 
 void DynamicTile::set_location(sf::Vector2i loc)

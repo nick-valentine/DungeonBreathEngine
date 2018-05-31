@@ -3,11 +3,12 @@
 #define TILE_SIZE 64
 #define CAMERA_LAG 10
 
-LevelEditTileScene::LevelEditTileScene(sf::Vector2i size, std::string tileset) : Scene(size), tileset(tileset)
+LevelEditTileScene::LevelEditTileScene(sf::Vector2i size, std::string tileset) : Scene(size), tileset(tileset), last_input(Input::num_keys, false)
 {
     cursor.setSize(sf::Vector2f(TILE_SIZE, TILE_SIZE));
     cursor.setOutlineColor(sf::Color::Blue);
-    cursor.setFillColor(sf::Color::White);
+    cursor.setOutlineThickness(5.0f);
+    cursor.setFillColor(sf::Color::Transparent);
     cursor.setPosition(sf::Vector2f(0.0f, 0.0f));
     this->main_window.reset(sf::FloatRect(0, 0, size.x, size.y));
 
@@ -41,10 +42,12 @@ void LevelEditTileScene::update(int delta, sf::RenderWindow &window)
         cursor.move(sf::Vector2f(-TILE_SIZE, 0));
     } else if (new_input[Input::right] && !last_input[Input::right]) {
         cursor.move(sf::Vector2f(TILE_SIZE, 0));
-    } else if (new_input[Input::escape] && !last_input[Input::escape]) {
+    } else if (!new_input[Input::escape] && last_input[Input::escape]) {
+        update_selected();
         this->state = Scene::Status::pop_scene;
         this->next_scene = nullptr;
-    }
+    } 
+
     last_input = new_input;
     auto target_camera_center = cursor.getPosition();
     auto camera_center = this->main_window.getCenter();
@@ -68,6 +71,11 @@ void LevelEditTileScene::draw(sf::RenderWindow &window)
     window.draw(cursor);
 }
 
+int LevelEditTileScene::get_selected()
+{
+    return current_selected;
+}
+
 Scene::Status LevelEditTileScene::status()
 {
     return this->state;
@@ -82,4 +90,20 @@ void LevelEditTileScene::reset_status()
 {
     this->state = Scene::Status::nothing;
     this->next_scene = nullptr;
+}
+
+void LevelEditTileScene::update_selected()
+{
+    auto i = 0;
+    for (const auto &t : tiles) {
+        auto pos = t->get_location();
+        auto size = t->get_size();
+        auto rect = sf::IntRect(pos.x, pos.y, size.x, size.y);
+        auto cpos = cursor.getPosition();
+        if (rect.contains(cpos.x + 1, cpos.y + 1)) {
+            current_selected = keys[i];
+            return;
+        }
+        ++i;
+    }
 }

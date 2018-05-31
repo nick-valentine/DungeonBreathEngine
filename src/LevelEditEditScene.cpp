@@ -3,13 +3,48 @@
 #define TILE_SIZE 64
 #define CAMERA_LAG 10
 
-LevelEditEditScene::LevelEditEditScene(sf::Vector2i size, std::string name) : Scene(size), name(name), cursor()
+LevelEdit::Cursor::Cursor() : size(TILE_SIZE, TILE_SIZE)
+{
+    shape.setSize(sf::Vector2f(TILE_SIZE, TILE_SIZE));
+    shape.setOutlineColor(sf::Color::Blue);
+    shape.setOutlineThickness(5.0f);
+    shape.setFillColor(sf::Color::Transparent);
+    shape.setPosition(sf::Vector2f(0.0f, 0.0f));
+}
+
+void LevelEdit::Cursor::move(sf::Vector2i offset)
+{
+    this->loc += offset;
+    shape.move(offset.x, offset.y);
+    if (current != nullptr) {
+        current->set_location(this->loc);
+    }
+}
+
+sf::Vector2i LevelEdit::Cursor::get_location()
+{
+    return loc;
+}
+
+void LevelEdit::Cursor::draw(sf::RenderWindow &window)
+{
+    window.draw(shape);
+    if (current != nullptr) {
+        current->draw(window);
+    }
+}
+
+void LevelEdit::Cursor::set_tile(Tile *tile)
+{
+    current.reset(tile);
+    size = current->get_size();
+    current->set_location(loc);
+    shape.setSize(sf::Vector2f(size.x, size.y));
+}
+
+LevelEditEditScene::LevelEditEditScene(sf::Vector2i size, std::string name) : Scene(size), name(name), last_input(Input::num_keys, false)
 {
     load_level();
-    cursor.setSize(sf::Vector2f(TILE_SIZE, TILE_SIZE));
-    cursor.setOutlineColor(sf::Color::Blue);
-    cursor.setFillColor(sf::Color::White);
-    cursor.setPosition(sf::Vector2f(0.0f, 0.0f));
     this->main_window.reset(sf::FloatRect(0, 0, size.x, size.y));
 }
 
@@ -56,6 +91,7 @@ void LevelEditEditScene::load_level()
     std::getline(ifile, title);
     ifile>>tileset;
     ifile.close();
+    tiles = std::unique_ptr<TileSet>(new TileSet(tileset));
     world = std::unique_ptr<World>(
         new World(
             std::unique_ptr<TileSet>(
@@ -84,21 +120,23 @@ void LevelEditEditScene::update_edit(int delta, sf::RenderWindow &window)
     world->update(delta, window);
     auto new_input = app_container.get_input()->poll_all();
     if (new_input[Input::down] && !last_input[Input::down]) {
-        cursor.move(sf::Vector2f(0, TILE_SIZE));
+        cursor.move(sf::Vector2i(0, TILE_SIZE));
     } else if (new_input[Input::up] && !last_input[Input::up]) {
-        cursor.move(sf::Vector2f(0, -TILE_SIZE));
+        cursor.move(sf::Vector2i(0, -TILE_SIZE));
     } else if (new_input[Input::left] && !last_input[Input::left]) {
-        cursor.move(sf::Vector2f(-TILE_SIZE, 0));
+        cursor.move(sf::Vector2i(-TILE_SIZE, 0));
     } else if (new_input[Input::right] && !last_input[Input::right]) {
-        cursor.move(sf::Vector2f(TILE_SIZE, 0));
-    } else if (new_input[Input::escape] && !last_input[Input::escape]) {
+        cursor.move(sf::Vector2i(TILE_SIZE, 0));
+    } else if (!new_input[Input::escape] && last_input[Input::escape]) {
         this->state = Scene::Status::pop_scene;
         this->next_scene = nullptr;
     } else if (new_input[Input::alt_fire] && !last_input[Input::alt_fire]) {
         this->cur_state = select_tile;
+    } else if (new_input[Input::fire] && !last_input[Input::fire]) {
+        world->set_tile(tiles->spawn(selected_tile, cursor.get_location()), 0, cursor.get_location() / TILE_SIZE);
     }
     last_input = new_input;
-    auto target_camera_center = cursor.getPosition();
+    auto target_camera_center = cursor.get_location();
     auto camera_center = this->main_window.getCenter();
     sf::Vector2f camera_diff;
     camera_diff.x = (target_camera_center.x - camera_center.x) / CAMERA_LAG;
@@ -111,12 +149,18 @@ void LevelEditEditScene::draw_edit(sf::RenderWindow &window)
 {
     window.setView(this->main_window);
     world->draw(window);
-    window.draw(cursor);
+    cursor.draw(window);
 }
 
 void LevelEditEditScene::update_select(int delta, sf::RenderWindow &window)
 {
     this->tile_selector->update(delta, window);
+    if (this->tile_selector->status() == Scene::Status::pop_scene) {
+        this->tile_selector->reset_status();
+        this->selected_tile = this->tile_selector->get_selected();
+        this->cursor.set_tile(tiles->spawn(selected_tile, cursor.get_location()));
+        this->cur_state = edit_level;
+    }
 }
 
 void LevelEditEditScene::draw_select(sf::RenderWindow &window)

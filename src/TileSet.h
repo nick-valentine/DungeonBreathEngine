@@ -21,6 +21,7 @@ typedef int TileType;
 class Tile
 {
 public:
+    virtual sf::Vector2i get_location() = 0;
     virtual void set_location(sf::Vector2i loc) = 0;
     virtual ~Tile() = default;
 
@@ -48,6 +49,7 @@ public:
     DynamicTile(sf::Texture *tex, sf::Vector2i size_mod = sf::Vector2i(1,1), int anim_speed = 1, int base_size = 16);
     void add_frame(sf::IntRect pos);
 
+    sf::Vector2i get_location();
     void set_location(sf::Vector2i loc);
 
     virtual void play();
@@ -71,6 +73,7 @@ class StaticTile : public Tile
 public:
     StaticTile(sf::Sprite sprite);
 
+    sf::Vector2i get_location();
     void set_location(sf::Vector2i loc);
 
     virtual void play();

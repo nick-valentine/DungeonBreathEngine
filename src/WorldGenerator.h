@@ -42,6 +42,7 @@ public:
     virtual sf::Vector2i get_size();
 private:
     Dimension::Layer spawn_layer(std::ifstream &ifile, TileSet &tile_set);
+    Dimension::Line spawn_line(std::string &line, int line_number, TileSet &tile_set);
     std::string file_name;
     std::string tile_set;
     sf::Vector2i size;

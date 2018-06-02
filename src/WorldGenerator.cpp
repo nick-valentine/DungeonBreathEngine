@@ -57,34 +57,43 @@ sf::Vector2i WorldLoader::get_size()
 Dimension::Layer WorldLoader::spawn_layer(std::ifstream &ifile, TileSet &tile_set)
 {
     std::string line;
+    // consume lines up to layer start
+    while ((line == "---" || line == "") && ifile.good()) {
+        std::getline(ifile, line);
+    }
     Dimension::Layer layer;
-    std::getline(ifile, line);
     int line_number = 0;
     while (ifile.good() && line != "---") {
-        layer.push_back(Dimension::Line());
-        std::stringstream ss(line);
-        int tile;
-        ss>>tile;
-        int col_number = 0;
-        while (ss.good()) {
-            if (tile == -1) {
-                layer[line_number].push_back(Dimension::TilePtr(nullptr));
-            } else {
-                layer[line_number].push_back(
-                    Dimension::TilePtr(tile_set.spawn(
-                        tile,
-                        sf::Vector2i(
-                            col_number * TileSet::tile_size(), 
-                            line_number * TileSet::tile_size()
-                        )
-                    ))
-                );
-            }
-            ++col_number;
-            ss>>tile;
-        }
+        layer.push_back(spawn_line(line, line_number, tile_set));
         ++line_number;
         std::getline(ifile, line);
     }
     return layer;
+}
+
+Dimension::Line WorldLoader::spawn_line(std::string &line, int line_number, TileSet &tile_set)
+{
+    Dimension::Line l;
+    std::stringstream ss(line);
+    int tile;
+    ss>>tile;
+    int col_number = 0;
+    while (ss.good()) {
+        if (tile == -1) {
+            l.push_back(Dimension::TilePtr(nullptr));
+        } else {
+            l.push_back(
+                Dimension::TilePtr(tile_set.spawn(
+                    tile,
+                    sf::Vector2i(
+                        col_number * TileSet::tile_size(), 
+                        line_number * TileSet::tile_size()
+                    )
+                ))
+            );
+        }
+        ++col_number;
+        ss>>tile;
+    }
+    return l;
 }

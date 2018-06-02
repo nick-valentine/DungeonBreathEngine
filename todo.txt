@@ -1,3 +1,0 @@
-@todo:
-- Tileset Manager
-- Fix player idle

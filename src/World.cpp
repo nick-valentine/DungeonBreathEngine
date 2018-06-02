@@ -1,5 +1,7 @@
 #include "World.h"
 
+#define LAYERS_UNDER_ACTOR 5
+
 World::World(std::string tile_set, std::unique_ptr<WorldGenerator> &&gen)
 {
     world = gen->generate(tile_set);
@@ -82,7 +84,8 @@ void World::update(int delta, sf::RenderWindow &window)
 
 void World::draw(sf::RenderWindow &window)
 {
-    for (auto& layer: world) {
+    for (size_t i = 0; i < LAYERS_UNDER_ACTOR && i < world.size(); ++i) {
+        auto & layer = world[i];
         for (auto& line: layer) {
             for (auto& value: line) {
                 if (value != nullptr) {
@@ -91,7 +94,19 @@ void World::draw(sf::RenderWindow &window)
             }
         }
     }
+
     actor_man->draw(window);
+
+    for (size_t i = LAYERS_UNDER_ACTOR; i < world.size(); ++i) {
+        auto & layer = world[i];
+        for (auto& line: layer) {
+            for (auto& value: line) {
+                if (value != nullptr) {
+                    value->draw(window);
+                }
+            }
+        }
+    }
 }
 
 void World::set_edit_mode(bool edit_mode)

@@ -28,6 +28,16 @@ void World::set_tile(Tile *tile, int layer, sf::Vector2i pos)
     }
 }
 
+void World::remove_tile(int layer, sf::Vector2i pos)
+{
+    if (layer >= 0 && layer < world.size() &&
+        pos.y >= 0 && pos.y < world[layer].size() &&
+        pos.x >= 0 && pos.x < world[layer][pos.y].size()
+    ) {
+        world[layer][pos.y][pos.x].reset(nullptr);
+    }
+}
+
 void World::save()
 {
     std::ofstream ofile(filename.c_str());
@@ -35,6 +45,7 @@ void World::save()
     ofile<<tileset<<"\n";
     ofile<<size.x<<" "<<size.y<<"\n";
     ofile<<"---\n";
+    ofile<<actor_man->get_actor_data()<<"---\n";
 
     for (auto &layer: world) {
         for (auto &line: layer) {
@@ -64,7 +75,9 @@ void World::update(int delta, sf::RenderWindow &window)
             }
         }
     }
-    actor_man->update(delta);
+    if (update_actors) {
+        actor_man->update(delta);
+    }
 }
 
 void World::draw(sf::RenderWindow &window)
@@ -79,6 +92,11 @@ void World::draw(sf::RenderWindow &window)
         }
     }
     actor_man->draw(window);
+}
+
+void World::set_edit_mode(bool edit_mode)
+{
+    this->update_actors = !edit_mode;
 }
 
 ActorManager::actor_ptr World::get_camera_target()

@@ -37,6 +37,7 @@ public:
     virtual void draw(sf::RenderWindow &window);
     virtual void hurt(pain p);
 
+    std::string get_name() const;
     sf::FloatRect get_rect() const;
     void set_rect(sf::FloatRect& x);
 
@@ -61,7 +62,8 @@ private:
 
     std::vector<tile_ptr> tileset_cache = std::vector<tile_ptr>();
 
-     Script s;
+    std::string name;
+     Script *s;
 };
 
 namespace lua {

@@ -22,6 +22,7 @@ public:
     ~World();
 
     void set_tile(Tile *tile, int layer, sf::Vector2i pos);
+    void remove_tile(int layer, sf::Vector2i pos);
 
     void save();
     void set_size(sf::Vector2i size);
@@ -29,10 +30,13 @@ public:
     void update(int delta, sf::RenderWindow &window);
     void draw(sf::RenderWindow &window);
 
+    void set_edit_mode(bool edit_mode);
+
     ActorManager::actor_ptr get_camera_target();
 private:
     void add_layer(int num_layers = 1);
 
+    bool update_actors =  true;
     static constexpr int world_height = 20;
     static constexpr int world_width = 20;
     std::unique_ptr<TileSet> tile_set;

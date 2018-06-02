@@ -120,6 +120,7 @@ void LevelEditEditScene::load_level()
             )
         )
     );
+    world->set_edit_mode(true);
     tile_selector = std::unique_ptr<LevelEditTileScene>(
         new LevelEditTileScene(
             this->size,
@@ -132,7 +133,9 @@ void LevelEditEditScene::update_edit(int delta, sf::RenderWindow &window)
 {
     world->update(delta, window);
     auto new_input = app_container.get_input()->poll_all();
-    if (new_input[Input::down] && !last_input[Input::down]) {
+    if (new_input[Input::accept] && (new_input[Input::fire] && !last_input[Input::fire])) {
+        world->remove_tile(layer, cursor.get_location() / TILE_SIZE);
+    } else if (new_input[Input::down] && !last_input[Input::down]) {
         cursor.move(sf::Vector2i(0, TILE_SIZE));
     } else if (new_input[Input::up] && !last_input[Input::up]) {
         cursor.move(sf::Vector2i(0, -TILE_SIZE));

@@ -26,6 +26,7 @@ public:
     void clear();
     void set_camera_target(int handle);
     actor_ptr get_camera_target();
+    std::string get_actor_data() const;
 private:
     bool check_available(std::string name);
 

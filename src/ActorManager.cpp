@@ -32,10 +32,7 @@ int ActorManager::spawn(std::string name, sf::Vector2i pos)
     if (!check_available(name)) {
         throw new UnavailableActorException();
     }
-    std::string filename = ACTORDIR;
-    filename += name;
-    filename += ".lua";
-    actor_ptr tmp(new Actor(this, max_id, pos, sf::Vector2f(1, 1), filename));
+    actor_ptr tmp(new Actor(this, max_id, pos, sf::Vector2f(1, 1), name));
     actors[max_id] = tmp;
     max_id++;
     return max_id-1;
@@ -59,6 +56,17 @@ void ActorManager::set_camera_target(int handle)
 ActorManager::actor_ptr ActorManager::get_camera_target()
 {
     return this->camera_target;
+}
+
+
+std::string ActorManager::get_actor_data() const
+{
+    std::stringstream ss;
+    for (const auto &i : actors) {
+        auto rect = i.second->get_rect();
+        ss<<i.second->get_name()<<" "<<rect.left<<" "<<rect.top<<"\n";
+    }
+    return ss.str();
 }
 
 bool ActorManager::check_available(std::string name)

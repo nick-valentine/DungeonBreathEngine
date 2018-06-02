@@ -17,6 +17,7 @@ Dimension::Room WorldLoader::generate(std::string tile_set)
     std::string name, f_tileset;
     std::getline(ifile, name);
     std::getline(ifile, f_tileset);
+    ifile>>size.x>>size.y;
     TileSet tileset(f_tileset);
     this->tile_set = f_tileset;
     while (ifile.good()) {
@@ -48,6 +49,11 @@ std::string WorldLoader::get_tileset()
     return this->tile_set;
 }
 
+sf::Vector2i WorldLoader::get_size()
+{
+    return this->size;
+}
+
 Dimension::Layer WorldLoader::spawn_layer(std::ifstream &ifile, TileSet &tile_set)
 {
     std::string line;
@@ -55,12 +61,12 @@ Dimension::Layer WorldLoader::spawn_layer(std::ifstream &ifile, TileSet &tile_se
     std::getline(ifile, line);
     int line_number = 0;
     while (ifile.good() && line != "---") {
+        layer.push_back(Dimension::Line());
         std::stringstream ss(line);
         int tile;
         ss>>tile;
         int col_number = 0;
         while (ss.good()) {
-            layer.push_back(Dimension::Line());
             if (tile == -1) {
                 layer[line_number].push_back(Dimension::TilePtr(nullptr));
             } else {

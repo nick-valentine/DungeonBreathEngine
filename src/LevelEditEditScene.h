@@ -8,6 +8,7 @@
 #include "World.h"
 #include "Scene.h"
 #include "ButtonGroup.h"
+#include "SpriteButton.h"
 #include "TextButton.h"
 #include "Exceptions.h"
 #include "LevelEditTileScene.h"
@@ -57,6 +58,8 @@ private:
     void update_menu(int delta, sf::RenderWindow &window);
     void draw_menu(sf::RenderWindow &window);
 
+    void update_layer(int diff);
+
     sf::View main_window;
     sf::View menu_window;
 
@@ -67,6 +70,7 @@ private:
     std::unique_ptr<TileSet> tiles = nullptr;
     LevelEdit::Cursor cursor;
     int selected_tile;
+    int layer = 0;
 
     std::string title;
     std::string name;
@@ -74,10 +78,16 @@ private:
 
     std::unique_ptr<LevelEditTileScene> tile_selector = nullptr;
 
+    Label layer_label = Label(sf::IntRect(10, 100, 200, 50), StringProvider::get("leveleditmenu.layer_label"));
+    Label layer_value_label = Label(sf::IntRect(260, 100, 30, 50), "0");
+
     ButtonGroup menu;
     TextButton edit;
     TextButton save;
     TextButton back;
+    SpriteButton layer_button_right = ui::left(sf::IntRect(210, 100, 50, 50));
+    SpriteButton layer_button_left = ui::right(sf::IntRect(290, 100, 50, 50));
+
 
     game_state cur_state = edit_level;
 

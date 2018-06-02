@@ -23,10 +23,13 @@ public:
     void set_tile(Tile *tile, int layer, sf::Vector2i pos);
 
     void save();
+    void set_size(sf::Vector2i size);
 
     void update(int delta, sf::RenderWindow &window);
     void draw(sf::RenderWindow &window);
 private:
+    void add_layer(int num_layers = 1);
+
     static constexpr int world_height = 20;
     static constexpr int world_width = 20;
     std::unique_ptr<TileSet> tile_set;
@@ -34,6 +37,8 @@ private:
     std::string filename;
     std::string tileset;
     Dimension::Room world;
+
+    sf::Vector2i size;
 };
 
 #endif //WORLD_H

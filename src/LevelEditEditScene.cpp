@@ -53,6 +53,8 @@ LevelEditEditScene::LevelEditEditScene(sf::Vector2i size, std::string name) :
     this->main_window.reset(sf::FloatRect(0, 0, size.x, size.y));
     this->menu_window.reset(sf::FloatRect(0, 0, size.x, size.y));
 
+    menu.add_button("layer_right", &layer_button_right);
+    menu.add_button("layer_left", &layer_button_left);
     menu.add_button("edit", &edit);
     menu.add_button("save", &save);
     menu.add_button("exit_menu", &back);
@@ -144,7 +146,7 @@ void LevelEditEditScene::update_edit(int delta, sf::RenderWindow &window)
         this->cur_state = select_tile;
     } else if (new_input[Input::fire] && !last_input[Input::fire]) {
         if (selected_tile != -1) {
-            world->set_tile(tiles->spawn(selected_tile, cursor.get_location()), 0, cursor.get_location() / TILE_SIZE);
+            world->set_tile(tiles->spawn(selected_tile, cursor.get_location()), layer, cursor.get_location() / TILE_SIZE);
         }
     }
     last_input = new_input;
@@ -170,7 +172,9 @@ void LevelEditEditScene::update_select(int delta, sf::RenderWindow &window)
     if (this->tile_selector->status() == Scene::Status::pop_scene) {
         this->tile_selector->reset_status();
         this->selected_tile = this->tile_selector->get_selected();
-        this->cursor.set_tile(tiles->spawn(selected_tile, cursor.get_location()));
+        if (this->selected_tile != -1) {
+            this->cursor.set_tile(tiles->spawn(selected_tile, cursor.get_location()));
+        }
         this->cur_state = edit_level;
     }
 }
@@ -186,7 +190,11 @@ void LevelEditEditScene::update_menu(int delta, sf::RenderWindow &window)
 
     std::string pressed = this->menu.neg_edge_button();
 
-    if (pressed == "edit") {
+    if (pressed == "layer_left") {
+        this->update_layer(1);
+    } else if (pressed == "layer_right") {
+        this->update_layer(-1);
+    } else if (pressed == "edit") {
         this->cur_state= edit_level;
     } else if (pressed == "exit_menu") {
         this->next_scene = nullptr;
@@ -199,5 +207,19 @@ void LevelEditEditScene::update_menu(int delta, sf::RenderWindow &window)
 void LevelEditEditScene::draw_menu(sf::RenderWindow &window)
 {
     window.setView(this->menu_window);
+    layer_label.draw(window);
+    layer_value_label.draw(window);
     menu.draw(window);
+}
+
+void LevelEditEditScene::update_layer(int diff)
+{
+    layer+=diff;
+    if (layer < 0) {
+        layer = 0;
+    }
+    char layer_lab[50];
+    sprintf(layer_lab, "%d", layer);
+    sf::String str = Strings::utf8_to_sfml(layer_lab);
+    layer_value_label.set_string(str);
 }

@@ -25,5 +25,6 @@ levelnewmenu.back=Back
 leveleditmenu.edit=Back to Editing
 leveleditmenu.save=Save
 leveleditmenu.back_button=Back
+leveleditmenu.layer_label=Layer
 keyboard.backspace=Backspace
 keyboard.back=Done

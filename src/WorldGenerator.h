@@ -25,6 +25,7 @@ public:
     virtual std::string get_name() = 0;
     virtual std::string get_filename() = 0;
     virtual std::string get_tileset() = 0;
+    virtual sf::Vector2i get_size() = 0;
 private:
 };
 
@@ -38,10 +39,12 @@ public:
     virtual std::string get_name();
     virtual std::string get_filename();
     virtual std::string get_tileset();
+    virtual sf::Vector2i get_size();
 private:
     Dimension::Layer spawn_layer(std::ifstream &ifile, TileSet &tile_set);
     std::string file_name;
     std::string tile_set;
+    sf::Vector2i size;
 };
 
 #endif //WORLDGENERATOR_H

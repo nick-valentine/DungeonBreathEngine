@@ -12,6 +12,7 @@
 #include "TextButton.h"
 #include "Exceptions.h"
 #include "LevelEditTileScene.h"
+#include "LevelEditActorSelectScene.h"
 
 namespace LevelEdit {
     class Cursor {
@@ -23,11 +24,15 @@ namespace LevelEdit {
         void draw(sf::RenderWindow &window);
 
         void set_tile(Tile *tile);
+        void set_actor(std::string actor);
+
+        std::string get_actor();
     private:
         sf::Vector2i loc = sf::Vector2i(0, 0);
         sf::Vector2i size;
         sf::RectangleShape shape;
         std::unique_ptr<Tile> current = nullptr;
+        std::string actor;
     };
 };
 
@@ -37,6 +42,7 @@ public:
     enum game_state {
         edit_level = 0,
         select_tile,
+        select_actor,
         in_menu
     };
     LevelEditEditScene(sf::Vector2i size, std::string name);
@@ -55,6 +61,8 @@ private:
     void draw_edit(sf::RenderWindow &window);
     void update_select(int delta, sf::RenderWindow &window);
     void draw_select(sf::RenderWindow &window);
+    void update_actor_select(int delta, sf::RenderWindow &window);
+    void draw_actor_select(sf::RenderWindow &window);
     void update_menu(int delta, sf::RenderWindow &window);
     void draw_menu(sf::RenderWindow &window);
 
@@ -77,6 +85,7 @@ private:
     std::string tileset;
 
     std::unique_ptr<LevelEditTileScene> tile_selector = nullptr;
+    LevelEditActorSelectScene actor_selector;
 
     Label layer_label = Label(sf::IntRect(10, 100, 200, 50), StringProvider::get("leveleditmenu.layer_label"));
     Label layer_value_label = Label(sf::IntRect(260, 100, 30, 50), "0");

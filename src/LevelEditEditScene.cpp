@@ -40,10 +40,22 @@ void LevelEdit::Cursor::set_tile(Tile *tile)
     size = current->get_size();
     current->set_location(loc);
     shape.setSize(sf::Vector2f(size.x, size.y));
+    this->actor = "";
+}
+
+void LevelEdit::Cursor::set_actor(std::string actor)
+{
+    this->actor = actor;
+    current.reset(nullptr);
+}
+
+std::string LevelEdit::Cursor::get_actor()
+{
+    return this->actor;
 }
 
 LevelEditEditScene::LevelEditEditScene(sf::Vector2i size, std::string name) : 
-    Scene(size), name(name), 
+    Scene(size), name(name), actor_selector(size),
     edit(sf::IntRect(size.x - 400, size.y - 220, 300, 50), StringProvider::get("leveleditmenu.edit")),
     save(sf::IntRect(size.x - 400, size.y - 160, 300, 50), StringProvider::get("leveleditmenu.save")),
     back(sf::IntRect(size.x - 400, size.y - 100, 300, 50), StringProvider::get("leveleditmenu.back_button")),
@@ -67,6 +79,8 @@ void LevelEditEditScene::update(int delta, sf::RenderWindow &window)
         return update_edit(delta, window);
     case select_tile:
         return update_select(delta, window);
+    case select_actor:
+        return update_actor_select(delta, window);
     case in_menu:
         return update_menu(delta, window);
     }
@@ -79,6 +93,8 @@ void LevelEditEditScene::draw(sf::RenderWindow &window)
         return draw_edit(window);
     case select_tile:
         return draw_select(window);
+    case select_actor:
+        return draw_actor_select(window);
     case in_menu:
         return draw_menu(window);
     }
@@ -135,6 +151,8 @@ void LevelEditEditScene::update_edit(int delta, sf::RenderWindow &window)
     auto new_input = app_container.get_input()->poll_all();
     if (new_input[Input::accept] && (new_input[Input::fire] && !last_input[Input::fire])) {
         world->remove_tile(layer, cursor.get_location() / TILE_SIZE);
+    } else if (new_input[Input::accept] && (new_input[Input::alt_fire] && !last_input[Input::alt_fire])) {
+        this->cur_state = select_actor;
     } else if (new_input[Input::down] && !last_input[Input::down]) {
         cursor.move(sf::Vector2i(0, TILE_SIZE));
     } else if (new_input[Input::up] && !last_input[Input::up]) {
@@ -150,6 +168,8 @@ void LevelEditEditScene::update_edit(int delta, sf::RenderWindow &window)
     } else if (new_input[Input::fire] && !last_input[Input::fire]) {
         if (selected_tile != -1) {
             world->set_tile(tiles->spawn(selected_tile, cursor.get_location()), layer, cursor.get_location() / TILE_SIZE);
+        } else {
+            world->add_actor(cursor.get_actor(), cursor.get_location());
         }
     }
     last_input = new_input;
@@ -185,6 +205,22 @@ void LevelEditEditScene::update_select(int delta, sf::RenderWindow &window)
 void LevelEditEditScene::draw_select(sf::RenderWindow &window)
 {
     this->tile_selector->draw(window);
+}
+
+void LevelEditEditScene::update_actor_select(int delta, sf::RenderWindow &window)
+{
+    this->actor_selector.update(delta, window);
+    if (this->actor_selector.status() == Scene::Status::pop_scene) {
+        this->actor_selector.reset_status();
+        this->cursor.set_actor(this->actor_selector.get_selected());
+        this->cur_state = edit_level;
+        this->selected_tile = -1;
+    }
+}
+
+void LevelEditEditScene::draw_actor_select(sf::RenderWindow &window)
+{
+    this->actor_selector.draw(window);
 }
 
 void LevelEditEditScene::update_menu(int delta, sf::RenderWindow &window)

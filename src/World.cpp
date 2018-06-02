@@ -40,6 +40,11 @@ void World::remove_tile(int layer, sf::Vector2i pos)
     }
 }
 
+void World::add_actor(std::string name, sf::Vector2i pos)
+{
+    this->actor_man->spawn(name, pos);
+}
+
 void World::save()
 {
     std::ofstream ofile(filename.c_str());

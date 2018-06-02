@@ -24,6 +24,7 @@ SET (SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/LevelEditScene.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/LevelEditEditScene.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/LevelEditTileScene.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/LevelEditActorSelectScene.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Index.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Hero.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Input.cpp

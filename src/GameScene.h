@@ -22,12 +22,11 @@ public:
 
     Scene::Status status();
     Scene *new_scene();
-	void reset_status();
+    void reset_status();
 private:
     sf::View main_window;
 
-	ActorManager actorman;
-	World world;
+    World world;
 
     Scene::Status state = Scene::Status::nothing;
     Scene* next_scene = nullptr;

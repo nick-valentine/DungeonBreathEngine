@@ -6,6 +6,7 @@ World::World(std::string tile_set, std::unique_ptr<WorldGenerator> &&gen)
     name = gen->get_name();
     filename = gen->get_filename();
     size = gen->get_size();
+    actor_man = gen->get_actor_manager();
     tileset = tile_set;
 }
 
@@ -63,6 +64,7 @@ void World::update(int delta, sf::RenderWindow &window)
             }
         }
     }
+    actor_man->update(delta);
 }
 
 void World::draw(sf::RenderWindow &window)
@@ -76,6 +78,12 @@ void World::draw(sf::RenderWindow &window)
             }
         }
     }
+    actor_man->draw(window);
+}
+
+ActorManager::actor_ptr World::get_camera_target()
+{
+    return this->actor_man->get_camera_target();
 }
 
 void World::add_layer(int num_layers)

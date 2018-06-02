@@ -6,6 +6,7 @@
 
 #include "Container.h"
 
+#include "ActorManager.h"
 #include "WorldGenerator.h"
 #include "TileSet.h"
 #include "Input.h"
@@ -27,6 +28,8 @@ public:
 
     void update(int delta, sf::RenderWindow &window);
     void draw(sf::RenderWindow &window);
+
+    ActorManager::actor_ptr get_camera_target();
 private:
     void add_layer(int num_layers = 1);
 
@@ -36,6 +39,7 @@ private:
     std::string name;
     std::string filename;
     std::string tileset;
+    std::shared_ptr<ActorManager> actor_man;
     Dimension::Room world;
 
     sf::Vector2i size;

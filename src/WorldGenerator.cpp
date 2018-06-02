@@ -20,6 +20,7 @@ Dimension::Room WorldLoader::generate(std::string tile_set)
     ifile>>size.x>>size.y;
     TileSet tileset(f_tileset);
     this->tile_set = f_tileset;
+    spawn_actors(ifile);
     while (ifile.good()) {
         world.push_back(spawn_layer(ifile, tileset));
     }
@@ -52,6 +53,11 @@ std::string WorldLoader::get_tileset()
 sf::Vector2i WorldLoader::get_size()
 {
     return this->size;
+}
+
+std::shared_ptr<ActorManager> WorldLoader::get_actor_manager()
+{
+    return this->actor_man;
 }
 
 Dimension::Layer WorldLoader::spawn_layer(std::ifstream &ifile, TileSet &tile_set)
@@ -96,4 +102,22 @@ Dimension::Line WorldLoader::spawn_line(std::string &line, int line_number, Tile
         ss>>tile;
     }
     return l;
+}
+
+void WorldLoader::spawn_actors(std::ifstream &ifile)
+{
+    actor_man.reset(new ActorManager);
+    std::string line;
+    while((line == "---" || line == "") && ifile.good()) {
+        std::getline(ifile, line);
+    }
+
+    while (line != "---" && ifile.good()) {
+        std::stringstream ss(line);
+        std::string name;
+        sf::Vector2i pos;
+        ss>>name>>pos.x>>pos.y;
+        actor_man->spawn(name, pos);
+        std::getline(ifile, line);
+    }
 }

@@ -21,10 +21,10 @@ extern "C" {
 #endif
 
 namespace lua {
-	void stacktrace(lua_State *L);
-	void error(lua_State *L, const char *fmt, ...);
-	/* assumes a table is at the top of the stack */
-	int get_int_field(lua_State *L, std::string key);
+    void stacktrace(lua_State *L);
+    void error(lua_State *L, const char *fmt, ...);
+    /* assumes a table is at the top of the stack */
+    float get_num_field(lua_State *L, std::string key);
 };
 
 #endif //LUA_H

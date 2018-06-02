@@ -43,6 +43,11 @@ sf::Vector2i StaticTile::get_size()
     return sf::Vector2i(b.width, b.height) * Tile::size();
 }
 
+void StaticTile::set_scale(sf::Vector2f scale)
+{
+    this->sprite.setScale(scale);
+}
+
 void StaticTile::update(int delta)
 {
 
@@ -105,6 +110,11 @@ sf::Vector2i DynamicTile::get_size()
     return this->size_mod * BASE_TILE_SIZE * Tile::size();
 }
 
+void DynamicTile::set_scale(sf::Vector2f scale)
+{
+    this->scale = scale;
+}
+
 void DynamicTile::update(int delta)
 {
     anim.update(delta);
@@ -112,7 +122,7 @@ void DynamicTile::update(int delta)
 
 void DynamicTile::draw(sf::RenderWindow &window)
 {
-    anim.draw(window, sf::IntRect(loc.x, loc.y, Tile::size(), Tile::size()));
+    anim.draw(window, sf::FloatRect(loc.x, loc.y, Tile::size() * scale.x, Tile::size() * scale.y));
 }
 
 Tile *DynamicTile::clone()

@@ -38,7 +38,7 @@ void Animation::update(int delta)
     }
 }
 
-void Animation::draw(sf::RenderWindow &window, sf::IntRect pos)
+void Animation::draw(sf::RenderWindow &window, sf::FloatRect pos)
 {
     auto spr = frames.get_sprite(current_frame);
     spr->setPosition(float(pos.left), float(pos.top));

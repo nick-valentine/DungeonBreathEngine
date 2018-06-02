@@ -2,11 +2,9 @@
 
 #define TABLENAME "me"
 
-Actor::Actor(sf::Vector2i pos, sf::Vector2i scale, std::string name) :
-    s(name), t(nullptr), current_tile(nullptr),
-    input(input), logger(logger), tileset_cache()
+Actor::Actor(sf::Vector2i pos, sf::Vector2f scale, std::string name) : s(name) 
 {
-    this->rect = sf::Rect<int>(pos.x, pos.y, scale.x, scale.y);
+    this->rect = sf::FloatRect(pos.x, pos.y, scale.x, scale.y);
     this->velocity = sf::Vector2f(0, 0);
     lua::actor::add(s.s);
     s.call();
@@ -30,9 +28,7 @@ Actor::~Actor()
 }
 
 Actor::Actor(const Actor &other) :
-    s(other.s.name), rect(other.rect),
-    velocity(other.velocity), input(other.input), logger(other.logger),
-    tileset_cache()
+    s(other.s.name), rect(other.rect), velocity(other.velocity)
 {
     this->t = new TileSet(other.t->get_name());
     set_tileset(0);
@@ -59,6 +55,7 @@ void Actor::update(int delta)
     this->rect.top += int(this->velocity.y);
 
     this->current_tile->set_location(sf::Vector2i(this->rect.left, this->rect.top));
+    this->current_tile->set_scale(sf::Vector2f(this->rect.width, this->rect.height));
 }
 
 void Actor::draw(sf::RenderWindow &window)
@@ -71,12 +68,12 @@ void Actor::hurt(pain p)
 
 }
 
-sf::Rect<int> Actor::get_rect() const
+sf::FloatRect Actor::get_rect() const
 {
         return this->rect;
 }
 
-void Actor::set_rect(sf::Rect<int>& x)
+void Actor::set_rect(sf::FloatRect& x)
 {
     this->rect = x;
 }
@@ -89,6 +86,12 @@ sf::Vector2f Actor::get_velocity() const
 void Actor::set_velocity(sf::Vector2f vel)
 {
     this->velocity = vel;
+}
+
+void Actor::set_scale(sf::Vector2f scale)
+{
+    this->rect.width = scale.x;
+    this->rect.height = scale.y;
 }
 
 void Actor::set_tileset(int i)
@@ -118,6 +121,7 @@ void lua::actor::add(lua_State *L)
 {
     static const struct luaL_Reg mylib[] = {
         { "get_rect", get_rect },
+        { "set_scale", set_scale },
         { "get_velocity", get_velocity },
         { "set_velocity", set_velocity },
         { "set_tileset", set_tileset },
@@ -153,6 +157,14 @@ int lua::actor::get_rect(lua_State *L)
     return 1;
 }
 
+int lua::actor::set_scale(lua_State *L)
+{
+    Actor *a = (Actor *)lua_touserdata(L, -2);
+    auto x = lua::get_num_field(L, "x");
+    auto y = lua::get_num_field(L, "y");
+    a->set_scale(sf::Vector2f(x, y));
+}
+
 int lua::actor::get_velocity(lua_State *L)
 {
     Actor *a = (Actor *)lua_touserdata(L, -1);
@@ -169,8 +181,8 @@ int lua::actor::get_velocity(lua_State *L)
 int lua::actor::set_velocity(lua_State *L)
 {
     auto a = (Actor *)lua_touserdata(L, -2);
-    auto x = lua::get_int_field(L, "x");
-    auto y = lua::get_int_field(L, "y");
+    auto x = lua::get_num_field(L, "x");
+    auto y = lua::get_num_field(L, "y");
     a->set_velocity(sf::Vector2f(x, y));
     return 0;
 }

@@ -34,6 +34,7 @@ public:
 
     virtual int get_key() = 0;
     virtual sf::Vector2i get_size() = 0;
+    virtual void set_scale(sf::Vector2f scale) = 0;
 
     virtual Tile *clone() = 0;
     constexpr static int size()
@@ -59,6 +60,7 @@ public:
 
     virtual int get_key();
     virtual sf::Vector2i get_size();
+    virtual void set_scale(sf::Vector2f scale);
 
     void update(int delta);
     void draw(sf::RenderWindow &window);
@@ -67,6 +69,7 @@ public:
 private:
     Animation anim;
     sf::Vector2i loc;
+    sf::Vector2f scale = sf::Vector2f(1.f, 1.f);
     sf::Vector2i size_mod;
     int key;
 };
@@ -85,6 +88,7 @@ public:
 
     virtual int get_key();
     virtual sf::Vector2i get_size();
+    virtual void set_scale(sf::Vector2f scale);
 
     void update(int delta);
     void draw(sf::RenderWindow &window);

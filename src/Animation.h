@@ -23,10 +23,11 @@ public:
     void reset();
 
     void update(int delta);
-    void draw(sf::RenderWindow &window, sf::IntRect pos);
+    void draw(sf::RenderWindow &window, sf::FloatRect pos);
 private:
     constexpr static int base_speed = 10000;
     SpriteSet frames;
+    sf::Vector2f scale;
     int anim_speed = 0;
     int current_frame = 0;
     int accumulator = 0;

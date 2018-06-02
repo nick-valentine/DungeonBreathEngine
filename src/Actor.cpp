@@ -2,11 +2,13 @@
 
 #define TABLENAME "me"
 
-Actor::Actor(sf::Vector2i pos, sf::Vector2f scale, std::string name) : s(name) 
+Actor::Actor(ActorManager *man, int handle, sf::Vector2i pos, sf::Vector2f scale, std::string name) : manager(man), s(name)
 {
+    this->handle = handle;
     this->rect = sf::FloatRect(pos.x, pos.y, scale.x, scale.y);
     this->velocity = sf::Vector2f(0, 0);
     lua::actor::add(s.s);
+    lua::actorman::add(s.s);
     s.call();
 
     lua_getglobal(s.s, TABLENAME);
@@ -17,6 +19,11 @@ Actor::Actor(sf::Vector2i pos, sf::Vector2f scale, std::string name) : s(name)
     auto tileset = s.get_field("tileset");
     lua_pushlightuserdata(s.s, this);
     lua_setfield(s.s, me_table, "self");
+    lua_pushnumber(s.s, this->handle);
+    lua_setfield(s.s, me_table, "handle");
+    lua_pushlightuserdata(s.s, man);
+    lua_setfield(s.s, me_table, "manager");
+
     t = new TileSet(tileset);
     tileset_cache.push_back(tile_ptr(t->spawn(0, pos)));
     current_tile = tileset_cache[0];

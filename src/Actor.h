@@ -8,6 +8,7 @@
 
 #include "Container.h"
 
+#include "ActorManager.h"
 #include "TextureMap.h"
 #include "TileSet.h"
 
@@ -27,7 +28,7 @@ typedef std::shared_ptr<Tile> tile_ptr;
 class Actor
 {
 public:
-    Actor(sf::Vector2i pos, sf::Vector2f scale, std::string name);
+    Actor(ActorManager *man, int handle, sf::Vector2i pos, sf::Vector2f scale, std::string name);
     virtual ~Actor();
 
     Actor(const Actor &other);
@@ -50,6 +51,8 @@ public:
 
     virtual Actor *clone();
 private:
+    ActorManager *manager;
+    int handle;
     sf::Vector2f velocity = sf::Vector2f(0.f, 0.f);
     sf::FloatRect rect;
 

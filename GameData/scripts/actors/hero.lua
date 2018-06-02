@@ -1,4 +1,5 @@
 function update_actor(self, delta)
+    actor_manager.set_camera_target(me.manager, me.handle)
     actor.set_scale(self, {x=0.75, y=0.75})
     -- rect = actor.get_rect(me.self)
     --print(rect.left, rect.top, rect.width, rect.height)

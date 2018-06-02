@@ -8,6 +8,7 @@
 #include "Container.h"
 #include "MusicManager.h"
 #include "ActorManager.h"
+#include "Actor.h"
 #include "TileSet.h"
 #include "World.h"
 

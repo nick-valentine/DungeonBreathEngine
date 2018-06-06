@@ -23,11 +23,13 @@ public:
     void update(int delta);
     void draw(sf::RenderWindow &window);
     int spawn(std::string name, sf::Vector2i pos);
+    void add_collision_rect(sf::FloatRect rect);
     void remove(int handle);
     void clear();
     void set_camera_target(int handle);
     actor_ptr get_camera_target();
     std::string get_actor_data() const;
+    std::vector<sf::FloatRect> get_collision_boxes() const;
 
     void set_player(int handle);
     actor_ptr get_player();

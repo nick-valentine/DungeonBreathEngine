@@ -12,10 +12,6 @@ ActorManager::ActorManager()
         ifile >> temp;
     }
     ifile.close();
-
-    //@todo: this is code for testing
-    collision_boxes.push_back(sf::FloatRect(0,0,100,100));
-    collision_boxes.push_back(sf::FloatRect(100,0,100,100));
 }
 
 void ActorManager::update(int delta)
@@ -59,6 +55,11 @@ int ActorManager::spawn(std::string name, sf::Vector2i pos)
     return max_id-1;
 }
 
+void ActorManager::add_collision_rect(sf::FloatRect rect)
+{
+    this->collision_boxes.push_back(rect);
+}
+
 void ActorManager::remove(int handle)
 {
     actors.erase(handle);
@@ -97,6 +98,11 @@ std::string ActorManager::get_actor_data() const
         ss<<i.second->get_name()<<" "<<rect.left<<" "<<rect.top<<"\n";
     }
     return ss.str();
+}
+
+std::vector<sf::FloatRect> ActorManager::get_collision_boxes() const
+{
+    return this->collision_boxes;
 }
 
 bool ActorManager::check_available(std::string name)

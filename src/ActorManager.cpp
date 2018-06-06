@@ -211,6 +211,7 @@ int lua::actorman::set_camera_target(lua_State *L)
     auto a = (ActorManager *)lua_touserdata(L, -2);
     auto h = (int)lua::get_num(L, -1);
     a->set_camera_target(h);
+    app_container.get_logger()->info("setting player %i", h);
     return 0;
 }
 
@@ -226,14 +227,16 @@ int lua::actorman::set_player(lua_State *L)
 {
     auto a = (ActorManager *)lua_touserdata(L, -2);
     auto i = (int)lua::get_num(L, -1);
+    app_container.get_logger()->info("setting player %i", i);
     a->set_player(i);
     return 0;
 }
 
 int lua::actorman::get_player(lua_State *L)
 {
-    auto a = (ActorManager *)lua_touserdata(L, -2);
+    auto a = (ActorManager *)lua_touserdata(L, -1);
     if (a == nullptr) {
+        app_container.get_logger()->debug("get_player called with null actor_manager");
         lua_pushlightuserdata(L, nullptr);
     } else {
         auto p = a->get_player();

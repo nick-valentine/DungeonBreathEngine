@@ -173,6 +173,7 @@ int lua::actor::get_rect(lua_State *L)
     Actor *a = (Actor *)lua_touserdata(L, -1);
     sf::FloatRect rect;
     if (a != nullptr) {
+        app_container.get_logger()->debug("get_rect called with null actor");
         rect = a->get_rect();
     }
     lua_newtable(L);

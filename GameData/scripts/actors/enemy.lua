@@ -2,12 +2,13 @@ actor_speed = 5
 
 function update_actor(self, delta)
 
+    actor.set_scale(self, {x=0.75, y=0.75})
+    actor.set_collision_bounds(self, {x=100, y=100})
     player = actor_manager.get_player(me.manager)
     goal = actor.get_rect(player)
     pos = actor.get_rect(self)
     vel = {x = 0, y = 0}
     old_vel = actor.get_velocity(self)
-    logger.info(goal.left, goal.top, goal.width, goal.height)
 
     -- @todo: library this out in lua
     vel.x = goal.left - pos.left

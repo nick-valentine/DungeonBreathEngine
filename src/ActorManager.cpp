@@ -15,6 +15,7 @@ ActorManager::ActorManager()
 
     //@todo: this is code for testing
     collision_boxes.push_back(sf::FloatRect(0,0,100,100));
+    collision_boxes.push_back(sf::FloatRect(100,0,100,100));
 }
 
 void ActorManager::update(int delta)
@@ -104,8 +105,25 @@ void ActorManager::check_collision(actor_ptr a)
     auto intersection = sf::FloatRect();
     for (const auto &i : collision_boxes) {
         if (i.intersects(rect, intersection)) {
-            rect.top -= intersection.height;
-            rect.left -= intersection.width;
+            if (intersection.height < intersection.width) {
+                // resolve y intersection
+                if (rect.top < i.top) {
+                    // actor on top, move up
+                    rect.top -= intersection.height;
+                } else {
+                    // otherwise move down
+                    rect.top += intersection.height;
+                }
+            } else {
+                // resolve x intersection
+                if (rect.left < i.left) {
+                    // actor on left, move left
+                    rect.left -= intersection.width;
+                } else {
+                    // otherwise move right
+                    rect.left += intersection.width;
+                }
+            }
         }
     }
     a->set_rect(rect);

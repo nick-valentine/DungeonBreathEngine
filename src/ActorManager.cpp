@@ -105,28 +105,33 @@ void ActorManager::check_collision(actor_ptr a)
     auto intersection = sf::FloatRect();
     for (const auto &i : collision_boxes) {
         if (i.intersects(rect, intersection)) {
-            if (intersection.height < intersection.width) {
-                // resolve y intersection
-                if (rect.top < i.top) {
-                    // actor on top, move up
-                    rect.top -= intersection.height;
-                } else {
-                    // otherwise move down
-                    rect.top += intersection.height;
-                }
-            } else {
-                // resolve x intersection
-                if (rect.left < i.left) {
-                    // actor on left, move left
-                    rect.left -= intersection.width;
-                } else {
-                    // otherwise move right
-                    rect.left += intersection.width;
-                }
-            }
+            resolve_collision(rect, i, intersection);
         }
     }
     a->set_rect(rect);
+}
+
+void ActorManager::resolve_collision(sf::FloatRect &a_rect, const sf::FloatRect &with, const sf::FloatRect &intersect)
+{
+    if (intersect.height < intersect.width) {
+        // resolve y intersection
+        if (a_rect.top < with.top) {
+            // actor on top, move up
+            a_rect.top -= intersect.height;
+        } else {
+            // otherwise move down
+            a_rect.top += intersect.height;
+        }
+    } else {
+        // resolve x intersection
+        if (a_rect.left < with.left) {
+            // actor on left, move left
+            a_rect.left -= intersect.width;
+        } else {
+            // otherwise move right
+            a_rect.left += intersect.width;
+        }
+    }
 }
 
 void lua::actorman::add(lua_State *L)

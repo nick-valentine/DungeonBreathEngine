@@ -30,6 +30,7 @@ public:
 private:
     bool check_available(std::string name);
     void check_collision(actor_ptr a);
+    inline void resolve_collision(sf::FloatRect &a_rect, const sf::FloatRect &with, const sf::FloatRect &intersect);
 
     std::map<int, actor_ptr> actors;
     int max_id = 0;

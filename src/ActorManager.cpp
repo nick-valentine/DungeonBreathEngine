@@ -74,6 +74,15 @@ ActorManager::actor_ptr ActorManager::get_camera_target()
     return this->camera_target;
 }
 
+void ActorManager::set_player(int handle)
+{
+    this->player = actors[handle];
+}
+
+ActorManager::actor_ptr ActorManager::get_player()
+{
+    return this->player;
+}
 
 std::string ActorManager::get_actor_data() const
 {
@@ -98,6 +107,7 @@ bool ActorManager::check_available(std::string name)
 
 void ActorManager::check_collision(actor_ptr a)
 {
+    // @todo: potentially move from O(N^2) op to spatial trees
     auto rect = a->get_rect();
     auto vel = a->get_velocity();
     rect.top += vel.y;
@@ -106,6 +116,17 @@ void ActorManager::check_collision(actor_ptr a)
     for (const auto &i : collision_boxes) {
         if (i.intersects(rect, intersection)) {
             resolve_collision(rect, i, intersection);
+        }
+    }
+    for (const auto &i : actors) {
+        if (i.second == a) {
+            // note: intentionally comparing addresses here
+            // don't collide with self
+            continue;
+        }
+        auto other = i.second->get_rect();
+        if (other.intersects(rect, intersection)) {
+            resolve_collision(rect, other, intersection);
         }
     }
     a->set_rect(rect);
@@ -142,6 +163,8 @@ void lua::actorman::add(lua_State *L)
         { "clear", clear },
         { "set_camera_target", set_camera_target },
         { "get_camera_target", get_camera_target },
+        { "set_player", set_player },
+        { "get_player", get_player },
         { NULL, NULL }
     };
     lua_getglobal(L, "actor_manager");
@@ -186,10 +209,7 @@ int lua::actorman::clear(lua_State *L)
 int lua::actorman::set_camera_target(lua_State *L)
 {
     auto a = (ActorManager *)lua_touserdata(L, -2);
-    if (!lua_isnumber(L, -1)) {
-        lua::error(L, "param 1 not number");
-    }
-    auto h = (int) lua_tonumber(L, -1);
+    auto h = (int)lua::get_num(L, -1);
     a->set_camera_target(h);
     return 0;
 }
@@ -199,5 +219,25 @@ int lua::actorman::get_camera_target(lua_State *L)
     auto a = (ActorManager *)lua_touserdata(L, -2);
     auto t = a->get_camera_target();
     lua_pushlightuserdata(L, t.get());
+    return 1;
+}
+
+int lua::actorman::set_player(lua_State *L)
+{
+    auto a = (ActorManager *)lua_touserdata(L, -2);
+    auto i = (int)lua::get_num(L, -1);
+    a->set_player(i);
+    return 0;
+}
+
+int lua::actorman::get_player(lua_State *L)
+{
+    auto a = (ActorManager *)lua_touserdata(L, -2);
+    if (a == nullptr) {
+        lua_pushlightuserdata(L, nullptr);
+    } else {
+        auto p = a->get_player();
+        lua_pushlightuserdata(L, p.get());
+    }
     return 1;
 }

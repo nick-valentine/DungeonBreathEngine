@@ -54,3 +54,11 @@ float lua::get_num_field(lua_State *L, std::string key)
     lua_pop(L, 1);
     return x;
 }
+
+float lua::get_num(lua_State *L, int pos)
+{
+    if (!lua_isnumber(L, pos)) {
+        lua::error(L, "param not number");
+    }
+    return (float) lua_tonumber(L, pos);
+}

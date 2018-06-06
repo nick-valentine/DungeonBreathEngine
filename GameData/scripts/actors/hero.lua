@@ -1,14 +1,11 @@
 function update_actor(self, delta)
     actor_manager.set_camera_target(me.manager, me.handle)
+    actor_manager.set_player(me.manager, me.handle)
     actor.set_scale(self, {x=0.75, y=0.75})
     actor.set_collision_bounds(self, {x=100, y=100})
-    -- rect = actor.get_rect(me.self)
-    --print(rect.left, rect.top, rect.width, rect.height)
-    --print(input.is_key_pressed(input.device, input.up))
     vel = {x = 0, y = 0}
     old_vel = actor.get_velocity(self)
     if (input.is_key_pressed(input.device, input.up) == 1.0) then
-        --print("setting velocity to minus 50")
         vel.y = -5
     elseif (input.is_key_pressed(input.device, input.down) == 1.0) then
         vel.y = 5

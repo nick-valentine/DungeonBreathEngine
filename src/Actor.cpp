@@ -171,7 +171,10 @@ void lua::actor::add(lua_State *L)
 int lua::actor::get_rect(lua_State *L)
 {
     Actor *a = (Actor *)lua_touserdata(L, -1);
-    auto rect = a->get_rect();
+    sf::FloatRect rect;
+    if (a != nullptr) {
+        rect = a->get_rect();
+    }
     lua_newtable(L);
     auto table = lua_gettop(L);
     lua_pushnumber(L, rect.left);
@@ -188,26 +191,37 @@ int lua::actor::get_rect(lua_State *L)
 int lua::actor::set_scale(lua_State *L)
 {
     Actor *a = (Actor *)lua_touserdata(L, -2);
+    if (a == nullptr) {
+        return 0;
+    }
     auto x = lua::get_num_field(L, "x");
     auto y = lua::get_num_field(L, "y");
     a->set_scale(sf::Vector2f(x, y));
+    return 0;
 }
 
 int lua::actor::set_collision_bounds(lua_State *L)
 {
     Actor *a = (Actor *)lua_touserdata(L, -2);
+    if (a == nullptr) {
+        return 0;
+    }
     auto x = lua::get_num_field(L, "x");
     auto y = lua::get_num_field(L, "y");
     auto rect = a->get_rect();
     rect.width = x;
     rect.height = y;
     a->set_rect(rect);
+    return 0;
 }
 
 int lua::actor::get_velocity(lua_State *L)
 {
     Actor *a = (Actor *)lua_touserdata(L, -1);
-    auto vel = a->get_velocity();
+    sf::Vector2f vel;
+    if (a != nullptr) {
+        vel = a->get_velocity();
+    }
     lua_newtable(L);
     auto table = lua_gettop(L);
     lua_pushnumber(L, vel.x);
@@ -220,6 +234,9 @@ int lua::actor::get_velocity(lua_State *L)
 int lua::actor::set_velocity(lua_State *L)
 {
     auto a = (Actor *)lua_touserdata(L, -2);
+    if (a == nullptr) {
+        return 0;
+    }
     auto x = lua::get_num_field(L, "x");
     auto y = lua::get_num_field(L, "y");
     a->set_velocity(sf::Vector2f(x, y));
@@ -229,6 +246,9 @@ int lua::actor::set_velocity(lua_State *L)
 int lua::actor::set_tileset(lua_State *L)
 {
     auto a = (Actor *)lua_touserdata(L, -2);
+    if (a == nullptr) {
+        return 0;
+    }
     if (!lua_isnumber(L, -1)) {
         lua::error(L, "param 1 not number");
     }
@@ -240,6 +260,9 @@ int lua::actor::set_tileset(lua_State *L)
 int lua::actor::pause_anim(lua_State *L)
 {
     auto a = (Actor *)lua_touserdata(L, -1);
+    if (a == nullptr) {
+        return 0;
+    }
     a->get_tile()->pause();
     return 0;
 }
@@ -247,6 +270,9 @@ int lua::actor::pause_anim(lua_State *L)
 int lua::actor::play_anim(lua_State *L)
 {
     auto a = (Actor *)lua_touserdata(L, -1);
+    if (a == nullptr) {
+        return 0;
+    }
     a->get_tile()->play();
     return 0;
 }
@@ -254,6 +280,9 @@ int lua::actor::play_anim(lua_State *L)
 int lua::actor::reset_anim(lua_State *L)
 {
     auto a = (Actor *)lua_touserdata(L, -1);
+    if (a == nullptr) {
+        return 0;
+    }
     a->get_tile()->reset();
     return 0;
 }

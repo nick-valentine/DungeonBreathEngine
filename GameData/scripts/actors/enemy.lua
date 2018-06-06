@@ -1,9 +1,11 @@
-actor_speed = 5
+actor_speed = 0.0002
 
-function update_actor(self, delta)
-
+function init_actor(self)
     actor.set_scale(self, {x=0.75, y=0.75})
     actor.set_collision_bounds(self, {x=100, y=100})
+end
+
+function update_actor(self, delta)
     player = actor_manager.get_player(me.manager)
     goal = actor.get_rect(player)
     pos = actor.get_rect(self)
@@ -19,8 +21,8 @@ function update_actor(self, delta)
     vel.y = vel.y / len
 
     -- now add speed
-    vel.x = vel.x * actor_speed;
-    vel.y = vel.y * actor_speed;
+    vel.x = vel.x * delta * actor_speed;
+    vel.y = vel.y * delta * actor_speed;
 
     if vel.x ~= old_vel.x or vel.y ~= old_vel.y then
         anim_changed = false
@@ -58,5 +60,8 @@ me = {
     tileset = "hero",
     update = function(delta)
         update_actor(me.self, delta)
+    end,
+    init = function()
+        init_actor(me.self)
     end
 }

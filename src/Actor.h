@@ -33,6 +33,7 @@ public:
 
     Actor(const Actor &other);
 
+    void init();
     void update(int delta);
     void commit_update(int delta);
     void draw(sf::RenderWindow &window);

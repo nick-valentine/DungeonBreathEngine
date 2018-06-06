@@ -1,8 +1,11 @@
-function update_actor(self, delta)
+function init_actor(self)
     actor_manager.set_camera_target(me.manager, me.handle)
     actor_manager.set_player(me.manager, me.handle)
     actor.set_scale(self, {x=0.75, y=0.75})
     actor.set_collision_bounds(self, {x=100, y=100})
+end
+
+function update_actor(self, delta)
     vel = {x = 0, y = 0}
     old_vel = actor.get_velocity(self)
     if (input.is_key_pressed(input.device, input.up) == 1.0) then
@@ -53,5 +56,8 @@ me = {
     tileset = "hero",
     update = function(delta)
         update_actor(me.self, delta)
+    end,
+    init = function()
+        init_actor(me.self)
     end
 }

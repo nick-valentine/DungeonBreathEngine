@@ -51,6 +51,17 @@ Actor::Actor(const Actor &other) :
     this->current_tile = tileset_cache[0];
 }
 
+void Actor::init()
+{
+    lua_getglobal(s->s, TABLENAME);
+    if (!lua_istable(s->s, -1)) {
+        lua::error(s->s, "actor table not found");
+    }
+    auto actor_table = lua_gettop(s->s);
+    lua_getfield(s->s, actor_table, "init");
+    lua_pcall(s->s, 0, 0, 0);
+}
+
 void Actor::update(int delta)
 {
     lua_getglobal(s->s, TABLENAME);
@@ -77,13 +88,14 @@ void Actor::commit_update(int delta)
 void Actor::draw(sf::RenderWindow &window)
 {
     current_tile->draw(window);
+#if DEBUG
     auto x = sf::RectangleShape(sf::Vector2f(rect.width, rect.height));
     x.setPosition(sf::Vector2f(rect.left, rect.top));
     x.setFillColor(sf::Color::Transparent);
     x.setOutlineColor(sf::Color::Blue);
     x.setOutlineThickness(5);
     window.draw(x);
-
+#endif //DEBUG
 }
 
 void Actor::hurt(pain p)

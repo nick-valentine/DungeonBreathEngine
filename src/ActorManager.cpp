@@ -33,14 +33,18 @@ void ActorManager::draw(sf::RenderWindow &window)
         i.second->draw(window);
     }
 
+#if DEBUG
     for (auto &i : collision_boxes) {
         auto x = sf::RectangleShape(sf::Vector2f(i.width, i.height));
         x.setPosition(sf::Vector2f(i.left, i.top));
-        x.setFillColor(sf::Color::White);
+        x.setFillColor(sf::Color::Transparent);
+        x.setOutlineColor(sf::Color::White);
+        x.setOutlineThickness(5);
 
         window.draw(x);
 
     }
+#endif //DEBUG
 }
 
 int ActorManager::spawn(std::string name, sf::Vector2i pos)
@@ -50,6 +54,7 @@ int ActorManager::spawn(std::string name, sf::Vector2i pos)
     }
     actor_ptr tmp(new Actor(this, max_id, pos, sf::Vector2f(64, 64), name));
     actors[max_id] = tmp;
+    actors[max_id]->init();
     max_id++;
     return max_id-1;
 }
@@ -211,7 +216,7 @@ int lua::actorman::set_camera_target(lua_State *L)
     auto a = (ActorManager *)lua_touserdata(L, -2);
     auto h = (int)lua::get_num(L, -1);
     a->set_camera_target(h);
-    app_container.get_logger()->info("setting player %i", h);
+    app_container.get_logger()->info("setting camera target %i", h);
     return 0;
 }
 

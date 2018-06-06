@@ -7,6 +7,7 @@
 #include <memory>
 #include <fstream>
 
+#include "Macros.h"
 #include "Exceptions.h"
 #include "lua.h"
 #include "Script.h"

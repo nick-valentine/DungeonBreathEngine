@@ -66,17 +66,24 @@ void Actor::update(int delta)
     lua_settop(s->s, actor_table - 1);
 
     current_tile->update(delta);
+}
 
-    this->rect.left += int(this->velocity.x);
-    this->rect.top += int(this->velocity.y);
-
+void Actor::commit_update(int delta)
+{
     this->current_tile->set_location(sf::Vector2i(this->rect.left, this->rect.top));
-    this->current_tile->set_scale(sf::Vector2f(this->rect.width, this->rect.height));
+    this->current_tile->set_scale(this->scale);
 }
 
 void Actor::draw(sf::RenderWindow &window)
 {
     current_tile->draw(window);
+    auto x = sf::RectangleShape(sf::Vector2f(rect.width, rect.height));
+    x.setPosition(sf::Vector2f(rect.left, rect.top));
+    x.setFillColor(sf::Color::Transparent);
+    x.setOutlineColor(sf::Color::Blue);
+    x.setOutlineThickness(5);
+    window.draw(x);
+
 }
 
 void Actor::hurt(pain p)
@@ -111,8 +118,7 @@ void Actor::set_velocity(sf::Vector2f vel)
 
 void Actor::set_scale(sf::Vector2f scale)
 {
-    this->rect.width = scale.x;
-    this->rect.height = scale.y;
+    this->scale = scale;
 }
 
 void Actor::set_tileset(int i)
@@ -143,6 +149,7 @@ void lua::actor::add(lua_State *L)
     static const struct luaL_Reg mylib[] = {
         { "get_rect", get_rect },
         { "set_scale", set_scale },
+        { "set_collision_bounds", set_collision_bounds },
         { "get_velocity", get_velocity },
         { "set_velocity", set_velocity },
         { "set_tileset", set_tileset },
@@ -184,6 +191,17 @@ int lua::actor::set_scale(lua_State *L)
     auto x = lua::get_num_field(L, "x");
     auto y = lua::get_num_field(L, "y");
     a->set_scale(sf::Vector2f(x, y));
+}
+
+int lua::actor::set_collision_bounds(lua_State *L)
+{
+    Actor *a = (Actor *)lua_touserdata(L, -2);
+    auto x = lua::get_num_field(L, "x");
+    auto y = lua::get_num_field(L, "y");
+    auto rect = a->get_rect();
+    rect.width = x;
+    rect.height = y;
+    a->set_rect(rect);
 }
 
 int lua::actor::get_velocity(lua_State *L)

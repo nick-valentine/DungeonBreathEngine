@@ -3,6 +3,7 @@
 
 ActorManager::ActorManager()
 {
+    // @todo: make this use index instead
     std::fstream ifile(SCRIPTDIR ACTORDIR "index.txt");
     std::string temp;
     ifile >> temp;
@@ -11,12 +12,17 @@ ActorManager::ActorManager()
         ifile >> temp;
     }
     ifile.close();
+
+    //@todo: this is code for testing
+    collision_boxes.push_back(sf::FloatRect(0,0,100,100));
 }
 
 void ActorManager::update(int delta)
 {
     for (auto &i : actors) {
         i.second->update(delta);
+        this->check_collision(i.second);
+        i.second->commit_update(delta);
     }
 }
 
@@ -25,6 +31,15 @@ void ActorManager::draw(sf::RenderWindow &window)
     for (auto &i : actors) {
         i.second->draw(window);
     }
+
+    for (auto &i : collision_boxes) {
+        auto x = sf::RectangleShape(sf::Vector2f(i.width, i.height));
+        x.setPosition(sf::Vector2f(i.left, i.top));
+        x.setFillColor(sf::Color::White);
+
+        window.draw(x);
+
+    }
 }
 
 int ActorManager::spawn(std::string name, sf::Vector2i pos)
@@ -32,7 +47,7 @@ int ActorManager::spawn(std::string name, sf::Vector2i pos)
     if (!check_available(name)) {
         throw new UnavailableActorException();
     }
-    actor_ptr tmp(new Actor(this, max_id, pos, sf::Vector2f(1, 1), name));
+    actor_ptr tmp(new Actor(this, max_id, pos, sf::Vector2f(64, 64), name));
     actors[max_id] = tmp;
     max_id++;
     return max_id-1;
@@ -78,6 +93,22 @@ bool ActorManager::check_available(std::string name)
         }
     }
     return false;
+}
+
+void ActorManager::check_collision(actor_ptr a)
+{
+    auto rect = a->get_rect();
+    auto vel = a->get_velocity();
+    rect.top += vel.y;
+    rect.left += vel.x;
+    auto intersection = sf::FloatRect();
+    for (const auto &i : collision_boxes) {
+        if (i.intersects(rect, intersection)) {
+            rect.top -= intersection.height;
+            rect.left -= intersection.width;
+        }
+    }
+    a->set_rect(rect);
 }
 
 void lua::actorman::add(lua_State *L)

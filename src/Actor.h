@@ -33,9 +33,10 @@ public:
 
     Actor(const Actor &other);
 
-    virtual void update(int delta);
-    virtual void draw(sf::RenderWindow &window);
-    virtual void hurt(pain p);
+    void update(int delta);
+    void commit_update(int delta);
+    void draw(sf::RenderWindow &window);
+    void hurt(pain p);
 
     std::string get_name() const;
     sf::FloatRect get_rect() const;
@@ -56,6 +57,7 @@ private:
     int handle;
     sf::Vector2f velocity = sf::Vector2f(0.f, 0.f);
     sf::FloatRect rect;
+    sf::Vector2f scale = sf::Vector2f(1.f, 1.f);
 
     TileSet *t = nullptr;
     tile_ptr current_tile = nullptr;
@@ -71,6 +73,7 @@ namespace lua {
         void add(lua_State *L);
         int get_rect(lua_State *L);
         int set_scale(lua_State *L);
+        int set_collision_bounds(lua_State *L);
         int get_velocity(lua_State *L);
         int set_velocity(lua_State *L);
         int set_tileset(lua_State *L);

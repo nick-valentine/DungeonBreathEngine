@@ -29,11 +29,13 @@ public:
     std::string get_actor_data() const;
 private:
     bool check_available(std::string name);
+    void check_collision(actor_ptr a);
 
     std::map<int, actor_ptr> actors;
     int max_id = 0;
     actor_ptr camera_target;
 
+    std::vector<sf::FloatRect> collision_boxes;
     std::vector<std::string> available_actors;
 };
 

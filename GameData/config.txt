@@ -1,4 +1,3 @@
- 
 accept k:enter
 alt_fire k:num1
 enter k:enter

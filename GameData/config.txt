@@ -1,4 +1,5 @@
-accept k:enter
+ 
+accept k:g
 alt_fire k:num1
 enter k:enter
 escape k:esc
@@ -10,4 +11,4 @@ move_right k:d
 move_up k:w
 resolution_x 1280
 resolution_y 720
-volume 40
+volume 60

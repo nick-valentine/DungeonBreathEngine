@@ -43,6 +43,7 @@ public:
         edit_level = 0,
         select_tile,
         select_actor,
+        add_collision,
         in_menu
     };
     LevelEditEditScene(sf::Vector2i size, std::string name);
@@ -89,6 +90,7 @@ private:
 
     Label layer_label = Label(sf::IntRect(10, 100, 200, 50), StringProvider::get("leveleditmenu.layer_label"));
     Label layer_value_label = Label(sf::IntRect(260, 100, 30, 50), "0");
+    Label collision_label = Label(sf::IntRect(10, 160, 200, 50), StringProvider::get("leveleditmenu.collision_label"));
 
     ButtonGroup menu;
     TextButton edit;

@@ -1,9 +1,11 @@
 #include "NumberInput.h"
 
+#define LABEL_WIDTH 250
+
 NumberInput::NumberInput(sf::Vector2i pos, sf::String label, int max, int min, int step) :
-    l(sf::IntRect(pos.x + 50, pos.y, 200, 50), label),
+    l(sf::IntRect(pos.x + 50, pos.y, LABEL_WIDTH, 50), label),
     left(ui::left(sf::IntRect(pos.x, pos.y, 50, 50))),
-    right(ui::right(sf::IntRect(pos.x + 250, pos.y, 50, 50))),
+    right(ui::right(sf::IntRect(pos.x + LABEL_WIDTH + 50, pos.y, 50, 50))),
     label_string(label),
     v(min),
     min(min),
@@ -57,6 +59,7 @@ void NumberInput::set_value(int v)
 void NumberInput::set_fmt_string(std::string fmt)
 {
     fmt_string = fmt;
+    update_label();
 }
 
 void NumberInput::update_label()

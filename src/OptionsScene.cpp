@@ -10,6 +10,7 @@ OptionsScene::OptionsScene(sf::Vector2i size) :
     this->main_window.reset(sf::FloatRect(0, 0, size.x, size.y));
     set_volume();
     volume_input.set_value(current_volume);
+    volume_input.set_fmt_string(": %d%%");
     menu.add_button("lang_left", &lang_button_left);
     menu.add_button("lang_right", &lang_button_right);
     volume_input.add("volume", menu);

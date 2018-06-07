@@ -25,6 +25,7 @@ public:
     void remove_tile(int layer, sf::Vector2i pos);
 
     void add_actor(std::string name, sf::Vector2i pos);
+    void add_collision(int type, sf::Vector2i pos);
 
     void save();
     void set_size(sf::Vector2i size);

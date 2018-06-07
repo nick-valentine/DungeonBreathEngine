@@ -65,8 +65,8 @@ LevelEditEditScene::LevelEditEditScene(sf::Vector2i size, std::string name) :
     this->main_window.reset(sf::FloatRect(0, 0, size.x, size.y));
     this->menu_window.reset(sf::FloatRect(0, 0, size.x, size.y));
 
-    menu.add_button("layer_right", &layer_button_right);
-    menu.add_button("layer_left", &layer_button_left);
+    layer_input.add("layer", menu);
+    collision_type.add("collision", menu);
     menu.add_button("edit", &edit);
     menu.add_button("save", &save);
     menu.add_button("exit_menu", &back);
@@ -229,10 +229,16 @@ void LevelEditEditScene::update_menu(int delta, sf::RenderWindow &window)
 
     std::string pressed = this->menu.neg_edge_button();
 
+    layer_input.update(pressed);
+    collision_type.update(pressed);
     if (pressed == "layer_left") {
-        this->update_layer(1);
+        this->layer = this->layer_input.value();
     } else if (pressed == "layer_right") {
-        this->update_layer(-1);
+        this->layer = this->layer_input.value();
+    } else if (pressed == "collision_left") {
+        this->collision = this->collision_type.value();
+    } else if (pressed == "collision_right") {
+        this->collision = this->collision_type.value();
     } else if (pressed == "edit") {
         this->cur_state= edit_level;
     } else if (pressed == "exit_menu") {
@@ -246,8 +252,8 @@ void LevelEditEditScene::update_menu(int delta, sf::RenderWindow &window)
 void LevelEditEditScene::draw_menu(sf::RenderWindow &window)
 {
     window.setView(this->menu_window);
-    layer_label.draw(window);
-    layer_value_label.draw(window);
+    layer_input.draw(window);
+    collision_type.draw(window);
     menu.draw(window);
 }
 
@@ -257,8 +263,4 @@ void LevelEditEditScene::update_layer(int diff)
     if (layer < 0) {
         layer = 0;
     }
-    char layer_lab[50];
-    sprintf(layer_lab, "%d", layer);
-    sf::String str = Strings::utf8_to_sfml(layer_lab);
-    layer_value_label.set_string(str);
 }

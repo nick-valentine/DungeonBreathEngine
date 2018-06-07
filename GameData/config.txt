@@ -11,4 +11,4 @@ move_right k:d
 move_up k:w
 resolution_x 1280
 resolution_y 720
-volume 60
+volume 40

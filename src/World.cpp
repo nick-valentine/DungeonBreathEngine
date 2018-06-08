@@ -47,8 +47,7 @@ void World::add_actor(std::string name, sf::Vector2i pos)
 
 void World::add_collision(int type, sf::Vector2i pos)
 {
-    // @todo: more collision types
-    actor_man->add_collision_rect(sf::FloatRect(pos.x, pos.y, TileSet::tile_size(), TileSet::tile_size()));
+    actor_man->add_collision_rect(type, sf::FloatRect(pos.x, pos.y, TileSet::tile_size(), TileSet::tile_size()));
 }
 
 void World::save()
@@ -154,18 +153,14 @@ std::string World::convert_collision_boxes()
     for (int i = 0; i < size.y; ++i) {
         for (int j = 0; j < size.x; ++j) {
             auto point = sf::Vector2f(j*TileSet::tile_size(), i*TileSet::tile_size());
-            auto found = false;
+            auto type = 0;
             for (const auto &i : boxes) {
-                if (i.contains(point)) {
-                    found = true;
+                if (i.rect.contains(point)) {
+                    type = i.type;
                     break;
                 }
             }
-            if (found) {
-                ss<<"1 ";
-            } else {
-                ss<<"0 ";
-            }
+            ss<<type<<" ";
         }
         ss<<"\n";
     }

@@ -31,8 +31,8 @@ void ActorManager::draw(sf::RenderWindow &window)
 
 #if DEBUG
     for (auto &i : collision_boxes) {
-        auto x = sf::RectangleShape(sf::Vector2f(i.width, i.height));
-        x.setPosition(sf::Vector2f(i.left, i.top));
+        auto x = sf::RectangleShape(sf::Vector2f(i.rect.width, i.rect.height));
+        x.setPosition(sf::Vector2f(i.rect.left, i.rect.top));
         x.setFillColor(sf::Color::Transparent);
         x.setOutlineColor(sf::Color::White);
         x.setOutlineThickness(5);
@@ -55,9 +55,15 @@ int ActorManager::spawn(std::string name, sf::Vector2i pos)
     return max_id-1;
 }
 
-void ActorManager::add_collision_rect(sf::FloatRect rect)
+void ActorManager::add_collision_type(int type, std::string action, std::string target)
 {
-    this->collision_boxes.push_back(rect);
+    app_container.get_logger()->info("%d, %s: %s", type, action.c_str(), target.c_str());
+    collision_types[type] = CType{type, action, target};
+}
+
+void ActorManager::add_collision_rect(int type, sf::FloatRect rect)
+{
+    this->collision_boxes.push_back(Collision{type, rect});
 }
 
 void ActorManager::remove(int handle)
@@ -100,7 +106,7 @@ std::string ActorManager::get_actor_data() const
     return ss.str();
 }
 
-std::vector<sf::FloatRect> ActorManager::get_collision_boxes() const
+std::vector<Collision> ActorManager::get_collision_boxes() const
 {
     return this->collision_boxes;
 }
@@ -125,8 +131,12 @@ void ActorManager::check_collision(actor_ptr a)
     rect.left += vel.x;
     auto intersection = sf::FloatRect();
     for (const auto &i : collision_boxes) {
-        if (i.intersects(rect, intersection)) {
-            resolve_collision(rect, i, intersection);
+        if (i.rect.intersects(rect, intersection)) {
+            if (i.type == 1) {
+                resolve_collision(rect, i.rect, intersection);
+            } else {
+                trigger_event(a, i);
+            }
         }
     }
     for (const auto &i : actors) {
@@ -164,6 +174,21 @@ void ActorManager::resolve_collision(sf::FloatRect &a_rect, const sf::FloatRect 
             a_rect.left += intersect.width;
         }
     }
+}
+
+inline void ActorManager::trigger_event(actor_ptr a, Collision c)
+{
+    // most events should be player only
+    if (a != player) {
+        return;
+    }
+    auto t = collision_types[c.type];
+    if (t.action == "teleport") {
+        app_container.get_logger()->info("%d, teleport: %s", t.type, t.target.c_str());
+    } else {
+        app_container.get_logger()->info("%d, %s: %s", t.type, t.action.c_str(), t.target.c_str());
+    }
+    return;
 }
 
 void lua::actorman::add(lua_State *L)
@@ -255,3 +280,4 @@ int lua::actorman::get_player(lua_State *L)
     }
     return 1;
 }
+

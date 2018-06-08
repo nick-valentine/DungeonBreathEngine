@@ -47,6 +47,7 @@ private:
     Dimension::Layer spawn_layer(std::ifstream &ifile, TileSet &tile_set);
     Dimension::Line spawn_line(std::string &line, int line_number, TileSet &tile_set);
     void spawn_actors(std::ifstream &ifile);
+    void spawn_collision_defs(std::ifstream &ifile);
     void spawn_collision_boxes(std::ifstream &ifile);
     void spawn_collision_line(std::string &line, int line_number);
     std::string file_name;

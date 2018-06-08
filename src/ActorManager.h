@@ -12,6 +12,17 @@
 #include "lua.h"
 #include "Script.h"
 
+struct Collision {
+    int type;
+    sf::FloatRect rect;
+};
+
+struct CType {
+    int type;
+    std::string action;
+    std::string target;
+};
+
 class Actor;
 
 class ActorManager
@@ -23,13 +34,14 @@ public:
     void update(int delta);
     void draw(sf::RenderWindow &window);
     int spawn(std::string name, sf::Vector2i pos);
-    void add_collision_rect(sf::FloatRect rect);
+    void add_collision_type(int type, std::string action, std::string target);
+    void add_collision_rect(int type, sf::FloatRect rect);
     void remove(int handle);
     void clear();
     void set_camera_target(int handle);
     actor_ptr get_camera_target();
     std::string get_actor_data() const;
-    std::vector<sf::FloatRect> get_collision_boxes() const;
+    std::vector<Collision> get_collision_boxes() const;
 
     void set_player(int handle);
     actor_ptr get_player();
@@ -37,13 +49,15 @@ private:
     bool check_available(std::string name);
     void check_collision(actor_ptr a);
     inline void resolve_collision(sf::FloatRect &a_rect, const sf::FloatRect &with, const sf::FloatRect &intersect);
+    inline void trigger_event(actor_ptr a, Collision c);
 
     std::map<int, actor_ptr> actors;
     int max_id = 0;
     actor_ptr camera_target = nullptr;
     actor_ptr player = nullptr;
 
-    std::vector<sf::FloatRect> collision_boxes;
+    std::map<int, CType> collision_types;
+    std::vector<Collision> collision_boxes;
     std::vector<std::string> available_actors;
 };
 

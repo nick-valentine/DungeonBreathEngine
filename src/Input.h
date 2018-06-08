@@ -24,6 +24,8 @@ public:
         accept,
         fire,
         alt_fire,
+        next,
+        prev,
         num_keys
     };
 

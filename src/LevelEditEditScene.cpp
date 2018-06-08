@@ -171,6 +171,8 @@ void LevelEditEditScene::update_edit(int delta, sf::RenderWindow &window)
         } else {
             world->add_actor(cursor.get_actor(), cursor.get_location());
         }
+    } else if (new_input[Input::next] && !last_input[Input::next]) {
+        world->add_collision(collision, cursor.get_location());
     }
     last_input = new_input;
     auto target_camera_center = cursor.get_location();

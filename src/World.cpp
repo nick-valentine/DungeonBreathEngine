@@ -45,9 +45,10 @@ void World::add_actor(std::string name, sf::Vector2i pos)
     this->actor_man->spawn(name, pos);
 }
 
-void World::add_collision(int type, sf::Vector2i pso)
+void World::add_collision(int type, sf::Vector2i pos)
 {
-    //@todo: finish
+    // @todo: more collision types
+    actor_man->add_collision_rect(sf::FloatRect(pos.x, pos.y, TileSet::tile_size(), TileSet::tile_size()));
 }
 
 void World::save()

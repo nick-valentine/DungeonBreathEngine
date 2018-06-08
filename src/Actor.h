@@ -47,6 +47,7 @@ public:
     void set_velocity(sf::Vector2f vel);
 
     void set_scale(sf::Vector2f scale);
+    void set_origin(sf::Vector2f scale);
 
     void set_tileset(int i);
 
@@ -59,6 +60,7 @@ private:
     sf::Vector2f velocity = sf::Vector2f(0.f, 0.f);
     sf::FloatRect rect;
     sf::Vector2f scale = sf::Vector2f(1.f, 1.f);
+    sf::Vector2f origin = sf::Vector2f(0.f, 0.f);
 
     TileSet *t = nullptr;
     tile_ptr current_tile = nullptr;
@@ -74,6 +76,7 @@ namespace lua {
         void add(lua_State *L);
         int get_rect(lua_State *L);
         int set_scale(lua_State *L);
+        int set_origin(lua_State *L);
         int set_collision_bounds(lua_State *L);
         int get_velocity(lua_State *L);
         int set_velocity(lua_State *L);

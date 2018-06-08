@@ -43,5 +43,11 @@ void Animation::draw(sf::RenderWindow &window, sf::FloatRect pos)
     auto spr = frames.get_sprite(current_frame);
     spr->setPosition(float(pos.left), float(pos.top));
     spr->setScale(float(pos.width), float(pos.height));
+    spr->setOrigin(origin);
     window.draw(*spr);
+}
+
+void Animation::set_origin(sf::Vector2f origin)
+{
+    this->origin = origin;
 }

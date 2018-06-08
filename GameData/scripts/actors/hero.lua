@@ -2,7 +2,8 @@ function init_actor(self)
     actor_manager.set_camera_target(me.manager, me.handle)
     actor_manager.set_player(me.manager, me.handle)
     actor.set_scale(self, {x=0.75, y=0.75})
-    actor.set_collision_bounds(self, {x=100, y=100})
+    actor.set_origin(self, {x=9, y=1})
+    actor.set_collision_bounds(self, {x=50, y=80})
 end
 
 function update_actor(self, delta)

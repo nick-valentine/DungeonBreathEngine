@@ -83,6 +83,7 @@ void Actor::commit_update(int delta)
 {
     this->current_tile->set_location(sf::Vector2i(this->rect.left, this->rect.top));
     this->current_tile->set_scale(this->scale);
+    this->current_tile->set_origin(this->origin);
 }
 
 void Actor::draw(sf::RenderWindow &window)
@@ -133,6 +134,11 @@ void Actor::set_scale(sf::Vector2f scale)
     this->scale = scale;
 }
 
+void Actor::set_origin(sf::Vector2f origin)
+{
+    this->origin = origin;
+}
+
 void Actor::set_tileset(int i)
 {
     if (tileset_cache.size() > i && tileset_cache[i] != nullptr) {
@@ -161,6 +167,7 @@ void lua::actor::add(lua_State *L)
     static const struct luaL_Reg mylib[] = {
         { "get_rect", get_rect },
         { "set_scale", set_scale },
+        { "set_origin", set_origin },
         { "set_collision_bounds", set_collision_bounds },
         { "get_velocity", get_velocity },
         { "set_velocity", set_velocity },
@@ -210,6 +217,18 @@ int lua::actor::set_scale(lua_State *L)
     auto x = lua::get_num_field(L, "x");
     auto y = lua::get_num_field(L, "y");
     a->set_scale(sf::Vector2f(x, y));
+    return 0;
+}
+
+int lua::actor::set_origin(lua_State *L)
+{
+    Actor *a = (Actor *)lua_touserdata(L, -2);
+    if (a == nullptr) {
+        return 0;
+    }
+    auto x = lua::get_num_field(L, "x");
+    auto y = lua::get_num_field(L, "y");
+    a->set_origin(sf::Vector2f(x, y));
     return 0;
 }
 

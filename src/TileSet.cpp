@@ -48,6 +48,11 @@ void StaticTile::set_scale(sf::Vector2f scale)
     this->sprite.setScale(scale);
 }
 
+void StaticTile::set_origin(sf::Vector2f origin)
+{
+    this->sprite.setOrigin(origin);
+}
+
 void StaticTile::update(int delta)
 {
 
@@ -113,6 +118,11 @@ sf::Vector2i DynamicTile::get_size()
 void DynamicTile::set_scale(sf::Vector2f scale)
 {
     this->scale = scale;
+}
+
+void DynamicTile::set_origin(sf::Vector2f origin)
+{
+    anim.set_origin(origin);
 }
 
 void DynamicTile::update(int delta)

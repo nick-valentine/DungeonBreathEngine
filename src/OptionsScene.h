@@ -12,6 +12,7 @@
 #include "ButtonGroup.h"
 #include "TextButton.h"
 #include "SpriteButton.h"
+#include "NumberInput.h"
 #include "ConfigLoader.h"
 
 class OptionsScene : public Scene
@@ -29,16 +30,14 @@ public:
 private:
     sf::View main_window;
 
-    Scene::Status state;
-    Scene *next_scene;
+    Scene::Status state = Scene::Status::nothing;
+    Scene *next_scene = nullptr;
 
-    Label lang_label;
-    SpriteButton lang_button_left;
-    SpriteButton lang_button_right;
-    Label volume_label;
-    SpriteButton volume_button_left;
-    SpriteButton volume_button_right;
-    TextButton key_bind_button;
+    Label lang_label = Label(sf::IntRect(60, 100, 300, 50), ConfigLoader::get_string_option("language", "eng"));
+    SpriteButton lang_button_left = SpriteButton(ui::left(sf::IntRect(10, 100, 50, 50)));
+    SpriteButton lang_button_right = SpriteButton(ui::right(sf::IntRect(410, 100, 50, 50)));
+    NumberInput volume_input = NumberInput(sf::Vector2i(10, 150), StringProvider::get("optionsmenu.volume_label"), 100, 0, 5);
+    TextButton key_bind_button = TextButton(sf::Rect<int>(10, 200, 300, 50), StringProvider::get("optionsmenu.key_bind_button"));
     TextButton back_button;
     ButtonGroup menu;
 
@@ -46,9 +45,9 @@ private:
 
     typedef std::pair<std::string, sf::String> langpair;
     std::vector<langpair> langs;
-    size_t current_lang;
+    size_t current_lang = 0;
 
-    int current_volume;
+    int current_volume = ConfigLoader::get_int_option("volume");
 
     void load_supported_langs();
     void set_language();

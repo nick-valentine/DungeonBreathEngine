@@ -8,6 +8,7 @@
 #include "World.h"
 #include "Scene.h"
 #include "ButtonGroup.h"
+#include "NumberInput.h"
 #include "SpriteButton.h"
 #include "TextButton.h"
 #include "Exceptions.h"
@@ -43,6 +44,7 @@ public:
         edit_level = 0,
         select_tile,
         select_actor,
+        add_collision,
         in_menu
     };
     LevelEditEditScene(sf::Vector2i size, std::string name);
@@ -79,6 +81,7 @@ private:
     LevelEdit::Cursor cursor;
     int selected_tile;
     int layer = 0;
+    int collision = 0;
 
     std::string title;
     std::string name;
@@ -87,15 +90,13 @@ private:
     std::unique_ptr<LevelEditTileScene> tile_selector = nullptr;
     LevelEditActorSelectScene actor_selector;
 
-    Label layer_label = Label(sf::IntRect(10, 100, 200, 50), StringProvider::get("leveleditmenu.layer_label"));
-    Label layer_value_label = Label(sf::IntRect(260, 100, 30, 50), "0");
+    NumberInput layer_input = NumberInput(sf::Vector2i(10, 100), StringProvider::get("leveleditmenu.layer_label"), 10, 0, 1);
+    NumberInput collision_type = NumberInput(sf::Vector2i(10, 160), StringProvider::get("leveleditmenu.collision_label"), 10, 0, 1);
 
     ButtonGroup menu;
     TextButton edit;
     TextButton save;
     TextButton back;
-    SpriteButton layer_button_right = ui::left(sf::IntRect(210, 100, 50, 50));
-    SpriteButton layer_button_left = ui::right(sf::IntRect(290, 100, 50, 50));
 
 
     game_state cur_state = edit_level;

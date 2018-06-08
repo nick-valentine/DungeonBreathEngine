@@ -51,6 +51,17 @@ Actor::Actor(const Actor &other) :
     this->current_tile = tileset_cache[0];
 }
 
+void Actor::init()
+{
+    lua_getglobal(s->s, TABLENAME);
+    if (!lua_istable(s->s, -1)) {
+        lua::error(s->s, "actor table not found");
+    }
+    auto actor_table = lua_gettop(s->s);
+    lua_getfield(s->s, actor_table, "init");
+    lua_pcall(s->s, 0, 0, 0);
+}
+
 void Actor::update(int delta)
 {
     lua_getglobal(s->s, TABLENAME);
@@ -66,17 +77,26 @@ void Actor::update(int delta)
     lua_settop(s->s, actor_table - 1);
 
     current_tile->update(delta);
+}
 
-    this->rect.left += int(this->velocity.x);
-    this->rect.top += int(this->velocity.y);
-
+void Actor::commit_update(int delta)
+{
     this->current_tile->set_location(sf::Vector2i(this->rect.left, this->rect.top));
-    this->current_tile->set_scale(sf::Vector2f(this->rect.width, this->rect.height));
+    this->current_tile->set_scale(this->scale);
+    this->current_tile->set_origin(this->origin);
 }
 
 void Actor::draw(sf::RenderWindow &window)
 {
     current_tile->draw(window);
+#if DEBUG
+    auto x = sf::RectangleShape(sf::Vector2f(rect.width, rect.height));
+    x.setPosition(sf::Vector2f(rect.left, rect.top));
+    x.setFillColor(sf::Color::Transparent);
+    x.setOutlineColor(sf::Color::Blue);
+    x.setOutlineThickness(5);
+    window.draw(x);
+#endif //DEBUG
 }
 
 void Actor::hurt(pain p)
@@ -111,8 +131,12 @@ void Actor::set_velocity(sf::Vector2f vel)
 
 void Actor::set_scale(sf::Vector2f scale)
 {
-    this->rect.width = scale.x;
-    this->rect.height = scale.y;
+    this->scale = scale;
+}
+
+void Actor::set_origin(sf::Vector2f origin)
+{
+    this->origin = origin;
 }
 
 void Actor::set_tileset(int i)
@@ -143,6 +167,8 @@ void lua::actor::add(lua_State *L)
     static const struct luaL_Reg mylib[] = {
         { "get_rect", get_rect },
         { "set_scale", set_scale },
+        { "set_origin", set_origin },
+        { "set_collision_bounds", set_collision_bounds },
         { "get_velocity", get_velocity },
         { "set_velocity", set_velocity },
         { "set_tileset", set_tileset },
@@ -164,7 +190,11 @@ void lua::actor::add(lua_State *L)
 int lua::actor::get_rect(lua_State *L)
 {
     Actor *a = (Actor *)lua_touserdata(L, -1);
-    auto rect = a->get_rect();
+    sf::FloatRect rect;
+    if (a != nullptr) {
+        app_container.get_logger()->debug("get_rect called with null actor");
+        rect = a->get_rect();
+    }
     lua_newtable(L);
     auto table = lua_gettop(L);
     lua_pushnumber(L, rect.left);
@@ -181,15 +211,49 @@ int lua::actor::get_rect(lua_State *L)
 int lua::actor::set_scale(lua_State *L)
 {
     Actor *a = (Actor *)lua_touserdata(L, -2);
+    if (a == nullptr) {
+        return 0;
+    }
     auto x = lua::get_num_field(L, "x");
     auto y = lua::get_num_field(L, "y");
     a->set_scale(sf::Vector2f(x, y));
+    return 0;
+}
+
+int lua::actor::set_origin(lua_State *L)
+{
+    Actor *a = (Actor *)lua_touserdata(L, -2);
+    if (a == nullptr) {
+        return 0;
+    }
+    auto x = lua::get_num_field(L, "x");
+    auto y = lua::get_num_field(L, "y");
+    a->set_origin(sf::Vector2f(x, y));
+    return 0;
+}
+
+int lua::actor::set_collision_bounds(lua_State *L)
+{
+    Actor *a = (Actor *)lua_touserdata(L, -2);
+    if (a == nullptr) {
+        return 0;
+    }
+    auto x = lua::get_num_field(L, "x");
+    auto y = lua::get_num_field(L, "y");
+    auto rect = a->get_rect();
+    rect.width = x;
+    rect.height = y;
+    a->set_rect(rect);
+    return 0;
 }
 
 int lua::actor::get_velocity(lua_State *L)
 {
     Actor *a = (Actor *)lua_touserdata(L, -1);
-    auto vel = a->get_velocity();
+    sf::Vector2f vel;
+    if (a != nullptr) {
+        vel = a->get_velocity();
+    }
     lua_newtable(L);
     auto table = lua_gettop(L);
     lua_pushnumber(L, vel.x);
@@ -202,6 +266,9 @@ int lua::actor::get_velocity(lua_State *L)
 int lua::actor::set_velocity(lua_State *L)
 {
     auto a = (Actor *)lua_touserdata(L, -2);
+    if (a == nullptr) {
+        return 0;
+    }
     auto x = lua::get_num_field(L, "x");
     auto y = lua::get_num_field(L, "y");
     a->set_velocity(sf::Vector2f(x, y));
@@ -211,6 +278,9 @@ int lua::actor::set_velocity(lua_State *L)
 int lua::actor::set_tileset(lua_State *L)
 {
     auto a = (Actor *)lua_touserdata(L, -2);
+    if (a == nullptr) {
+        return 0;
+    }
     if (!lua_isnumber(L, -1)) {
         lua::error(L, "param 1 not number");
     }
@@ -222,6 +292,9 @@ int lua::actor::set_tileset(lua_State *L)
 int lua::actor::pause_anim(lua_State *L)
 {
     auto a = (Actor *)lua_touserdata(L, -1);
+    if (a == nullptr) {
+        return 0;
+    }
     a->get_tile()->pause();
     return 0;
 }
@@ -229,6 +302,9 @@ int lua::actor::pause_anim(lua_State *L)
 int lua::actor::play_anim(lua_State *L)
 {
     auto a = (Actor *)lua_touserdata(L, -1);
+    if (a == nullptr) {
+        return 0;
+    }
     a->get_tile()->play();
     return 0;
 }
@@ -236,6 +312,9 @@ int lua::actor::play_anim(lua_State *L)
 int lua::actor::reset_anim(lua_State *L)
 {
     auto a = (Actor *)lua_touserdata(L, -1);
+    if (a == nullptr) {
+        return 0;
+    }
     a->get_tile()->reset();
     return 0;
 }

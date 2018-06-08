@@ -7,6 +7,7 @@ SET (SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/ActorManager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Animation.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Button.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/NumberInput.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/KeyButton.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Label.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/TextButton.cpp

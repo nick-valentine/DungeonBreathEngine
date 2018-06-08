@@ -9,9 +9,9 @@ print("Volume: ", config.get_int("volume", 100))
 print("Accept Button:",  config.get_string("accept", "enter"))
 
 
-logger.info(logger.log, "hi", 5, 7)
-logger.debug(logger.log, "how")
-logger.warn(logger.log, "are")
-logger.error(logger.log, "you")
+logger.info("hi", 5, 7)
+logger.debug("how")
+logger.warn("are")
+logger.error("you")
 
-logger.debug(logger.log, input.is_key_pressed(input.device, input.up));
+logger.debug(input.is_key_pressed(input.device, input.up));

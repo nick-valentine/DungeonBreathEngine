@@ -1,7 +1,6 @@
  
 accept k:enter
 alt_fire k:num1
-enter k:enter
 escape k:esc
 fire k:space
 language eng
@@ -9,6 +8,8 @@ move_down k:s
 move_left k:a
 move_right k:d
 move_up k:w
+next k:num2
+prev k:num3
 resolution_x 1280
 resolution_y 720
 volume 40

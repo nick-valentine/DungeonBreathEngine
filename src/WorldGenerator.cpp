@@ -21,6 +21,7 @@ Dimension::Room WorldLoader::generate(std::string tile_set)
     TileSet tileset(f_tileset);
     this->tile_set = f_tileset;
     spawn_actors(ifile);
+    spawn_collision_boxes(ifile);
     while (ifile.good()) {
         world.push_back(spawn_layer(ifile, tileset));
     }
@@ -119,5 +120,43 @@ void WorldLoader::spawn_actors(std::ifstream &ifile)
         ss>>name>>pos.x>>pos.y;
         actor_man->spawn(name, pos);
         std::getline(ifile, line);
+    }
+}
+
+void WorldLoader::spawn_collision_boxes(std::ifstream &ifile)
+{
+    std::string line;
+    // consume lines up to layer start
+    while ((line == "---" || line == "") && ifile.good()) {
+        std::getline(ifile, line);
+    }
+    Dimension::Layer layer;
+    int line_number = 0;
+    while (ifile.good() && line != "---") {
+        spawn_collision_line(line, line_number);
+        ++line_number;
+        std::getline(ifile, line);
+    }
+}
+
+void WorldLoader::spawn_collision_line(std::string &line, int line_number)
+{
+    std::stringstream ss(line);
+    int col_type;
+    ss>>col_type;
+    int col_number = 0;
+    while (ss.good()) {
+        if (col_type == 1) {
+            actor_man->add_collision_rect(
+                sf::FloatRect(
+                    col_number * TileSet::tile_size(), 
+                    line_number * TileSet::tile_size(),
+                    TileSet::tile_size(),
+                    TileSet::tile_size()
+                )
+            );
+        }
+        ++col_number;
+        ss>>col_type;
     }
 }

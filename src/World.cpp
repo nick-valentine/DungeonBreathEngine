@@ -45,6 +45,12 @@ void World::add_actor(std::string name, sf::Vector2i pos)
     this->actor_man->spawn(name, pos);
 }
 
+void World::add_collision(int type, sf::Vector2i pos)
+{
+    // @todo: more collision types
+    actor_man->add_collision_rect(sf::FloatRect(pos.x, pos.y, TileSet::tile_size(), TileSet::tile_size()));
+}
+
 void World::save()
 {
     std::ofstream ofile(filename.c_str());
@@ -52,7 +58,10 @@ void World::save()
     ofile<<tileset<<"\n";
     ofile<<size.x<<" "<<size.y<<"\n";
     ofile<<"---\n";
-    ofile<<actor_man->get_actor_data()<<"---\n";
+    ofile<<actor_man->get_actor_data();
+    ofile<<"---\n";
+    ofile<<convert_collision_boxes();
+    ofile<<"---\n";
 
     for (auto &layer: world) {
         for (auto &line: layer) {
@@ -136,4 +145,29 @@ void World::add_layer(int num_layers)
             }
         }
     }
+}
+
+std::string World::convert_collision_boxes()
+{
+    std::stringstream ss;
+    auto boxes = actor_man->get_collision_boxes();
+    for (int i = 0; i < size.y; ++i) {
+        for (int j = 0; j < size.x; ++j) {
+            auto point = sf::Vector2f(j*TileSet::tile_size(), i*TileSet::tile_size());
+            auto found = false;
+            for (const auto &i : boxes) {
+                if (i.contains(point)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                ss<<"1 ";
+            } else {
+                ss<<"0 ";
+            }
+        }
+        ss<<"\n";
+    }
+    return ss.str();
 }

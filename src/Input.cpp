@@ -8,7 +8,9 @@ const std::vector<std::string> Input::config_options = {
     "escape",
     "accept",
     "fire",
-    "alt_fire"
+    "alt_fire",
+    "next",
+    "prev"
 };
 
 const std::vector<std::string> Input::config_options_defaults = {
@@ -19,7 +21,9 @@ const std::vector<std::string> Input::config_options_defaults = {
     "k:esc",
     "k:enter",
     "k:space",
-    "k:num1"
+    "k:num1",
+    "k:num2",
+    "k:num3"
 };
 
 Input::Input() : key_map(), buttons()

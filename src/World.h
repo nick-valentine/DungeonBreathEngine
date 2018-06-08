@@ -25,6 +25,7 @@ public:
     void remove_tile(int layer, sf::Vector2i pos);
 
     void add_actor(std::string name, sf::Vector2i pos);
+    void add_collision(int type, sf::Vector2i pos);
 
     void save();
     void set_size(sf::Vector2i size);
@@ -37,6 +38,7 @@ public:
     ActorManager::actor_ptr get_camera_target();
 private:
     void add_layer(int num_layers = 1);
+    std::string convert_collision_boxes();
 
     bool update_actors =  true;
     static constexpr int world_height = 20;

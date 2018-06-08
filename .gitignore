@@ -20,3 +20,15 @@ cmake_install.cmake
 dungeonbreath
 Makefile
 RelWithDebInfo/
+*.aux
+*.bbl
+*.idx
+*.log
+*.run.xml
+*.backup
+*.bib
+*.ist
+*.toc
+*.bcf
+*.ptc
+*.ind

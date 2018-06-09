@@ -10,7 +10,7 @@
 #include "ActorManager.h"
 #include "Actor.h"
 #include "TileSet.h"
-#include "World.h"
+#include "WorldManager.h"
 
 class GameScene : public Scene
 {
@@ -27,7 +27,7 @@ public:
 private:
     sf::View main_window;
 
-    World world;
+    WorldManager world;
 
     Scene::Status state = Scene::Status::nothing;
     Scene* next_scene = nullptr;

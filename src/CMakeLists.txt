@@ -41,6 +41,7 @@ SET (SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/StringProvider.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/WorldGenerator.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/World.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/WorldManager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/lua.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Script.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Container.cpp

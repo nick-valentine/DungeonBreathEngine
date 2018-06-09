@@ -12,9 +12,6 @@
 #include "Input.h"
 #include "Logger.h"
 
-// plan for multiverse structure:
-// Dimension is a container of Worlds
-// World should be synonymous with level or room
 class World
 {
 public:

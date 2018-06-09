@@ -1,0 +1,4 @@
+#ifndef WORLDMANAGER_H
+#define WORLDMANAGER_H
+
+#endif //WORLDMANAGER_H

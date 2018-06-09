@@ -108,12 +108,32 @@
 %----------------------------------------------------------------------------------------
 %	CHAPTER 1
 %----------------------------------------------------------------------------------------
+\chapterimage{chapter_head_2.pdf}
+
+\chapter{General}
+
+\section{Input}\index{Paragraphs of Text}
+
+In order to interact with the game in any way, shape or form, you will need to pass input into it. These inputs are defined in
+\begin{theorem}[Config file]
+ GameDir/GameData/config.txt
+\end{theorem}
+This file is a simple key value store where the first word on any line is the key, and the second is the value. Input definitions follow a very
+simple domain specific language in order to be defined.
+\begin{theorem}[Input DSN]
+device:[input number]:[axis or button]:[min value]:button
+\end{theorem}
+device may be either k for keyboard, or j for joystick. If the device is keyboard, then don't pass any of the optional values. The configuration would look something
+like k:d. However if the input device is a joystick, all options are required as the input number is which joystick to look at (1-8)[hopefully this will be refactored out soon]
+axis or button tells how to treat the input, and min value is useful in the case of axis to present a dead zone which will prevent false positive triggering.
 
 \chapterimage{chapter_head_2.pdf} % Chapter heading image
 
-\chapter{Creating Tilesets}
+\chapter{In Engine Creation}
 
-\section{Image layout}\index{Paragraphs of Text}
+\section{Tile Sets}
+
+\subsection{Image layout}\index{Paragraphs of Text}
 
 The engine for DungeonBreath allows for variable size sprites, and variable size tilesets. However it will tend to work best when all images are of a size
 that is a power of 2, and no smaller than 16x16. Example sizes can be 32x32, 64x64, 256x256, and they don't have to be square, they can also be 32x128 if necessary.
@@ -123,252 +143,280 @@ Once the tilesheet is layed out properly, add it to:
 \begin{theorem}[Image data directory]
 GameDir/GameData/img/
 \end{theorem}
+
+\subsection{The tileset tool}
 Then you may launch the game in dev mode and press the ``Tile Sets'' button. Choose New and provide an easy symbolic name, the name of the spritesheet with none of the 
 path before the img directory (images may be placed inside of sub folders). And provide as the base size, the smallest unit of measure necessary to accurately select
 the smallest sprite.
 
-%------------------------------------------------
+Once finished press next and you will be in the tileset edit screen, accept will commit the accumulated tiles up to this point as a tileset ending with the tile selected
+by hitting accept. If there are no previously accumulated tiles, this will become a static tile. Static tiles do not have animations and will get some engine optimizations.
+In order to accumulate tiles for animations, use fire while hovering over the tile you wish to select. Use this method to select all except for the very last tile, use enter 
+on the last tile to commit as a single tileset.
 
-\section{Citation}\index{Citation}
-
-This statement requires citation \cite{article_key}; this one is more specific \cite[162]{book_key}.
-
-%------------------------------------------------
-
-\section{Lists}\index{Lists}
-
-Lists are useful to present information in a concise and/or ordered way\footnote{Footnote example...}.
-
-\subsection{Numbered List}\index{Lists!Numbered List}
-
+\section{Level Creation}
+Launch the game in dev mode and press the ``Level Editor'' button. You may choose new, or from a list of existing levels. Once in the level editor:
 \begin{enumerate}
-\item The first item
-\item The second item
-\item The third item
+ \item accept + fire will remove a tile
+ \item accept + alt\_fire will enter actor select mode
+ \item alt\_fire will enter tile select mode
+ \item fire will place the currently selected item at the cursor's position
+ \item escape will enter the escape menu where the user may set the layer, collision type, save, exit, or return to editing
+ \item up will move the cursor up one block
+ \item down will move the cursor down one block
+ \item left will move the cursor left one block
+ \item right will move the cursor right one block
+ \item next will place a collision cube at the cursor
 \end{enumerate}
-
-\subsection{Bullet Points}\index{Lists!Bullet Points}
-
-\begin{itemize}
-\item The first item
-\item The second item
-\item The third item
-\end{itemize}
-
-\subsection{Descriptions and Definitions}\index{Lists!Descriptions and Definitions}
-
-\begin{description}
-\item[Name] Description
-\item[Word] Definition
-\item[Comment] Elaboration
-\end{description}
-
-%----------------------------------------------------------------------------------------
-%	CHAPTER 2
-%----------------------------------------------------------------------------------------
-
-\chapter{In-text Elements}
-
-\section{Theorems}\index{Theorems}
-
-This is an example of theorems.
-
-\subsection{Several equations}\index{Theorems!Several Equations}
-This is a theorem consisting of several equations.
-
-\begin{theorem}[Name of the theorem]
-In $E=\mathbb{R}^n$ all norms are equivalent. It has the properties:
-\begin{align}
-& \big| ||\mathbf{x}|| - ||\mathbf{y}|| \big|\leq || \mathbf{x}- \mathbf{y}||\\
-&  ||\sum_{i=1}^n\mathbf{x}_i||\leq \sum_{i=1}^n||\mathbf{x}_i||\quad\text{where $n$ is a finite integer}
-\end{align}
+At this time in order to choose what events are triggered by collisions, you must manually edit the world file and add to that section. The dsn is:
+\begin{theorem}[action dsn]
+ <type> <action> <target>
 \end{theorem}
+Where type is the integer associated with the collision type, action is either teleport or call, and target is either the new world to load, or the lua function to call.
 
-\subsection{Single Line}\index{Theorems!Single Line}
-This is a theorem consisting of just one line.
-
-\begin{theorem}
-A set $\mathcal{D}(G)$ in dense in $L^2(G)$, $|\cdot|_0$. 
-\end{theorem}
 
 %------------------------------------------------
 
-\section{Definitions}\index{Definitions}
-
-This is an example of a definition. A definition could be mathematical or it could define a concept.
-
-\begin{definition}[Definition name]
-Given a vector space $E$, a norm on $E$ is an application, denoted $||\cdot||$, $E$ in $\mathbb{R}^+=[0,+\infty[$ such that:
-\begin{align}
-& ||\mathbf{x}||=0\ \Rightarrow\ \mathbf{x}=\mathbf{0}\\
-& ||\lambda \mathbf{x}||=|\lambda|\cdot ||\mathbf{x}||\\
-& ||\mathbf{x}+\mathbf{y}||\leq ||\mathbf{x}||+||\mathbf{y}||
-\end{align}
-\end{definition}
-
-%------------------------------------------------
-
-\section{Notations}\index{Notations}
-
-\begin{notation}
-Given an open subset $G$ of $\mathbb{R}^n$, the set of functions $\varphi$ are:
-\begin{enumerate}
-\item Bounded support $G$;
-\item Infinitely differentiable;
-\end{enumerate}
-a vector space is denoted by $\mathcal{D}(G)$. 
-\end{notation}
-
-%------------------------------------------------
-
-\section{Remarks}\index{Remarks}
-
-This is an example of a remark.
-
-\begin{remark}
-The concepts presented here are now in conventional employment in mathematics. Vector spaces are taken over the field $\mathbb{K}=\mathbb{R}$, however, established properties are easily extended to $\mathbb{K}=\mathbb{C}$.
-\end{remark}
-
-%------------------------------------------------
-
-\section{Corollaries}\index{Corollaries}
-
-This is an example of a corollary.
-
-\begin{corollary}[Corollary name]
-The concepts presented here are now in conventional employment in mathematics. Vector spaces are taken over the field $\mathbb{K}=\mathbb{R}$, however, established properties are easily extended to $\mathbb{K}=\mathbb{C}$.
-\end{corollary}
-
-%------------------------------------------------
-
-\section{Propositions}\index{Propositions}
-
-This is an example of propositions.
-
-\subsection{Several equations}\index{Propositions!Several Equations}
-
-\begin{proposition}[Proposition name]
-It has the properties:
-\begin{align}
-& \big| ||\mathbf{x}|| - ||\mathbf{y}|| \big|\leq || \mathbf{x}- \mathbf{y}||\\
-&  ||\sum_{i=1}^n\mathbf{x}_i||\leq \sum_{i=1}^n||\mathbf{x}_i||\quad\text{where $n$ is a finite integer}
-\end{align}
-\end{proposition}
-
-\subsection{Single Line}\index{Propositions!Single Line}
-
-\begin{proposition} 
-Let $f,g\in L^2(G)$; if $\forall \varphi\in\mathcal{D}(G)$, $(f,\varphi)_0=(g,\varphi)_0$ then $f = g$. 
-\end{proposition}
-
-%------------------------------------------------
-
-\section{Examples}\index{Examples}
-
-This is an example of examples.
-
-\subsection{Equation and Text}\index{Examples!Equation and Text}
-
-\begin{example}
-Let $G=\{x\in\mathbb{R}^2:|x|<3\}$ and denoted by: $x^0=(1,1)$; consider the function:
-\begin{equation}
-f(x)=\left\{\begin{aligned} & \mathrm{e}^{|x|} & & \text{si $|x-x^0|\leq 1/2$}\\
-& 0 & & \text{si $|x-x^0|> 1/2$}\end{aligned}\right.
-\end{equation}
-The function $f$ has bounded support, we can take $A=\{x\in\mathbb{R}^2:|x-x^0|\leq 1/2+\epsilon\}$ for all $\epsilon\in\intoo{0}{5/2-\sqrt{2}}$.
-\end{example}
-
-\subsection{Paragraph of Text}\index{Examples!Paragraph of Text}
-
-\begin{example}[Example name]
-\lipsum[2]
-\end{example}
-
-%------------------------------------------------
-
-\section{Exercises}\index{Exercises}
-
-This is an example of an exercise.
-
-\begin{exercise}
-This is a good place to ask a question to test learning progress or further cement ideas into students' minds.
-\end{exercise}
-
-%------------------------------------------------
-
-\section{Problems}\index{Problems}
-
-\begin{problem}
-What is the average airspeed velocity of an unladen swallow?
-\end{problem}
-
-%------------------------------------------------
-
-\section{Vocabulary}\index{Vocabulary}
-
-Define a word to improve a students' vocabulary.
-
-\begin{vocabulary}[Word]
-Definition of word.
-\end{vocabulary}
-
-%----------------------------------------------------------------------------------------
-%	PART
-%----------------------------------------------------------------------------------------
-
-\part{Part Two}
-
-%----------------------------------------------------------------------------------------
-%	CHAPTER 3
-%----------------------------------------------------------------------------------------
-
-\chapterimage{chapter_head_1.pdf} % Chapter heading image
-
-\chapter{Presenting Information}
-
-\section{Table}\index{Table}
-
-\begin{table}[h]
-\centering
-\begin{tabular}{l l l}
-\toprule
-\textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2}\\
-\midrule
-Treatment 1 & 0.0003262 & 0.562 \\
-Treatment 2 & 0.0015681 & 0.910 \\
-Treatment 3 & 0.0009271 & 0.296 \\
-\bottomrule
-\end{tabular}
-\caption{Table caption}
-\end{table}
-
-%------------------------------------------------
-
-\section{Figure}\index{Figure}
-
-\begin{figure}[h]
-\centering\includegraphics[scale=0.5]{placeholder}
-\caption{Figure caption}
-\end{figure}
-
-%----------------------------------------------------------------------------------------
-%	BIBLIOGRAPHY
-%----------------------------------------------------------------------------------------
-
-\chapter*{Bibliography}
-\addcontentsline{toc}{chapter}{\textcolor{ocre}{Bibliography}}
-
-%------------------------------------------------
-
-\section*{Articles}
-\addcontentsline{toc}{section}{Articles}
-\printbibliography[heading=bibempty,type=article]
-
-%------------------------------------------------
-
-\section*{Books}
-\addcontentsline{toc}{section}{Books}
-\printbibliography[heading=bibempty,type=book]
+%Tilesets\section{Citation}\index{Citation}
+%
+%This statement requires citation \cite{article_key}; this one is more specific \cite[162]{book_key}.
+%
+%%------------------------------------------------
+%
+%\section{Lists}\index{Lists}
+%
+%Lists are useful to present information in a concise and/or ordered way\footnote{Footnote example...}.
+%
+%\subsection{Numbered List}\index{Lists!Numbered List}
+%
+%\begin{enumerate}
+%\item The first item
+%\item The second item
+%\item The third item
+%\end{enumerate}
+%
+%\subsection{Bullet Points}\index{Lists!Bullet Points}
+%
+%\begin{itemize}
+%\item The first item
+%\item The second item
+%\item The third item
+%\end{itemize}
+%
+%\subsection{Descriptions and Definitions}\index{Lists!Descriptions and Definitions}
+%
+%\begin{description}
+%\item[Name] Description
+%\item[Word] Definition
+%\item[Comment] Elaboration
+%\end{description}
+%
+%%----------------------------------------------------------------------------------------
+%%	CHAPTER 2
+%%----------------------------------------------------------------------------------------
+%
+%\chapter{In-text Elements}
+%
+%\section{Theorems}\index{Theorems}
+%
+%This is an example of theorems.
+%
+%\subsection{Several equations}\index{Theorems!Several Equations}
+%This is a theorem consisting of several equations.
+%
+%\begin{theorem}[Name of the theorem]
+%In $E=\mathbb{R}^n$ all norms are equivalent. It has the properties:
+%\begin{align}
+%& \big| ||\mathbf{x}|| - ||\mathbf{y}|| \big|\leq || \mathbf{x}- \mathbf{y}||\\
+%&  ||\sum_{i=1}^n\mathbf{x}_i||\leq \sum_{i=1}^n||\mathbf{x}_i||\quad\text{where $n$ is a finite integer}
+%\end{align}
+%\end{theorem}
+%
+%\subsection{Single Line}\index{Theorems!Single Line}
+%This is a theorem consisting of just one line.
+%
+%\begin{theorem}
+%A set $\mathcal{D}(G)$ in dense in $L^2(G)$, $|\cdot|_0$. 
+%\end{theorem}
+%
+%%------------------------------------------------
+%
+%\section{Definitions}\index{Definitions}
+%
+%This is an example of a definition. A definition could be mathematical or it could define a concept.
+%
+%\begin{definition}[Definition name]
+%Given a vector space $E$, a norm on $E$ is an application, denoted $||\cdot||$, $E$ in $\mathbb{R}^+=[0,+\infty[$ such that:
+%\begin{align}
+%& ||\mathbf{x}||=0\ \Rightarrow\ \mathbf{x}=\mathbf{0}\\
+%& ||\lambda \mathbf{x}||=|\lambda|\cdot ||\mathbf{x}||\\
+%& ||\mathbf{x}+\mathbf{y}||\leq ||\mathbf{x}||+||\mathbf{y}||
+%\end{align}
+%\end{definition}
+%
+%%------------------------------------------------
+%
+%\section{Notations}\index{Notations}
+%
+%\begin{notation}
+%Given an open subset $G$ of $\mathbb{R}^n$, the set of functions $\varphi$ are:
+%\begin{enumerate}
+%\item Bounded support $G$;
+%\item Infinitely differentiable;
+%\end{enumerate}
+%a vector space is denoted by $\mathcal{D}(G)$. 
+%\end{notation}
+%
+%%------------------------------------------------
+%
+%\section{Remarks}\index{Remarks}
+%
+%This is an example of a remark.
+%
+%\begin{remark}
+%The concepts presented here are now in conventional employment in mathematics. Vector spaces are taken over the field $\mathbb{K}=\mathbb{R}$, however, established properties are easily extended to $\mathbb{K}=\mathbb{C}$.
+%\end{remark}
+%
+%%------------------------------------------------
+%
+%\section{Corollaries}\index{Corollaries}
+%
+%This is an example of a corollary.
+%
+%\begin{corollary}[Corollary name]
+%The concepts presented here are now in conventional employment in mathematics. Vector spaces are taken over the field $\mathbb{K}=\mathbb{R}$, however, established properties are easily extended to $\mathbb{K}=\mathbb{C}$.
+%\end{corollary}
+%
+%%------------------------------------------------
+%
+%\section{Propositions}\index{Propositions}
+%
+%This is an example of propositions.
+%
+%\subsection{Several equations}\index{Propositions!Several Equations}
+%
+%\begin{proposition}[Proposition name]
+%It has the properties:
+%\begin{align}
+%& \big| ||\mathbf{x}|| - ||\mathbf{y}|| \big|\leq || \mathbf{x}- \mathbf{y}||\\
+%&  ||\sum_{i=1}^n\mathbf{x}_i||\leq \sum_{i=1}^n||\mathbf{x}_i||\quad\text{where $n$ is a finite integer}
+%\end{align}
+%\end{proposition}
+%
+%\subsection{Single Line}\index{Propositions!Single Line}
+%
+%\begin{proposition} 
+%Let $f,g\in L^2(G)$; if $\forall \varphi\in\mathcal{D}(G)$, $(f,\varphi)_0=(g,\varphi)_0$ then $f = g$. 
+%\end{proposition}
+%
+%%------------------------------------------------
+%
+%\section{Examples}\index{Examples}
+%
+%This is an example of examples.
+%
+%\subsection{Equation and Text}\index{Examples!Equation and Text}
+%
+%\begin{example}
+%Let $G=\{x\in\mathbb{R}^2:|x|<3\}$ and denoted by: $x^0=(1,1)$; consider the function:
+%\begin{equation}
+%f(x)=\left\{\begin{aligned} & \mathrm{e}^{|x|} & & \text{si $|x-x^0|\leq 1/2$}\\
+%& 0 & & \text{si $|x-x^0|> 1/2$}\end{aligned}\right.
+%\end{equation}
+%The function $f$ has bounded support, we can take $A=\{x\in\mathbb{R}^2:|x-x^0|\leq 1/2+\epsilon\}$ for all $\epsilon\in\intoo{0}{5/2-\sqrt{2}}$.
+%\end{example}
+%
+%\subsection{Paragraph of Text}\index{Examples!Paragraph of Text}
+%
+%\begin{example}[Example name]
+%\lipsum[2]
+%\end{example}
+%
+%%------------------------------------------------
+%
+%\section{Exercises}\index{Exercises}
+%
+%This is an example of an exercise.
+%
+%\begin{exercise}
+%This is a good place to ask a question to test learning progress or further cement ideas into students' minds.
+%\end{exercise}
+%
+%%------------------------------------------------
+%
+%\section{Problems}\index{Problems}
+%
+%\begin{problem}
+%What is the average airspeed velocity of an unladen swallow?
+%\end{problem}
+%
+%%------------------------------------------------
+%
+%\section{Vocabulary}\index{Vocabulary}
+%
+%Define a word to improve a students' vocabulary.
+%
+%\begin{vocabulary}[Word]
+%Definition of word.
+%\end{vocabulary}
+%
+%%----------------------------------------------------------------------------------------
+%%	PART
+%%----------------------------------------------------------------------------------------
+%
+%\part{Part Two}
+%
+%%----------------------------------------------------------------------------------------
+%%	CHAPTER 3
+%%----------------------------------------------------------------------------------------
+%
+%\chapterimage{chapter_head_1.pdf} % Chapter heading image
+%
+%\chapter{Presenting Information}
+%
+%\section{Table}\index{Table}
+%
+%\begin{table}[h]
+%\centering
+%\begin{tabular}{l l l}
+%\toprule
+%\textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2}\\
+%\midrule
+%Treatment 1 & 0.0003262 & 0.562 \\
+%Treatment 2 & 0.0015681 & 0.910 \\
+%Treatment 3 & 0.0009271 & 0.296 \\
+%\bottomrule
+%\end{tabular}
+%\caption{Table caption}
+%\end{table}
+%
+%%------------------------------------------------
+%
+%\section{Figure}\index{Figure}
+%
+%\begin{figure}[h]
+%\centering\includegraphics[scale=0.5]{placeholder}
+%\caption{Figure caption}
+%\end{figure}
+%
+%%----------------------------------------------------------------------------------------
+%%	BIBLIOGRAPHY
+%%----------------------------------------------------------------------------------------
+%
+%\chapter*{Bibliography}
+%\addcontentsline{toc}{chapter}{\textcolor{ocre}{Bibliography}}
+%
+%%------------------------------------------------
+%
+%\section*{Articles}
+%\addcontentsline{toc}{section}{Articles}
+%\printbibliography[heading=bibempty,type=article]
+%
+%%------------------------------------------------
+%
+%\section*{Books}
+%\addcontentsline{toc}{section}{Books}
+%\printbibliography[heading=bibempty,type=book]
 
 %----------------------------------------------------------------------------------------
 %	INDEX

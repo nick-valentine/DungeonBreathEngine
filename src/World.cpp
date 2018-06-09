@@ -40,6 +40,11 @@ void World::remove_tile(int layer, sf::Vector2i pos)
     }
 }
 
+void World::set_init_player_pos(sf::Vector2i pos)
+{
+    this->actor_man->set_init_player_pos(pos);
+}
+
 void World::add_actor(std::string name, sf::Vector2i pos)
 {
     this->actor_man->spawn(name, pos);
@@ -58,6 +63,8 @@ void World::save()
     ofile<<size.x<<" "<<size.y<<"\n";
     ofile<<"---\n";
     ofile<<actor_man->get_actor_data();
+    ofile<<"---\n";
+    ofile<<"0 collision placeholder";
     ofile<<"---\n";
     ofile<<convert_collision_boxes();
     ofile<<"---\n";
@@ -92,6 +99,16 @@ void World::update(int delta, sf::RenderWindow &window)
     }
     if (update_actors) {
         actor_man->update(delta);
+        auto event = actor_man->get_event();
+        if (event != nullptr) {
+            app_container.get_logger()->info("event fired");
+            auto type = actor_man->get_collision_type(event->type);
+            if (type.action == "teleport") {
+                game_state = change;
+                request_level = type.target;
+                load_player_pos = type.loc;
+            }
+        }
     }
 }
 
@@ -125,6 +142,21 @@ void World::draw(sf::RenderWindow &window)
 void World::set_edit_mode(bool edit_mode)
 {
     this->update_actors = !edit_mode;
+}
+
+World::state World::status()
+{
+    return game_state;
+}
+
+std::string World::next_level()
+{
+    return  request_level;
+}
+
+sf::Vector2i World::next_player_pos()
+{
+    return load_player_pos;
 }
 
 ActorManager::actor_ptr World::get_camera_target()

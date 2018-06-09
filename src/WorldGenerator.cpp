@@ -138,7 +138,11 @@ void WorldLoader::spawn_collision_defs(std::ifstream &ifile)
         std::string action = "";
         std::string target = "";
         ss>>type>>action>>target;
-        actor_man->add_collision_type(type, action, target);
+        auto loc = sf::Vector2i(0, 0);
+        if (ss.good()) {
+            ss>>loc.x>>loc.y;
+        }
+        actor_man->add_collision_type(type, action, target, loc);
         std::getline(ifile, line);
     }
 }

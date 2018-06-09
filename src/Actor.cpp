@@ -119,6 +119,12 @@ void Actor::set_rect(sf::FloatRect& x)
     this->rect = x;
 }
 
+void Actor::set_location(sf::Vector2f x)
+{
+    this->rect.left = x.x;
+    this->rect.top = x.y;
+}
+
 sf::Vector2f Actor::get_velocity() const
 {
     return this->velocity;

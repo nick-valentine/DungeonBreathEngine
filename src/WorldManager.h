@@ -13,7 +13,7 @@ public:
     void update(int delta, sf::RenderWindow &window);
     void draw(sf::RenderWindow &window);
 
-    void load(std::string name, sf::Vector2f player_coords);
+    void load(std::string name, sf::Vector2i player_coords);
 
     world_ptr get();
 private:

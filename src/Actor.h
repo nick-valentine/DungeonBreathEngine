@@ -42,6 +42,7 @@ public:
     std::string get_name() const;
     sf::FloatRect get_rect() const;
     void set_rect(sf::FloatRect& x);
+    void set_location(sf::Vector2f x);
 
     sf::Vector2f get_velocity() const;
     void set_velocity(sf::Vector2f vel);

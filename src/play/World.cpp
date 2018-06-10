@@ -41,7 +41,7 @@ namespace play {
         }
     }
 
-    void World::set_tile(Tile *tile, int layer, sf::Vector2i pos)
+    void World::set_tile(render::Tile *tile, int layer, sf::Vector2i pos)
     {
         if (layer < 0) {
             return;
@@ -77,7 +77,7 @@ namespace play {
 
     void World::add_collision(int type, sf::Vector2i pos)
     {
-        actor_man->add_collision_rect(type, sf::FloatRect(pos.x, pos.y, TileSet::tile_size(), TileSet::tile_size()));
+        actor_man->add_collision_rect(type, sf::FloatRect(pos.x, pos.y, render::TileSet::tile_size(), render::TileSet::tile_size()));
     }
 
     void World::save()
@@ -231,7 +231,7 @@ namespace play {
         auto boxes = actor_man->get_collision_boxes();
         for (int i = 0; i < size.y; ++i) {
             for (int j = 0; j < size.x; ++j) {
-                auto point = sf::Vector2f(j*TileSet::tile_size(), i*TileSet::tile_size());
+                auto point = sf::Vector2f(j*render::TileSet::tile_size(), i*render::TileSet::tile_size());
                 auto type = 0;
                 for (const auto &i : boxes) {
                     if (i.rect.contains(point)) {

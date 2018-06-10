@@ -34,7 +34,7 @@ void LevelEdit::Cursor::draw(sf::RenderWindow &window)
     }
 }
 
-void LevelEdit::Cursor::set_tile(Tile *tile)
+void LevelEdit::Cursor::set_tile(render::Tile *tile)
 {
     current.reset(tile);
     size = current->get_size();
@@ -127,7 +127,7 @@ void LevelEditEditScene::load_level()
     std::getline(ifile, title);
     ifile>>tileset;
     ifile.close();
-    tiles = std::unique_ptr<TileSet>(new TileSet(tileset));
+    tiles = std::unique_ptr<render::TileSet>(new render::TileSet(tileset));
     world = std::unique_ptr<play::World>(
         new play::World(
             tileset, 

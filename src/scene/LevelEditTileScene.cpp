@@ -16,8 +16,8 @@ LevelEditTileScene::LevelEditTileScene(sf::Vector2i size, std::string tileset) :
     int x = 0, y = 0;
     int maxY = 0;
     for (const auto &i : keys) {
-        auto tmp = this->tileset.spawn(TileType(i), sf::Vector2i(x, y));
-        tiles.push_back(std::unique_ptr<Tile>(tmp));
+        auto tmp = this->tileset.spawn(render::TileType(i), sf::Vector2i(x, y));
+        tiles.push_back(std::unique_ptr<render::Tile>(tmp));
         auto size = tmp->get_size();
         x += size.x;
         if (size.y > maxY) {

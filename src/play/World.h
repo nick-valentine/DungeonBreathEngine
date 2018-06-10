@@ -22,7 +22,7 @@ namespace play {
         World(std::string tile_set, std::unique_ptr<WorldGenerator> &&gen);
         ~World();
 
-        void set_tile(Tile *tile, int layer, sf::Vector2i pos); void remove_tile(int layer, sf::Vector2i pos);
+        void set_tile(render::Tile *tile, int layer, sf::Vector2i pos); void remove_tile(int layer, sf::Vector2i pos);
 
         void set_init_player_pos(sf::Vector2i pos);
 
@@ -51,7 +51,7 @@ namespace play {
         bool update_actors =  true;
         static constexpr int world_height = 20;
         static constexpr int world_width = 20;
-        std::unique_ptr<TileSet> tile_set;
+        std::unique_ptr<render::TileSet> tile_set;
         std::string name;
         std::string filename;
         std::string tileset;

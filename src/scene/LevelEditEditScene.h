@@ -21,7 +21,7 @@ namespace LevelEdit {
 
         void draw(sf::RenderWindow &window);
 
-        void set_tile(Tile *tile);
+        void set_tile(render::Tile *tile);
         void set_actor(std::string actor);
 
         std::string get_actor();
@@ -29,7 +29,7 @@ namespace LevelEdit {
         sf::Vector2i loc = sf::Vector2i(0, 0);
         sf::Vector2i size;
         sf::RectangleShape shape;
-        std::unique_ptr<Tile> current = nullptr;
+        std::unique_ptr<render::Tile> current = nullptr;
         std::string actor;
     };
 };
@@ -74,7 +74,7 @@ private:
     Scene *next_scene = nullptr;
 
     std::unique_ptr<play::World> world = nullptr;
-    std::unique_ptr<TileSet> tiles = nullptr;
+    std::unique_ptr<render::TileSet> tiles = nullptr;
     LevelEdit::Cursor cursor;
     int selected_tile;
     int layer = 0;

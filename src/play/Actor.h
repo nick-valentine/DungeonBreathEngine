@@ -20,7 +20,7 @@ namespace play {
         Actor *attacker;
     };
 
-    typedef std::shared_ptr<Tile> tile_ptr;
+    typedef std::shared_ptr<render::Tile> tile_ptr;
 
     class Actor
     {
@@ -60,7 +60,7 @@ namespace play {
         sf::Vector2f scale = sf::Vector2f(1.f, 1.f);
         sf::Vector2f origin = sf::Vector2f(0.f, 0.f);
 
-        TileSet *t = nullptr;
+        render::TileSet *t = nullptr;
         tile_ptr current_tile = nullptr;
 
         std::vector<tile_ptr> tileset_cache = std::vector<tile_ptr>();

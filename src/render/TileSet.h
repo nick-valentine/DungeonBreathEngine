@@ -10,128 +10,45 @@
 
 #include "core.h"
 #include "TextureMap.h"
-#include "SpriteSet.h"
-#include "Animation.h"
+#include "render/Macros.h"
+#include "Tile.h"
+#include "StaticTile.h"
+#include "DynamicTile.h"
 
-#define BASE_TILE_SIZE 16
+namespace render {
 
-typedef int TileType;
-
-class Tile
-{
-public:
-    virtual sf::Vector2i get_location() = 0;
-    virtual void set_location(sf::Vector2i loc) = 0;
-    virtual ~Tile() = default;
-
-    virtual void play() = 0;
-    virtual void pause() = 0;
-    virtual void reset() = 0;
-
-    virtual void update(int delta) = 0;
-    virtual void draw(sf::RenderWindow &window) = 0;
-
-    virtual int get_key() = 0;
-    virtual sf::Vector2i get_size() = 0;
-    virtual void set_scale(sf::Vector2f scale) = 0;
-    virtual void set_origin(sf::Vector2f scale) = 0;
-
-    virtual Tile *clone() = 0;
-    constexpr static int size()
+    class TileSet 
     {
-        return scale;
-    }
-protected:
-    constexpr static int scale = 4;
-};
+    public:
+        TileSet(std::string def_file);
+        TileSet(sf::Texture *tex, int base_size = BASE_TILE_SIZE);
+        ~TileSet();
 
-class DynamicTile : public Tile
-{
-public:
-    DynamicTile(int key, sf::Texture *tex, sf::Vector2i size_mod = sf::Vector2i(1,1), int anim_speed = 1, int base_size = 16);
-    void add_frame(sf::IntRect pos);
+        TileSet(const TileSet &other) = delete;
+        TileSet operator=(const TileSet &other) = delete;
+        TileSet(const TileSet &&other) = delete;
+        TileSet operator=(const TileSet &&other) = delete;
 
-    sf::Vector2i get_location();
-    void set_location(sf::Vector2i loc);
+        std::string get_name() const;
 
-    virtual void play();
-    virtual void pause();
-    virtual void reset();
+        TileType make_static(int key, sf::Vector2i pos, sf::Vector2i size_mod = sf::Vector2i(1,1));
+        TileType make_dynamic(int key, std::vector<sf::Vector2i> pos, sf::Vector2i size_mod = sf::Vector2i(1,1), int anim_speed = 1);
 
-    virtual int get_key();
-    virtual sf::Vector2i get_size();
-    virtual void set_scale(sf::Vector2f scale);
-    virtual void set_origin(sf::Vector2f scale);
+        Tile *spawn(TileType t, sf::Vector2i loc);
 
-    void update(int delta);
-    void draw(sf::RenderWindow &window);
+        std::vector<int> get_keys() const;
 
-    Tile *clone();
-private:
-    Animation anim;
-    sf::Vector2i loc;
-    sf::Vector2f scale = sf::Vector2f(1.f, 1.f);
-    sf::Vector2i size_mod;
-    int key;
-};
-
-class StaticTile : public Tile
-{
-public:
-    StaticTile(int key, sf::Sprite sprite);
-
-    sf::Vector2i get_location();
-    void set_location(sf::Vector2i loc);
-
-    virtual void play();
-    virtual void pause();
-    virtual void reset();
-
-    virtual int get_key();
-    virtual sf::Vector2i get_size();
-    virtual void set_scale(sf::Vector2f scale); 
-    virtual void set_origin(sf::Vector2f scale); 
-
-    void update(int delta);
-    void draw(sf::RenderWindow &window);
-
-    Tile *clone();
-private:
-    sf::Sprite sprite;
-    int key;
-};
-
-class TileSet 
-{
-public:
-    TileSet(std::string def_file);
-    TileSet(sf::Texture *tex, int base_size = BASE_TILE_SIZE);
-    ~TileSet();
-
-    TileSet(const TileSet &other) = delete;
-    TileSet operator=(const TileSet &other) = delete;
-    TileSet(const TileSet &&other) = delete;
-    TileSet operator=(const TileSet &&other) = delete;
-
-    std::string get_name() const;
-
-    TileType make_static(int key, sf::Vector2i pos, sf::Vector2i size_mod = sf::Vector2i(1,1));
-    TileType make_dynamic(int key, std::vector<sf::Vector2i> pos, sf::Vector2i size_mod = sf::Vector2i(1,1), int anim_speed = 1);
-
-    Tile *spawn(TileType t, sf::Vector2i loc);
-
-    std::vector<int> get_keys() const;
-
-    constexpr static int tile_size()
-    {
-        return BASE_TILE_SIZE * Tile::size();
-    }
-private:
-    std::string name;
-    sf::Texture *tex;
-    int base_size;
-    int anim_speed;
-    std::map<int, std::unique_ptr<Tile> > tiles;
-};
+        constexpr static int tile_size()
+        {
+            return BASE_TILE_SIZE * Tile::size();
+        }
+    private:
+        std::string name;
+        sf::Texture *tex;
+        int base_size;
+        int anim_speed;
+        std::map<int, std::unique_ptr<Tile> > tiles;
+    };
+}
 
 #endif // TILESET_H

@@ -89,7 +89,7 @@ TileSetEditScene::TileSetEditScene(sf::Vector2i size, std::string tileset) : Sce
     load_tile_set();
 
     std::string full_tex_name = IMGDIR + texture_name;
-    tex = TextureMap::request(full_tex_name.c_str());
+    tex = render::TextureMap::request(full_tex_name.c_str());
     spr = sf::Sprite(*tex);
     spr.setPosition(sf::Vector2f(START_TEX_X, START_TEX_Y));
 

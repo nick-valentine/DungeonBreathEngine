@@ -30,7 +30,7 @@ namespace play {
         lua_pushlightuserdata(s->s, man);
         lua_setfield(s->s, me_table, "manager");
 
-        t = new TileSet(tileset);
+        t = new render::TileSet(tileset);
         tileset_cache.push_back(tile_ptr(t->spawn(0, pos)));
         current_tile = tileset_cache[0];
     }
@@ -64,7 +64,7 @@ namespace play {
         lua_setfield(s->s, me_table, "handle");
         lua_pushlightuserdata(s->s, manager);
         lua_setfield(s->s, me_table, "manager");
-        this->t = new TileSet(other.t->get_name());
+        this->t = new render::TileSet(other.t->get_name());
         set_tileset(0);
         this->current_tile = tileset_cache[0];
     }

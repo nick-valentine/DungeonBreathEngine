@@ -11,7 +11,7 @@
 
 namespace play {
     namespace Dimension {
-        typedef std::unique_ptr<Tile> TilePtr;
+        typedef std::unique_ptr<render::Tile> TilePtr;
         typedef std::vector<TilePtr> Line;
         typedef std::vector<Line> Layer;
         typedef std::vector<Layer> Room;
@@ -47,8 +47,8 @@ namespace play {
         virtual sf::Vector2i get_size();
         virtual std::shared_ptr<ActorManager> get_actor_manager();
     private:
-        Dimension::Layer spawn_layer(std::ifstream &ifile, TileSet &tile_set);
-        Dimension::Line spawn_line(std::string &line, int line_number, TileSet &tile_set);
+        Dimension::Layer spawn_layer(std::ifstream &ifile, render::TileSet &tile_set);
+        Dimension::Line spawn_line(std::string &line, int line_number, render::TileSet &tile_set);
         void spawn_actors(std::ifstream &ifile);
         void spawn_collision_defs(std::ifstream &ifile);
         void spawn_collision_boxes(std::ifstream &ifile);

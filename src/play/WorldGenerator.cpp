@@ -20,7 +20,7 @@ namespace play {
         std::getline(ifile, f_tileset);
         ifile>>size.x>>size.y;
         ifile>>script_name;
-        TileSet tileset(f_tileset);
+        render::TileSet tileset(f_tileset);
         this->tile_set = f_tileset;
         spawn_actors(ifile);
         spawn_collision_defs(ifile);
@@ -69,7 +69,7 @@ namespace play {
         return this->actor_man;
     }
 
-    Dimension::Layer WorldLoader::spawn_layer(std::ifstream &ifile, TileSet &tile_set)
+    Dimension::Layer WorldLoader::spawn_layer(std::ifstream &ifile, render::TileSet &tile_set)
     {
         std::string line;
         // consume lines up to layer start
@@ -86,7 +86,7 @@ namespace play {
         return layer;
     }
 
-    Dimension::Line WorldLoader::spawn_line(std::string &line, int line_number, TileSet &tile_set)
+    Dimension::Line WorldLoader::spawn_line(std::string &line, int line_number, render::TileSet &tile_set)
     {
         Dimension::Line l;
         std::stringstream ss(line);
@@ -101,8 +101,8 @@ namespace play {
                     Dimension::TilePtr(tile_set.spawn(
                         tile,
                         sf::Vector2i(
-                            col_number * TileSet::tile_size(), 
-                            line_number * TileSet::tile_size()
+                            col_number * render::TileSet::tile_size(), 
+                            line_number * render::TileSet::tile_size()
                         )
                     ))
                 );
@@ -181,10 +181,10 @@ namespace play {
                 actor_man->add_collision_rect(
                     col_type,
                     sf::FloatRect(
-                        col_number * TileSet::tile_size(), 
-                        line_number * TileSet::tile_size(),
-                        TileSet::tile_size(),
-                        TileSet::tile_size()
+                        col_number * render::TileSet::tile_size(), 
+                        line_number * render::TileSet::tile_size(),
+                        render::TileSet::tile_size(),
+                        render::TileSet::tile_size()
                     )
                 );
             }

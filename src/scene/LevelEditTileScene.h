@@ -29,9 +29,9 @@ private:
     Scene *next_scene = nullptr;
     sf::RectangleShape cursor;
 
-    TileSet tileset;
+    render::TileSet tileset;
     std::vector<int> keys;
-    std::vector<std::unique_ptr<Tile> > tiles;
+    std::vector<std::unique_ptr<render::Tile> > tiles;
 
     int current_selected = -1;
 

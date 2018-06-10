@@ -8,15 +8,17 @@
 
 #include "core.h"
 
-class TextureMap
-{
-public:
-    TextureMap() = delete;
+namespace render {
+    class TextureMap
+    {
+    public:
+        TextureMap() = delete;
 
-    static sf::Texture *request(std::string file_name);
-    static void clear();
-private:
-    static std::map<std::string, sf::Texture> tex_map;
-};
+        static sf::Texture *request(std::string file_name);
+        static void clear();
+    private:
+        static std::map<std::string, sf::Texture> tex_map;
+    };
+}
 
 #endif // TEXTUREMAP_H

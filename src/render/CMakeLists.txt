@@ -1,8 +1,10 @@
 SET (SOURCES
     ${SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/Animation.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/DynamicTile.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/FontMap.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SpriteSet.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/StaticTile.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/TextureMap.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/TileSet.cpp
     PARENT_SCOPE

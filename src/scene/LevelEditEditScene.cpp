@@ -128,11 +128,11 @@ void LevelEditEditScene::load_level()
     ifile>>tileset;
     ifile.close();
     tiles = std::unique_ptr<TileSet>(new TileSet(tileset));
-    world = std::unique_ptr<World>(
-        new World(
+    world = std::unique_ptr<play::World>(
+        new play::World(
             tileset, 
-            std::unique_ptr<WorldGenerator>(
-                new WorldLoader(LEVELDIR + filename)
+            std::unique_ptr<play::WorldGenerator>(
+                new play::WorldLoader(LEVELDIR + filename)
             )
         )
     );

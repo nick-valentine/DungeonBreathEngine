@@ -24,7 +24,7 @@ public:
 private:
     sf::View main_window;
 
-    WorldManager world;
+    play::WorldManager world;
 
     Scene::Status state = Scene::Status::nothing;
     Scene* next_scene = nullptr;

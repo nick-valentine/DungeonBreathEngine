@@ -73,7 +73,7 @@ private:
     Scene::Status state = Scene::Status::nothing;
     Scene *next_scene = nullptr;
 
-    std::unique_ptr<World> world = nullptr;
+    std::unique_ptr<play::World> world = nullptr;
     std::unique_ptr<TileSet> tiles = nullptr;
     LevelEdit::Cursor cursor;
     int selected_tile;

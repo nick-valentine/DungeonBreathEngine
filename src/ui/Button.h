@@ -12,7 +12,7 @@ public:
     Button(sf::IntRect pos);
     virtual ~Button() = default;
 
-    virtual void update(int delta, Input *input, sf::RenderWindow &window);
+    virtual void update(int delta, core::Input *input, sf::RenderWindow &window);
     virtual void draw(sf::RenderWindow &window);
 
     virtual bool pressed();

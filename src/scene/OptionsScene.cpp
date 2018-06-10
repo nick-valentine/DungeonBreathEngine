@@ -3,7 +3,7 @@
 
 OptionsScene::OptionsScene(sf::Vector2i size) :
     Scene(size),
-    back_button(sf::Rect<int>(10, size.y - 100, 300, 50), StringProvider::get("optionsmenu.back_button")),
+    back_button(sf::Rect<int>(10, size.y - 100, 300, 50), core::StringProvider::get("optionsmenu.back_button")),
     menu(),
     langs()
 {
@@ -17,7 +17,7 @@ OptionsScene::OptionsScene(sf::Vector2i size) :
     menu.add_button("key_bind", &key_bind_button);
     menu.add_button("back", &back_button);
 
-    auto lang = ConfigLoader::get_string_option("language");
+    auto lang = core::ConfigLoader::get_string_option("language");
     load_supported_langs();
     for (size_t i = 0; i < langs.size(); ++i) {
         if (langs[i].first == lang) {
@@ -38,18 +38,18 @@ void OptionsScene::update(int delta, sf::RenderWindow &window)
         first_loop = false;
         audio::MusicManager::play(audio::MusicManager::Song::main_menu);
     }
-    this->menu.update(delta, app_container.get_input(), window);
+    this->menu.update(delta, core::app_container.get_input(), window);
     
     std::string pressed = this->menu.neg_edge_button();
     volume_input.update(pressed);
     if (pressed == "back") {
-        ConfigLoader::save();
+        core::ConfigLoader::save();
         this->next_scene = nullptr;
         this->state = Scene::Status::pop_scene;
     }
 
     if (pressed == "key_bind") {
-        app_container.get_logger()->info("todo: implement key bind state");
+        core::app_container.get_logger()->info("todo: implement key bind state");
     }
 
     if (pressed == "lang_left") {
@@ -107,17 +107,17 @@ void OptionsScene::load_supported_langs()
 
 void OptionsScene::set_language()
 {
-    StringProvider::load(langs[current_lang].first);
-    ConfigLoader::mutate_option("language", langs[current_lang].first);
-    back_button.set_label(StringProvider::get("optionsmenu.back_button"));
-    key_bind_button.set_label(StringProvider::get("optionsmenu.key_bind_button"));
+    core::StringProvider::load(langs[current_lang].first);
+    core::ConfigLoader::mutate_option("language", langs[current_lang].first);
+    back_button.set_label(core::StringProvider::get("optionsmenu.back_button"));
+    key_bind_button.set_label(core::StringProvider::get("optionsmenu.key_bind_button"));
     set_volume();
 }
 
 void OptionsScene::set_volume()
 {
     audio::MusicManager::set_volume(current_volume);
-    ConfigLoader::mutate_option("volume", current_volume);
+    core::ConfigLoader::mutate_option("volume", current_volume);
 }
 
 void OptionsScene::reset_status()

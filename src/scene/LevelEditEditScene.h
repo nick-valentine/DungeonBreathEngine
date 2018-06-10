@@ -87,8 +87,8 @@ private:
     std::unique_ptr<LevelEditTileScene> tile_selector = nullptr;
     LevelEditActorSelectScene actor_selector;
 
-    NumberInput layer_input = NumberInput(sf::Vector2i(10, 100), StringProvider::get("leveleditmenu.layer_label"), 10, 0, 1);
-    NumberInput collision_type = NumberInput(sf::Vector2i(10, 160), StringProvider::get("leveleditmenu.collision_label"), 10, 0, 1);
+    NumberInput layer_input = NumberInput(sf::Vector2i(10, 100), core::StringProvider::get("leveleditmenu.layer_label"), 10, 0, 1);
+    NumberInput collision_type = NumberInput(sf::Vector2i(10, 160), core::StringProvider::get("leveleditmenu.collision_label"), 10, 0, 1);
 
     ButtonGroup menu;
     TextButton edit;

@@ -56,10 +56,10 @@ std::string LevelEdit::Cursor::get_actor()
 
 LevelEditEditScene::LevelEditEditScene(sf::Vector2i size, std::string name) : 
     Scene(size), name(name), actor_selector(size),
-    edit(sf::IntRect(size.x - 400, size.y - 220, 300, 50), StringProvider::get("leveleditmenu.edit")),
-    save(sf::IntRect(size.x - 400, size.y - 160, 300, 50), StringProvider::get("leveleditmenu.save")),
-    back(sf::IntRect(size.x - 400, size.y - 100, 300, 50), StringProvider::get("leveleditmenu.back_button")),
-    last_input(Input::num_keys, false)
+    edit(sf::IntRect(size.x - 400, size.y - 220, 300, 50), core::StringProvider::get("leveleditmenu.edit")),
+    save(sf::IntRect(size.x - 400, size.y - 160, 300, 50), core::StringProvider::get("leveleditmenu.save")),
+    back(sf::IntRect(size.x - 400, size.y - 100, 300, 50), core::StringProvider::get("leveleditmenu.back_button")),
+    last_input(core::Input::num_keys, false)
 {
     load_level();
     this->main_window.reset(sf::FloatRect(0, 0, size.x, size.y));
@@ -120,9 +120,9 @@ void LevelEditEditScene::load_level()
 {
     std::string filename = name + ".txt";
     std::ifstream ifile(LEVELDIR + filename);
-    app_container.get_logger()->info(filename.c_str());
+    core::app_container.get_logger()->info(filename.c_str());
     if (!ifile.good()) {
-        throw FileNotFoundException();
+        throw core::FileNotFoundException();
     }
     std::getline(ifile, title);
     ifile>>tileset;
@@ -148,30 +148,30 @@ void LevelEditEditScene::load_level()
 void LevelEditEditScene::update_edit(int delta, sf::RenderWindow &window)
 {
     world->update(delta, window);
-    auto new_input = app_container.get_input()->poll_all();
-    if (new_input[Input::accept] && (new_input[Input::fire] && !last_input[Input::fire])) {
+    auto new_input = core::app_container.get_input()->poll_all();
+    if (new_input[core::Input::accept] && (new_input[core::Input::fire] && !last_input[core::Input::fire])) {
         world->remove_tile(layer, cursor.get_location() / TILE_SIZE);
-    } else if (new_input[Input::accept] && (new_input[Input::alt_fire] && !last_input[Input::alt_fire])) {
+    } else if (new_input[core::Input::accept] && (new_input[core::Input::alt_fire] && !last_input[core::Input::alt_fire])) {
         this->cur_state = select_actor;
-    } else if (new_input[Input::down] && !last_input[Input::down]) {
+    } else if (new_input[core::Input::down] && !last_input[core::Input::down]) {
         cursor.move(sf::Vector2i(0, TILE_SIZE));
-    } else if (new_input[Input::up] && !last_input[Input::up]) {
+    } else if (new_input[core::Input::up] && !last_input[core::Input::up]) {
         cursor.move(sf::Vector2i(0, -TILE_SIZE));
-    } else if (new_input[Input::left] && !last_input[Input::left]) {
+    } else if (new_input[core::Input::left] && !last_input[core::Input::left]) {
         cursor.move(sf::Vector2i(-TILE_SIZE, 0));
-    } else if (new_input[Input::right] && !last_input[Input::right]) {
+    } else if (new_input[core::Input::right] && !last_input[core::Input::right]) {
         cursor.move(sf::Vector2i(TILE_SIZE, 0));
-    } else if (!new_input[Input::escape] && last_input[Input::escape]) {
+    } else if (!new_input[core::Input::escape] && last_input[core::Input::escape]) {
         this->cur_state = in_menu;
-    } else if (new_input[Input::alt_fire] && !last_input[Input::alt_fire]) {
+    } else if (new_input[core::Input::alt_fire] && !last_input[core::Input::alt_fire]) {
         this->cur_state = select_tile;
-    } else if (new_input[Input::fire] && !last_input[Input::fire]) {
+    } else if (new_input[core::Input::fire] && !last_input[core::Input::fire]) {
         if (selected_tile != -1) {
             world->set_tile(tiles->spawn(selected_tile, cursor.get_location()), layer, cursor.get_location() / TILE_SIZE);
         } else {
             world->add_actor(cursor.get_actor(), cursor.get_location());
         }
-    } else if (new_input[Input::next] && !last_input[Input::next]) {
+    } else if (new_input[core::Input::next] && !last_input[core::Input::next]) {
         world->add_collision(collision, cursor.get_location());
     }
     last_input = new_input;
@@ -227,7 +227,7 @@ void LevelEditEditScene::draw_actor_select(sf::RenderWindow &window)
 
 void LevelEditEditScene::update_menu(int delta, sf::RenderWindow &window)
 {
-    menu.update(delta, app_container.get_input(), window);
+    menu.update(delta, core::app_container.get_input(), window);
 
     std::string pressed = this->menu.neg_edge_button();
 

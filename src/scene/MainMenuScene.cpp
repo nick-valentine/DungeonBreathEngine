@@ -26,7 +26,7 @@ void MainMenuScene::update(int delta, sf::RenderWindow &window)
         audio::MusicManager::play(audio::MusicManager::Song::main_menu);
     }
 
-    this->menu.update(delta, app_container.get_input(), window);
+    this->menu.update(delta, core::app_container.get_input(), window);
     
     std::string pressed = this->menu.neg_edge_button();
     if (pressed == "play") {

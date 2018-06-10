@@ -9,29 +9,31 @@
 
 #include "lua.h"
 
-// Container for global stateless services
-class Container
-{
-public:
-	Container();
-	~Container();
-	void init();
+namespace core {
+    // Container for global stateless services
+    class Container
+    {
+    public:
+        Container();
+        ~Container();
+        void init();
 
-	Logger *get_logger();
-	Input *get_input();
-private:
-	bool initialized = false;
-	Logger * logger;
-	Input *input;
-};
+        Logger *get_logger();
+        Input *get_input();
+    private:
+        bool initialized = false;
+        Logger * logger;
+        Input *input;
+    };
+
+    // Global container instance
+    extern Container app_container;
+}
 
 namespace lua {
-	namespace container {
-		void add(lua_State *L);
-	};
+    namespace container {
+        void add(lua_State *L);
+    };
 };
-
-// Global container instance
-extern Container app_container;
 
 #endif //CONTAINER_H

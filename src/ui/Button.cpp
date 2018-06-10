@@ -15,13 +15,13 @@ Button::Button(sf::IntRect pos) :
     this->debug_draw.setFillColor(sf::Color::Transparent);
 }
 
-void Button::update(int delta, Input *input, sf::RenderWindow &window)
+void Button::update(int delta, core::Input *input, sf::RenderWindow &window)
 {
     this->last_pressed = this->was_pressed;
     this->was_pressed = false;
     if (this->rect.contains(sf::Mouse::getPosition(window)) || (this->is_override_hover && this->is_hover)) {
         this->is_hover = true;
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) || input->is_key_pressed(Input::accept)) {
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) || input->is_key_pressed(core::Input::accept)) {
             this->was_pressed = true;
         }
     }

@@ -11,7 +11,7 @@ Actor::Actor(ActorManager *man, int handle, sf::Vector2i pos, sf::Vector2f scale
     std::string filename = ACTORDIR;
     filename += name;
     filename += ".lua";
-    s = new Script(filename);
+    s = new core::Script(filename);
     lua::actor::add(s->s);
     lua::actorman::add(s->s);
     s->call();
@@ -46,7 +46,7 @@ Actor::Actor(const Actor &other) :
     if (s != nullptr) {
         delete s;
     }
-    s = new Script(other.s->name);
+    s = new core::Script(other.s->name);
     lua::actor::add(s->s);
     lua::actorman::add(s->s);
     s->call();
@@ -218,7 +218,7 @@ int lua::actor::get_rect(lua_State *L)
     Actor *a = (Actor *)lua_touserdata(L, -1);
     sf::FloatRect rect;
     if (a != nullptr) {
-        app_container.get_logger()->debug("get_rect called with null actor");
+        core::app_container.get_logger()->debug("get_rect called with null actor");
         rect = a->get_rect();
     }
     lua_newtable(L);

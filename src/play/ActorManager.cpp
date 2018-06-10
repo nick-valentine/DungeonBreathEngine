@@ -46,7 +46,7 @@ void ActorManager::draw(sf::RenderWindow &window)
 int ActorManager::spawn(std::string name, sf::Vector2i pos)
 {
     if (!check_available(name)) {
-        throw new UnavailableActorException();
+        throw new play::UnavailableActorException();
     }
     actor_ptr tmp(new Actor(this, max_id, pos, sf::Vector2f(64, 64), name));
     actors[max_id] = tmp;
@@ -57,7 +57,6 @@ int ActorManager::spawn(std::string name, sf::Vector2i pos)
 
 void ActorManager::add_collision_type(int type, std::string action, std::string target, sf::Vector2i loc)
 {
-    app_container.get_logger()->info("%d, %s: %s, %d, %d", type, action.c_str(), target.c_str(), loc.x, loc.y);
     collision_types[type] = CType{type, action, target, loc};
 }
 
@@ -78,10 +77,8 @@ void ActorManager::clear()
 
 void ActorManager::set_init_player_pos(sf::Vector2i pos)
 {
-    app_container.get_logger()->info("setting player coords to: %i, %i", pos.x, pos.y);
     this->init_player_pos = pos;
     auto p = get_player();
-    app_container.get_logger()->info("%i %i", pos.x, pos.y);
     if (pos.x != 0 && pos.y != 0) {
         p->set_location(sf::Vector2f(pos.x, pos.y));
     }
@@ -142,7 +139,7 @@ std::vector<Collision> ActorManager::get_collision_boxes() const
 bool ActorManager::check_available(std::string name)
 {
     for (size_t i = 0; i < available_actors.size(); ++i) {
-        app_container.get_logger()->info(available_actors[i].c_str());
+        core::app_container.get_logger()->info(available_actors[i].c_str());
         if (available_actors[i] == name) {
             return true;
         }
@@ -269,7 +266,7 @@ int lua::actorman::set_camera_target(lua_State *L)
     auto a = (ActorManager *)lua_touserdata(L, -2);
     auto h = (int)lua::get_num(L, -1);
     a->set_camera_target(h);
-    app_container.get_logger()->info("setting camera target %i", h);
+    core::app_container.get_logger()->info("setting camera target %i", h);
     return 0;
 }
 
@@ -285,7 +282,7 @@ int lua::actorman::set_player(lua_State *L)
 {
     auto a = (ActorManager *)lua_touserdata(L, -2);
     auto i = (int)lua::get_num(L, -1);
-    app_container.get_logger()->info("setting player %i", i);
+    core::app_container.get_logger()->info("setting player %i", i);
     a->set_player(i);
     return 0;
 }
@@ -294,7 +291,7 @@ int lua::actorman::get_player(lua_State *L)
 {
     auto a = (ActorManager *)lua_touserdata(L, -1);
     if (a == nullptr) {
-        app_container.get_logger()->debug("get_player called with null actor_manager");
+        core::app_container.get_logger()->debug("get_player called with null actor_manager");
         lua_pushlightuserdata(L, nullptr);
     } else {
         auto p = a->get_player();

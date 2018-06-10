@@ -1,53 +1,56 @@
 #include "Logger.h"
 #include "Container.h"
 
-const std::string Logger::levelStrings[5] = {
-    "NONE",
-    "DEBUG",
-    "INFO",
-    "WARNING",
-    "ERROR"
-};
+namespace core {
 
-int Logger::logLevel = 0;
+    const std::string Logger::levelStrings[5] = {
+        "NONE",
+        "DEBUG",
+        "INFO",
+        "WARNING",
+        "ERROR"
+    };
 
-void Logger::configure()
-{
-    //do not let errors be suppressed
-    Logger::logLevel = std::max(
-        ConfigLoader::get_int_option("logLevel", 0),
-        int(WARN)
-    );
+    int Logger::logLevel = 0;
+
+    void Logger::configure()
+    {
+        //do not let errors be suppressed
+        Logger::logLevel = std::max(
+            ConfigLoader::get_int_option("logLevel", 0),
+            int(WARN)
+        );
+    }
+
+    std::string Logger::formatString(LogLevel level, const char *fmt, va_list args)
+    {
+        char b[256];
+        vsnprintf(b, 255, fmt, args);
+
+        std::string formatted = "[" +
+            Logger::levelStrings[level] +
+            ": " +
+            this->getTime() +
+            "]"
+        ;
+        formatted += b;
+        return formatted;
+    }
+
+    std::string Logger::getTime()
+    {
+    //    char buffer[80];
+    //    time_t rawTime;
+    //    struct tm *timeInfo;
+    //    timeInfo = localtime(&rawTime);
+    //    strftime(buffer, sizeof(buffer), "%d-%m-%Y %I:%M:%S", timeInfo);
+    //    std::string time = buffer;
+    //    return time;
+        return "";
+    }
 }
 
-std::string Logger::formatString(LogLevel level, const char *fmt, va_list args)
-{
-    char b[256];
-    vsnprintf(b, 255, fmt, args);
-
-    std::string formatted = "[" +
-        Logger::levelStrings[level] +
-        ": " +
-        this->getTime() +
-        "]"
-    ;
-    formatted += b;
-    return formatted;
-}
-
-std::string Logger::getTime()
-{
-//    char buffer[80];
-//    time_t rawTime;
-//    struct tm *timeInfo;
-//    timeInfo = localtime(&rawTime);
-//    strftime(buffer, sizeof(buffer), "%d-%m-%Y %I:%M:%S", timeInfo);
-//    std::string time = buffer;
-//    return time;
-    return "";
-}
-
-void lua::logger::add(Logger *l, lua_State *S)
+void lua::logger::add(core::Logger *l, lua_State *S)
 {
     static const struct luaL_Reg mylib[] = {
     { "debug", debug },
@@ -71,25 +74,25 @@ void lua::logger::add(Logger *l, lua_State *S)
 
 int lua::logger::debug(lua_State *s)
 {
-    return log(Logger::LogLevel::VV, s);
+    return log(core::Logger::LogLevel::VV, s);
 }
 
 int lua::logger::info(lua_State *s)
 {
-    return log(Logger::LogLevel::INFO, s);
+    return log(core::Logger::LogLevel::INFO, s);
 }
 
 int lua::logger::warn(lua_State *s)
 {
-    return log(Logger::LogLevel::WARN, s);
+    return log(core::Logger::LogLevel::WARN, s);
 }
 
 int lua::logger::error(lua_State *s)
 {
-    return log(Logger::LogLevel::ERROR, s);
+    return log(core::Logger::LogLevel::ERROR, s);
 }
 
-int lua::logger::log(Logger::LogLevel level, lua_State *s)
+int lua::logger::log(core::Logger::LogLevel level, lua_State *s)
 {
     std::stringstream ss;
 
@@ -111,7 +114,7 @@ int lua::logger::log(Logger::LogLevel level, lua_State *s)
             break;
         }
     }
-    app_container.get_logger()->log(level, ss.str().c_str());
+    core::app_container.get_logger()->log(level, ss.str().c_str());
 
     return 0;
 }

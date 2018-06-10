@@ -5,7 +5,7 @@ void ButtonGroup::add_button(std::string name, Button *b)
     this->buttons.push_back(id_button(name, b));
 }
 
-void ButtonGroup::update(int delta, Input *input, sf::RenderWindow &window)
+void ButtonGroup::update(int delta, core::Input *input, sf::RenderWindow &window)
 {
     sf::Vector2i mouse_pos = sf::Mouse::getPosition();
     if (last_mouse_pos != mouse_pos) {

@@ -1,40 +1,42 @@
 #include "Container.h"
 
-Container::Container()
-{
+namespace core {
+    Container::Container()
+    {
 
-}
+    }
 
-Container::~Container()
-{
-	delete logger;
-	delete input;
-}
+    Container::~Container()
+    {
+        delete logger;
+        delete input;
+    }
 
-void Container::init()
-{
-	if (initialized) {
-		return;
-	}
+    void Container::init()
+    {
+        if (initialized) {
+            return;
+        }
 
-	logger = new ConsoleLogger();
-	input = new Input();
-	initialized = true;
-}
+        logger = new ConsoleLogger();
+        input = new Input();
+        initialized = true;
+    }
 
-Logger *Container::get_logger()
-{
-	return this->logger;
-}
+    Logger *Container::get_logger()
+    {
+        return this->logger;
+    }
 
-Input *Container::get_input()
-{
-	return this->input;
-}
+    Input *Container::get_input()
+    {
+        return this->input;
+    }
+};
 
 void lua::container::add(lua_State *L)
 {
-	lua::config::add(L);
-	lua::logger::add(app_container.get_logger(), L);
-	lua::input::add(app_container.get_input(), L);
+    lua::config::add(L);
+    lua::logger::add(core::app_container.get_logger(), L);
+    lua::input::add(core::app_container.get_input(), L);
 }

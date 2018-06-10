@@ -65,7 +65,7 @@ private:
     std::vector<tile_ptr> tileset_cache = std::vector<tile_ptr>();
 
     std::string name;
-     Script *s;
+    core::Script *s;
 };
 
 namespace lua {

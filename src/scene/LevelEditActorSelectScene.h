@@ -22,7 +22,7 @@ public:
 private:
     sf::View main_window;
 
-    Index index = Index(SCRIPTDIR ACTORDIR);
+    core::Index index = core::Index(SCRIPTDIR ACTORDIR);
 
     Scene::Status state = Scene::nothing;
     Scene *next_scene = nullptr;

@@ -3,7 +3,7 @@
 #define TILE_SIZE 64
 #define CAMERA_LAG 10
 
-LevelEditTileScene::LevelEditTileScene(sf::Vector2i size, std::string tileset) : Scene(size), tileset(tileset), last_input(Input::num_keys, false)
+LevelEditTileScene::LevelEditTileScene(sf::Vector2i size, std::string tileset) : Scene(size), tileset(tileset), last_input(core::Input::num_keys, false)
 {
     cursor.setSize(sf::Vector2f(TILE_SIZE, TILE_SIZE));
     cursor.setOutlineColor(sf::Color::Blue);
@@ -33,19 +33,19 @@ LevelEditTileScene::LevelEditTileScene(sf::Vector2i size, std::string tileset) :
 
 void LevelEditTileScene::update(int delta, sf::RenderWindow &window)
 {
-    auto new_input = app_container.get_input()->poll_all();
-    if (new_input[Input::down] && !last_input[Input::down]) {
+    auto new_input = core::app_container.get_input()->poll_all();
+    if (new_input[core::Input::down] && !last_input[core::Input::down]) {
         cursor.move(sf::Vector2f(0, TILE_SIZE));
-    } else if (new_input[Input::up] && !last_input[Input::up]) {
+    } else if (new_input[core::Input::up] && !last_input[core::Input::up]) {
         cursor.move(sf::Vector2f(0, -TILE_SIZE));
-    } else if (new_input[Input::left] && !last_input[Input::left]) {
+    } else if (new_input[core::Input::left] && !last_input[core::Input::left]) {
         cursor.move(sf::Vector2f(-TILE_SIZE, 0));
-    } else if (new_input[Input::right] && !last_input[Input::right]) {
+    } else if (new_input[core::Input::right] && !last_input[core::Input::right]) {
         cursor.move(sf::Vector2f(TILE_SIZE, 0));
-    } else if (!new_input[Input::escape] && last_input[Input::escape]) {
+    } else if (!new_input[core::Input::escape] && last_input[core::Input::escape]) {
         this->state = Scene::Status::pop_scene;
         this->next_scene = nullptr;
-    } else if (!new_input[Input::fire] && last_input[Input::fire]) {
+    } else if (!new_input[core::Input::fire] && last_input[core::Input::fire]) {
         update_selected();
         this->state = Scene::Status::pop_scene;
         this->next_scene = nullptr;

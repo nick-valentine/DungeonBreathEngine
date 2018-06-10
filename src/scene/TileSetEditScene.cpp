@@ -77,9 +77,9 @@ TileSetEditScene::TileSetEditScene(sf::Vector2i size, std::string tileset) : Sce
     current_id(0), current_sub_id(0),
     tileset(tileset),
     tileset_label(sf::IntRect(10, 10, 300, 50), Strings::utf8_to_sfml(tileset)),
-    edit(sf::IntRect(size.x - 400, size.y - 220, 300, 50), StringProvider::get("tileseteditmenu.edit")),
-    save(sf::IntRect(size.x - 400, size.y - 160, 300, 50), StringProvider::get("tileseteditmenu.save")),
-    back(sf::IntRect(size.x - 400, size.y - 100, 300, 50), StringProvider::get("tileseteditmenu.back_button"))
+    edit(sf::IntRect(size.x - 400, size.y - 220, 300, 50), core::StringProvider::get("tileseteditmenu.edit")),
+    save(sf::IntRect(size.x - 400, size.y - 160, 300, 50), core::StringProvider::get("tileseteditmenu.save")),
+    back(sf::IntRect(size.x - 400, size.y - 100, 300, 50), core::StringProvider::get("tileseteditmenu.back_button"))
 {
     this->main_window.reset(sf::FloatRect(0, 0, size.x, size.y));
     menu.add_button("edit", &edit);
@@ -130,50 +130,50 @@ Scene *TileSetEditScene::new_scene()
 
 void TileSetEditScene::update_editing(int delta, sf::RenderWindow &window)
 {
-    auto new_input = app_container.get_input()->poll_all();
+    auto new_input = core::app_container.get_input()->poll_all();
 
-    if (new_input[Input::alt_fire]) {
+    if (new_input[core::Input::alt_fire]) {
         // alt fire puts into resize mode
-        if (new_input[Input::up] && !last_input[Input::up]) {
+        if (new_input[core::Input::up] && !last_input[core::Input::up]) {
             current_height--;
             if (current_height == 0) {
                 current_height = 1;
             }
             current_marker.set_size(base_size, current_width, current_height);
-        } else if (new_input[Input::down] && !last_input[Input::down]) {
+        } else if (new_input[core::Input::down] && !last_input[core::Input::down]) {
             current_height++;
             current_marker.set_size(base_size, current_width, current_height);
-        } else if (new_input[Input::left] && !last_input[Input::left]) {
+        } else if (new_input[core::Input::left] && !last_input[core::Input::left]) {
             current_width--;
             if (current_width == 0) {
                 current_width = 1;
             }
             current_marker.set_size(base_size, current_width, current_height);
-        } else if (new_input[Input::right] && !last_input[Input::right]) {
+        } else if (new_input[core::Input::right] && !last_input[core::Input::right]) {
             current_width++;
             current_marker.set_size(base_size, current_width, current_height);
-        } else if (new_input[Input::accept] && !last_input[Input::accept]) {
+        } else if (new_input[core::Input::accept] && !last_input[core::Input::accept]) {
             delete_markers();
         }
-    } else if (new_input[Input::right] && !last_input[Input::right]) {
+    } else if (new_input[core::Input::right] && !last_input[core::Input::right]) {
         current_x++;
         current_marker.set_pos(base_size, current_x, current_y);
-    } else if (new_input[Input::left] && !last_input[Input::left]) {
+    } else if (new_input[core::Input::left] && !last_input[core::Input::left]) {
         current_x--;
         current_marker.set_pos(base_size, current_x, current_y);
-    } else if (new_input[Input::up] && !last_input[Input::up]) {
+    } else if (new_input[core::Input::up] && !last_input[core::Input::up]) {
         current_y--;
         current_marker.set_pos(base_size, current_x, current_y);
-    } else if (new_input[Input::down] && !last_input[Input::down]) {
+    } else if (new_input[core::Input::down] && !last_input[core::Input::down]) {
         current_y++;
         current_marker.set_pos(base_size, current_x, current_y);
-    } else if (new_input[Input::escape] && !last_input[Input::escape]) {
+    } else if (new_input[core::Input::escape] && !last_input[core::Input::escape]) {
         inner_state = in_menu;
-    } else if (new_input[Input::accept] && !last_input[Input::accept]) {
+    } else if (new_input[core::Input::accept] && !last_input[core::Input::accept]) {
         place_marker();
         current_id++;
         current_sub_id = 0;
-    } else if (new_input[Input::fire] && !last_input[Input::fire]) {
+    } else if (new_input[core::Input::fire] && !last_input[core::Input::fire]) {
         place_marker();
         current_sub_id++;
     }
@@ -183,7 +183,7 @@ void TileSetEditScene::update_editing(int delta, sf::RenderWindow &window)
 
 void TileSetEditScene::update_menu(int delta, sf::RenderWindow &window)
 {
-    menu.update(delta, app_container.get_input(), window);
+    menu.update(delta, core::app_container.get_input(), window);
     std::string pressed = this->menu.neg_edge_button();
 
     if (pressed == "edit") {
@@ -231,21 +231,21 @@ void TileSetEditScene::load_tile_set()
     auto filename = TILESETDIR + tileset + ".txt";
     std::ifstream ifile(filename.c_str());
     if (!ifile.good()) {
-        throw FileNotFoundException();
+        throw core::FileNotFoundException();
     }
-	ifile >> name;
-	std::string key;
-	ifile >> key;
-	while (key != "---") {
-		if (key == "size") {
-			ifile >> base_size;
-		} else if (key == "tex") {
-			ifile >> texture_name;
-		} else if (key == "anim_speed") {
-			ifile >> anim_speed;
-		}
-		ifile >> key;
-	}
+    ifile >> name;
+    std::string key;
+    ifile >> key;
+    while (key != "---") {
+        if (key == "size") {
+            ifile >> base_size;
+        } else if (key == "tex") {
+            ifile >> texture_name;
+        } else if (key == "anim_speed") {
+            ifile >> anim_speed;
+        }
+        ifile >> key;
+    }
     while (ifile.good()) {
         std::string line;
         std::getline(ifile, line);
@@ -273,13 +273,13 @@ void TileSetEditScene::save_tile_set()
     auto filename = TILESETDIR + tileset + ".txt";
     std::ofstream ofile(filename.c_str());
     if (!ofile.good()) {
-        throw FileNotWriteableException();
+        throw core::FileNotWriteableException();
     }
     ofile<<tileset<<"\n";
     ofile<<"size "<<base_size<<"\n";
     ofile<<"tex "<<texture_name<<"\n";
-	ofile << "anim_speed " << 1 << "\n"; //@todo: implement
-	ofile << "---\n";
+    ofile << "anim_speed " << 1 << "\n"; //@todo: implement
+    ofile << "---\n";
     std::vector<bool> written_ids(markers.size(), false);
     for (const auto &i : markers) {
         auto label = i.get_label();
@@ -327,6 +327,6 @@ void TileSetEditScene::delete_markers()
 
 void TileSetEditScene::reset_status()
 {
-	this->state = Scene::Status::nothing;
-	this->next_scene = nullptr;
+    this->state = Scene::Status::nothing;
+    this->next_scene = nullptr;
 }

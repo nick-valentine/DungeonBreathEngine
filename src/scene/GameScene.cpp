@@ -20,7 +20,7 @@ void GameScene::update(int delta, sf::RenderWindow &window)
         audio::MusicManager::play(audio::MusicManager::Song::playing_game);
     }
     world.update(delta, window);
-    if (app_container.get_input()->is_key_pressed(Input::Key::escape)) {
+    if (core::app_container.get_input()->is_key_pressed(core::Input::Key::escape)) {
         this->next_scene = nullptr;
         this->state = Scene::Status::pop_scene;
         audio::MusicManager::stop();

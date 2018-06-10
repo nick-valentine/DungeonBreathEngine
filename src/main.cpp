@@ -7,7 +7,7 @@
 #include "scene.h"
 
 // Global container instance
-Container app_container;
+core::Container core::app_container;
 
 void handleEvents(sf::RenderWindow &window);
 
@@ -16,18 +16,18 @@ typedef std::stack<StackItem> GameStack;
 
 int main()
 {
-    ConfigLoader::load();
-    std::string lang = ConfigLoader::get_string_option("language", "eng");
-    StringProvider::load(lang);
+    core::ConfigLoader::load();
+    std::string lang = core::ConfigLoader::get_string_option("language", "eng");
+    core::StringProvider::load(lang);
 
-    app_container.init();
-    Script s("main.lua");
+    core::app_container.init();
+    core::Script s("main.lua");
     s.call();
 
-    int resolution_x = ConfigLoader::get_int_option("resolution_x", 200);
-    int resolution_y = ConfigLoader::get_int_option("resolution_y", 200);
+    int resolution_x = core::ConfigLoader::get_int_option("resolution_x", 200);
+    int resolution_y = core::ConfigLoader::get_int_option("resolution_y", 200);
 
-    app_container.get_logger()->info("resolution: %d, %d", resolution_x, resolution_y);
+    core::app_container.get_logger()->info("resolution: %d, %d", resolution_x, resolution_y);
 
     const int frame_frequency = 33333; // 1/30 of a second
 

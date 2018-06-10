@@ -29,7 +29,7 @@ TileSetScene::~TileSetScene()
 
 void TileSetScene::update(int delta, sf::RenderWindow &window)
 {
-    menu.update(delta, app_container.get_input(), window);
+    menu.update(delta, core::app_container.get_input(), window);
     std::string pressed = this->menu.neg_edge_button();
 
     if (pressed == "exit_menu") {

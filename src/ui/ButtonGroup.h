@@ -23,7 +23,7 @@ public:
 
     void add_button(std::string name, Button *b);
 
-    void update(int delta, Input *input, sf::RenderWindow &window);
+    void update(int delta, core::Input *input, sf::RenderWindow &window);
     void draw(sf::RenderWindow &window);
 
     std::string pressed_button();

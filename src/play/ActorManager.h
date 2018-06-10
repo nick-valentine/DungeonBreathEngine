@@ -8,6 +8,7 @@
 #include <fstream>
 
 #include "Macros.h"
+#include "Exceptions.h"
 #include "core.h"
 
 class Actor;

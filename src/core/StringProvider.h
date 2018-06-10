@@ -10,17 +10,19 @@
 #include <map>
 #include <vector>
 
-class StringProvider
-{
-public:
-    StringProvider() = delete;
+namespace core {
+    class StringProvider
+    {
+    public:
+        StringProvider() = delete;
 
-    static void load(std::string lang);
+        static void load(std::string lang);
 
-    static sf::String get(std::string key);
-private:
+        static sf::String get(std::string key);
+    private:
 
-    static std::map<std::string, sf::String> strings;
+        static std::map<std::string, sf::String> strings;
+    };
 };
 
 #endif //STRINGPROVIDER_H

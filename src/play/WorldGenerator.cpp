@@ -12,7 +12,7 @@ Dimension::Room WorldLoader::generate(std::string tile_set)
     auto world = Dimension::Room();
     std::ifstream ifile(file_name.c_str());
     if (!ifile.good()) {
-        throw FileNotFoundException();
+        throw core::FileNotFoundException();
     }
     std::string name, f_tileset;
     std::getline(ifile, name);
@@ -35,7 +35,7 @@ std::string WorldLoader::get_name()
 {
     std::ifstream ifile(file_name.c_str());
     if (!ifile.good()) {
-        throw FileNotFoundException();
+        throw core::FileNotFoundException();
     }
     std::string name;
     std::getline(ifile, name);

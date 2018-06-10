@@ -24,7 +24,7 @@ LevelEditScene::LevelEditScene(sf::Vector2i size) : Scene(size)
 
 void LevelEditScene::update(int delta, sf::RenderWindow &window)
 {
-    menu.update(delta, app_container.get_input(), window);
+    menu.update(delta, core::app_container.get_input(), window);
     std::string pressed = this->menu.neg_edge_button();
 
     if (pressed == "exit_menu") {

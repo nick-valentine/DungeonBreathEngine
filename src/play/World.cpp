@@ -15,8 +15,7 @@ World::World(std::string tile_set, std::unique_ptr<WorldGenerator> &&gen)
 
     if (script_name != "none") {
         auto filename = WORLDSCRIPTDIR + script_name + ".lua";
-        app_container.get_logger()->info("loading file %s", filename.c_str());
-        this->s = new Script(filename);
+        this->s = new core::Script(filename);
         lua::actor::add(s->s);
         lua::actorman::add(s->s);
         lua::world::add(s->s);
@@ -127,15 +126,12 @@ void World::update(int delta, sf::RenderWindow &window)
         actor_man->update(delta);
         auto event = actor_man->get_event();
         if (event != nullptr) {
-            app_container.get_logger()->info("event fired");
             auto type = actor_man->get_collision_type(event->type);
-            app_container.get_logger()->info("%s |%s|", type.action.c_str(), type.target.c_str());
             if (type.action == "teleport") {
                 game_state = change;
                 request_level = type.target;
                 load_player_pos = type.loc;
             } else if (type.action == "call") {
-                app_container.get_logger()->info(TABLENAME " calling function");
                 lua_getglobal(s->s, TABLENAME);
                 auto world_table = lua_gettop(s->s);
                 if (!lua_istable(s->s, world_table)) {
@@ -270,7 +266,7 @@ int lua::world::change_level(lua_State *L) {
     auto name = lua::get_string(L, -2);
     auto x = lua::get_num_field(L, "x");
     auto y = lua::get_num_field(L, "y");
-    app_container.get_logger()->info("requesting level load");
+    core::app_container.get_logger()->info("requesting level load");
 
     w->request_level_load(name, sf::Vector2i(x, y));
 

@@ -145,10 +145,9 @@ TileSet::TileSet(std::string def_file)
 {
     std::string filename = TILESETDIR;
     filename += def_file + ".txt";
-    app_container.get_logger()->info(filename.c_str());
     std::ifstream ifile(filename);
     if (!ifile.good()) {
-        throw new FileNotFoundException();
+        throw new core::FileNotFoundException();
     }
     ifile >> this->name;
     std::string key;

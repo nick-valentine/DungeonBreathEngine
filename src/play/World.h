@@ -64,7 +64,7 @@ private:
     sf::Vector2i size;
 
     std::string script_name;
-    Script *s = nullptr;
+    core::Script *s = nullptr;
 };
 
 namespace lua {

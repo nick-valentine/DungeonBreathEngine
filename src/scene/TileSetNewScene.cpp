@@ -39,7 +39,7 @@ Scene *TileSetNewScene::new_scene()
 
 void TileSetNewScene::update_menu(int delta, sf::RenderWindow &window)
 {
-    menu.update(delta, app_container.get_input(), window);
+    menu.update(delta, core::app_container.get_input(), window);
     auto pressed = this->menu.neg_edge_button();
 
     if (pressed == "proceed") {
@@ -75,9 +75,9 @@ void TileSetNewScene::draw_menu(sf::RenderWindow &window)
 void TileSetNewScene::update_keyboard(int delta, sf::RenderWindow &window)
 {
     keyboard.update(delta, window);
-    if (app_container.get_input()->is_key_pressed(Input::escape) || keyboard.status() == Scene::Status::pop_scene) {
+    if (core::app_container.get_input()->is_key_pressed(core::Input::escape) || keyboard.status() == Scene::Status::pop_scene) {
         keyboard.reset_status();
-        app_container.get_logger()->info(keyboard.get_input().toAnsiString().c_str());
+        core::app_container.get_logger()->info(keyboard.get_input().toAnsiString().c_str());
         current_button->set_label(keyboard.get_input());
         pl_state = in_menu;
     }

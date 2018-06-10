@@ -14,11 +14,11 @@ namespace audio {
     void MusicManager::play(Song s)
     {
         if (volume == -1) {
-            volume = ConfigLoader::get_int_option("volume", 100);
+            volume = core::ConfigLoader::get_int_option("volume", 100);
         }
         music.stop();
         if (!music.openFromFile(song_files[s])) {
-            throw FileNotFoundException();
+            throw core::FileNotFoundException();
         }
         music.setLoop(true);
         music.setVolume(volume);

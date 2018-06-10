@@ -31,13 +31,13 @@ private:
     void write_level_meta();
     sf::View main_window;
 
-    Index index = Index(LEVELDIR);
+    core::Index index = core::Index(LEVELDIR);
 
     Scene::Status state = Scene::nothing;
     Scene *next_scene = nullptr;
 
-    Label name_label = Label(sf::IntRect(100, 100, 300, 50), StringProvider::get("levelnewmenu.name"));
-    Label spritesheet_label = Label(sf::IntRect(100, 160, 300, 50), StringProvider::get("levelnewmenu.spritesheet"));
+    Label name_label = Label(sf::IntRect(100, 100, 300, 50), core::StringProvider::get("levelnewmenu.name"));
+    Label spritesheet_label = Label(sf::IntRect(100, 160, 300, 50), core::StringProvider::get("levelnewmenu.spritesheet"));
 
     TextButton *current_button = nullptr;
     
@@ -45,8 +45,8 @@ private:
     TextButton name = TextButton(sf::IntRect(400, 100, 300, 50), "");
     TextButton spritesheet = TextButton(sf::IntRect(400, 160, 300, 50), "");
 
-    TextButton proceed = TextButton(sf::IntRect(size.x - 400, size.y - 160, 300, 50), StringProvider::get("levelnewmenu.proceed"));
-    TextButton back = TextButton(sf::IntRect(size.x - 400, size.y - 100, 300, 50), StringProvider::get("levelnewmenu.back"));
+    TextButton proceed = TextButton(sf::IntRect(size.x - 400, size.y - 160, 300, 50), core::StringProvider::get("levelnewmenu.proceed"));
+    TextButton back = TextButton(sf::IntRect(size.x - 400, size.y - 100, 300, 50), core::StringProvider::get("levelnewmenu.back"));
 
     player_state pl_state = in_menu;
     KeyboardScene keyboard;

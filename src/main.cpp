@@ -6,8 +6,7 @@
 #include "Container.h"
 #include "ConfigLoader.h"
 #include "StringProvider.h"
-#include "Scene.h"
-#include "MainMenuScene.h"
+#include "scene.h"
 #include "Script.h"
 
 // Global container instance

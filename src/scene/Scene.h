@@ -15,7 +15,7 @@ public:
         nothing,
         exit_program,
         push_scene,
-		pop_scene,
+        pop_scene,
     };
 
     Scene(sf::Vector2i size);
@@ -26,7 +26,7 @@ public:
 
     virtual Status status() = 0;
     virtual Scene *new_scene() = 0;
-	virtual void reset_status() = 0;
+    virtual void reset_status() = 0;
 protected:
     sf::Vector2i size;
 };

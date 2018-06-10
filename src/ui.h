@@ -1,5 +1,5 @@
-#ifndef UI_H
-#define UI_H
+#ifndef META_UI_H
+#define META_UI_H
 
 #include "ui/Button.h"
 #include "ui/ButtonGroup.h"
@@ -9,4 +9,4 @@
 #include "ui/SpriteButton.h"
 #include "ui/TextButton.h"
 
-#endif //UI_H
+#endif //META_UI_H

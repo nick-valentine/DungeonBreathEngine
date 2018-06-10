@@ -4,15 +4,12 @@
 #include <vector>
 #include <fstream>
 
-#include "Container.h"
+#include "core.h"
 
-#include "Script.h"
 #include "Actor.h"
 #include "ActorManager.h"
 #include "WorldGenerator.h"
 #include "render.h"
-#include "Input.h"
-#include "Logger.h"
 
 class World
 {

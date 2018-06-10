@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "Input.h"
+#include "core.h"
 #include "Scene.h"
 #include "render.h"
 

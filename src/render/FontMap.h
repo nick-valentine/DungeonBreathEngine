@@ -6,7 +6,7 @@
 #include <map>
 #include <string>
 
-#include "Exceptions.h"
+#include "core.h"
 
 class FontMap
 {

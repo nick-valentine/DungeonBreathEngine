@@ -5,7 +5,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "Exceptions.h"
+#include "core.h"
 #include "render.h"
 #include "ActorManager.h"
 

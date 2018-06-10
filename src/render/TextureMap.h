@@ -6,7 +6,7 @@
 #include <string>
 #include <iostream>
 
-#include "Exceptions.h"
+#include "core.h"
 
 class TextureMap
 {

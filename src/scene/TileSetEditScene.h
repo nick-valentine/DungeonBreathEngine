@@ -7,12 +7,9 @@
 #include <stdlib.h>
 
 #include "Macros.h"
-#include "Exceptions.h"
-#include "Strings.h"
-#include "Container.h"
+#include "core.h"
 #include "Scene.h"
 #include "ui.h"
-#include "StringProvider.h"
 #include "render.h"
 
 class TileMarker

@@ -1,5 +1,4 @@
 #include "Button.h"
-#include "Exceptions.h"
 
 Button::Button(sf::IntRect pos) : 
     was_pressed(false),

@@ -5,13 +5,10 @@
 #include <fstream>
 
 #include "Macros.h"
-#include "Exceptions.h"
-#include "Strings.h"
+#include "core.h"
 #include "Scene.h"
 #include "KeyboardScene.h"
 #include "ui.h"
-#include "StringProvider.h"
-#include "Index.h"
 
 class TileSetNewScene : public Scene
 {

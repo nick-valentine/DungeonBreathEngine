@@ -8,8 +8,7 @@
 #include <sstream>
 #include <vector>
 
-#include "Macros.h"
-#include "Container.h"
+#include "core.h"
 #include "TextureMap.h"
 #include "SpriteSet.h"
 #include "Animation.h"

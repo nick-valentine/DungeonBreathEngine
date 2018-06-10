@@ -3,9 +3,8 @@
 
 #include <string>
 
-#include "Container.h"
+#include "core.h"
 
-#include "StringProvider.h"
 #include "Scene.h"
 #include "ui.h"
 

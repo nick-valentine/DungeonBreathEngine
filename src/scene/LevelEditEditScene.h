@@ -8,7 +8,7 @@
 #include "World.h"
 #include "Scene.h"
 #include "ui.h"
-#include "Exceptions.h"
+#include "core.h"
 #include "LevelEditTileScene.h"
 #include "LevelEditActorSelectScene.h"
 

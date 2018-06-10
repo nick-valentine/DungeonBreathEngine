@@ -2,7 +2,7 @@
 #define NUMBERINPUT_H
 
 #include "Label.h"
-#include "Strings.h"
+#include "core.h"
 #include "SpriteButton.h"
 #include "ButtonGroup.h"
 

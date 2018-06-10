@@ -1,11 +1,9 @@
 #ifndef LEVELEDITSCENE_H
 #define LEVELEDITSCENE_H
 
-#include "Container.h"
+#include "core.h"
 #include "Scene.h"
-#include "Index.h"
 #include "ui.h"
-#include "StringProvider.h"
 
 class LevelEditScene : public Scene
 {

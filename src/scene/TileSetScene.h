@@ -5,12 +5,9 @@
 #include <fstream>
 
 #include "Macros.h"
-#include "Exceptions.h"
-#include "Strings.h"
+#include "core.h"
 #include "Scene.h"
 #include "ui.h"
-#include "StringProvider.h"
-#include "Index.h"
 
 class TileSetScene : public Scene
 {

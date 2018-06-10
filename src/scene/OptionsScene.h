@@ -4,13 +4,11 @@
 #include <fstream>
 #include <stdlib.h>
 
-#include "Container.h"
+#include "core.h"
 
-#include "StringProvider.h"
 #include "MusicManager.h"
 #include "Scene.h"
 #include "ui.h"
-#include "ConfigLoader.h"
 
 class OptionsScene : public Scene
 {

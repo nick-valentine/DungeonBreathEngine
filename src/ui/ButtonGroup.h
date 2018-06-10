@@ -7,7 +7,7 @@
 #include <algorithm>
 
 #include "Button.h"
-#include "Input.h"
+#include "core.h"
 
 class ButtonGroup
 {

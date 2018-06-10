@@ -1,12 +1,10 @@
 #ifndef LEVELEDITNEWSCENE_H
 #define LEVELEDITNEWSCENE_H
 
-#include "Container.h"
+#include "core.h"
 #include "KeyboardScene.h"
-#include "StringProvider.h"
 #include "ui.h"
 #include "Scene.h"
-#include "Index.h"
 
 class LevelEditNewScene : public Scene
 {

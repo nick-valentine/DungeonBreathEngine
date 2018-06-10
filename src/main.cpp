@@ -3,11 +3,8 @@
 #include <stack>
 #include <memory>
 
-#include "Container.h"
-#include "ConfigLoader.h"
-#include "StringProvider.h"
+#include "core.h"
 #include "scene.h"
-#include "Script.h"
 
 // Global container instance
 Container app_container;

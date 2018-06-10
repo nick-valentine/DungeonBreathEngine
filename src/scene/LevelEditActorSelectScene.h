@@ -1,10 +1,8 @@
 #ifndef LEVELEDITACTORSELECT_H
 #define LEVELEDITACTORSELECT_H
 
-#include "Container.h"
-#include "Strings.h"
+#include "core.h"
 #include "Scene.h"
-#include "Index.h"
 #include "ui.h"
 
 class LevelEditActorSelectScene : public Scene

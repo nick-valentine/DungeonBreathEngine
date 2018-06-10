@@ -1,7 +1,7 @@
 #ifndef MAINMENUSCENE_H
 #define MAINMENUSCENE_H
 
-#include "StringProvider.h"
+#include "core.h"
 #include "MusicManager.h"
 #include "Scene.h"
 #include "ui.h"

@@ -8,8 +8,7 @@
 #include <string>
 #include <vector>
 
-#include "ConfigLoader.h"
-#include "Exceptions.h"
+#include "core.h"
 
 class MusicManager
 {

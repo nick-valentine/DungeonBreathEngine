@@ -6,13 +6,10 @@
 #include <string>
 #include <vector>
 
-#include "Container.h"
+#include "core.h"
 
 #include "ActorManager.h"
 #include "render.h"
-
-#include "lua.h"
-#include "Script.h"
 
 class Actor;
 

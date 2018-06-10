@@ -1,6 +1,7 @@
 two
 overworld
 20 20
+none
 ---
 hero 576 512
 ---

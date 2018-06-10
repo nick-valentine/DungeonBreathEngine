@@ -62,3 +62,11 @@ float lua::get_num(lua_State *L, int pos)
     }
     return (float) lua_tonumber(L, pos);
 }
+
+std::string lua::get_string(lua_State *L, int pos)
+{
+    if (!lua_isstring(L, pos)) {
+        lua::error(L, "parameter not string");
+    }
+    return lua_tostring(L, pos);
+}

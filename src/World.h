@@ -6,6 +6,8 @@
 
 #include "Container.h"
 
+#include "Script.h"
+#include "Actor.h"
 #include "ActorManager.h"
 #include "WorldGenerator.h"
 #include "TileSet.h"
@@ -38,6 +40,8 @@ public:
 
     void set_edit_mode(bool edit_mode);
 
+    void request_level_load(std::string name, sf::Vector2i player_pos);
+
     state status();
     std::string next_level();
     sf::Vector2i next_player_pos();
@@ -62,6 +66,16 @@ private:
     sf::Vector2i load_player_pos = sf::Vector2i(0, 0);
 
     sf::Vector2i size;
+
+    std::string script_name;
+    Script *s;
+};
+
+namespace lua {
+    namespace world {
+        void add(lua_State *L);
+        int change_level(lua_State *L);
+    };
 };
 
 #endif //WORLD_H

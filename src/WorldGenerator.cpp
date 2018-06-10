@@ -18,6 +18,7 @@ Dimension::Room WorldLoader::generate(std::string tile_set)
     std::getline(ifile, name);
     std::getline(ifile, f_tileset);
     ifile>>size.x>>size.y;
+    ifile>>script_name;
     TileSet tileset(f_tileset);
     this->tile_set = f_tileset;
     spawn_actors(ifile);
@@ -40,6 +41,11 @@ std::string WorldLoader::get_name()
     std::getline(ifile, name);
     ifile.close();
     return name;
+}
+
+std::string WorldLoader::get_scriptname()
+{
+    return this->script_name;
 }
 
 std::string WorldLoader::get_filename()

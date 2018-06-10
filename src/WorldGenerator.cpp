@@ -18,9 +18,11 @@ Dimension::Room WorldLoader::generate(std::string tile_set)
     std::getline(ifile, name);
     std::getline(ifile, f_tileset);
     ifile>>size.x>>size.y;
+    ifile>>script_name;
     TileSet tileset(f_tileset);
     this->tile_set = f_tileset;
     spawn_actors(ifile);
+    spawn_collision_defs(ifile);
     spawn_collision_boxes(ifile);
     while (ifile.good()) {
         world.push_back(spawn_layer(ifile, tileset));
@@ -39,6 +41,11 @@ std::string WorldLoader::get_name()
     std::getline(ifile, name);
     ifile.close();
     return name;
+}
+
+std::string WorldLoader::get_scriptname()
+{
+    return this->script_name;
 }
 
 std::string WorldLoader::get_filename()
@@ -123,6 +130,29 @@ void WorldLoader::spawn_actors(std::ifstream &ifile)
     }
 }
 
+void WorldLoader::spawn_collision_defs(std::ifstream &ifile)
+{
+    std::string line;
+    while((line == "---" || line == "") && ifile.good()) {
+        std::getline(ifile, line);
+    }
+
+    while (line != "---" && ifile.good()) {
+        std::stringstream ss(line);
+        std::cout<<line<<std::endl;
+        int type;
+        std::string action = "";
+        std::string target = "";
+        ss>>type>>action>>target;
+        auto loc = sf::Vector2i(0, 0);
+        if (ss.good()) {
+            ss>>loc.x>>loc.y;
+        }
+        actor_man->add_collision_type(type, action, target, loc);
+        std::getline(ifile, line);
+    }
+}
+
 void WorldLoader::spawn_collision_boxes(std::ifstream &ifile)
 {
     std::string line;
@@ -146,8 +176,9 @@ void WorldLoader::spawn_collision_line(std::string &line, int line_number)
     ss>>col_type;
     int col_number = 0;
     while (ss.good()) {
-        if (col_type == 1) {
+        if (col_type != 0) {
             actor_man->add_collision_rect(
+                col_type,
                 sf::FloatRect(
                     col_number * TileSet::tile_size(), 
                     line_number * TileSet::tile_size(),

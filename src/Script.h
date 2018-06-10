@@ -4,6 +4,7 @@
 #include <string>
 
 #include "Macros.h"
+#include "Exceptions.h"
 #include "Container.h"
 #include "lua.h"
 

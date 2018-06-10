@@ -4,7 +4,7 @@
 
 GameScene::GameScene(sf::Vector2i size) :
     Scene(size),
-    world("overworld", std::unique_ptr<WorldGenerator>(new WorldLoader(LEVELDIR "demo.txt")))
+    world()
 {
     this->main_window.reset(sf::FloatRect(0, 0, size.x, size.y));
 }
@@ -27,7 +27,7 @@ void GameScene::update(int delta, sf::RenderWindow &window)
     }
 
     /* Camera Logic */
-    auto target = this->world.get_camera_target();
+    auto target = this->world.get()->get_camera_target();
     if (target != nullptr) {
         auto camera_center = this->main_window.getCenter();
         auto target_camera_center = target->get_rect();

@@ -25,6 +25,7 @@ public:
     virtual Dimension::Room generate(std::string tile_set) = 0;
     virtual std::string get_name() = 0;
     virtual std::string get_filename() = 0;
+    virtual std::string get_scriptname() = 0;
     virtual std::string get_tileset() = 0;
     virtual sf::Vector2i get_size() = 0;
     virtual std::shared_ptr<ActorManager> get_actor_manager() = 0;
@@ -39,6 +40,7 @@ public:
 
     virtual Dimension::Room generate(std::string tile_set);
     virtual std::string get_name();
+    virtual std::string get_scriptname();
     virtual std::string get_filename();
     virtual std::string get_tileset();
     virtual sf::Vector2i get_size();
@@ -47,9 +49,11 @@ private:
     Dimension::Layer spawn_layer(std::ifstream &ifile, TileSet &tile_set);
     Dimension::Line spawn_line(std::string &line, int line_number, TileSet &tile_set);
     void spawn_actors(std::ifstream &ifile);
+    void spawn_collision_defs(std::ifstream &ifile);
     void spawn_collision_boxes(std::ifstream &ifile);
     void spawn_collision_line(std::string &line, int line_number);
     std::string file_name;
+    std::string script_name;
     std::string tile_set;
     sf::Vector2i size;
     std::shared_ptr<ActorManager> actor_man = nullptr;

@@ -13,6 +13,12 @@ struct FileNotWriteableException : public std::exception {
     }
 };
 
+struct FileNotReadableException : public std::exception {
+    const char * what () const throw () {
+        return "File Not Readable";
+    }
+};
+
 struct InvalidConfigException : public std::exception {
     const char * what () const throw () {
         return "Invalid Config";
@@ -20,9 +26,9 @@ struct InvalidConfigException : public std::exception {
 };
 
 struct UnavailableActorException : public std::exception {
-	const char * what() const throw () {
-		return "Actor Not Available";
-	}
+    const char * what() const throw () {
+        return "Actor Not Available";
+    }
 };
 
 #endif // EXCEPTION_H

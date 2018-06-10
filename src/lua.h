@@ -26,6 +26,7 @@ namespace lua {
     /* assumes a table is at the top of the stack */
     float get_num_field(lua_State *L, std::string key);
     float get_num(lua_State *L, int pos);
+    std::string get_string(lua_State *L, int pos);
 };
 
 #endif //LUA_H

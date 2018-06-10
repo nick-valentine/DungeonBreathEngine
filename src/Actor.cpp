@@ -4,13 +4,14 @@
 
 Actor::Actor(ActorManager *man, int handle, sf::Vector2i pos, sf::Vector2f scale, std::string name) : manager(man), name(name)
 {
+    this->handle = handle;
+    this->rect = sf::FloatRect(pos.x, pos.y, scale.x, scale.y);
+    this->velocity = sf::Vector2f(0, 0);
+
     std::string filename = ACTORDIR;
     filename += name;
     filename += ".lua";
     s = new Script(filename);
-    this->handle = handle;
-    this->rect = sf::FloatRect(pos.x, pos.y, scale.x, scale.y);
-    this->velocity = sf::Vector2f(0, 0);
     lua::actor::add(s->s);
     lua::actorman::add(s->s);
     s->call();
@@ -46,6 +47,22 @@ Actor::Actor(const Actor &other) :
         delete s;
     }
     s = new Script(other.s->name);
+    lua::actor::add(s->s);
+    lua::actorman::add(s->s);
+    s->call();
+
+    lua_getglobal(s->s, TABLENAME);
+    auto me_table = lua_gettop(s->s);
+    if (!lua_istable(s->s, -1)) {
+        lua::error(s->s, TABLENAME " table not found");
+    }
+    auto tileset = s->get_field("tileset");
+    lua_pushlightuserdata(s->s, this);
+    lua_setfield(s->s, me_table, "self");
+    lua_pushnumber(s->s, this->handle);
+    lua_setfield(s->s, me_table, "handle");
+    lua_pushlightuserdata(s->s, manager);
+    lua_setfield(s->s, me_table, "manager");
     this->t = new TileSet(other.t->get_name());
     set_tileset(0);
     this->current_tile = tileset_cache[0];
@@ -70,6 +87,9 @@ void Actor::update(int delta)
     }
     auto actor_table = lua_gettop(s->s);
     lua_getfield(s->s, actor_table, "update");
+    if (!lua_isfunction(s->s, -1)) {
+        lua::error(s->s, "event function not found");
+    }
     lua_pushnumber(s->s, delta);
     if (lua_pcall(s->s, 1, 0, 0) != 0) {
         lua::error(s->s, "update function failed");
@@ -117,6 +137,12 @@ std::string Actor::get_name() const
 void Actor::set_rect(sf::FloatRect& x)
 {
     this->rect = x;
+}
+
+void Actor::set_location(sf::Vector2f x)
+{
+    this->rect.left = x.x;
+    this->rect.top = x.y;
 }
 
 sf::Vector2f Actor::get_velocity() const

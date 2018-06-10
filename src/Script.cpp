@@ -8,7 +8,10 @@ Script::Script(std::string filename)
     lua::container::add(s);
     std::string full_path = SCRIPTDIR;
     full_path += filename;
-    luaL_loadfile(s, full_path.c_str());
+    app_container.get_logger()->info("loading script %s", full_path.c_str());
+    if (luaL_loadfile(s, full_path.c_str()) != 0) {
+        throw FileNotReadableException();
+    }
 }
 
 Script::~Script()

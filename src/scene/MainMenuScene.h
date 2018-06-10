@@ -2,7 +2,7 @@
 #define MAINMENUSCENE_H
 
 #include "core.h"
-#include "MusicManager.h"
+#include "audio.h"
 #include "Scene.h"
 #include "ui.h"
 

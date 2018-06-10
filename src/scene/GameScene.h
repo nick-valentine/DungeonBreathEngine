@@ -6,7 +6,7 @@
 #include "Scene.h"
 
 #include "core.h"
-#include "MusicManager.h"
+#include "audio.h"
 #include "play.h"
 
 class GameScene : public Scene

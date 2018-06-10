@@ -10,25 +10,27 @@
 
 #include "core.h"
 
-class MusicManager
-{
-public:
-    enum Song {
-        main_menu = 0,
-        playing_game = 1,
+namespace audio {
+    class MusicManager
+    {
+    public:
+        enum Song {
+            main_menu = 0,
+            playing_game = 1,
+        };
+
+        MusicManager() = delete;
+
+        static void play(Song s);
+        static void stop();
+
+        static void set_volume(float volume);
+
+    private:
+        static float volume;
+        static sf::Music music;
+        static std::vector<std::string> song_files;
     };
-
-    MusicManager() = delete;
-
-    static void play(Song s);
-    static void stop();
-
-    static void set_volume(float volume);
-
-private:
-    static float volume;
-    static sf::Music music;
-    static std::vector<std::string> song_files;
 };
 
 #endif // MUSICMANAGER_H

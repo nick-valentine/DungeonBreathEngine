@@ -17,13 +17,13 @@ void GameScene::update(int delta, sf::RenderWindow &window)
 {
     if (first_loop) {
         first_loop = false;
-        MusicManager::play(MusicManager::Song::playing_game);
+        audio::MusicManager::play(audio::MusicManager::Song::playing_game);
     }
     world.update(delta, window);
     if (app_container.get_input()->is_key_pressed(Input::Key::escape)) {
         this->next_scene = nullptr;
         this->state = Scene::Status::pop_scene;
-        MusicManager::stop();
+        audio::MusicManager::stop();
     }
 
     /* Camera Logic */

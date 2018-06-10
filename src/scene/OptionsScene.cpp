@@ -29,14 +29,14 @@ OptionsScene::OptionsScene(sf::Vector2i size) :
 
 OptionsScene::~OptionsScene()
 {
-    MusicManager::stop();
+    audio::MusicManager::stop();
 }
 
 void OptionsScene::update(int delta, sf::RenderWindow &window)
 {
     if (first_loop) {
         first_loop = false;
-        MusicManager::play(MusicManager::Song::main_menu);
+        audio::MusicManager::play(audio::MusicManager::Song::main_menu);
     }
     this->menu.update(delta, app_container.get_input(), window);
     
@@ -116,7 +116,7 @@ void OptionsScene::set_language()
 
 void OptionsScene::set_volume()
 {
-    MusicManager::set_volume(current_volume);
+    audio::MusicManager::set_volume(current_volume);
     ConfigLoader::mutate_option("volume", current_volume);
 }
 

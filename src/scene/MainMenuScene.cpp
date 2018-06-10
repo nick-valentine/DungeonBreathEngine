@@ -23,7 +23,7 @@ void MainMenuScene::update(int delta, sf::RenderWindow &window)
 {
     if (first_loop) {
         first_loop = false;
-        MusicManager::play(MusicManager::Song::main_menu);
+        audio::MusicManager::play(audio::MusicManager::Song::main_menu);
     }
 
     this->menu.update(delta, app_container.get_input(), window);
@@ -32,27 +32,27 @@ void MainMenuScene::update(int delta, sf::RenderWindow &window)
     if (pressed == "play") {
         this->next_scene = new GameScene(this->size);
         this->state = Scene::Status::push_scene;
-        MusicManager::stop();
+        audio::MusicManager::stop();
     }
     if (pressed == "options") {
         this->next_scene = new OptionsScene(this->size);
         this->state = Scene::Status::push_scene;
-        MusicManager::stop();
+        audio::MusicManager::stop();
     }
     if (pressed == "tile_editor") {
         this->next_scene = new TileSetScene(this->size);
         this->state = Scene::Status::push_scene;
-        MusicManager::stop();
+        audio::MusicManager::stop();
     }
     if (pressed == "level_editor") {
         this->next_scene = new LevelEditScene(this->size);
         this->state = Scene::Status::push_scene;
-        MusicManager::stop();
+        audio::MusicManager::stop();
     }
     if (pressed == "exit") {
         this->next_scene = nullptr;
         this->state = Scene::Status::pop_scene;
-        MusicManager::stop();
+        audio::MusicManager::stop();
     }
 }
 

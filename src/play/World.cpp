@@ -16,7 +16,7 @@ namespace play {
 
         if (script_name != "none") {
             auto filename = WORLDSCRIPTDIR + script_name + ".lua";
-            this->s = new core::Script(filename);
+            this->s = new lua::Script(filename);
             lua::actor::add(s->s);
             lua::actorman::add(s->s);
             lua::world::add(s->s);
@@ -247,30 +247,3 @@ namespace play {
     }
 };
 
-void lua::world::add(lua_State *L)
-{
-    static const struct luaL_Reg mylib[] = {
-        { "change_level", change_level },
-        { NULL, NULL}
-    };
-    lua_getglobal(L, "world");
-    if (lua_isnil(L, -1)) {
-        lua_pop(L, 1);
-        lua_newtable(L);
-    }
-    luaL_setfuncs(L, mylib, 0);
-
-    lua_setglobal(L, "world");
-}
-
-int lua::world::change_level(lua_State *L) {
-    play::World *w = (play::World *)lua_touserdata(L, -3);
-    auto name = lua::get_string(L, -2);
-    auto x = lua::get_num_field(L, "x");
-    auto y = lua::get_num_field(L, "y");
-    core::app_container.get_logger()->info("requesting level load");
-
-    w->request_level_load(name, sf::Vector2i(x, y));
-
-    return 0;
-}

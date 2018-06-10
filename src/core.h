@@ -8,9 +8,7 @@
 #include "core/Index.h"
 #include "core/Input.h"
 #include "core/Logger.h"
-#include "core/Script.h"
 #include "core/StringProvider.h"
 #include "core/Strings.h"
-#include "core/lua.h"
 
 #endif // META_CORE_H

@@ -34,9 +34,3 @@ namespace core {
     }
 };
 
-void lua::container::add(lua_State *L)
-{
-    lua::config::add(L);
-    lua::logger::add(core::app_container.get_logger(), L);
-    lua::input::add(core::app_container.get_input(), L);
-}

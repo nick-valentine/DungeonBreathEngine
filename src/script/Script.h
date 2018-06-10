@@ -4,11 +4,11 @@
 #include <string>
 
 #include "Macros.h"
-#include "Exceptions.h"
-#include "Container.h"
+#include "core.h"
 #include "lua.h"
+#include "l_core.h"
 
-namespace core {
+namespace lua {
     // @todo: merge into lua.h
     class Script
     {

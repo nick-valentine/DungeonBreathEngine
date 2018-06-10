@@ -21,8 +21,6 @@ int main()
     core::StringProvider::load(lang);
 
     core::app_container.init();
-    core::Script s("main.lua");
-    s.call();
 
     int resolution_x = core::ConfigLoader::get_int_option("resolution_x", 200);
     int resolution_y = core::ConfigLoader::get_int_option("resolution_y", 200);

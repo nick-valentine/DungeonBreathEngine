@@ -7,9 +7,10 @@
 #include <vector>
 
 #include "core.h"
+#include "script.h"
+#include "render.h"
 
 #include "ActorManager.h"
-#include "render.h"
 
 namespace play {
     class Actor;
@@ -66,23 +67,7 @@ namespace play {
         std::vector<tile_ptr> tileset_cache = std::vector<tile_ptr>();
 
         std::string name;
-        core::Script *s;
-    };
-};
-
-namespace lua {
-    namespace actor {
-        void add(lua_State *L);
-        int get_rect(lua_State *L);
-        int set_scale(lua_State *L);
-        int set_origin(lua_State *L);
-        int set_collision_bounds(lua_State *L);
-        int get_velocity(lua_State *L);
-        int set_velocity(lua_State *L);
-        int set_tileset(lua_State *L);
-        int pause_anim(lua_State *L);
-        int play_anim(lua_State *L);
-        int reset_anim(lua_State *L);
+        lua::Script *s;
     };
 };
 

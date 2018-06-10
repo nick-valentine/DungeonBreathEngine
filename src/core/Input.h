@@ -10,8 +10,6 @@
 #include "DeviceButton.h"
 #include "Exceptions.h"
 
-#include "lua.h"
-
 namespace core {
     class Input
     {
@@ -51,13 +49,6 @@ namespace core {
 
         std::map<std::string, int> key_map;
         std::vector<DeviceButton*> buttons;
-    };
-};
-
-namespace lua {
-    namespace input {
-        void add(core::Input *i, lua_State *s);
-        int is_key_pressed(lua_State *s);
     };
 };
 

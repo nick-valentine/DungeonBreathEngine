@@ -4,6 +4,7 @@
 #include "World.h"
 
 namespace play {
+    class World;
     typedef std::shared_ptr<World> world_ptr;
 
     class WorldManager

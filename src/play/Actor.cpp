@@ -12,7 +12,7 @@ namespace play {
         std::string filename = ACTORDIR;
         filename += name;
         filename += ".lua";
-        s = new core::Script(filename);
+        s = new lua::Script(filename);
         lua::actor::add(s->s);
         lua::actorman::add(s->s);
         s->call();
@@ -47,7 +47,7 @@ namespace play {
         if (s != nullptr) {
             delete s;
         }
-        s = new core::Script(other.s->name);
+        s = new lua::Script(other.s->name);
         lua::actor::add(s->s);
         lua::actorman::add(s->s);
         s->call();
@@ -190,159 +190,4 @@ namespace play {
     }
 };
 
-void lua::actor::add(lua_State *L)
-{
-    static const struct luaL_Reg mylib[] = {
-        { "get_rect", get_rect },
-        { "set_scale", set_scale },
-        { "set_origin", set_origin },
-        { "set_collision_bounds", set_collision_bounds },
-        { "get_velocity", get_velocity },
-        { "set_velocity", set_velocity },
-        { "set_tileset", set_tileset },
-        { "pause_anim", pause_anim },
-        { "play_anim", play_anim },
-        { "reset_anim", reset_anim },
-        { NULL, NULL }
-    };
-    lua_getglobal(L, "actor");
-    if (lua_isnil(L, -1)) {
-        lua_pop(L, 1);
-        lua_newtable(L);
-    }
-    luaL_setfuncs(L, mylib, 0);
 
-    lua_setglobal(L, "actor");
-}
-
-int lua::actor::get_rect(lua_State *L)
-{
-    play::Actor *a = (play::Actor *)lua_touserdata(L, -1);
-    sf::FloatRect rect;
-    if (a != nullptr) {
-        core::app_container.get_logger()->debug("get_rect called with null actor");
-        rect = a->get_rect();
-    }
-    lua_newtable(L);
-    auto table = lua_gettop(L);
-    lua_pushnumber(L, rect.left);
-    lua_setfield(L, table, "left");
-    lua_pushnumber(L, rect.top);
-    lua_setfield(L, table, "top");
-    lua_pushnumber(L, rect.width);
-    lua_setfield(L, table, "width");
-    lua_pushnumber(L, rect.height);
-    lua_setfield(L, table, "height");
-    return 1;
-}
-
-int lua::actor::set_scale(lua_State *L)
-{
-    play::Actor *a = (play::Actor *)lua_touserdata(L, -2);
-    if (a == nullptr) {
-        return 0;
-    }
-    auto x = lua::get_num_field(L, "x");
-    auto y = lua::get_num_field(L, "y");
-    a->set_scale(sf::Vector2f(x, y));
-    return 0;
-}
-
-int lua::actor::set_origin(lua_State *L)
-{
-    play::Actor *a = (play::Actor *)lua_touserdata(L, -2);
-    if (a == nullptr) {
-        return 0;
-    }
-    auto x = lua::get_num_field(L, "x");
-    auto y = lua::get_num_field(L, "y");
-    a->set_origin(sf::Vector2f(x, y));
-    return 0;
-}
-
-int lua::actor::set_collision_bounds(lua_State *L)
-{
-    play::Actor *a = (play::Actor *)lua_touserdata(L, -2);
-    if (a == nullptr) {
-        return 0;
-    }
-    auto x = lua::get_num_field(L, "x");
-    auto y = lua::get_num_field(L, "y");
-    auto rect = a->get_rect();
-    rect.width = x;
-    rect.height = y;
-    a->set_rect(rect);
-    return 0;
-}
-
-int lua::actor::get_velocity(lua_State *L)
-{
-    play::Actor *a = (play::Actor *)lua_touserdata(L, -1);
-    sf::Vector2f vel;
-    if (a != nullptr) {
-        vel = a->get_velocity();
-    }
-    lua_newtable(L);
-    auto table = lua_gettop(L);
-    lua_pushnumber(L, vel.x);
-    lua_setfield(L, table, "x");
-    lua_pushnumber(L, vel.y);
-    lua_setfield(L, table, "y");
-    return 1;
-}
-
-int lua::actor::set_velocity(lua_State *L)
-{
-    auto a = (play::Actor *)lua_touserdata(L, -2);
-    if (a == nullptr) {
-        return 0;
-    }
-    auto x = lua::get_num_field(L, "x");
-    auto y = lua::get_num_field(L, "y");
-    a->set_velocity(sf::Vector2f(x, y));
-    return 0;
-}
-
-int lua::actor::set_tileset(lua_State *L)
-{
-    auto a = (play::Actor *)lua_touserdata(L, -2);
-    if (a == nullptr) {
-        return 0;
-    }
-    if (!lua_isnumber(L, -1)) {
-        lua::error(L, "param 1 not number");
-    }
-    auto i = (int) lua_tonumber(L, -1);
-    a->set_tileset(i);
-    return 0;
-}
-
-int lua::actor::pause_anim(lua_State *L)
-{
-    auto a = (play::Actor *)lua_touserdata(L, -1);
-    if (a == nullptr) {
-        return 0;
-    }
-    a->get_tile()->pause();
-    return 0;
-}
-
-int lua::actor::play_anim(lua_State *L)
-{
-    auto a = (play::Actor *)lua_touserdata(L, -1);
-    if (a == nullptr) {
-        return 0;
-    }
-    a->get_tile()->play();
-    return 0;
-}
-
-int lua::actor::reset_anim(lua_State *L)
-{
-    auto a = (play::Actor *)lua_touserdata(L, -1);
-    if (a == nullptr) {
-        return 0;
-    }
-    a->get_tile()->reset();
-    return 0;
-}

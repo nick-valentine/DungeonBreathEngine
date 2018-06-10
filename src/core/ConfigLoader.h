@@ -9,8 +9,6 @@
 #include <utility>
 #include <iostream>
 
-#include "lua.h"
-
 namespace core {
     /**
      * Configuration Loader.
@@ -46,16 +44,6 @@ namespace core {
         static std::map<std::string, std::string> configuration;
 
         static std::string version;
-    };
-};
-
-namespace lua {
-    namespace config {
-        void add(lua_State *L);
-        int get_int(lua_State *L);
-        int get_string(lua_State *L);
-        int set(lua_State *L);
-        int save(lua_State *L);
     };
 };
 

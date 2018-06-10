@@ -76,18 +76,4 @@ namespace play {
     };
 };
 
-
-namespace lua {
-    namespace actorman {
-        void add(lua_State *L);
-        int spawn(lua_State *L);
-        int remove(lua_State *L);
-        int clear(lua_State *L);
-        int set_camera_target(lua_State *L);
-        int get_camera_target(lua_State *L);
-        int set_player(lua_State *L);
-        int get_player(lua_State *L);
-    };
-};
-
 #endif //ACTORMANAGER_H

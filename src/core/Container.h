@@ -7,8 +7,6 @@
 #include "ConsoleLogger.h"
 #include  "Input.h"
 
-#include "lua.h"
-
 namespace core {
     // Container for global stateless services
     class Container
@@ -30,10 +28,5 @@ namespace core {
     extern Container app_container;
 }
 
-namespace lua {
-    namespace container {
-        void add(lua_State *L);
-    };
-};
 
 #endif //CONTAINER_H

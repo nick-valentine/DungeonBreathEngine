@@ -5,11 +5,12 @@
 #include <fstream>
 
 #include "core.h"
+#include "script.h"
+#include "render.h"
 
 #include "Actor.h"
 #include "ActorManager.h"
 #include "WorldGenerator.h"
-#include "render.h"
 
 namespace play {
     class World
@@ -65,15 +66,9 @@ namespace play {
         sf::Vector2i size;
 
         std::string script_name;
-        core::Script *s = nullptr;
+        lua::Script *s = nullptr;
     };
 };
 
-namespace lua {
-    namespace world {
-        void add(lua_State *L);
-        int change_level(lua_State *L);
-    };
-};
 
 #endif //WORLD_H

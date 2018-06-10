@@ -1,5 +1,5 @@
 #include "Scene.h"
 
-Scene::Scene(sf::Vector2i size) : size(size)
+scene::Scene::Scene(sf::Vector2i size) : size(size)
 {
 }

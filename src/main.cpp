@@ -11,7 +11,7 @@ core::Container core::app_container;
 
 void handleEvents(sf::RenderWindow &window);
 
-typedef std::unique_ptr<Scene> StackItem;
+typedef std::unique_ptr<scene::Scene> StackItem;
 typedef std::stack<StackItem> GameStack;
 
 int main()
@@ -34,7 +34,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(resolution_x, resolution_y), "DungeonBreath");
 
     GameStack stack;
-    stack.push(StackItem(new MainMenuScene(sf::Vector2i(resolution_x, resolution_y))));
+    stack.push(StackItem(new scene::MainMenu(sf::Vector2i(resolution_x, resolution_y))));
     sf::Clock timer;
 
     int delta = 0;
@@ -50,14 +50,14 @@ int main()
         stack.top()->draw(window);
         window.display();
 
-        Scene::Status state = stack.top()->status();
-        if (state == Scene::Status::exit_program) {
+        scene::Scene::Status state = stack.top()->status();
+        if (state == scene::Scene::Status::exit_program) {
             break;
-        } else if (state == Scene::Status::push_scene) {
-            Scene *next = stack.top()->new_scene();
+        } else if (state == scene::Scene::Status::push_scene) {
+            scene::Scene *next = stack.top()->new_scene();
             stack.top()->reset_status();
             stack.push(StackItem(next));
-        } else if (state == Scene::Status::pop_scene) {
+        } else if (state == scene::Scene::Status::pop_scene) {
             stack.pop();
             if (stack.empty()) {
                 break;

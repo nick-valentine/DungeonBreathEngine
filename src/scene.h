@@ -1,18 +1,18 @@
 #ifndef META_SCENE_H
 #define META_SCENE_H
 
-#include "scene/GameScene.h"
-#include "scene/OptionsScene.h"
-#include "scene/TileSetScene.h"
-#include "scene/TileSetNewScene.h"
-#include "scene/TileSetEditScene.h"
-#include "scene/LevelEditNewScene.h"
-#include "scene/LevelEditScene.h"
-#include "scene/LevelEditEditScene.h"
-#include "scene/LevelEditTileScene.h"
-#include "scene/LevelEditActorSelectScene.h"
-#include "scene/MainMenuScene.h"
+#include "scene/Game.h"
+#include "scene/Options.h"
+#include "scene/TileSet.h"
+#include "scene/TileSetNew.h"
+#include "scene/TileSetEdit.h"
+#include "scene/LevelEditNew.h"
+#include "scene/LevelEdit.h"
+#include "scene/LevelEditEdit.h"
+#include "scene/LevelEditTile.h"
+#include "scene/LevelEditActorSelect.h"
+#include "scene/MainMenu.h"
 #include "scene/Scene.h"
-#include "scene/KeyboardScene.h"
+#include "scene/Keyboard.h"
 
 #endif // META_SCENE_H

@@ -3,8 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Macros.h"
-#include "FontMap.h"
+#include "render.h"
 
 class Label
 {

@@ -7,8 +7,7 @@
 
 #include "StringProvider.h"
 #include "Scene.h"
-#include "KeyButton.h"
-#include "Label.h"
+#include "ui.h"
 
 class KeyboardScene : public Scene
 {

@@ -11,12 +11,9 @@
 #include "Strings.h"
 #include "Container.h"
 #include "Scene.h"
-#include "TextButton.h"
-#include "SpriteButton.h"
-#include "ButtonGroup.h"
+#include "ui.h"
 #include "StringProvider.h"
-#include "Label.h"
-#include "TextureMap.h"
+#include "render.h"
 
 class TileMarker
 {

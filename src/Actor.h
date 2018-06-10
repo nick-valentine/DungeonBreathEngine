@@ -9,8 +9,7 @@
 #include "Container.h"
 
 #include "ActorManager.h"
-#include "TextureMap.h"
-#include "TileSet.h"
+#include "render.h"
 
 #include "lua.h"
 #include "Script.h"

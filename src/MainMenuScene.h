@@ -4,8 +4,7 @@
 #include "StringProvider.h"
 #include "MusicManager.h"
 #include "Scene.h"
-#include "ButtonGroup.h"
-#include "TextButton.h"
+#include "ui.h"
 
 class MainMenuScene : public Scene
 {

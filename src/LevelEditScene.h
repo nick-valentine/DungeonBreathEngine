@@ -4,8 +4,7 @@
 #include "Container.h"
 #include "Scene.h"
 #include "Index.h"
-#include "TextButton.h"
-#include "ButtonGroup.h"
+#include "ui.h"
 #include "StringProvider.h"
 
 class LevelEditScene : public Scene

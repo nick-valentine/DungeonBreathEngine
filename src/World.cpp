@@ -35,7 +35,10 @@ World::World(std::string tile_set, std::unique_ptr<WorldGenerator> &&gen)
 
 World::~World()
 {
-    delete s;
+    if (s != nullptr) {
+        delete s;
+        s = nullptr;
+    }
 }
 
 void World::set_tile(Tile *tile, int layer, sf::Vector2i pos)

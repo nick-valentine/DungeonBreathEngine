@@ -1,7 +1,7 @@
 #ifndef TEXTBUTTON_H
 #define TEXTBUTTON_H
 
-#include "TextureMap.h"
+#include "render.h"
 #include "Button.h"
 #include "Label.h"
 

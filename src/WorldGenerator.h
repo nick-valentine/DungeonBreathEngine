@@ -6,7 +6,7 @@
 #include <sstream>
 
 #include "Exceptions.h"
-#include "TileSet.h"
+#include "render.h"
 #include "ActorManager.h"
 
 namespace Dimension {

@@ -9,10 +9,7 @@
 #include "StringProvider.h"
 #include "MusicManager.h"
 #include "Scene.h"
-#include "ButtonGroup.h"
-#include "TextButton.h"
-#include "SpriteButton.h"
-#include "NumberInput.h"
+#include "ui.h"
 #include "ConfigLoader.h"
 
 class OptionsScene : public Scene

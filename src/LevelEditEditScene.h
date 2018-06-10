@@ -7,10 +7,7 @@
 
 #include "World.h"
 #include "Scene.h"
-#include "ButtonGroup.h"
-#include "NumberInput.h"
-#include "SpriteButton.h"
-#include "TextButton.h"
+#include "ui.h"
 #include "Exceptions.h"
 #include "LevelEditTileScene.h"
 #include "LevelEditActorSelectScene.h"

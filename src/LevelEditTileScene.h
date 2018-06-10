@@ -5,7 +5,7 @@
 
 #include "Input.h"
 #include "Scene.h"
-#include "TileSet.h"
+#include "render.h"
 
 class LevelEditTileScene : public Scene
 {

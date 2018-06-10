@@ -9,7 +9,6 @@
 #include "MusicManager.h"
 #include "ActorManager.h"
 #include "Actor.h"
-#include "TileSet.h"
 #include "WorldManager.h"
 
 class GameScene : public Scene

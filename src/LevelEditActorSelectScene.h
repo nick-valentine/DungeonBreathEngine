@@ -5,8 +5,7 @@
 #include "Strings.h"
 #include "Scene.h"
 #include "Index.h"
-#include "TextButton.h"
-#include "ButtonGroup.h"
+#include "ui.h"
 
 class LevelEditActorSelectScene : public Scene
 {

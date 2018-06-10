@@ -10,7 +10,7 @@
 #include "Actor.h"
 #include "ActorManager.h"
 #include "WorldGenerator.h"
-#include "TileSet.h"
+#include "render.h"
 #include "Input.h"
 #include "Logger.h"
 
@@ -24,8 +24,7 @@ public:
     World(std::string tile_set, std::unique_ptr<WorldGenerator> &&gen);
     ~World();
 
-    void set_tile(Tile *tile, int layer, sf::Vector2i pos);
-    void remove_tile(int layer, sf::Vector2i pos);
+    void set_tile(Tile *tile, int layer, sf::Vector2i pos); void remove_tile(int layer, sf::Vector2i pos);
 
     void set_init_player_pos(sf::Vector2i pos);
 
@@ -68,7 +67,7 @@ private:
     sf::Vector2i size;
 
     std::string script_name;
-    Script *s;
+    Script *s = nullptr;
 };
 
 namespace lua {

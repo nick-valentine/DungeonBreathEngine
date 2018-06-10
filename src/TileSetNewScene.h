@@ -9,8 +9,7 @@
 #include "Strings.h"
 #include "Scene.h"
 #include "KeyboardScene.h"
-#include "TextButton.h"
-#include "ButtonGroup.h"
+#include "ui.h"
 #include "StringProvider.h"
 #include "Index.h"
 

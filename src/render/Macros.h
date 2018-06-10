@@ -1,0 +1,7 @@
+#ifndef RENDER_MACROS_H
+#define RENDER_MACROS_H
+
+#define BASE_TILE_SIZE 16
+
+#endif // RENDER_MACROS_H
+

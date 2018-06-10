@@ -3,42 +3,36 @@
 #include <stack>
 #include <memory>
 
-#include "Container.h"
-#include "ConfigLoader.h"
-#include "StringProvider.h"
-#include "Scene.h"
-#include "MainMenuScene.h"
-#include "Script.h"
+#include "core.h"
+#include "scene.h"
 
 // Global container instance
-Container app_container;
+core::Container core::app_container;
 
 void handleEvents(sf::RenderWindow &window);
 
-typedef std::unique_ptr<Scene> StackItem;
+typedef std::unique_ptr<scene::Scene> StackItem;
 typedef std::stack<StackItem> GameStack;
 
 int main()
 {
-    ConfigLoader::load();
-    std::string lang = ConfigLoader::get_string_option("language", "eng");
-    StringProvider::load(lang);
+    core::ConfigLoader::load();
+    std::string lang = core::ConfigLoader::get_string_option("language", "eng");
+    core::StringProvider::load(lang);
 
-    app_container.init();
-    Script s("main.lua");
-    s.call();
+    core::app_container.init();
 
-    int resolution_x = ConfigLoader::get_int_option("resolution_x", 200);
-    int resolution_y = ConfigLoader::get_int_option("resolution_y", 200);
+    int resolution_x = core::ConfigLoader::get_int_option("resolution_x", 200);
+    int resolution_y = core::ConfigLoader::get_int_option("resolution_y", 200);
 
-    app_container.get_logger()->info("resolution: %d, %d", resolution_x, resolution_y);
+    core::app_container.get_logger()->info("resolution: %d, %d", resolution_x, resolution_y);
 
     const int frame_frequency = 33333; // 1/30 of a second
 
     sf::RenderWindow window(sf::VideoMode(resolution_x, resolution_y), "DungeonBreath");
 
     GameStack stack;
-    stack.push(StackItem(new MainMenuScene(sf::Vector2i(resolution_x, resolution_y))));
+    stack.push(StackItem(new scene::MainMenu(sf::Vector2i(resolution_x, resolution_y))));
     sf::Clock timer;
 
     int delta = 0;
@@ -54,14 +48,14 @@ int main()
         stack.top()->draw(window);
         window.display();
 
-        Scene::Status state = stack.top()->status();
-        if (state == Scene::Status::exit_program) {
+        scene::Scene::Status state = stack.top()->status();
+        if (state == scene::Scene::Status::exit_program) {
             break;
-        } else if (state == Scene::Status::push_scene) {
-            Scene *next = stack.top()->new_scene();
+        } else if (state == scene::Scene::Status::push_scene) {
+            scene::Scene *next = stack.top()->new_scene();
             stack.top()->reset_status();
             stack.push(StackItem(next));
-        } else if (state == Scene::Status::pop_scene) {
+        } else if (state == scene::Scene::Status::pop_scene) {
             stack.pop();
             if (stack.empty()) {
                 break;

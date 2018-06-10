@@ -7,9 +7,7 @@
 
 #include "core.h"
 #include "MusicManager.h"
-#include "ActorManager.h"
-#include "Actor.h"
-#include "WorldManager.h"
+#include "play.h"
 
 class GameScene : public Scene
 {

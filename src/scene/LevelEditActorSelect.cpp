@@ -12,7 +12,7 @@ namespace scene {
         actors.reserve(actor_index.size());
         for (size_t i = 0; i < actor_index.size(); ++i) {
             actors.push_back(
-                TextButton(sf::IntRect(10, (i+1) * 50, 300, 50), Strings::utf8_to_sfml(actor_index[i]))
+                ui::TextButton(sf::IntRect(10, (i+1) * 50, 300, 50), Strings::utf8_to_sfml(actor_index[i]))
             );
             menu.add_button(actor_index[i], &actors[i]);
             std::cout<<actor_index[i]<<std::endl;

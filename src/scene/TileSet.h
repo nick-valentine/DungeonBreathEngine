@@ -30,10 +30,10 @@ namespace scene {
         Scene::Status state = Scene::nothing;
         Scene *next_scene = nullptr;
 
-        ButtonGroup menu;
-        std::vector<TextButton> tilesets;
-        TextButton new_set = TextButton(sf::IntRect(size.x - 400, size.y - 160, 300, 50), core::StringProvider::get("tilesetmenu.new"));
-        TextButton back = TextButton(sf::IntRect(size.x - 400, size.y - 100, 300, 50), core::StringProvider::get("tilesetmenu.back"));
+        ui::ButtonGroup menu;
+        std::vector<ui::TextButton> tilesets;
+        ui::TextButton new_set = ui::TextButton(sf::IntRect(size.x - 400, size.y - 160, 300, 50), core::StringProvider::get("tilesetmenu.new"));
+        ui::TextButton back = ui::TextButton(sf::IntRect(size.x - 400, size.y - 100, 300, 50), core::StringProvider::get("tilesetmenu.back"));
     };
 };
 

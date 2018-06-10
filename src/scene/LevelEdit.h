@@ -26,10 +26,10 @@ namespace scene {
         Scene::Status state = Scene::nothing;
         Scene *next_scene = nullptr;
 
-        ButtonGroup menu;
-        std::vector<TextButton> levels;
-        TextButton new_level = TextButton(sf::IntRect(size.x - 400, size.y - 160, 300, 50), core::StringProvider::get("leveleditmenu.new"));
-        TextButton back = TextButton(sf::IntRect(size.x - 400, size.y - 100, 300, 50), core::StringProvider::get("leveleditmenu.back"));
+        ui::ButtonGroup menu;
+        std::vector<ui::TextButton> levels;
+        ui::TextButton new_level = ui::TextButton(sf::IntRect(size.x - 400, size.y - 160, 300, 50), core::StringProvider::get("leveleditmenu.new"));
+        ui::TextButton back = ui::TextButton(sf::IntRect(size.x - 400, size.y - 100, 300, 50), core::StringProvider::get("leveleditmenu.back"));
     };
 };
 

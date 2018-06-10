@@ -34,7 +34,7 @@ namespace scene {
         Scene *next_scene;
 
         sf::String text_input;
-        Label input_label;
+        ui::Label input_label;
 
         bool gamepad = false;
 
@@ -46,7 +46,7 @@ namespace scene {
         int current;
         sf::Vector2i last_mouse_pos;
 
-        std::vector<KeyButton> buttons;
+        std::vector<ui::KeyButton> buttons;
         std::vector<bool> last_pressed;
     };
 };

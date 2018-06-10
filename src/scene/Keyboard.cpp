@@ -36,8 +36,8 @@ namespace scene {
         add_button_range(' ', 1, start_x + (step*9), start_y + (step_y*6));
         add_button_range((char) 32, (half_width*2), start_x, start_y + (step_y*7));
         add_button_range((char) 42, 6, start_x, start_y + (step_y*8));
-        buttons.push_back(KeyButton(sf::IntRect(100, size.y - 100, 300, 50), core::StringProvider::get("keyboard.backspace")));
-        buttons.push_back(KeyButton(sf::IntRect(size.x - 400, size.y - 100, 300, 50), core::StringProvider::get("keyboard.back")));
+        buttons.push_back(ui::KeyButton(sf::IntRect(100, size.y - 100, 300, 50), core::StringProvider::get("keyboard.backspace")));
+        buttons.push_back(ui::KeyButton(sf::IntRect(size.x - 400, size.y - 100, 300, 50), core::StringProvider::get("keyboard.back")));
     }
 
     Keyboard::~Keyboard()
@@ -158,9 +158,9 @@ namespace scene {
         const int step = size.x / 10;
         for (char i = start; i < start + count; ++i) {
             if (i == ' ') {
-                buttons.push_back(KeyButton(sf::IntRect(((i - start) * step) + start_x, start_y, 50, 50), '_'));
+                buttons.push_back(ui::KeyButton(sf::IntRect(((i - start) * step) + start_x, start_y, 50, 50), '_'));
             } else {
-                buttons.push_back(KeyButton(sf::IntRect(((i - start) * step) + start_x, start_y, 50, 50), i));
+                buttons.push_back(ui::KeyButton(sf::IntRect(((i - start) * step) + start_x, start_y, 50, 50), i));
             }
             last_pressed.push_back(false);
         }

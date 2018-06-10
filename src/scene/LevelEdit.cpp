@@ -14,7 +14,7 @@ namespace scene {
         levels.reserve(level_index.size());
         for (size_t i = 0; i < level_index.size(); ++i) {
             levels.push_back(
-                TextButton(sf::IntRect(10, (i+1) * 50, 300, 50), Strings::utf8_to_sfml(level_index[i]))
+                ui::TextButton(sf::IntRect(10, (i+1) * 50, 300, 50), Strings::utf8_to_sfml(level_index[i]))
             );
             menu.add_button(level_index[i], &levels[i]);
         }

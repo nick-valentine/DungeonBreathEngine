@@ -32,7 +32,7 @@ namespace scene {
         sf::RectangleShape shape;
         int label;
         int sub_label;
-        Label number_label;
+        ui::Label number_label;
     };
 
     class TileSetEdit : public Scene
@@ -89,13 +89,13 @@ namespace scene {
         int current_id;
         int current_sub_id;
 
-        ButtonGroup menu;
+        ui::ButtonGroup menu;
         std::string tileset;
-        Label tileset_label;
+        ui::Label tileset_label;
 
-        TextButton edit;
-        TextButton save;
-        TextButton back;
+        ui::TextButton edit;
+        ui::TextButton save;
+        ui::TextButton back;
     };
 };
 

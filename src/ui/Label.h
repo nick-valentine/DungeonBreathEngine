@@ -5,21 +5,23 @@
 
 #include "render.h"
 
-class Label
-{
-public:
-    Label(sf::IntRect pos, sf::String contents);
+namespace ui {
+    class Label
+    {
+    public:
+        Label(sf::IntRect pos, sf::String contents);
 
-    void draw(sf::RenderWindow &window);
+        void draw(sf::RenderWindow &window);
 
-    void set_position(sf::Vector2i pos);
-    void set_string(sf::String str);
-    sf::String get_string();
-    void set_color(sf::Color col);
-    void set_character_size(int size);
-private:
-    sf::Font *font;
-    sf::Text text;
+        void set_position(sf::Vector2i pos);
+        void set_string(sf::String str);
+        sf::String get_string();
+        void set_color(sf::Color col);
+        void set_character_size(int size);
+    private:
+        sf::Font *font;
+        sf::Text text;
+    };
 };
 
 #endif //LABEL_H

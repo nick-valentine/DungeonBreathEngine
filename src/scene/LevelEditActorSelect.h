@@ -29,8 +29,8 @@ namespace scene {
         Scene *next_scene = nullptr;
         std::string selected = "";
 
-        ButtonGroup menu;
-        std::vector<TextButton> actors;
+        ui::ButtonGroup menu;
+        std::vector<ui::TextButton> actors;
     };
 };
 

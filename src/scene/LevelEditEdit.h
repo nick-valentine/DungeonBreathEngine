@@ -88,13 +88,13 @@ namespace scene {
         std::unique_ptr<LevelEditTile> tile_selector = nullptr;
         LevelEditActorSelect actor_selector;
 
-        NumberInput layer_input = NumberInput(sf::Vector2i(10, 100), core::StringProvider::get("leveleditmenu.layer_label"), 10, 0, 1);
-        NumberInput collision_type = NumberInput(sf::Vector2i(10, 160), core::StringProvider::get("leveleditmenu.collision_label"), 10, 0, 1);
+        ui::NumberInput layer_input = ui::NumberInput(sf::Vector2i(10, 100), core::StringProvider::get("leveleditmenu.layer_label"), 10, 0, 1);
+        ui::NumberInput collision_type = ui::NumberInput(sf::Vector2i(10, 160), core::StringProvider::get("leveleditmenu.collision_label"), 10, 0, 1);
 
-        ButtonGroup menu;
-        TextButton edit;
-        TextButton save;
-        TextButton back;
+        ui::ButtonGroup menu;
+        ui::TextButton edit;
+        ui::TextButton save;
+        ui::TextButton back;
 
 
         game_state cur_state = edit_level;

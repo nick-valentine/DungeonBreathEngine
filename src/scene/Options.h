@@ -29,13 +29,13 @@ namespace scene {
         Scene::Status state = Scene::Status::nothing;
         Scene *next_scene = nullptr;
 
-        Label lang_label = Label(sf::IntRect(60, 100, 300, 50), core::ConfigLoader::get_string_option("language", "eng"));
-        SpriteButton lang_button_left = SpriteButton(ui::left(sf::IntRect(10, 100, 50, 50)));
-        SpriteButton lang_button_right = SpriteButton(ui::right(sf::IntRect(410, 100, 50, 50)));
-        NumberInput volume_input = NumberInput(sf::Vector2i(10, 150), core::StringProvider::get("optionsmenu.volume_label"), 100, 0, 5);
-        TextButton key_bind_button = TextButton(sf::Rect<int>(10, 200, 300, 50), core::StringProvider::get("optionsmenu.key_bind_button"));
-        TextButton back_button;
-        ButtonGroup menu;
+        ui::Label lang_label = ui::Label(sf::IntRect(60, 100, 300, 50), core::ConfigLoader::get_string_option("language", "eng"));
+        ui::SpriteButton lang_button_left = ui::SpriteButton(ui::left(sf::IntRect(10, 100, 50, 50)));
+        ui::SpriteButton lang_button_right = ui::SpriteButton(ui::right(sf::IntRect(410, 100, 50, 50)));
+        ui::NumberInput volume_input = ui::NumberInput(sf::Vector2i(10, 150), core::StringProvider::get("optionsmenu.volume_label"), 100, 0, 5);
+        ui::TextButton key_bind_button = ui::TextButton(sf::Rect<int>(10, 200, 300, 50), core::StringProvider::get("optionsmenu.key_bind_button"));
+        ui::TextButton back_button;
+        ui::ButtonGroup menu;
 
         bool first_loop = true;
 

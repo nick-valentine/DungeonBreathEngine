@@ -15,8 +15,9 @@ namespace audio {
     {
     public:
         enum Song {
-            main_menu = 0,
-            playing_game = 1,
+            none = 0,
+            main_menu,
+            playing_game
         };
 
         MusicManager() = delete;
@@ -24,9 +25,12 @@ namespace audio {
         static void play(Song s);
         static void stop();
 
+        Song playing();
+
         static void set_volume(float volume);
 
     private:
+        static Song now_playing;
         static float volume;
         static sf::Music music;
         static std::vector<std::string> song_files;

@@ -18,6 +18,7 @@ namespace scene {
         void update(int delta, sf::RenderWindow &window);
         void draw(sf::RenderWindow &window);
 
+        sf::String pop();
         void reset_status();
         Scene::Status status();
         Scene *new_scene();

@@ -22,38 +22,28 @@ namespace scene {
 
     void MainMenu::update(int delta, sf::RenderWindow &window)
     {
-        if (first_loop) {
-            first_loop = false;
-            audio::MusicManager::play(audio::MusicManager::Song::main_menu);
-        }
-
         this->menu.update(delta, core::app_container.get_input(), window);
         
         std::string pressed = this->menu.neg_edge_button();
         if (pressed == "play") {
             this->next_scene = new Game(this->size);
             this->state = Scene::Status::push_scene;
-            audio::MusicManager::stop();
         }
         if (pressed == "options") {
             this->next_scene = new Options(this->size);
             this->state = Scene::Status::push_scene;
-            audio::MusicManager::stop();
         }
         if (pressed == "tile_editor") {
             this->next_scene = new TileSet(this->size);
             this->state = Scene::Status::push_scene;
-            audio::MusicManager::stop();
         }
         if (pressed == "level_editor") {
             this->next_scene = new LevelEdit(this->size);
             this->state = Scene::Status::push_scene;
-            audio::MusicManager::stop();
         }
         if (pressed == "exit") {
             this->next_scene = nullptr;
             this->state = Scene::Status::pop_scene;
-            audio::MusicManager::stop();
         }
     }
 
@@ -61,6 +51,11 @@ namespace scene {
     {
         window.setView(this->main_window);
         this->menu.draw(window);
+    }
+
+    void MainMenu::wakeup(sf::String message)
+    {
+        audio::MusicManager::play(audio::MusicManager::Song::main_menu);
     }
 
     Scene::Status MainMenu::status()

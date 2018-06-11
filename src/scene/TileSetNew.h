@@ -7,7 +7,6 @@
 #include "Macros.h"
 #include "core.h"
 #include "Scene.h"
-#include "Keyboard.h"
 #include "ui.h"
 
 namespace scene {
@@ -24,14 +23,13 @@ namespace scene {
         void update(int delta, sf::RenderWindow &window);
         void draw(sf::RenderWindow &window);
 
+        void wakeup(sf::String message);
         Scene::Status status();
         Scene *new_scene();
         void reset_status();
     private:
         void update_menu(int delta, sf::RenderWindow &window);
         void draw_menu(sf::RenderWindow &window);
-        void update_keyboard(int delta, sf::RenderWindow &window);
-        void draw_keyboard(sf::RenderWindow &window);
 
         void write_tileset_meta();
 
@@ -56,7 +54,6 @@ namespace scene {
         ui::TextButton back = ui::TextButton(sf::IntRect(size.x - 400, size.y - 100, 300, 50), core::StringProvider::get("tilesetnewmenu.back"));
 
         player_state pl_state = in_menu;
-        Keyboard keyboard;
     };
 };
 

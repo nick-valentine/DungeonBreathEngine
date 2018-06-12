@@ -51,33 +51,34 @@ namespace scene {
         if (last_mouse_pos != mouse_pos) {
             gamepad = false;
             for (auto &i : this->buttons) {
-                i.reset_hover_override();
+                i.set_mode(ui::InputMode::mouse);
             }
         }
         last_mouse_pos = mouse_pos;
 
-        auto down = core::app_container.get_input()->is_key_pressed(core::app_container.get_input()->down);
+        auto input = core::app_container.get_input();
+        auto down = input->is_key_pressed(input->down);
         if (down && !last_down) {
             gamepad = true;
             current = std::min(current + full_width, int(buttons.size()) - 1);
         }
         last_down = down;
 
-        auto up = core::app_container.get_input()->is_key_pressed(core::app_container.get_input()->up);
+        auto up = input->is_key_pressed(input->up);
         if (up && !last_up) {
             gamepad = true;
             current = std::max(current - full_width, 0);
         }
         last_up = up;
 
-        auto left = core::app_container.get_input()->is_key_pressed(core::app_container.get_input()->left);
+        auto left = input->is_key_pressed(input->left);
         if (left&& !last_left) {
             gamepad = true;
             current = std::max(current - 1, 0);
         }
         last_left = left;
 
-        auto right = core::app_container.get_input()->is_key_pressed(core::app_container.get_input()->right);
+        auto right = input->is_key_pressed(input->right);
         if (right && !last_right) {
             gamepad = true;
             current = std::min(current + 1, int(buttons.size()) - 1);
@@ -86,6 +87,7 @@ namespace scene {
 
         if (gamepad) {
             for (auto &i : this->buttons) {
+                i.set_mode(ui::InputMode::pad);
                 i.set_hover(false);
             }
 

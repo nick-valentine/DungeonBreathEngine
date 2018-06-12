@@ -1,7 +1,7 @@
 #include "Label.h"
 
 namespace ui {
-    Label::Label(sf::IntRect pos, sf::String contents)
+    Label::Label(sf::IntRect pos, sf::String contents) : Element(pos)
     {
         this->font = render::FontMap::request(DATADIR "font.unicode.ttf");
         this->text.setString(contents);
@@ -15,6 +15,11 @@ namespace ui {
     void Label::draw(sf::RenderWindow &window)
     {
         window.draw(this->text);
+    }
+
+    void Label::update(int delta, sf::RenderWindow &window)
+    {
+
     }
 
     void Label::set_position(sf::Vector2i pos)
@@ -40,5 +45,11 @@ namespace ui {
     void Label::set_character_size(int size)
     {
         this->text.setCharacterSize(size);
+    }
+
+    void Label::set_pos(sf::IntRect pos)
+    {
+        this->text.setPosition(pos.left, pos.top);
+        Element::set_pos(pos);
     }
 };

@@ -20,8 +20,8 @@ namespace ui {
         virtual void update(int delta, sf::RenderWindow &window) = 0;
         virtual void draw(sf::RenderWindow &window) = 0;
 
-        void set_pos(sf::IntRect pos);
-        sf::IntRect get_pos() const;
+        virtual void set_pos(sf::IntRect pos);
+        virtual sf::IntRect get_pos() const;
     private:
         sf::IntRect rect;
     };

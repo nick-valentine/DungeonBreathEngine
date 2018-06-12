@@ -11,6 +11,18 @@ namespace ui {
         mouse,
     };
 
+    enum EType {
+        NONE = 0,
+        INT,
+        STRING,
+    };
+
+    struct EReturn {
+        EType type;
+        int iVal;
+        std::string sVal;
+    };
+
     class Element
     {
     public:
@@ -25,6 +37,8 @@ namespace ui {
 
         virtual void set_mode(InputMode mode);
         virtual InputMode get_mode() const;
+
+        virtual EReturn signal();
     private:
         sf::IntRect rect;
         InputMode mode = InputMode::pad;

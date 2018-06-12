@@ -9,16 +9,16 @@ namespace scene {
     {
         this->main_window.reset(sf::FloatRect(0, 0, size.x, size.y));
 
-        load_ui();
-        menu.add_button("level_editor", &level_edit_button);
-        menu.add_button("tile_editor", &tile_editor_button);
-        menu.add_button("play", &play_button);
-        menu.add_button("options", &options_button);
-        menu.add_button("exit", &exit_button);
-
-        auto x = my_menu.add_text_button("testing", sf::Vector2i(100, 100), "mainmenu.level_editor_button");
-        my_menu.set_current(x);
-
+        auto level_edit = menu.add_text_button("level_editor", sf::Vector2i(10, size.y-340), "mainmenu.level_editor_button");
+        auto tile_edit = menu.add_text_button("tile_editor", sf::Vector2i(10, size.y-280), "mainmenu.tile_editor_button");
+        auto new_game = menu.add_text_button("play", sf::Vector2i(10, size.y-220), "mainmenu.new_game_button");
+        auto options = menu.add_text_button("options", sf::Vector2i(10, size.y-160), "mainmenu.options_button");
+        auto exit = menu.add_text_button("exit", sf::Vector2i(10, size.y-100), "mainmenu.exit_button");
+        level_edit->set_down(tile_edit);
+        tile_edit->set_down(new_game);
+        new_game->set_down(options);
+        options->set_down(options);
+        //menu.set_current(level_edit);
     }
 
     MainMenu::~MainMenu()
@@ -27,10 +27,13 @@ namespace scene {
 
     void MainMenu::update(int delta, sf::RenderWindow &window)
     {
-        this->menu.update(delta, core::app_container.get_input(), window);
-        my_menu.update(delta, window);
+        this->menu.update(delta, window);
 
-        std::string pressed = this->menu.neg_edge_button();
+        if (!menu.has_signal()) {
+            return;
+        }
+
+        std::string pressed = this->menu.signal_tag();
         if (pressed == "play") {
             this->next_scene = new Game(this->size);
             this->state = Scene::Status::push_scene;
@@ -57,7 +60,6 @@ namespace scene {
     {
         window.setView(this->main_window);
         this->menu.draw(window);
-        my_menu.draw(window);
     }
 
     void MainMenu::wakeup(sf::String message)
@@ -84,10 +86,28 @@ namespace scene {
 
     void MainMenu::load_ui()
     {
-        level_edit_button.set_label(core::StringProvider::get("mainmenu.level_editor_button"));
-        tile_editor_button.set_label(core::StringProvider::get("mainmenu.tile_editor_button"));
-        play_button.set_label(core::StringProvider::get("mainmenu.new_game_button"));
-        options_button.set_label(core::StringProvider::get("mainmenu.options_button"));
-        exit_button.set_label(core::StringProvider::get("mainmenu.exit_button"));
+        auto buttons = this->menu.get();
+        for (const auto &i : *buttons) {
+            if (i == nullptr) {
+                continue;
+            }
+            std::string tag = i->get_tag();
+//            auto b = std::dynamic_pointer_cast<ui::TextButton>(i->raw());
+            ui::TextButton *b = nullptr;
+            if (b == nullptr) {
+                continue;
+            }
+            if (tag == "level_editor") {
+                b->set_label(core::StringProvider::get("mainmenu.level_editor_button"));
+            } else if (tag == "tile_editor") {
+                b->set_label(core::StringProvider::get("mainmenu.tile_editor_button"));
+            } else if (tag == "play") {
+                b->set_label(core::StringProvider::get("mainmenu.new_game_button"));
+            } else if (tag == "options") {
+                b->set_label(core::StringProvider::get("mainmenu.options_button"));
+            } else if (tag == "exit") {
+                b->set_label(core::StringProvider::get("mainmenu.exit_button"));
+            }
+        }
     }
 };

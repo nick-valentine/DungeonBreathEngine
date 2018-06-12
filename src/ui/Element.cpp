@@ -26,4 +26,12 @@ namespace ui {
         return this->mode;
     }
 
+    EReturn Element::signal()
+    {
+        EReturn r;
+        r.type = EType::NONE;
+        r.iVal = 0;
+        return r;
+    }
+
 };

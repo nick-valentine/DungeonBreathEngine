@@ -49,6 +49,18 @@ namespace ui {
         return (this->last_pressed && !this->was_pressed);
     }
 
+    EReturn Button::signal()
+    {
+        EReturn r;
+        r.type = EType::NONE;
+        r.iVal = 0;
+        if (neg_edge()) {
+            r.type = EType::INT;
+            r.iVal = 1;
+        }
+        return r;
+    }
+
     void Button::set_hover(bool hover)
     {
         this->is_hover = hover;

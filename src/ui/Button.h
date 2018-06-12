@@ -21,6 +21,9 @@ namespace ui {
 
         virtual bool pressed();
         virtual bool neg_edge();
+
+        virtual EReturn signal();
+
         virtual void set_hover(bool hover);
         virtual void set_pressed(bool pressed);
     protected:

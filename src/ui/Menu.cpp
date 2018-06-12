@@ -15,6 +15,11 @@ namespace ui {
         me->draw(window);
     }
 
+    EReturn MenuItem::signal()
+    {
+        return me->signal();
+    }
+
     void MenuItem::set_mode(InputMode mode)
     {
         me->set_mode(mode);
@@ -46,10 +51,32 @@ namespace ui {
         set_side(side::right, x);
     }
 
-    void MenuItem::set_side(side s, element_ptr x)
+    std::string MenuItem::get_tag() const
+    {
+        return tag;
+    }
+
+    void MenuItem::set_side(side s, element_ptr x, bool recurse)
     {
         auto i = std::dynamic_pointer_cast<MenuItem>(x);
         sides[s] = i;
+        if (recurse) {
+            i->set_side(opposite(s), element_ptr(this), false);
+        }
+    }
+
+    MenuItem::side MenuItem::opposite(side s)
+    {
+        switch (s) {
+        case up:
+            return down;
+        case down:
+            return up;
+        case left:
+            return right;
+        case right:
+            return left;
+        }
     }
 
     Menu::Menu() : Element(sf::IntRect(0, 0, 0, 0))
@@ -108,8 +135,23 @@ namespace ui {
             }
         }
 
+        signal_caught = false;
         for (const auto &i : menu_items) {
             i->update(delta, window);
+            auto s = i->signal();
+            if (s.type != EType::NONE) {
+                if (s.type != EType::NONE) {
+                    signal_caught = true;
+                    tag_signal = i->tag;
+                    switch (s.type) {
+                        case EType::INT:
+                            int_signal = s.iVal;
+                            break;
+                        case EType::STRING:
+                            str_signal = s.sVal;
+                    }
+                }
+            }
         }
     }
 
@@ -126,7 +168,7 @@ namespace ui {
         current = m;
     }
 
-    element_ptr Menu::add_text_button(std::string tag, sf::Vector2i pos, sf::String content_key)
+    menu_item_ptr Menu::add_text_button(std::string tag, sf::Vector2i pos, sf::String content_key)
     {
         auto x = menu_item_ptr(
             new MenuItem(tag, element_ptr(
@@ -137,6 +179,31 @@ namespace ui {
         );
         menu_items.push_back(x);
         return x;
+    }
+
+    bool Menu::has_signal()
+    {
+        return signal_caught;
+    }
+
+    std::string Menu::signal_str()
+    {
+        return str_signal;
+    }
+
+    std::string Menu::signal_tag()
+    {
+        return tag_signal;
+    }
+
+    int Menu::signal_int()
+    {
+        return int_signal;
+    }
+
+    std::vector<menu_item_ptr> *Menu::get()
+    {
+        return &this->menu_items;
     }
 
     void Menu::move_side(MenuItem::side s)

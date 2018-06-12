@@ -34,6 +34,8 @@ namespace ui {
         void update(int delta, sf::RenderWindow &window);
         void draw(sf::RenderWindow &window);
 
+        EReturn signal();
+
         virtual void set_mode(InputMode mode);
 
         element_ptr raw();
@@ -42,8 +44,11 @@ namespace ui {
         void set_down(element_ptr x);
         void set_left(element_ptr x);
         void set_right(element_ptr x);
+
+        std::string get_tag() const;
     private:
-        void set_side(side s, element_ptr x);
+        void set_side(side s, element_ptr x, bool recurse = true);
+        inline side opposite(side s);
         std::string tag;
         element_ptr me;
         menu_item_ptr sides[side::count];
@@ -60,18 +65,28 @@ namespace ui {
 
         void set_current(element_ptr x);
 
-        element_ptr add_text_button(std::string tag, sf::Vector2i pos, sf::String content_key);
+        menu_item_ptr add_text_button(std::string tag, sf::Vector2i pos, sf::String content_key);
+
+        bool has_signal();
+        std::string signal_str();
+        std::string signal_tag();
+        int signal_int();
+
+        std::vector<menu_item_ptr> *get();
 
     private:
         void move_side(MenuItem::side s);
-        std::vector<menu_item_ptr> menu_items;
+        std::vector<menu_item_ptr> menu_items = std::vector<menu_item_ptr>();
         menu_item_ptr current = nullptr;
 
         std::vector<bool> last_input;
 
         sf::Vector2i last_mouse_pos = sf::Vector2i();
 
-        std::string str_return;
+        bool signal_caught = false;
+        std::string str_signal = "";
+        std::string tag_signal = "";
+        int int_signal = -1;
     };
 };
 

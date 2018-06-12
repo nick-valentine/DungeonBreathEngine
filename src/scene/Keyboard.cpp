@@ -93,7 +93,7 @@ namespace scene {
         }
 
         for (size_t i = 0; i < buttons.size(); ++i) {
-            buttons[i].update(delta, core::app_container.get_input(), window);
+            buttons[i].update(delta, window);
 
             auto pressed = buttons[i].pressed();
             if (!pressed && last_pressed[i]) {

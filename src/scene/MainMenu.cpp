@@ -9,6 +9,7 @@ namespace scene {
     {
         this->main_window.reset(sf::FloatRect(0, 0, size.x, size.y));
 
+        load_ui();
         menu.add_button("level_editor", &level_edit_button);
         menu.add_button("tile_editor", &tile_editor_button);
         menu.add_button("play", &play_button);
@@ -23,7 +24,7 @@ namespace scene {
     void MainMenu::update(int delta, sf::RenderWindow &window)
     {
         this->menu.update(delta, core::app_container.get_input(), window);
-        
+
         std::string pressed = this->menu.neg_edge_button();
         if (pressed == "play") {
             this->next_scene = new Game(this->size);
@@ -56,6 +57,7 @@ namespace scene {
     void MainMenu::wakeup(sf::String message)
     {
         audio::MusicManager::play(audio::MusicManager::Song::main_menu);
+        load_ui();
     }
 
     Scene::Status MainMenu::status()
@@ -72,5 +74,14 @@ namespace scene {
     {
         this->state = Scene::Status::nothing;
         this->next_scene = nullptr;
+    }
+
+    void MainMenu::load_ui()
+    {
+        level_edit_button.set_label(core::StringProvider::get("mainmenu.level_editor_button"));
+        tile_editor_button.set_label(core::StringProvider::get("mainmenu.tile_editor_button"));
+        play_button.set_label(core::StringProvider::get("mainmenu.new_game_button"));
+        options_button.set_label(core::StringProvider::get("mainmenu.options_button"));
+        exit_button.set_label(core::StringProvider::get("mainmenu.exit_button"));
     }
 };

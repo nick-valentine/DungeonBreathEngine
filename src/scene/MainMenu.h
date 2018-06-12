@@ -21,6 +21,8 @@ namespace scene {
         Scene *new_scene();
         void reset_status();
     private:
+        void load_ui();
+
         sf::View main_window;
 
         Scene::Status state = Scene::Status::nothing;

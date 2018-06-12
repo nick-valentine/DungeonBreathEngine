@@ -8,11 +8,16 @@ namespace audio {
     };
 
     float MusicManager::volume = -1;
+    MusicManager::Song MusicManager::now_playing = none;
 
     sf::Music MusicManager::music;
 
     void MusicManager::play(Song s)
     {
+        if (s == now_playing) {
+            return;
+        }
+        now_playing = s;
         if (volume == -1) {
             volume = core::ConfigLoader::get_int_option("volume", 100);
         }
@@ -28,6 +33,11 @@ namespace audio {
     void MusicManager::stop()
     {
         music.stop();
+    }
+
+    MusicManager::Song MusicManager::playing()
+    {
+        return now_playing;
     }
 
     void MusicManager::set_volume(float volume)

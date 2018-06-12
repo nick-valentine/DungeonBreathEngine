@@ -1,5 +1,5 @@
  
-accept k:g
+accept k:enter
 alt_fire k:num1
 escape k:esc
 fire k:space
@@ -12,4 +12,4 @@ next k:num2
 prev k:num3
 resolution_x 1280
 resolution_y 720
-volume 40
+volume 70

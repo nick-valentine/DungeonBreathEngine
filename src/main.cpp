@@ -33,6 +33,7 @@ int main()
 
     GameStack stack;
     stack.push(StackItem(new scene::MainMenu(sf::Vector2i(resolution_x, resolution_y))));
+    stack.top()->wakeup("");
     sf::Clock timer;
 
     int delta = 0;
@@ -54,12 +55,16 @@ int main()
         } else if (state == scene::Scene::Status::push_scene) {
             scene::Scene *next = stack.top()->new_scene();
             stack.top()->reset_status();
+            auto m = stack.top()->sleep();
+            next->wakeup(m);
             stack.push(StackItem(next));
         } else if (state == scene::Scene::Status::pop_scene) {
+            auto m = stack.top()->pop();
             stack.pop();
             if (stack.empty()) {
                 break;
             }
+            stack.top()->wakeup(m);
         }
     }
     return 0;

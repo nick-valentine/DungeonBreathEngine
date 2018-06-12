@@ -24,6 +24,9 @@ namespace scene {
         virtual void update(int delta, sf::RenderWindow &window) = 0;
         virtual void draw(sf::RenderWindow &window) = 0;
 
+        virtual void wakeup(sf::String message);
+        virtual sf::String sleep();
+        virtual sf::String pop();
         virtual Status status() = 0;
         virtual Scene *new_scene() = 0;
         virtual void reset_status() = 0;

@@ -126,6 +126,11 @@ namespace scene {
         input_label.draw(window);
     }
 
+    sf::String Keyboard::pop()
+    {
+        return this->text_input;
+    }
+
     void Keyboard::reset_status()
     {
         this->state = Scene::Status::nothing;

@@ -1,8 +1,9 @@
 #include "TileSetNew.h"
 #include "TileSetEdit.h"
+#include "Keyboard.h"
 
 namespace scene {
-    TileSetNew::TileSetNew(sf::Vector2i size) : Scene(size), keyboard(size)
+    TileSetNew::TileSetNew(sf::Vector2i size) : Scene(size)
     {
         menu.add_button("name", &name);
         menu.add_button("spritesheet", &spritesheet);
@@ -13,18 +14,44 @@ namespace scene {
 
     void TileSetNew::update(int delta, sf::RenderWindow &window)
     {
-        if (pl_state == in_menu) {
-            return update_menu(delta, window);
+        menu.update(delta, core::app_container.get_input(), window);
+        auto pressed = this->menu.neg_edge_button();
+
+        if (pressed == "proceed") {
+            write_tileset_meta();
+            this->next_scene = new TileSetEdit(this->size, name.get_label());
+            this->state = Scene::Status::push_scene;
+        } else if (pressed == "name") {
+            current_button = &name;
+            this->next_scene = new Keyboard(this->size);
+            this->state = Scene::Status::push_scene;
+        } else if (pressed == "spritesheet") {
+            current_button = &spritesheet;
+            this->next_scene = new Keyboard(this->size);
+            this->state = Scene::Status::push_scene;
+        } else if (pressed == "basesize") {
+            current_button = &base_size;
+            this->next_scene = new Keyboard(this->size);
+            this->state = Scene::Status::push_scene;
+        }else if (pressed == "back") {
+            this->next_scene = nullptr;
+            this->state = Scene::Status::pop_scene;
         }
-        update_keyboard(delta, window);
     }
 
     void TileSetNew::draw(sf::RenderWindow &window)
     {
-        if (pl_state == in_menu) {
-            return draw_menu(window);
+        name_label.draw(window);
+        spritesheet_label.draw(window);
+        base_size_label.draw(window);
+        menu.draw(window);
+    }
+
+    void TileSetNew::wakeup(sf::String message)
+    {
+        if (current_button != nullptr) {
+            current_button->set_label(message);
         }
-        draw_keyboard(window);
     }
 
     Scene::Status TileSetNew::status()
@@ -35,57 +62,6 @@ namespace scene {
     Scene *TileSetNew::new_scene()
     {
         return next_scene;
-    }
-
-    void TileSetNew::update_menu(int delta, sf::RenderWindow &window)
-    {
-        menu.update(delta, core::app_container.get_input(), window);
-        auto pressed = this->menu.neg_edge_button();
-
-        if (pressed == "proceed") {
-            write_tileset_meta();
-            this->next_scene = new TileSetEdit(this->size, name.get_label());
-            this->state = Scene::Status::push_scene;
-        } else if (pressed == "name") {
-            pl_state = in_keyboard;
-            current_button = &name;
-            keyboard.set_input("");
-        } else if (pressed == "spritesheet") {
-            pl_state = in_keyboard;
-            current_button = &spritesheet;
-            keyboard.set_input("");
-        } else if (pressed == "basesize") {
-            pl_state = in_keyboard;
-            current_button = &base_size;
-            keyboard.set_input("");
-        }else if (pressed == "back") {
-            this->next_scene = nullptr;
-            this->state = Scene::Status::pop_scene;
-        }
-    }
-
-    void TileSetNew::draw_menu(sf::RenderWindow &window)
-    {
-        name_label.draw(window);
-        spritesheet_label.draw(window);
-        base_size_label.draw(window);
-        menu.draw(window);
-    }
-
-    void TileSetNew::update_keyboard(int delta, sf::RenderWindow &window)
-    {
-        keyboard.update(delta, window);
-        if (core::app_container.get_input()->is_key_pressed(core::Input::escape) || keyboard.status() == Scene::Status::pop_scene) {
-            keyboard.reset_status();
-            core::app_container.get_logger()->info(keyboard.get_input().toAnsiString().c_str());
-            current_button->set_label(keyboard.get_input());
-            pl_state = in_menu;
-        }
-    }
-
-    void TileSetNew::draw_keyboard(sf::RenderWindow &window)
-    {
-        keyboard.draw(window);
     }
 
     void TileSetNew::write_tileset_meta()

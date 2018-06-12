@@ -225,6 +225,11 @@ namespace ui {
             return;
         }
 
-        current = current->sides[s].lock();
+        auto next = current->sides[s].lock();
+        if (next == nullptr) {
+            return;
+        }
+
+        current = next;
     }
 };

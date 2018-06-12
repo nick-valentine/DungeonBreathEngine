@@ -16,6 +16,7 @@ namespace ui {
 
     typedef std::shared_ptr<Element> element_ptr;
     typedef std::shared_ptr<MenuItem> menu_item_ptr;
+    typedef std::weak_ptr<MenuItem> menu_item_wptr;
 
     class MenuItem : public Element
     {
@@ -44,15 +45,17 @@ namespace ui {
         void set_down(element_ptr x);
         void set_left(element_ptr x);
         void set_right(element_ptr x);
+        void set_side(side s, element_ptr x);
+        inline side opposite(side s);
 
         std::string get_tag() const;
     private:
-        void set_side(side s, element_ptr x, bool recurse = true);
-        inline side opposite(side s);
         std::string tag;
         element_ptr me;
-        menu_item_ptr sides[side::count];
+        menu_item_wptr sides[side::count];
     };
+
+    void pair_items(element_ptr a, element_ptr b, MenuItem::side dir = MenuItem::side::down);
 
     class Menu : public Element
     {

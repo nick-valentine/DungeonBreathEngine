@@ -14,11 +14,11 @@ namespace scene {
         auto new_game = menu.add_text_button("play", sf::Vector2i(10, size.y-220), "mainmenu.new_game_button");
         auto options = menu.add_text_button("options", sf::Vector2i(10, size.y-160), "mainmenu.options_button");
         auto exit = menu.add_text_button("exit", sf::Vector2i(10, size.y-100), "mainmenu.exit_button");
-        level_edit->set_down(tile_edit);
-        tile_edit->set_down(new_game);
-        new_game->set_down(options);
-        options->set_down(options);
-        //menu.set_current(level_edit);
+        ui::pair_items(level_edit, tile_edit);
+        ui::pair_items(tile_edit, new_game);
+        ui::pair_items(new_game, options);
+        ui::pair_items(options, exit);
+        menu.set_current(level_edit);
     }
 
     MainMenu::~MainMenu()

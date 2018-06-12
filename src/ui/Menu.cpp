@@ -56,13 +56,14 @@ namespace ui {
         return tag;
     }
 
-    void MenuItem::set_side(side s, element_ptr x, bool recurse)
+    void MenuItem::set_side(side s, element_ptr x)
     {
         auto i = std::dynamic_pointer_cast<MenuItem>(x);
-        sides[s] = i;
-        if (recurse) {
-            i->set_side(opposite(s), element_ptr(this), false);
+        if (i == nullptr) {
+            std::cout<<"attempting to set side as nil ptr: "<<s;
+            return;
         }
+        sides[s] = i;
     }
 
     MenuItem::side MenuItem::opposite(side s)
@@ -77,6 +78,18 @@ namespace ui {
         case right:
             return left;
         }
+        return count;
+    }
+
+    void pair_items(element_ptr a, element_ptr b, MenuItem::side dir)
+    {
+        auto x = std::dynamic_pointer_cast<MenuItem>(a);
+        auto y = std::dynamic_pointer_cast<MenuItem>(b);
+        if (x == nullptr || y == nullptr) {
+            return;
+        }
+        x->set_side(dir, b);
+        y->set_side(y->opposite(dir), a);
     }
 
     Menu::Menu() : Element(sf::IntRect(0, 0, 0, 0))
@@ -208,11 +221,10 @@ namespace ui {
 
     void Menu::move_side(MenuItem::side s)
     {
-        auto i = std::dynamic_pointer_cast<MenuItem>(current);
-        if (i == nullptr) {
+        if (current == nullptr) {
             return;
         }
 
-        current = i->sides[s];
+        current = current->sides[s].lock();
     }
 };

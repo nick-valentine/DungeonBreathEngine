@@ -1,8 +1,9 @@
 #include "LevelEditNew.h"
 #include "LevelEditEdit.h"
+#include "Keyboard.h"
 
 namespace scene {
-    LevelEditNew::LevelEditNew(sf::Vector2i size) : Scene(size), keyboard(size)
+    LevelEditNew::LevelEditNew(sf::Vector2i size) : Scene(size)
     {
         menu.add_button("name", &name);
         menu.add_button("spritesheet", &spritesheet);
@@ -12,18 +13,39 @@ namespace scene {
 
     void LevelEditNew::update(int delta, sf::RenderWindow &window)
     {
-        if (pl_state == in_menu) {
-            return update_menu(delta, window);
+        menu.update(delta, core::app_container.get_input(), window);
+        auto pressed = this->menu.neg_edge_button();
+
+        if (pressed == "proceed") {
+            write_level_meta();
+            this->next_scene = new LevelEditEdit(this->size, this->name.get_label().toAnsiString());
+            this->state = Scene::Status::push_scene;
+        } else if (pressed == "name") {
+            current_button = &name;
+            this->next_scene = new Keyboard(this->size);
+            this->state = Scene::Status::push_scene;
+        } else if (pressed == "spritesheet") {
+            current_button = &spritesheet;
+            this->next_scene = new Keyboard(this->size);
+            this->state = Scene::Status::push_scene;
+        } else if (pressed == "back") {
+            this->next_scene = nullptr;
+            this->state = Scene::Status::pop_scene;
         }
-        return update_keyboard(delta, window);
     }
 
     void LevelEditNew::draw(sf::RenderWindow &window)
     {
-        if (pl_state == in_menu) {
-            return draw_menu(window);
+        name_label.draw(window);
+        spritesheet_label.draw(window);
+        menu.draw(window);
+    }
+
+    void LevelEditNew::wakeup(sf::String message)
+    {
+        if (current_button != nullptr) {
+            current_button->set_label(message);
         }
-        return draw_keyboard(window);
     }
 
     Scene::Status LevelEditNew::status()
@@ -40,52 +62,6 @@ namespace scene {
     {
         this->state = Scene::Status::nothing;
         this->next_scene = nullptr;
-    }
-
-    void LevelEditNew::update_menu(int delta, sf::RenderWindow &window)
-    {
-        menu.update(delta, core::app_container.get_input(), window);
-        auto pressed = this->menu.neg_edge_button();
-
-        if (pressed == "proceed") {
-            write_level_meta();
-            this->next_scene = new LevelEditEdit(this->size, this->name.get_label().toAnsiString());
-            this->state = Scene::Status::push_scene;
-        } else if (pressed == "name") {
-            pl_state = in_keyboard;
-            current_button = &name;
-            keyboard.set_input("");
-        } else if (pressed == "spritesheet") {
-            pl_state = in_keyboard;
-            current_button = &spritesheet;
-            keyboard.set_input("");
-        } else if (pressed == "back") {
-            this->next_scene = nullptr;
-            this->state = Scene::Status::pop_scene;
-        }
-    }
-
-    void LevelEditNew::draw_menu(sf::RenderWindow &window)
-    {
-        name_label.draw(window);
-        spritesheet_label.draw(window);
-        menu.draw(window);
-    }
-
-    void LevelEditNew::update_keyboard(int delta, sf::RenderWindow &window)
-    {
-        keyboard.update(delta, window);
-        if (core::app_container.get_input()->is_key_pressed(core::Input::escape) || keyboard.status() == Scene::Status::pop_scene) {
-            keyboard.reset_status();
-            core::app_container.get_logger()->info(keyboard.get_input().toAnsiString().c_str());
-            current_button->set_label(keyboard.get_input());
-            pl_state = in_menu;
-        }
-    }
-
-    void LevelEditNew::draw_keyboard(sf::RenderWindow &window)
-    {
-        keyboard.draw(window);
     }
 
     void LevelEditNew::write_level_meta()

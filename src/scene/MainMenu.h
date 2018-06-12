@@ -28,6 +28,8 @@ namespace scene {
         Scene::Status state = Scene::Status::nothing;
         Scene* next_scene = nullptr;
 
+        ui::Menu my_menu;
+
         ui::TextButton level_edit_button = ui::TextButton(sf::Rect<int>(10, size.y - 340, 300, 50), core::StringProvider::get("mainmenu.level_editor_button"));
         ui::TextButton tile_editor_button = ui::TextButton(sf::Rect<int>(10, size.y - 280, 300, 50), core::StringProvider::get("mainmenu.tile_editor_button"));
         ui::TextButton play_button = ui::TextButton(sf::Rect<int>(10, size.y - 220, 300, 50), core::StringProvider::get("mainmenu.new_game_button"));

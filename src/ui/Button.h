@@ -23,14 +23,12 @@ namespace ui {
         virtual bool neg_edge();
         virtual void set_hover(bool hover);
         virtual void set_pressed(bool pressed);
-        virtual void set_mode(InputMode mode);
     protected:
         inline void update_pad_mode(int delta, sf::RenderWindow &window);
         inline void update_mouse_mode(int delta, sf::RenderWindow &window);
         bool was_pressed = false;
         bool last_pressed = false;
         bool is_hover = false;
-        InputMode mode = InputMode::pad;
 
 #if DEBUG
         sf::RectangleShape debug_draw = sf::RectangleShape();

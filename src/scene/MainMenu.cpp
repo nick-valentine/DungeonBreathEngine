@@ -15,6 +15,10 @@ namespace scene {
         menu.add_button("play", &play_button);
         menu.add_button("options", &options_button);
         menu.add_button("exit", &exit_button);
+
+        auto x = my_menu.add_text_button("testing", sf::Vector2i(100, 100), "mainmenu.level_editor_button");
+        my_menu.set_current(x);
+
     }
 
     MainMenu::~MainMenu()
@@ -24,6 +28,7 @@ namespace scene {
     void MainMenu::update(int delta, sf::RenderWindow &window)
     {
         this->menu.update(delta, core::app_container.get_input(), window);
+        my_menu.update(delta, window);
 
         std::string pressed = this->menu.neg_edge_button();
         if (pressed == "play") {
@@ -52,6 +57,7 @@ namespace scene {
     {
         window.setView(this->main_window);
         this->menu.draw(window);
+        my_menu.draw(window);
     }
 
     void MainMenu::wakeup(sf::String message)

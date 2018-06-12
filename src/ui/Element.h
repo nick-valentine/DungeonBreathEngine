@@ -22,8 +22,12 @@ namespace ui {
 
         virtual void set_pos(sf::IntRect pos);
         virtual sf::IntRect get_pos() const;
+
+        virtual void set_mode(InputMode mode);
+        virtual InputMode get_mode() const;
     private:
         sf::IntRect rect;
+        InputMode mode = InputMode::pad;
     };
 };
 

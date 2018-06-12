@@ -17,7 +17,7 @@ namespace ui {
     {
         this->last_pressed = this->was_pressed;
         this->was_pressed = false;
-        switch (mode) {
+        switch (this->get_mode()) {
         case InputMode::pad:
             return update_pad_mode(delta, window);
         case InputMode::mouse:
@@ -57,11 +57,6 @@ namespace ui {
     void Button::set_pressed(bool pressed)
     {
         this->was_pressed = pressed;
-    }
-
-    void Button::set_mode(InputMode mode)
-    {
-        this->mode = mode;
     }
 
     void Button::update_pad_mode(int delta, sf::RenderWindow &window)

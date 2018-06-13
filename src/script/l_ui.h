@@ -20,6 +20,7 @@ namespace lua {
             int set_up(lua_State *L);
             int set_down(lua_State *L);
             int set_right(lua_State *L);
+            int set_left(lua_State *L);
             int pair_items(lua_State *L);
             int get_tag(lua_State *L);
         };

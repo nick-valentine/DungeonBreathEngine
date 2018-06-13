@@ -7,6 +7,7 @@
 namespace lua {
     namespace l_scene {
         void add(lua_State *L);
+        int get_menu(lua_State *L);
         int push(lua_State *L);
         int pop(lua_State *L);
     };

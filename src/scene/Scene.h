@@ -27,6 +27,7 @@ namespace scene {
         virtual void update(int delta, sf::RenderWindow &window);
         virtual void draw(sf::RenderWindow &window);
 
+        virtual void init();
         virtual void wakeup(sf::String message);
         virtual sf::String sleep();
         virtual sf::String pop();
@@ -36,6 +37,8 @@ namespace scene {
 
         virtual void indicate_push(std::string name);
         virtual void indicate_pop();
+
+        virtual ui::Menu *get_menu();
     protected:
         Status state = nothing;
         Scene* next_scene = nullptr;
@@ -45,7 +48,7 @@ namespace scene {
         std::string name;
         lua::Script *s;
 
-        ui::Menu menu;
+        ui::Menu *menu;
     };
 };
 

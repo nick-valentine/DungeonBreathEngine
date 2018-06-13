@@ -201,6 +201,7 @@ namespace ui {
                     core::StringProvider::get(content_key)
                 )
             );
+
         menu_items.push_back(x);
         return x;
     }

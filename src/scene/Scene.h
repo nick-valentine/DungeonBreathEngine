@@ -5,7 +5,10 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 
+#include "Macros.h"
 #include "core.h"
+#include "ui.h"
+#include "script.h"
 
 namespace scene {
     class Scene
@@ -18,20 +21,28 @@ namespace scene {
             pop_scene,
         };
 
-        Scene(sf::Vector2i size);
-        virtual ~Scene() = default;
+        Scene(std::string name, sf::Vector2i size);
+        virtual ~Scene();
 
-        virtual void update(int delta, sf::RenderWindow &window) = 0;
-        virtual void draw(sf::RenderWindow &window) = 0;
+        virtual void update(int delta, sf::RenderWindow &window);
+        virtual void draw(sf::RenderWindow &window);
 
         virtual void wakeup(sf::String message);
         virtual sf::String sleep();
         virtual sf::String pop();
-        virtual Status status() = 0;
-        virtual Scene *new_scene() = 0;
-        virtual void reset_status() = 0;
+        virtual Status status();
+        virtual Scene *new_scene();
+        virtual void reset_status();
     protected:
+        Status state = nothing;
+        Scene* next_scene = nullptr;
+
         sf::Vector2i size;
+
+        std::string name;
+        lua::Script *s;
+
+        ui::Menu menu;
     };
 };
 

@@ -32,7 +32,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(resolution_x, resolution_y), "DungeonBreath");
 
     GameStack stack;
-    stack.push(StackItem(new scene::MainMenu(sf::Vector2i(resolution_x, resolution_y))));
+    stack.push(StackItem(new scene::Scene("entry", sf::Vector2i(resolution_x, resolution_y))));
     stack.top()->wakeup("");
     sf::Clock timer;
 

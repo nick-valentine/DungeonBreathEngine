@@ -12,6 +12,7 @@
 // actordir is not a full path as Script.h automatically prepends SCRIPTDIR
 #define ACTORDIR "actors/"
 #define WORLDSCRIPTDIR "levels/"
+#define SCENEDIR "scenes/"
 
 #define WINDOWS 0
 #define LINUX 1

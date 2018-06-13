@@ -1,8 +1,13 @@
 #include "Menu.h"
 
 namespace ui {
-    MenuItem::MenuItem(std::string tag, element_ptr me) : Element(sf::IntRect(0, 0, 0, 0)), tag(tag), me(me)
+    MenuItem::MenuItem(std::string tag, Element *me) : Element(sf::IntRect(0, 0, 0, 0)), tag(tag), me(me)
     {
+    }
+
+    MenuItem::~MenuItem()
+    {
+        delete this->me;
     }
 
     void MenuItem::update(int delta, sf::RenderWindow &window)
@@ -26,27 +31,27 @@ namespace ui {
         Element::set_mode(mode);
     }
 
-    element_ptr MenuItem::raw()
+    Element *MenuItem::raw()
     {
         return me;
     }
 
-    void MenuItem::set_up(element_ptr x)
+    void MenuItem::set_up(Element *x)
     {
         set_side(side::up, x);
     }
 
-    void MenuItem::set_down(element_ptr x)
+    void MenuItem::set_down(Element *x)
     {
         set_side(side::down, x);
     }
 
-    void MenuItem::set_left(element_ptr x)
+    void MenuItem::set_left(Element *x)
     {
         set_side(side::left, x);
     }
 
-    void MenuItem::set_right(element_ptr x)
+    void MenuItem::set_right(Element *x)
     {
         set_side(side::right, x);
     }
@@ -56,9 +61,9 @@ namespace ui {
         return tag;
     }
 
-    void MenuItem::set_side(side s, element_ptr x)
+    void MenuItem::set_side(side s, Element *x)
     {
-        auto i = std::dynamic_pointer_cast<MenuItem>(x);
+        auto i = dynamic_cast<MenuItem*>(x);
         if (i == nullptr) {
             std::cout<<"attempting to set side as nil ptr: "<<s;
             return;
@@ -81,10 +86,10 @@ namespace ui {
         return count;
     }
 
-    void pair_items(element_ptr a, element_ptr b, MenuItem::side dir)
+    void pair_items(Element *a, Element *b, MenuItem::side dir)
     {
-        auto x = std::dynamic_pointer_cast<MenuItem>(a);
-        auto y = std::dynamic_pointer_cast<MenuItem>(b);
+        auto x = dynamic_cast<MenuItem*>(a);
+        auto y = dynamic_cast<MenuItem*>(b);
         if (x == nullptr || y == nullptr) {
             return;
         }
@@ -95,6 +100,13 @@ namespace ui {
     Menu::Menu() : Element(sf::IntRect(0, 0, 0, 0))
     {
         last_input = std::vector<bool>(core::Input::Key::num_keys, false);
+    }
+
+    Menu::~Menu()
+    {
+        for (size_t i = 0; i < menu_items.size(); ++i) {
+            delete menu_items[i];
+        }
     }
 
     void Menu::update(int delta, sf::RenderWindow &window)
@@ -135,13 +147,13 @@ namespace ui {
         if (this->get_mode() == InputMode::pad) {
             for (const auto &i : this->menu_items) {
                 i->set_mode(InputMode::pad);
-                auto b = std::dynamic_pointer_cast<Button>(i->raw());
+                auto b = dynamic_cast<Button*>(i->raw());
                 if (b != nullptr) {
                     b->set_hover(false);
                 }
             }
             if (current != nullptr) {
-                auto curr = std::dynamic_pointer_cast<Button>(current->raw());
+                auto curr = dynamic_cast<Button*>(current->raw());
                 if (curr != nullptr) {
                     curr->set_hover(true);
                 }
@@ -175,21 +187,20 @@ namespace ui {
         }
     }
 
-    void Menu::set_current(element_ptr x)
+    void Menu::set_current(Element *x)
     {
-        auto m = std::dynamic_pointer_cast<MenuItem>(x);
+        auto m = dynamic_cast<MenuItem*>(x);
         current = m;
     }
 
-    menu_item_ptr Menu::add_text_button(std::string tag, sf::Vector2i pos, sf::String content_key)
+    MenuItem *Menu::add_text_button(std::string tag, sf::Vector2i pos, sf::String content_key)
     {
-        auto x = menu_item_ptr(
-            new MenuItem(tag, element_ptr(
+        auto x = new MenuItem(tag, 
                 new TextButton(
                     sf::IntRect(pos.x, pos.y, 300, 50), 
-                    core::StringProvider::get(content_key))
-            ))
-        );
+                    core::StringProvider::get(content_key)
+                )
+            );
         menu_items.push_back(x);
         return x;
     }
@@ -214,7 +225,7 @@ namespace ui {
         return int_signal;
     }
 
-    std::vector<menu_item_ptr> *Menu::get()
+    std::vector<MenuItem *> *Menu::get()
     {
         return &this->menu_items;
     }
@@ -225,7 +236,7 @@ namespace ui {
             return;
         }
 
-        auto next = current->sides[s].lock();
+        auto next = current->sides[s];
         if (next == nullptr) {
             return;
         }

@@ -11,12 +11,7 @@
 #include "core.h"
 
 namespace ui {
-    class MenuItem;
     class Menu;
-
-    typedef std::shared_ptr<Element> element_ptr;
-    typedef std::shared_ptr<MenuItem> menu_item_ptr;
-    typedef std::weak_ptr<MenuItem> menu_item_wptr;
 
     class MenuItem : public Element
     {
@@ -29,8 +24,13 @@ namespace ui {
             right,
             count,
         };
-        MenuItem(std::string tag, element_ptr me);
-        virtual ~MenuItem() = default;
+        MenuItem(std::string tag, Element *me);
+        virtual ~MenuItem();
+
+        MenuItem(const MenuItem &other) = delete;
+        MenuItem(const MenuItem &&other) = delete;
+        MenuItem &operator=(const MenuItem &other) = delete;
+        MenuItem &operator=(const MenuItem &&other) = delete;
 
         void update(int delta, sf::RenderWindow &window);
         void draw(sf::RenderWindow &window);
@@ -39,48 +39,53 @@ namespace ui {
 
         virtual void set_mode(InputMode mode);
 
-        element_ptr raw();
+        Element *raw();
 
-        void set_up(element_ptr x);
-        void set_down(element_ptr x);
-        void set_left(element_ptr x);
-        void set_right(element_ptr x);
-        void set_side(side s, element_ptr x);
+        void set_up(Element *x);
+        void set_down(Element *x);
+        void set_left(Element *x);
+        void set_right(Element *x);
+        void set_side(side s, Element *x);
         inline side opposite(side s);
 
         std::string get_tag() const;
     private:
         std::string tag;
-        element_ptr me;
-        menu_item_wptr sides[side::count];
+        Element *me;
+        MenuItem *sides[side::count];
     };
 
-    void pair_items(element_ptr a, element_ptr b, MenuItem::side dir = MenuItem::side::down);
+    void pair_items(Element * a, Element * b, MenuItem::side dir = MenuItem::side::down);
 
     class Menu : public Element
     {
     public:
         Menu();
-        virtual ~Menu() = default;
+        virtual ~Menu();
+
+        Menu(const Menu &other) = delete;
+        Menu(const Menu &&other) = delete;
+        Menu &operator=(const Menu &other) = delete;
+        Menu &operator=(const Menu &&other) = delete;
 
         void update(int delta, sf::RenderWindow &window);
         void draw(sf::RenderWindow &window);
 
-        void set_current(element_ptr x);
+        void set_current(Element * x);
 
-        menu_item_ptr add_text_button(std::string tag, sf::Vector2i pos, sf::String content_key);
+        MenuItem *add_text_button(std::string tag, sf::Vector2i pos, sf::String content_key);
 
         bool has_signal();
         std::string signal_str();
         std::string signal_tag();
         int signal_int();
 
-        std::vector<menu_item_ptr> *get();
+        std::vector<MenuItem *> *get();
 
     private:
         void move_side(MenuItem::side s);
-        std::vector<menu_item_ptr> menu_items = std::vector<menu_item_ptr>();
-        menu_item_ptr current = nullptr;
+        std::vector<MenuItem *> menu_items = std::vector<MenuItem *>();
+        MenuItem *current = nullptr;
 
         std::vector<bool> last_input;
 

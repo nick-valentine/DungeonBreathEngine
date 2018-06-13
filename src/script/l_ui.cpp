@@ -14,6 +14,9 @@ namespace lua {
     namespace l_ui {
         namespace menu {
             int set_current(lua_State *L) {
+                auto m = (ui::Menu *)lua::get_lightuserdata(L, -2);
+                auto mi = (ui::MenuItem *)lua::get_lightuserdata(L, -1);
+                m->set_current(mi);
                 return 0;
             }
         };

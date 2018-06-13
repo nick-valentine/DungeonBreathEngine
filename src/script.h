@@ -5,5 +5,6 @@
 #include "script/Script.h"
 #include "script/l_core.h"
 #include "script/l_play.h"
+#include "script/l_scene.h"
 
 #endif //META_SCRIPT_H

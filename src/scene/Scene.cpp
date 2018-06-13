@@ -9,6 +9,7 @@ namespace scene {
         filename += name;
         filename += ".lua";
         s = new lua::Script(filename);
+        lua::l_scene::add(s->s);
         s->call();
 
         lua_getglobal(s->s, TABLENAME);
@@ -91,6 +92,18 @@ namespace scene {
     void Scene::reset_status()
     {
         this->state = nothing;
+        this->next_scene = nullptr;
+    }
+
+    void Scene::indicate_push(std::string name)
+    {
+        this->state = push_scene;
+        this->next_scene = new Scene(name, size);
+    }
+
+    void Scene::indicate_pop()
+    {
+        this->state = pop_scene;
         this->next_scene = nullptr;
     }
 };

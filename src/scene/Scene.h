@@ -33,6 +33,9 @@ namespace scene {
         virtual Status status();
         virtual Scene *new_scene();
         virtual void reset_status();
+
+        virtual void indicate_push(std::string name);
+        virtual void indicate_pop();
     protected:
         Status state = nothing;
         Scene* next_scene = nullptr;

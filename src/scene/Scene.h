@@ -39,6 +39,7 @@ namespace scene {
         virtual void indicate_pop();
 
         virtual ui::Menu *get_menu();
+        virtual sf::Vector2i get_size() const;
     protected:
         Status state = nothing;
         Scene* next_scene = nullptr;

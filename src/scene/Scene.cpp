@@ -135,5 +135,9 @@ namespace scene {
         return this->menu;
     }
 
+    sf::Vector2i Scene::get_size() const
+    {
+        return this->size;
+    }
 };
 

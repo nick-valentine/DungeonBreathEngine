@@ -6,7 +6,7 @@ SET (SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/KeyButton.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Label.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Menu.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/NumberInput.cpp
+    #${CMAKE_CURRENT_SOURCE_DIR}/NumberInput.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SpriteButton.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/TextButton.cpp
     PARENT_SCOPE

@@ -7,8 +7,11 @@
 
 #include "Element.h"
 #include "TextButton.h"
+#include "SpriteButton.h"
+#include "Label.h"
 
 #include "core.h"
+#include "render.h"
 
 namespace ui {
     class Menu;
@@ -73,7 +76,9 @@ namespace ui {
 
         void set_current(Element * x);
 
-        MenuItem *add_text_button(std::string tag, sf::Vector2i pos, sf::String content_key);
+        MenuItem *add_text_button(std::string tag, sf::Vector2i pos, std::string content_key);
+        MenuItem *add_sprite_button(std::string tag, sf::IntRect pos, std::string tex_name, sf::IntRect normal, sf::IntRect hover, sf::IntRect press);
+        MenuItem *add_label(sf::IntRect pos, std::string content_key);
 
         bool has_signal();
         std::string signal_str();

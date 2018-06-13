@@ -5,13 +5,26 @@ void lua::l_ui::add(lua_State *L)
     LUALIB(lib) = {
         { "set_current", menu::set_current },
         { "add_text_button", menu::add_text_button },
+        { "add_sprite_button", menu::add_sprite_button },
+        { "add_label", menu::add_label },
         { "has_signal", menu::has_signal },
         { "signal_str", menu::signal_str },
         { "signal_int", menu::signal_int },
         { NULL, NULL },
     };
-
     lua::add_lib(L, "menu", lib);
+
+    LUALIB(mi_lib) = {
+        { "raw", menu_item::raw },
+        { "set_up", menu_item::set_up },
+        { "set_down", menu_item::set_down },
+        { "set_right", menu_item::set_right },
+        { "set_left", menu_item::set_left },
+        { "pair_items", menu_item::pair_items },
+        { "get_tag", menu_item::get_tag },
+        { NULL, NULL },
+    };
+    lua::add_lib(L, "menu_item", lib);
 }
 
 namespace lua {
@@ -31,6 +44,48 @@ namespace lua {
                 auto y = lua::get_num_field(L, -2, "y");
                 auto content_key = lua::get_string(L, -1);
                 auto p = m->add_text_button(tag, sf::Vector2i(x, y), content_key);
+                lua_pushlightuserdata(L, p);
+                return 1;
+            }
+
+            int add_sprite_button(lua_State *L) {
+                auto m = (ui::Menu *)lua::get_lightuserdata(L, -7);
+                auto tag = lua::get_string(L, -6);
+                sf::IntRect pos;
+                pos.left = lua::get_num_field(L, -5, "x");
+                pos.top = lua::get_num_field(L, -5, "y");
+                pos.width = lua::get_num_field(L, -5, "width");
+                pos.height = lua::get_num_field(L, -5, "height");
+                auto tex = lua::get_string(L, -4);
+                sf::IntRect normal;
+                normal.left = lua::get_num_field(L, -3, "x");
+                normal.top = lua::get_num_field(L, -3, "y");
+                normal.width = lua::get_num_field(L, -3, "width");
+                normal.height = lua::get_num_field(L, -3, "height");
+                sf::IntRect hover;
+                hover.left = lua::get_num_field(L, -2, "x");
+                hover.top = lua::get_num_field(L, -2, "y");
+                hover.width = lua::get_num_field(L, -2, "width");
+                hover.height = lua::get_num_field(L, -2, "height");
+                sf::IntRect press;
+                press.left = lua::get_num_field(L, -1, "x");
+                press.top = lua::get_num_field(L, -1, "y");
+                press.width = lua::get_num_field(L, -1, "width");
+                press.height = lua::get_num_field(L, -1, "height");
+                auto p = m->add_sprite_button(tag, pos, tex, normal, hover, press);
+                lua_pushlightuserdata(L, p);
+                return 1;
+            }
+
+            int add_label(lua_State *L) {
+                auto m = (ui::Menu *)lua::get_lightuserdata(L, -3);
+                sf::IntRect pos;
+                pos.left = lua::get_num_field(L, -2, "x");
+                pos.top = lua::get_num_field(L, -2, "y");
+                pos.width = lua::get_num_field(L, -2, "width");
+                pos.height = lua::get_num_field(L, -2, "height");
+                auto content_key = lua::get_string(L, -1);
+                auto p = m->add_label(pos, content_key);
                 lua_pushlightuserdata(L, p);
                 return 1;
             }

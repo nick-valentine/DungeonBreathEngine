@@ -76,7 +76,7 @@ namespace lua {
             };
             lua::add_lib(L, "input", lib);
 
-            auto table = lua_getglobal(L, "input");
+            auto table = lua::get_global_table(L, "input");
             lua::add_num_field(L, table, "up", core::Input::up);
             lua::add_num_field(L, table, "down", core::Input::down);
             lua::add_num_field(L, table, "left", core::Input::left);

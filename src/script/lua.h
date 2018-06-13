@@ -27,6 +27,8 @@ namespace lua {
     void error(lua_State *L, const char *fmt, ...);
     void add_lib(lua_State *L, std::string name, const luaL_Reg *lib);
 
+    int get_global_table(lua_State *L, std::string name);
+
     /* assumes a table is at the top of the stack */
     float get_num_field(lua_State *L, std::string key);
     void add_num_field(lua_State *L, int pos, std::string key, float value);
@@ -34,6 +36,8 @@ namespace lua {
     /* general safe getters */
     float get_num(lua_State *L, int pos);
     std::string get_string(lua_State *L, int pos);
+    void *get_userdata(lua_State *L, int pos);
+    void *get_lightuserdata(lua_State *L, int pos);
 };
 
 #endif //LUA_H

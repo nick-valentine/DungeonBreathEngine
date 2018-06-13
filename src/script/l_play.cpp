@@ -45,7 +45,7 @@ namespace lua {
 
         int get_rect(lua_State *L)
         {
-            play::Actor *a = (play::Actor *)lua_touserdata(L, -1);
+            play::Actor *a = (play::Actor *)lua::get_lightuserdata(L, -1);
             sf::FloatRect rect;
             if (a != nullptr) {
                 core::app_container.get_logger()->debug("get_rect called with null actor");
@@ -66,7 +66,7 @@ namespace lua {
 
         int set_scale(lua_State *L)
         {
-            play::Actor *a = (play::Actor *)lua_touserdata(L, -2);
+            play::Actor *a = (play::Actor *)lua::get_lightuserdata(L, -2);
             if (a == nullptr) {
                 return 0;
             }
@@ -78,7 +78,7 @@ namespace lua {
 
         int set_origin(lua_State *L)
         {
-            play::Actor *a = (play::Actor *)lua_touserdata(L, -2);
+            play::Actor *a = (play::Actor *)lua::get_lightuserdata(L, -2);
             if (a == nullptr) {
                 return 0;
             }
@@ -90,7 +90,7 @@ namespace lua {
 
         int set_collision_bounds(lua_State *L)
         {
-            play::Actor *a = (play::Actor *)lua_touserdata(L, -2);
+            play::Actor *a = (play::Actor *)lua::get_lightuserdata(L, -2);
             if (a == nullptr) {
                 return 0;
             }
@@ -105,7 +105,7 @@ namespace lua {
 
         int get_velocity(lua_State *L)
         {
-            play::Actor *a = (play::Actor *)lua_touserdata(L, -1);
+            play::Actor *a = (play::Actor *)lua::get_lightuserdata(L, -1);
             sf::Vector2f vel;
             if (a != nullptr) {
                 vel = a->get_velocity();
@@ -121,7 +121,7 @@ namespace lua {
 
         int set_velocity(lua_State *L)
         {
-            auto a = (play::Actor *)lua_touserdata(L, -2);
+            play::Actor *a = (play::Actor *)lua::get_lightuserdata(L, -2);
             if (a == nullptr) {
                 return 0;
             }
@@ -133,21 +133,18 @@ namespace lua {
 
         int set_tileset(lua_State *L)
         {
-            auto a = (play::Actor *)lua_touserdata(L, -2);
+            play::Actor *a = (play::Actor *)lua::get_lightuserdata(L, -2);
             if (a == nullptr) {
                 return 0;
             }
-            if (!lua_isnumber(L, -1)) {
-                lua::error(L, "param 1 not number");
-            }
-            auto i = (int) lua_tonumber(L, -1);
+            auto i = (int) lua::get_num(L, -1);
             a->set_tileset(i);
             return 0;
         }
 
         int pause_anim(lua_State *L)
         {
-            auto a = (play::Actor *)lua_touserdata(L, -1);
+            play::Actor *a = (play::Actor *)lua::get_lightuserdata(L, -1);
             if (a == nullptr) {
                 return 0;
             }
@@ -157,7 +154,7 @@ namespace lua {
 
         int play_anim(lua_State *L)
         {
-            auto a = (play::Actor *)lua_touserdata(L, -1);
+            play::Actor *a = (play::Actor *)lua::get_lightuserdata(L, -1);
             if (a == nullptr) {
                 return 0;
             }
@@ -167,7 +164,7 @@ namespace lua {
 
         int reset_anim(lua_State *L)
         {
-            auto a = (play::Actor *)lua_touserdata(L, -1);
+            play::Actor *a = (play::Actor *)lua::get_lightuserdata(L, -1);
             if (a == nullptr) {
                 return 0;
             }
@@ -194,7 +191,7 @@ namespace lua {
 
         int spawn(lua_State *L)
         {
-            auto a = (play::ActorManager *)lua_touserdata(L, -3);
+            auto a = (play::ActorManager *)lua::get_lightuserdata(L, -3);
             std::string name = lua_tostring(L, -2);
             auto x = lua::get_num_field(L, "x");
             auto y = lua::get_num_field(L, "y");
@@ -205,25 +202,25 @@ namespace lua {
 
         int remove(lua_State *L)
         {
-            auto a = (play::ActorManager *)lua_touserdata(L, -2);
+            auto a = (play::ActorManager *)lua::get_lightuserdata(L, -2);
             if (!lua_isnumber(L, -1)) {
                 lua::error(L, "param 1 not number");
             }
-            auto h = (int) lua_tonumber(L, -1);
+            auto h = (int) lua::get_num(L, -1);
             a->remove(h);
             return 0;
         }
 
         int clear(lua_State *L)
         {
-            auto a = (play::ActorManager *)lua_touserdata(L, -1);
+            auto a = (play::ActorManager *)lua::get_lightuserdata(L, -1);
             a->clear();
             return 0;
         }
 
         int set_camera_target(lua_State *L)
         {
-            auto a = (play::ActorManager *)lua_touserdata(L, -2);
+            auto a = (play::ActorManager *)lua::get_lightuserdata(L, -2);
             auto h = (int)lua::get_num(L, -1);
             a->set_camera_target(h);
             core::app_container.get_logger()->info("setting camera target %i", h);
@@ -232,7 +229,7 @@ namespace lua {
 
         int get_camera_target(lua_State *L)
         {
-            auto a = (play::ActorManager *)lua_touserdata(L, -2);
+            auto a = (play::ActorManager *)lua::get_lightuserdata(L, -2);
             auto t = a->get_camera_target();
             lua_pushlightuserdata(L, t.get());
             return 1;
@@ -240,7 +237,7 @@ namespace lua {
 
         int set_player(lua_State *L)
         {
-            auto a = (play::ActorManager *)lua_touserdata(L, -2);
+            auto a = (play::ActorManager *)lua::get_lightuserdata(L, -2);
             auto i = (int)lua::get_num(L, -1);
             core::app_container.get_logger()->info("setting player %i", i);
             a->set_player(i);
@@ -249,7 +246,7 @@ namespace lua {
 
         int get_player(lua_State *L)
         {
-            auto a = (play::ActorManager *)lua_touserdata(L, -1);
+            auto a = (play::ActorManager *)lua::get_lightuserdata(L, -1);
             if (a == nullptr) {
                 core::app_container.get_logger()->debug("get_player called with null actor_manager");
                 lua_pushlightuserdata(L, nullptr);

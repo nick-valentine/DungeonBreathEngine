@@ -4,6 +4,7 @@ SET (SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/l_core.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/l_play.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/l_scene.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/l_ui.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Script.cpp
     PARENT_SCOPE
 )

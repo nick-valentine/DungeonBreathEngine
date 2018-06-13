@@ -4,19 +4,13 @@ namespace lua {
     namespace l_scene {
         void add(lua_State *L)
         {
-            static const struct luaL_Reg mylib[] = {
+            LUALIB(lib) = {
                 { "push", push },
                 { "pop", pop },
                 { NULL, NULL },
             };
-            lua_getglobal(L, "scene");
-            if (lua_isnil(L, -1)) {
-                lua_pop(L, 1);
-                lua_newtable(L);
-            }
-            luaL_setfuncs(L, mylib, 0);
 
-            lua_setglobal(L, "scene");
+            lua::add_lib(L, "scene", lib);
         }
 
         int push(lua_State *L)

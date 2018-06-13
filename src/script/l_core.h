@@ -18,12 +18,12 @@ namespace lua {
     };
 
     namespace input {
-        void add(core::Input *i, lua_State *s);
-        int is_key_pressed(lua_State *s);
+        void add(lua_State *L);
+        int is_key_pressed(lua_State *L);
     };
 
     namespace logger {
-        void add(core::Logger *l, lua_State *s);
+        void add(lua_State *s);
         int debug(lua_State *s);
         int info(lua_State *s);
         int warn(lua_State *s);

@@ -4,18 +4,11 @@ namespace lua {
     namespace world {
         void add(lua_State *L)
         {
-            static const struct luaL_Reg mylib[] = {
+            LUALIB(lib) = {
                 { "change_level", change_level },
                 { NULL, NULL}
             };
-            lua_getglobal(L, "world");
-            if (lua_isnil(L, -1)) {
-                lua_pop(L, 1);
-                lua_newtable(L);
-            }
-            luaL_setfuncs(L, mylib, 0);
-
-            lua_setglobal(L, "world");
+            lua::add_lib(L, "world", lib);
         }
 
         int change_level(lua_State *L) {
@@ -34,7 +27,7 @@ namespace lua {
     namespace actor {
         void add(lua_State *L)
         {
-            static const struct luaL_Reg mylib[] = {
+            LUALIB(lib) = {
                 { "get_rect", get_rect },
                 { "set_scale", set_scale },
                 { "set_origin", set_origin },
@@ -47,14 +40,7 @@ namespace lua {
                 { "reset_anim", reset_anim },
                 { NULL, NULL }
             };
-            lua_getglobal(L, "actor");
-            if (lua_isnil(L, -1)) {
-                lua_pop(L, 1);
-                lua_newtable(L);
-            }
-            luaL_setfuncs(L, mylib, 0);
-
-            lua_setglobal(L, "actor");
+            lua::add_lib(L, "actor", lib);
         }
 
         int get_rect(lua_State *L)
@@ -193,7 +179,7 @@ namespace lua {
     namespace actorman {
         void add(lua_State *L)
         {
-            static const struct luaL_Reg mylib[] = {
+            LUALIB(lib) = {
                 { "spawn", spawn },
                 { "remove", remove },
                 { "clear", clear },
@@ -203,14 +189,7 @@ namespace lua {
                 { "get_player", get_player },
                 { NULL, NULL }
             };
-            lua_getglobal(L, "actor_manager");
-            if (lua_isnil(L, -1)) {
-                lua_pop(L, 1);
-                lua_newtable(L);
-            }
-            luaL_setfuncs(L, mylib, 0);
-
-            lua_setglobal(L, "actor_manager");
+            lua::add_lib(L, "actor_manager", lib);
         }
 
         int spawn(lua_State *L)

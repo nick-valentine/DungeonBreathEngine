@@ -43,6 +43,18 @@ void lua::error(lua_State *L, const char *fmt, ...)
     exit(1);
 }
 
+void lua::add_lib(lua_State *L, std::string name, const luaL_Reg *lib)
+{
+    auto n = name.c_str();
+    lua_getglobal(L, n);
+    if (lua_isnil(L, -1)) {
+        lua_pop(L, 1);
+        lua_newtable(L);
+    }
+    luaL_setfuncs(L, lib, 0);
+    lua_setglobal(L, n);
+}
+
 float lua::get_num_field(lua_State *L, std::string key)
 {
     lua_pushstring(L, key.c_str());
@@ -53,6 +65,12 @@ float lua::get_num_field(lua_State *L, std::string key)
     auto x = lua_tonumber(L, -1);
     lua_pop(L, 1);
     return x;
+}
+
+void lua::add_num_field(lua_State *L, int pos, std::string key, float value)
+{
+    lua_pushnumber(L, value);
+    lua_setfield(L, pos, key.c_str());
 }
 
 float lua::get_num(lua_State *L, int pos)

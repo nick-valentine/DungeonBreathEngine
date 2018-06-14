@@ -16,6 +16,7 @@ namespace lua {
             int signal_tag(lua_State *L);
             int signal_str(lua_State *L);
             int signal_int(lua_State *L);
+            int clear(lua_State *L);
         };
 
         namespace menu_item {

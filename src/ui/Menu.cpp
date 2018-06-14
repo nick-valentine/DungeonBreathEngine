@@ -251,6 +251,14 @@ namespace ui {
         return &this->menu_items;
     }
 
+    void Menu::clear()
+    {
+        for (size_t i = 0; i < menu_items.size(); ++i) {
+            delete menu_items[i];
+        }
+        menu_items.clear();
+    }
+
     void Menu::move_side(MenuItem::side s)
     {
         if (current == nullptr) {

@@ -118,6 +118,12 @@ namespace lua {
                 lua_pushnumber(L, s);
                 return 1;
             }
+
+            int clear(lua_State *L) {
+                auto m = (ui::Menu *)lua::get_lightuserdata(L, -1);
+                m->clear();
+                return 0;
+            }
         };
 
         namespace menu_item {

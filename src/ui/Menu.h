@@ -86,6 +86,7 @@ namespace ui {
         int signal_int();
 
         std::vector<MenuItem *> *get();
+        void clear();
 
     private:
         void move_side(MenuItem::side s);

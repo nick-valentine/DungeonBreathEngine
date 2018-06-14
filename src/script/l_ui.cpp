@@ -7,10 +7,12 @@ void lua::l_ui::add(lua_State *L)
         { "add_text_button", menu::add_text_button },
         { "add_sprite_button", menu::add_sprite_button },
         { "add_label", menu::add_label },
+        { "add_label_raw", menu::add_label_raw },
         { "has_signal", menu::has_signal },
         { "signal_tag", menu::signal_tag },
         { "signal_str", menu::signal_str },
         { "signal_int", menu::signal_int },
+        { "clear", menu::clear },
         { NULL, NULL },
     };
     lua::add_lib(L, "menu", lib);
@@ -87,6 +89,19 @@ namespace lua {
                 pos.height = lua::get_num_field(L, -2, "height");
                 auto content_key = lua::get_string(L, -1);
                 auto p = m->add_label(pos, content_key);
+                lua_pushlightuserdata(L, p);
+                return 1;
+            }
+
+            int add_label_raw(lua_State *L) {
+                auto m = (ui::Menu *)lua::get_lightuserdata(L, -3);
+                sf::IntRect pos;
+                pos.left = lua::get_num_field(L, -2, "x");
+                pos.top = lua::get_num_field(L, -2, "y");
+                pos.width = lua::get_num_field(L, -2, "width");
+                pos.height = lua::get_num_field(L, -2, "height");
+                auto contents = lua::get_string(L, -1);
+                auto p = m->add_label_raw(pos, contents);
                 lua_pushlightuserdata(L, p);
                 return 1;
             }

@@ -210,6 +210,7 @@ namespace ui {
 
     MenuItem *Menu::add_sprite_button(std::string tag, sf::IntRect pos, std::string tex_name, sf::IntRect normal, sf::IntRect hover, sf::IntRect press)
     {
+        tex_name = IMGDIR + tex_name;
         auto x = new MenuItem(tag,
             new SpriteButton(pos, render::TextureMap::request(tex_name), normal, hover, press)
         );
@@ -222,6 +223,13 @@ namespace ui {
         auto x = new MenuItem("",
             new Label(pos, core::StringProvider::get(content_key))
         );
+        menu_items.push_back(x);
+        return x;
+    }
+
+    MenuItem *Menu::add_label_raw(sf::IntRect pos, std::string contents)
+    {
+        auto x = new MenuItem("", new Label(pos, contents));
         menu_items.push_back(x);
         return x;
     }

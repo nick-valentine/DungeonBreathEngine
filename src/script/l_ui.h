@@ -12,6 +12,7 @@ namespace lua {
             int add_text_button(lua_State *L);
             int add_sprite_button(lua_State *L);
             int add_label(lua_State *L);
+            int add_label_raw(lua_State *L);
             int has_signal(lua_State *L);
             int signal_tag(lua_State *L);
             int signal_str(lua_State *L);

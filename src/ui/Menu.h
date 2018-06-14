@@ -79,6 +79,7 @@ namespace ui {
         MenuItem *add_text_button(std::string tag, sf::Vector2i pos, std::string content_key);
         MenuItem *add_sprite_button(std::string tag, sf::IntRect pos, std::string tex_name, sf::IntRect normal, sf::IntRect hover, sf::IntRect press);
         MenuItem *add_label(sf::IntRect pos, std::string content_key);
+        MenuItem *add_label_raw(sf::IntRect pos, std::string contents);
 
         bool has_signal();
         std::string signal_str();

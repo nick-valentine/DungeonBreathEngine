@@ -64,6 +64,7 @@ namespace lua {
             lua::config::add(L);
             lua::logger::add(L);
             lua::input::add(L);
+            lua::lang::add(L);
         }
     };
 
@@ -99,6 +100,32 @@ namespace lua {
             return 1;
         }
     };
+
+    namespace lang {
+        void add(lua_State *S)
+        {
+            LUALIB(lib) = {
+                { "next", next },
+                { "prev", prev },
+                { NULL, NULL },
+            };
+            lua::add_lib(S, "lang", lib);
+        }
+
+        int next(lua_State *S)
+        {
+            auto l = core::StringProvider::next_lang();
+            lua_pushstring(S, l.c_str());
+            return 1;
+        }
+
+        int prev(lua_State *S)
+        {
+            auto l = core::StringProvider::prev_lang();
+            lua_pushstring(S, l.c_str());
+            return 1;
+        }
+    }
 
     namespace logger {
         void add(lua_State *S)

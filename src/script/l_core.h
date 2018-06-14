@@ -22,6 +22,12 @@ namespace lua {
         int is_key_pressed(lua_State *L);
     };
 
+    namespace lang {
+        void add(lua_State *L);
+        int next(lua_State *L);
+        int prev(lua_State *L);
+    }
+
     namespace logger {
         void add(lua_State *s);
         int debug(lua_State *s);

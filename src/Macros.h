@@ -8,6 +8,7 @@
 #define LEVELDIR DATADIR "levels/"
 #define TILESETDIR DATADIR "tilesets/"
 #define SCRIPTDIR DATADIR "scripts/"
+#define AUDIODIR DATADIR "sound/"
 
 // actordir is not a full path as Script.h automatically prepends SCRIPTDIR
 #define ACTORDIR "actors/"

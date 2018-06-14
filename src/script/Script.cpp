@@ -7,6 +7,7 @@ namespace lua {
         s = luaL_newstate();
         luaL_openlibs(s);
         lua::container::add(s);
+        lua::l_audio::add(s);
         std::string full_path = SCRIPTDIR;
         full_path += filename;
         core::app_container.get_logger()->info("loading script %s", full_path.c_str());

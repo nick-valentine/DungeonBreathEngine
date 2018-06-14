@@ -7,6 +7,7 @@
 #include "core.h"
 #include "lua.h"
 #include "l_core.h"
+#include "l_audio.h"
 
 namespace lua {
     // @todo: merge into lua.h

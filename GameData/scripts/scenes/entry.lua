@@ -28,5 +28,8 @@ me = {
         elseif pressed == "exit" then
             scene.pop(me.self)
         end
+    end,
+    wakeup = function()
+        music.play("Harp.ogg")
     end
 }

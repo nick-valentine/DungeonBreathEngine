@@ -24,7 +24,7 @@ void lua::l_ui::add(lua_State *L)
         { "get_tag", menu_item::get_tag },
         { NULL, NULL },
     };
-    lua::add_lib(L, "menu_item", lib);
+    lua::add_lib(L, "menu_item", mi_lib);
 }
 
 namespace lua {

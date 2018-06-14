@@ -3,6 +3,9 @@
 namespace ui {
     MenuItem::MenuItem(std::string tag, Element *me) : Element(sf::IntRect(0, 0, 0, 0)), tag(tag), me(me)
     {
+        for (int i = 0; i < side::count; ++i) {
+            sides[i] = nullptr;
+        }
     }
 
     MenuItem::~MenuItem()
@@ -152,7 +155,7 @@ namespace ui {
                     b->set_hover(false);
                 }
             }
-            if (current != nullptr) {
+            if (current != nullptr && current->raw() != nullptr) {
                 auto curr = dynamic_cast<Button*>(current->raw());
                 if (curr != nullptr) {
                     curr->set_hover(true);
@@ -252,6 +255,9 @@ namespace ui {
     void Menu::move_side(MenuItem::side s)
     {
         if (current == nullptr) {
+            if (menu_items.size() > 0) {
+                current = menu_items[0];
+            }
             return;
         }
 

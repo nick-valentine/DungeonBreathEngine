@@ -4,7 +4,6 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <iostream>
 
 void lua::stacktrace(lua_State *L)
 {
@@ -39,7 +38,6 @@ void lua::error(lua_State *L, const char *fmt, ...)
     printf("\n");
     stacktrace(L);
     lua_close(L);
-    std::cin.get();
     exit(1);
 }
 

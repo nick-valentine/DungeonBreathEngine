@@ -38,7 +38,7 @@ namespace lua {
 
         int push(lua_State *L)
         {
-            auto s = (scene::Scene *)lua::get_lightuserdata(L, -1);
+            auto s = (scene::Scene *)lua::get_lightuserdata(L, -2);
             auto name = lua::get_string(L, -1);
             s->indicate_push(name);
             return 0;

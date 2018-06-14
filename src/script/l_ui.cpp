@@ -8,6 +8,7 @@ void lua::l_ui::add(lua_State *L)
         { "add_sprite_button", menu::add_sprite_button },
         { "add_label", menu::add_label },
         { "has_signal", menu::has_signal },
+        { "signal_tag", menu::signal_tag },
         { "signal_str", menu::signal_str },
         { "signal_int", menu::signal_int },
         { NULL, NULL },
@@ -94,6 +95,13 @@ namespace lua {
                 auto m = (ui::Menu *)lua::get_lightuserdata(L, -1);
                 auto s = m->has_signal();
                 lua_pushnumber(L, s);
+                return 1;
+            }
+
+            int signal_tag(lua_State *L) {
+                auto m = (ui::Menu *)lua::get_lightuserdata(L, -1);
+                auto s = m->signal_tag();
+                lua_pushstring(L, s.c_str());
                 return 1;
             }
 

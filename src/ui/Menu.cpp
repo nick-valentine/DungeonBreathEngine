@@ -168,16 +168,15 @@ namespace ui {
             i->update(delta, window);
             auto s = i->signal();
             if (s.type != EType::NONE) {
-                if (s.type != EType::NONE) {
-                    signal_caught = true;
-                    tag_signal = i->tag;
-                    switch (s.type) {
-                        case EType::INT:
-                            int_signal = s.iVal;
-                            break;
-                        case EType::STRING:
-                            str_signal = s.sVal;
-                    }
+                signal_caught = true;
+                tag_signal = i->tag;
+                switch (s.type) {
+                    case EType::INT:
+                        int_signal = s.iVal;
+                        break;
+                    case EType::STRING:
+                        core::app_container.get_logger()->warn(s.sVal.c_str());
+                        str_signal = s.sVal;
                 }
             }
         }

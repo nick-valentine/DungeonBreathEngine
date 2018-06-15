@@ -11,7 +11,7 @@ void DevConsole::write(std::string content)
     }
 }
 
-void DevConsole::imgui_draw()
+void DevConsole::imgui_draw(sf::Vector2i size)
 {
     char buff[MAX_BUFFER_SIZE];
     int idx = 0;
@@ -25,6 +25,6 @@ void DevConsole::imgui_draw()
     }
     buff[idx+1] = '\0';
     ImGui::Begin("Dev Console:");
-    ImGui::InputTextMultiline("", buff, idx);
+    ImGui::InputTextMultiline("", buff, idx, ImVec2(size.x, size.y/3));
     ImGui::End();
 }

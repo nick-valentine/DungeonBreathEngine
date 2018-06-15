@@ -51,7 +51,7 @@ int main()
         ImGui::SFML::Update(window, sfml_delta);
         stack.top()->update(delta, window);
 
-        core::app_container.get_console()->imgui_draw();
+        core::app_container.get_console()->imgui_draw(sf::Vector2i(resolution_x, resolution_y));
 
         window.clear(sf::Color::Black);
         stack.top()->draw(window);

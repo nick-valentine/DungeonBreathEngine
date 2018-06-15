@@ -12,6 +12,8 @@ namespace lua {
                 { "reset_camera", reset_camera },
                 { "get_camera_center", get_camera_center },
                 { "move_camera", move_camera },
+                { "init_world", init_world },
+                { "get_world", get_world },
                 { NULL, NULL },
             };
 
@@ -79,6 +81,21 @@ namespace lua {
             auto y = lua::get_num_field(L, -1, "y");
             s->move_camera(sf::Vector2f(x, y));
             return 0;
+        }
+
+        int init_world(lua_State *L)
+        {
+            auto s = (scene::Scene *)lua::get_lightuserdata(L, -1);
+            s->init_world();
+            return 0;
+        }
+
+        int get_world(lua_State *L)
+        {
+            auto s = (scene::Scene *)lua::get_lightuserdata(L, -1);
+            auto w = s->get_world();
+            lua_pushlightuserdata(L, w);
+            return 1;
         }
     }
 };

@@ -29,6 +29,9 @@ namespace scene {
 
     Scene::~Scene()
     {
+        if (world != nullptr) {
+            delete world;
+        }
         delete s;
         delete menu;
     }
@@ -36,6 +39,10 @@ namespace scene {
     void Scene::update(int delta, sf::RenderWindow &window)
     {
         menu->update(delta, window);
+
+        if (world != nullptr) {
+            world->update(delta, window);
+        }
 
         lua_getglobal(s->s, TABLENAME);
         if (!lua_istable(s->s, -1)) {
@@ -57,6 +64,9 @@ namespace scene {
     {
         window.setView(this->main_window);
         menu->draw(window);
+        if (world != nullptr) {
+            world->draw(window);
+        }
     }
 
     void Scene::init()
@@ -155,6 +165,16 @@ namespace scene {
     void Scene::move_camera(sf::Vector2f diff)
     {
         this->main_window.move(diff);
+    }
+
+    void Scene::init_world()
+    {
+        this->world = new play::WorldManager();
+    }
+
+    play::World *Scene::get_world()
+    {
+        return world->get().get();
     }
 };
 

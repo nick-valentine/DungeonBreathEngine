@@ -45,6 +45,8 @@ namespace scene {
         sf::Vector2f get_camera_center();
         void move_camera(sf::Vector2f diff);
 
+        void init_world();
+        play::World *get_world();
     protected:
         Status state = nothing;
         Scene* next_scene = nullptr;
@@ -57,6 +59,7 @@ namespace scene {
         lua::Script *s;
 
         ui::Menu *menu;
+        play::WorldManager *world = nullptr;
     };
 };
 

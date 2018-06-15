@@ -9,6 +9,7 @@ SET (SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Index.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Input.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Logger.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Stats.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/StringProvider.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Strings.cpp
     PARENT_SCOPE

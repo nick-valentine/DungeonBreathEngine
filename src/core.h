@@ -10,6 +10,7 @@
 #include "core/Index.h"
 #include "core/Input.h"
 #include "core/Logger.h"
+#include "core/Stats.h"
 #include "core/StringProvider.h"
 #include "core/Strings.h"
 

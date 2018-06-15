@@ -19,6 +19,7 @@ typedef std::stack<StackItem> GameStack;
 
 int main()
 {
+    auto stats = core::Stats();
     auto console_open = false;
     bool last_tilde_pressed = false;
 
@@ -48,6 +49,7 @@ int main()
 
         auto sfml_delta = timer.restart();
         delta = int(sfml_delta.asMicroseconds());
+        stats.push_delta(delta);
         sf::sleep(sf::microseconds(sf::Int64(std::max(frame_frequency - float(delta), 0.0f))));
 
         handleEvents(window);
@@ -56,6 +58,7 @@ int main()
 
         if (console_open) {
             core::app_container.get_console()->imgui_draw(sf::Vector2i(resolution_x, resolution_y));
+            stats.imgui_draw(sf::Vector2i(resolution_x, resolution_y));
         }
         {
             auto tilde_pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Tilde);

@@ -7,6 +7,7 @@
 #include "core.h"
 #include "lua.h"
 #include "l_core.h"
+#include "l_imgui.h"
 #include "l_ui.h"
 #include "l_scene.h"
 #include "l_audio.h"

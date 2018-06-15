@@ -33,6 +33,7 @@ me = {
             logger.info("level edit pressed")
         elseif pressed == "tile_edit" then
             logger.info("tile edit pressed")
+            scene.push(me.self, "tileset")
         elseif pressed == "play" then
             logger.info("play pressed")
             scene.push(me.self, "game")

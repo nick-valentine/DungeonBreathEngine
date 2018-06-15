@@ -1,6 +1,7 @@
 SET (SOURCES
     ${SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/lua.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/l_render.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/l_audio.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/l_core.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/l_play.cpp

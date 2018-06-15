@@ -19,6 +19,9 @@ typedef std::stack<StackItem> GameStack;
 
 int main()
 {
+    auto console_open = false;
+    bool last_tilde_pressed = false;
+
     core::ConfigLoader::load();
     std::string lang = core::ConfigLoader::get_string_option("language", "eng");
     core::StringProvider::load(lang);
@@ -51,7 +54,16 @@ int main()
         ImGui::SFML::Update(window, sfml_delta);
         stack.top()->update(delta, window);
 
-        core::app_container.get_console()->imgui_draw(sf::Vector2i(resolution_x, resolution_y));
+        if (console_open) {
+            core::app_container.get_console()->imgui_draw(sf::Vector2i(resolution_x, resolution_y));
+        }
+        {
+            auto tilde_pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Tilde);
+            if (last_tilde_pressed && !tilde_pressed) {
+                console_open = !console_open;
+            }
+            last_tilde_pressed = tilde_pressed;
+        }
 
         window.clear(sf::Color::Black);
         stack.top()->draw(window);

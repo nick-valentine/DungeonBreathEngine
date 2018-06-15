@@ -1,11 +1,14 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
+#include <algorithm>
+#include <chrono>
+#include <ctime>
+#include <iomanip>
 #include <stdarg.h>
 #include <stdio.h>
-#include <algorithm>
+#include <sstream>
 #include <string>
-#include <ctime>
 
 #include "ConfigLoader.h"
 

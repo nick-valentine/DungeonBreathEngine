@@ -39,14 +39,11 @@ namespace core {
 
     std::string Logger::getTime()
     {
-    //    char buffer[80];
-    //    time_t rawTime;
-    //    struct tm *timeInfo;
-    //    timeInfo = localtime(&rawTime);
-    //    strftime(buffer, sizeof(buffer), "%d-%m-%Y %I:%M:%S", timeInfo);
-    //    std::string time = buffer;
-    //    return time;
-        return "";
+        std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+        std::time_t now_c = std::chrono::system_clock::to_time_t(now);
+        std::stringstream ss;
+        ss<<std::put_time(std::localtime(&now_c), "%F %T");
+        return ss.str();
     }
 }
 

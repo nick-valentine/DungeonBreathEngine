@@ -1,8 +1,4 @@
 function init_actor(self)
-    for k, v in pairs(input) do
-        print(k)
-        print(v)
-    end
     actor_manager.set_camera_target(me.manager, me.handle)
     actor_manager.set_player(me.manager, me.handle)
     actor.set_scale(self, {x=0.75, y=0.75})

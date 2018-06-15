@@ -1,7 +1,6 @@
 #ifndef META_SCENE_H
 #define META_SCENE_H
 
-// #include "scene/Game.h"
 // #include "scene/TileSet.h"
 // #include "scene/TileSetNew.h"
 // #include "scene/TileSetEdit.h"

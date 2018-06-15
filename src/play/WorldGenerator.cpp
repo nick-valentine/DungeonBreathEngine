@@ -140,7 +140,6 @@ namespace play {
 
         while (line != "---" && ifile.good()) {
             std::stringstream ss(line);
-            std::cout<<line<<std::endl;
             int type;
             std::string action = "";
             std::string target = "";

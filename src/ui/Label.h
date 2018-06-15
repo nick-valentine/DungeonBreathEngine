@@ -16,7 +16,6 @@ namespace ui {
         void draw(sf::RenderWindow &window);
         void update(int delta, sf::RenderWindow &window);
 
-        void set_position(sf::Vector2i pos);
         void set_string(sf::String str);
         sf::String get_string();
         void set_color(sf::Color col);

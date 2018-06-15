@@ -22,11 +22,6 @@ namespace ui {
 
     }
 
-    void Label::set_position(sf::Vector2i pos)
-    {
-        this->text.setPosition(float(pos.x), float(pos.y));
-    }
-
     void Label::set_string(sf::String str)
     {
         this->text.setString(str);

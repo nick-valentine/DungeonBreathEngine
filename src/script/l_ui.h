@@ -3,6 +3,7 @@
 
 #include "lua.h"
 #include "ui.h"
+#include "core.h"
 
 namespace lua {
     namespace l_ui {
@@ -28,6 +29,13 @@ namespace lua {
             int set_left(lua_State *L);
             int pair_items(lua_State *L);
             int get_tag(lua_State *L);
+        };
+
+        namespace label {
+            int set_position(lua_State *L);
+            int set_string(lua_State *L);
+            int set_size(lua_State *L);
+
         };
     };
 

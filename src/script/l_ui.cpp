@@ -28,6 +28,20 @@ void lua::l_ui::add(lua_State *L)
         { NULL, NULL },
     };
     lua::add_lib(L, "menu_item", mi_lib);
+    auto table = lua::get_global_table(L, "menu_item");
+    lua::add_num_field(L, table, "up", ui::MenuItem::up);
+    lua::add_num_field(L, table, "down", ui::MenuItem::down);
+    lua::add_num_field(L, table, "left", ui::MenuItem::left);
+    lua::add_num_field(L, table, "right", ui::MenuItem::right);
+    lua_setglobal(L, "input");
+
+    LUALIB(l_lib) = {
+        { "set_position", label::set_position },
+        { "set_string", label::set_string },
+        { "set_size", label::set_size },
+        { NULL, NULL },
+    };
+    lua::add_lib(L, "label", l_lib);
 }
 
 namespace lua {
@@ -149,7 +163,7 @@ namespace lua {
                 return 1;
             }
 
-            int set_up(lua_State *L)
+                                                        int set_up(lua_State *L)
             {
                 auto mi = (ui::MenuItem *)lua::get_lightuserdata(L, -2);
                 auto other = (ui::MenuItem *)lua::get_lightuserdata(L, -1);
@@ -196,6 +210,35 @@ namespace lua {
                 auto s = mi->get_tag();
                 lua_pushstring(L, s.c_str());
                 return 1;
+            }
+        };
+
+        namespace label {
+            int set_position(lua_State *L)
+            {
+                auto l = (ui::Label *)lua::get_lightuserdata(L, -2);
+                auto x = lua::get_num_field(L, -1, "x");
+                auto y = lua::get_num_field(L, -1, "y");
+                auto width = lua::get_num_field(L, -1, "width");
+                auto height= lua::get_num_field(L, -1, "height");
+                l->set_pos(sf::IntRect(x, y, width, height));
+                return 0;
+            }
+
+            int set_string(lua_State *L)
+            {
+                auto l = (ui::Label *)lua::get_lightuserdata(L, -2);
+                auto x = lua::get_string(L, -1);
+                l->set_string(Strings::utf8_to_sfml(x));
+                return 0;
+            }
+
+            int set_size(lua_State *L)
+            {
+                auto l = (ui::Label *)lua::get_lightuserdata(L, -2);
+                auto size = lua::get_num(L, -1);
+                l->set_character_size(size);
+                return 0;
             }
         };
     };

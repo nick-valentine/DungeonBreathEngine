@@ -8,7 +8,6 @@ namespace lua {
         void add(lua_State *L);
         namespace menu {
             int set_current(lua_State *L);
-            int add_text_button(lua_State *L);
             int add_sprite_button(lua_State *L);
             int add_label(lua_State *L);
             int add_label_raw(lua_State *L);

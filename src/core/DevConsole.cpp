@@ -1,7 +1,7 @@
 #include "DevConsole.h"
 
-#define MAX_BUFFER_SIZE 512
-#define MAX_LINES 20
+#define MAX_BUFFER_SIZE 1024
+#define MAX_LINES 40
 
 void DevConsole::write(std::string content)
 {

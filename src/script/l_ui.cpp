@@ -6,7 +6,6 @@ void lua::l_ui::add(lua_State *L)
 {
     LUALIB(lib) = {
         { "set_current", menu::set_current },
-        { "add_text_button", menu::add_text_button },
         { "add_sprite_button", menu::add_sprite_button },
         { "add_label", menu::add_label },
         { "add_label_raw", menu::add_label_raw },
@@ -54,17 +53,6 @@ namespace lua {
                 auto mi = (ui::MenuItem *)lua::get_lightuserdata(L, -1);
                 m->set_current(mi);
                 return 0;
-            }
-
-            int add_text_button(lua_State *L) {
-                auto m = (ui::Menu *)lua::get_lightuserdata(L, -4);
-                auto tag = lua::get_string(L, -3);
-                auto x = lua::get_num_field(L, -2, "x");
-                auto y = lua::get_num_field(L, -2, "y");
-                auto content_key = lua::get_string(L, -1);
-                auto p = m->add_text_button(tag, sf::Vector2i(x, y), content_key);
-                lua_pushlightuserdata(L, p);
-                return 1;
             }
 
             int add_sprite_button(lua_State *L) {

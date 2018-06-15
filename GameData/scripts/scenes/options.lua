@@ -29,8 +29,8 @@ function build_menu()
     local vol_left = ui.left(options, "vol_left", shapes.rectangle(200, 150, 50, 50))
     local vol_right = ui.right(options, "vol_right", shapes.rectangle(350, 150, 50, 50))
 
-    local key_bindings_button = menu.add_text_button(options, "key_bind", {x=10, y=size.y-160}, "optionsmenu.key_bind_button")
-    local exit_button = menu.add_text_button(options, "exit", {x=10, y=size.y-100}, "optionsmenu.back_button")
+    local key_bindings_button = ui.textbutton(options, "key_bind", {x=10, y=size.y-160}, "optionsmenu.key_bind_button").button
+    local exit_button = ui.textbutton(options, "exit", {x=10, y=size.y-100}, "optionsmenu.back_button").button
 
     menu.set_current(options, lang_left)
     menu_item.pair_items(lang_left, lang_right, menu_item.right)

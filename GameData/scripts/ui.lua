@@ -22,4 +22,20 @@ ui.right = function(m, tag, rect)
     )
 end
 
+ui.textbutton = function(m, tag, pos, text)
+    local rect = {x=pos.x, y=pos.y, width=300, height=50}
+    local button = menu.add_sprite_button(
+        m, tag, rect, ui.tex,
+        {x=0, y=128, width=300, height=57},
+        {x=0, y=285, width=300, height=57},
+        {x=0, y=360, width=300, height=57}
+    )
+
+    rect.x = rect.x + 50
+    local label = menu.add_label(
+        m, rect, text
+    )
+    return {button= button, label= label}
+end
+
 return ui;

@@ -1,14 +1,15 @@
 package.path = package.path .. ";GameData/scripts/?.lua"
 local music_list = require 'music_list'
+local ui = require 'ui'
 
 main = nil;
 size = nil
 function build_menu()
-    local level_edit_button = menu.add_text_button(main, "level_edit", {x=10, y=size.y-340}, "mainmenu.level_editor_button")
-    local tile_edit_button = menu.add_text_button(main, "tile_edit", {x=10, y=size.y-280}, "mainmenu.tile_editor_button")
-    local play_button = menu.add_text_button(main, "play", {x=10, y=size.y-220}, "mainmenu.new_game_button")
-    local options_button = menu.add_text_button(main, "options", {x=10, y=size.y-160}, "mainmenu.options_button")
-    local exit_button = menu.add_text_button(main, "exit", {x=10, y=size.y-100}, "mainmenu.exit_button")
+    local level_edit_button = ui.textbutton(main, "level_edit", {x=10, y=size.y-340}, "mainmenu.level_editor_button").button
+    local tile_edit_button = ui.textbutton(main, "tile_edit", {x=10, y=size.y-280}, "mainmenu.tile_editor_button").button
+    local play_button = ui.textbutton(main, "play", {x=10, y=size.y-220}, "mainmenu.new_game_button").button
+    local options_button = ui.textbutton(main, "options", {x=10, y=size.y-160}, "mainmenu.options_button").button
+    local exit_button = ui.textbutton(main, "exit", {x=10, y=size.y-100}, "mainmenu.exit_button").button
 
     menu.set_current(main, play_button)
     menu_item.pair_items(level_edit_button, tile_edit_button, 1)
@@ -28,7 +29,11 @@ me = {
         end
 
         local pressed = menu.signal_tag(main)
-        if pressed == "play" then
+        if pressed == "level_edit" then
+            logger.info("level edit pressed")
+        elseif pressed == "tile_edit" then
+            logger.info("tile edit pressed")
+        elseif pressed == "play" then
             logger.info("play pressed")
             scene.push(me.self, "game")
         elseif pressed == "options" then

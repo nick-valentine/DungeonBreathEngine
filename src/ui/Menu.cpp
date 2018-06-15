@@ -195,19 +195,6 @@ namespace ui {
         current = m;
     }
 
-    MenuItem *Menu::add_text_button(std::string tag, sf::Vector2i pos, std::string content_key)
-    {
-        auto x = new MenuItem(tag, 
-            new TextButton(
-                sf::IntRect(pos.x, pos.y, 300, 50), 
-                core::StringProvider::get(content_key)
-            )
-        );
-
-        menu_items.push_back(x);
-        return x;
-    }
-
     MenuItem *Menu::add_sprite_button(std::string tag, sf::IntRect pos, std::string tex_name, sf::IntRect normal, sf::IntRect hover, sf::IntRect press)
     {
         tex_name = IMGDIR + tex_name;

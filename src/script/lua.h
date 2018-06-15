@@ -3,6 +3,7 @@
 
 #include "Macros.h"
 #include <string>
+#include <vector>
 
 #define LUALIB(a) static const struct luaL_Reg a []
 
@@ -37,6 +38,9 @@ namespace lua {
     std::string get_string(lua_State *L, int pos);
     void *get_userdata(lua_State *L, int pos);
     void *get_lightuserdata(lua_State *L, int pos);
+
+    std::vector<float> get_float_array(lua_State *L, int pos);
+    std::vector<std::string> get_string_array(lua_State *L, int pos);
 };
 
 #endif //LUA_H

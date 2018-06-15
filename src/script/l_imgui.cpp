@@ -15,6 +15,7 @@ namespace lua {
                 { "input_text", input_text },
                 { "input_int", input_int },
                 { "input_float", input_float },
+                { "listbox", listbox},
                 { NULL, NULL},
             };
             lua::add_lib(L, "imgui", lib);
@@ -81,6 +82,24 @@ namespace lua {
             auto f = lua::get_num(L, -1);
             ImGui::InputFloat(label.c_str(), &f);
             lua_pushnumber(L, f);
+            return 1;
+        }
+
+        int listbox(lua_State *L) {
+            auto label = lua::get_string(L, -3);
+            auto current = (int)lua::get_num(L, -2);
+            auto items = lua::get_string_array(L, -1);
+            char **items_c = new char*[items.size()];
+            for (size_t i = 0; i < items.size(); ++i) {
+                items_c[i] = new char[INPUT_BUFF_SIZE];
+                strncpy(items_c[i], items[i].c_str(), items[i].size());
+            }
+            ImGui::ListBox(label.c_str(), &current, items_c, items.size());
+            for (int i = 0; i < items.size(); ++i) {
+                delete items_c[i];
+            }
+            delete items_c;
+            lua_pushnumber(L, current);
             return 1;
         }
     };

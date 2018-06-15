@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <iostream>
+
 void lua::stacktrace(lua_State *L)
 {
     int top = lua_gettop(L);
@@ -120,4 +122,37 @@ void *lua::get_lightuserdata(lua_State *L, int pos)
         lua::error(L, "parameter not light userdata");
     }
     return lua_touserdata(L, pos);
+}
+
+std::vector<float> lua::get_float_array(lua_State *L, int pos)
+{
+    if (!lua_istable(L, pos)) {
+        lua::error(L, "parameter must be array");
+    }
+    auto size = luaL_len(L, pos);
+    std::vector<float> arr(size, 0);
+
+    for (int i = 1; i <= size; ++i) {
+        lua_rawgeti(L, pos, i);
+        arr[i] = lua::get_num(L, -1);
+        lua_pop(L, 1);
+    }
+    return arr;
+}
+
+std::vector<std::string> lua::get_string_array(lua_State *L, int pos)
+{
+    if (!lua_istable(L, pos)) {
+        lua::error(L, "parameter must be array");
+    }
+    auto size = luaL_len(L, pos);
+    std::cout<<size<<std::endl;
+    std::vector<std::string> arr(size, "");
+
+    for (int i = 1; i <= size; ++i) {
+        lua_rawgeti(L, pos, i);
+        arr[i] = lua::get_string(L, -1);
+        lua_pop(L, 1);
+    }
+    return arr;
 }

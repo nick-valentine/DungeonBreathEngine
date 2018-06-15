@@ -2,6 +2,7 @@ local checked = 0;
 local input_text_field = "";
 local input_int_field = 0;
 local input_float_field = 0;
+local list_input = 0;
 me = {
     init = function()
 
@@ -20,6 +21,7 @@ me = {
         input_text_field = imgui.input_text("input text: ", input_text_field)
         input_int_field = imgui.input_int("input int: ", input_int_field)
         input_float_field = imgui.input_float("input float: ", input_float_field)
+        -- list_input = imgui.listbox("input list: ", list_input, {"option1", "option2", "option3"})
         imgui.stop()
     end,
     wakeup = function()

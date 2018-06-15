@@ -17,6 +17,8 @@ namespace lua {
         int input_text(lua_State *L);
         int input_int(lua_State *L);
         int input_float(lua_State *L);
+        // experimental
+        int listbox(lua_State *L);
     };
 };
 

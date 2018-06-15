@@ -2,8 +2,6 @@
 #define SCRIPT_UI_H
 
 #include "lua.h"
-#include "ui.h"
-#include "core.h"
 
 namespace lua {
     namespace l_ui {

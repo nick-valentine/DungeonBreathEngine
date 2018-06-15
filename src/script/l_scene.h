@@ -2,7 +2,6 @@
 #define SCRIPT_SCENE_H
 
 #include "lua.h"
-#include "scene.h"
 
 namespace lua {
     namespace l_scene {

@@ -2,12 +2,12 @@
 #define SCRIPT_PLAY_H
 
 #include "lua.h"
-#include "play.h"
 
 namespace lua {
     namespace world {
         void add(lua_State *L);
         int change_level(lua_State *L);
+        int get_actorman(lua_State *L);
     };
 
     namespace actor {

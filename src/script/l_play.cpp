@@ -1,4 +1,5 @@
 #include "l_play.h"
+#include "play.h"
 
 namespace lua {
     namespace world {
@@ -6,13 +7,14 @@ namespace lua {
         {
             LUALIB(lib) = {
                 { "change_level", change_level },
+                { "get_actorman", get_actorman },
                 { NULL, NULL}
             };
             lua::add_lib(L, "world", lib);
         }
 
         int change_level(lua_State *L) {
-            play::World *w = (play::World *)lua_touserdata(L, -3);
+            play::World *w = (play::World *)lua::get_lightuserdata(L, -3);
             auto name = lua::get_string(L, -2);
             auto x = lua::get_num_field(L, "x");
             auto y = lua::get_num_field(L, "y");
@@ -21,6 +23,13 @@ namespace lua {
             w->request_level_load(name, sf::Vector2i(x, y));
 
             return 0;
+        }
+
+        int get_actorman(lua_State *L) {
+            play::World *w = (play::World *)lua::get_lightuserdata(L, -1);
+            auto a = w->get_actorman();
+            lua_pushlightuserdata(L, a);
+            return 1;
         }
     };
 
@@ -48,15 +57,14 @@ namespace lua {
             play::Actor *a = (play::Actor *)lua::get_lightuserdata(L, -1);
             sf::FloatRect rect;
             if (a != nullptr) {
-                core::app_container.get_logger()->debug("get_rect called with null actor");
                 rect = a->get_rect();
             }
             lua_newtable(L);
             auto table = lua_gettop(L);
             lua_pushnumber(L, rect.left);
-            lua_setfield(L, table, "left");
+            lua_setfield(L, table, "x");
             lua_pushnumber(L, rect.top);
-            lua_setfield(L, table, "top");
+            lua_setfield(L, table, "y");
             lua_pushnumber(L, rect.width);
             lua_setfield(L, table, "width");
             lua_pushnumber(L, rect.height);
@@ -229,7 +237,7 @@ namespace lua {
 
         int get_camera_target(lua_State *L)
         {
-            auto a = (play::ActorManager *)lua::get_lightuserdata(L, -2);
+            auto a = (play::ActorManager *)lua::get_lightuserdata(L, -1);
             auto t = a->get_camera_target();
             lua_pushlightuserdata(L, t.get());
             return 1;

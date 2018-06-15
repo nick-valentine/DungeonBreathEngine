@@ -8,6 +8,11 @@ namespace lua {
         luaL_openlibs(s);
         lua::container::add(s);
         lua::l_audio::add(s);
+        lua::l_ui::add(s);
+        lua::l_scene::add(s);
+        lua::world::add(s);
+        lua::actor::add(s);
+        lua::actorman::add(s);
         std::string full_path = SCRIPTDIR;
         full_path += filename;
         core::app_container.get_logger()->info("loading script %s", full_path.c_str());

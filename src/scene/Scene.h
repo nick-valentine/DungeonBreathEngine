@@ -7,6 +7,7 @@
 
 #include "Macros.h"
 #include "core.h"
+#include "play.h"
 #include "ui.h"
 #include "script.h"
 

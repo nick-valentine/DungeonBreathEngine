@@ -2,7 +2,6 @@
 #define SCRIPT_CORE_H
 
 #include "lua.h"
-#include "core.h"
 
 namespace lua {
     namespace config {

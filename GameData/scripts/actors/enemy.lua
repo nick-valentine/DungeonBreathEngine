@@ -13,8 +13,8 @@ function update_actor(self, delta)
     old_vel = actor.get_velocity(self)
 
     -- @todo: library this out in lua
-    vel.x = goal.left - pos.left
-    vel.y = goal.top - pos.top
+    vel.x = goal.x - pos.x
+    vel.y = goal.y - pos.y
     -- standard normalization of vector
     len = math.sqrt((vel.x*vel.x) + (vel.y*vel.y))
     vel.x = vel.x / len

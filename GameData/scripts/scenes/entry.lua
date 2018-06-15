@@ -1,3 +1,6 @@
+package.path = package.path .. ";GameData/scripts/?.lua"
+local music_list = require 'music_list'
+
 main = nil;
 size = nil
 function build_menu()
@@ -27,6 +30,7 @@ me = {
         local pressed = menu.signal_tag(main)
         if pressed == "play" then
             logger.info("play pressed")
+            scene.push(me.self, "game")
         elseif pressed == "options" then
             logger.info("options pressed")
             scene.push(me.self, "options")
@@ -35,7 +39,7 @@ me = {
         end
     end,
     wakeup = function()
-        music.play("Harp.ogg")
+        music.play(music_list.menu)
         menu.clear(main)
         build_menu()
     end

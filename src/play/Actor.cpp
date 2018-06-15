@@ -13,8 +13,6 @@ namespace play {
         filename += name;
         filename += ".lua";
         s = new lua::Script(filename);
-        lua::actor::add(s->s);
-        lua::actorman::add(s->s);
         s->call();
 
         lua_getglobal(s->s, TABLENAME);

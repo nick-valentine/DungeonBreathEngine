@@ -1,4 +1,5 @@
 #include "l_scene.h"
+#include "scene.h"
 
 namespace lua {
     namespace l_scene {

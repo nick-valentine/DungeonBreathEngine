@@ -1,4 +1,6 @@
 #include "l_ui.h"
+#include "ui.h"
+#include "core.h"
 
 void lua::l_ui::add(lua_State *L)
 {
@@ -33,7 +35,7 @@ void lua::l_ui::add(lua_State *L)
     lua::add_num_field(L, table, "down", ui::MenuItem::down);
     lua::add_num_field(L, table, "left", ui::MenuItem::left);
     lua::add_num_field(L, table, "right", ui::MenuItem::right);
-    lua_setglobal(L, "input");
+    lua_setglobal(L, "menu_item");
 
     LUALIB(l_lib) = {
         { "set_position", label::set_position },

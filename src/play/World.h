@@ -45,6 +45,7 @@ namespace play {
         sf::Vector2i next_player_pos();
 
         ActorManager::actor_ptr get_camera_target();
+        ActorManager *get_actorman();
     private:
         void add_layer(int num_layers = 1);
         std::string convert_collision_boxes();

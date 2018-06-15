@@ -211,6 +211,11 @@ namespace play {
         return this->actor_man->get_camera_target();
     }
 
+    ActorManager *World::get_actorman()
+    {
+        return this->actor_man.get();
+    }
+
     void World::add_layer(int num_layers)
     {
         for (int n = 0; n < num_layers; ++n) {

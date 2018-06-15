@@ -1,5 +1,6 @@
 package.path = package.path .. ";GameData/scripts/?.lua"
 local shapes = require 'shapes'
+local music_list = require 'music_list'
 local ui = require 'ui'
 
 local options = nil;
@@ -82,6 +83,6 @@ me = {
         end
     end,
     wakeup = function()
-        music.play("Harp.ogg")
+        music.play(music_list.menu)
     end
 }

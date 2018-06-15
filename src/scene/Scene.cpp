@@ -5,6 +5,7 @@
 namespace scene {
     Scene::Scene(std::string name, sf::Vector2i size) : size(size), name(name)
     {
+        this->reset_camera();
         menu = new ui::Menu();
 
         std::string filename = SCENEDIR;
@@ -54,6 +55,7 @@ namespace scene {
 
     void Scene::draw(sf::RenderWindow &window)
     {
+        window.setView(this->main_window);
         menu->draw(window);
     }
 
@@ -138,6 +140,21 @@ namespace scene {
     sf::Vector2i Scene::get_size() const
     {
         return this->size;
+    }
+
+    void Scene::reset_camera()
+    {
+        this->main_window.reset(sf::FloatRect(0, 0, size.x, size.y));
+    }
+
+    sf::Vector2f Scene::get_camera_center()
+    {
+        return this->main_window.getCenter();
+    }
+
+    void Scene::move_camera(sf::Vector2f diff)
+    {
+        this->main_window.move(diff);
     }
 };
 

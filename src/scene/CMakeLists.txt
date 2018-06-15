@@ -1,7 +1,6 @@
 SET (SOURCES
     ${SOURCES}
     # ${CMAKE_CURRENT_SOURCE_DIR}/Game.cpp
-    # ${CMAKE_CURRENT_SOURCE_DIR}/Options.cpp
     # ${CMAKE_CURRENT_SOURCE_DIR}/TileSet.cpp
     # ${CMAKE_CURRENT_SOURCE_DIR}/TileSetNew.cpp
     # ${CMAKE_CURRENT_SOURCE_DIR}/TileSetEdit.cpp

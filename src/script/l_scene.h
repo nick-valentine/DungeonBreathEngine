@@ -11,6 +11,9 @@ namespace lua {
         int get_size(lua_State *L);
         int push(lua_State *L);
         int pop(lua_State *L);
+        int reset_camera(lua_State *L);
+        int get_camera_center(lua_State *L);
+        int move_camera(lua_State *L);
     };
 
 };

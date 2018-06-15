@@ -9,6 +9,9 @@ namespace lua {
                 { "pop", pop },
                 { "get_menu", get_menu },
                 { "get_size", get_size },
+                { "reset_camera", reset_camera },
+                { "get_camera_center", get_camera_center },
+                { "move_camera", move_camera },
                 { NULL, NULL },
             };
 
@@ -48,6 +51,33 @@ namespace lua {
         {
             auto s = (scene::Scene *)lua::get_lightuserdata(L, -1);
             s->indicate_pop();
+            return 0;
+        }
+
+        int reset_camera(lua_State *L)
+        {
+            auto s = (scene::Scene *)lua::get_lightuserdata(L, -1);
+            s->reset_camera();
+            return 0;
+        }
+
+        int get_camera_center(lua_State *L)
+        {
+            auto s = (scene::Scene *)lua::get_lightuserdata(L, -1);
+            auto c = s->get_camera_center();
+            lua_newtable(L);
+            auto t = lua_gettop(L);
+            lua::add_num_field(L, t, "x", c.x);
+            lua::add_num_field(L, t, "y", c.y);
+            return 1;
+        }
+
+        int move_camera(lua_State *L)
+        {
+            auto s = (scene::Scene *)lua::get_lightuserdata(L, -2);
+            auto x = lua::get_num_field(L, -1, "x");
+            auto y = lua::get_num_field(L, -1, "y");
+            s->move_camera(sf::Vector2f(x, y));
             return 0;
         }
     }

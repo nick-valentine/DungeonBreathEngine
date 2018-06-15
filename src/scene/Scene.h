@@ -22,27 +22,34 @@ namespace scene {
         };
 
         Scene(std::string name, sf::Vector2i size);
-        virtual ~Scene();
+        ~Scene();
 
-        virtual void update(int delta, sf::RenderWindow &window);
-        virtual void draw(sf::RenderWindow &window);
+        void update(int delta, sf::RenderWindow &window);
+        void draw(sf::RenderWindow &window);
 
-        virtual void init();
-        virtual void wakeup(sf::String message);
-        virtual sf::String sleep();
-        virtual sf::String pop();
-        virtual Status status();
-        virtual Scene *new_scene();
-        virtual void reset_status();
+        void init();
+        void wakeup(sf::String message);
+        sf::String sleep();
+        sf::String pop();
+        Status status();
+        Scene *new_scene();
+        void reset_status();
 
-        virtual void indicate_push(std::string name);
-        virtual void indicate_pop();
+        void indicate_push(std::string name);
+        void indicate_pop();
 
-        virtual ui::Menu *get_menu();
-        virtual sf::Vector2i get_size() const;
+        ui::Menu *get_menu();
+        sf::Vector2i get_size() const;
+
+        void reset_camera();
+        sf::Vector2f get_camera_center();
+        void move_camera(sf::Vector2f diff);
+
     protected:
         Status state = nothing;
         Scene* next_scene = nullptr;
+
+        sf::View main_window;
 
         sf::Vector2i size;
 

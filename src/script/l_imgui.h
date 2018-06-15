@@ -13,6 +13,10 @@ namespace lua {
         int button(lua_State *L);
         int checkbox(lua_State *L);
         int progressbar(lua_State *L);
+        int text(lua_State *L);
+        int input_text(lua_State *L);
+        int input_int(lua_State *L);
+        int input_float(lua_State *L);
     };
 };
 

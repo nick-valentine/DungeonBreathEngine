@@ -1,5 +1,7 @@
 #include "l_imgui.h"
 
+#define INPUT_BUFF_SIZE 64
+
 namespace lua {
     namespace l_imgui {
         void add(lua_State *L) {
@@ -8,7 +10,11 @@ namespace lua {
                 { "stop", end },
                 { "button", button },
                 { "checkbox", checkbox },
-                { "progressbar", progressbar},
+                { "progressbar", progressbar },
+                { "text", text },
+                { "input_text", input_text },
+                { "input_int", input_int },
+                { "input_float", input_float },
                 { NULL, NULL},
             };
             lua::add_lib(L, "imgui", lib);
@@ -44,6 +50,38 @@ namespace lua {
             auto f = lua::get_num(L, -1);
             ImGui::ProgressBar(f);
             return 0;
+        }
+
+        int text(lua_State *L) {
+            auto s = lua::get_string(L, -1);
+            ImGui::TextUnformatted(s.c_str());
+            return 0;
+        }
+
+        int input_text(lua_State *L) {
+            char input[INPUT_BUFF_SIZE];
+            auto label = lua::get_string(L, -2);
+            auto s = lua::get_string(L, -1);
+            strncpy(input, s.c_str(), s.size());
+            ImGui::InputText(label.c_str(), input, INPUT_BUFF_SIZE);
+            lua_pushstring(L, input);
+            return 1;
+        }
+
+        int input_int(lua_State *L) {
+            auto label = lua::get_string(L, -2);
+            auto i = (int)lua::get_num(L, -1);
+            ImGui::InputInt(label.c_str(), &i);
+            lua_pushnumber(L, i);
+            return 1;
+        }
+
+        int input_float(lua_State *L) {
+            auto label = lua::get_string(L, -2);
+            auto f = lua::get_num(L, -1);
+            ImGui::InputFloat(label.c_str(), &f);
+            lua_pushnumber(L, f);
+            return 1;
         }
     };
 };

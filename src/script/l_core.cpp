@@ -1,5 +1,4 @@
 #include "l_core.h"
-#include "core.h"
 
 namespace lua {
     namespace config {

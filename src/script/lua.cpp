@@ -68,19 +68,6 @@ int lua::get_global_table(lua_State *L, std::string name)
     return lua_gettop(L);
 }
 
-float lua::get_num_field(lua_State *L, std::string key)
-{
-    core::app_container.get_logger()->info("deprecated: get num field called");
-    lua_pushstring(L, key.c_str());
-    lua_gettable(L, -2);
-    if (!lua_isstring(L, -1)) {
-        lua::error(L, "value at key %s not int", key);
-    }
-    auto x = lua_tonumber(L, -1);
-    lua_pop(L, 1);
-    return x;
-}
-
 float lua::get_num_field(lua_State *L, int pos, std::string key)
 {
     if (pos < 0) {
@@ -99,7 +86,6 @@ float lua::get_num_field(lua_State *L, int pos, std::string key)
 void lua::add_num_field(lua_State *L, int pos, std::string key, float value)
 {
     auto k = key.c_str();
-    std::cout<<pos<<" "<<value<<" "<<k<<std::endl;
     lua_pushnumber(L, value);
     lua_setfield(L, pos, k);
 }

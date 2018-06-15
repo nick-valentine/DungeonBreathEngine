@@ -16,8 +16,8 @@ namespace lua {
         int change_level(lua_State *L) {
             play::World *w = (play::World *)lua::get_lightuserdata(L, -3);
             auto name = lua::get_string(L, -2);
-            auto x = lua::get_num_field(L, "x");
-            auto y = lua::get_num_field(L, "y");
+            auto x = lua::get_num_field(L, -1, "x");
+            auto y = lua::get_num_field(L, -1, "y");
             core::app_container.get_logger()->info("requesting level load");
 
             w->request_level_load(name, sf::Vector2i(x, y));
@@ -78,8 +78,8 @@ namespace lua {
             if (a == nullptr) {
                 return 0;
             }
-            auto x = lua::get_num_field(L, "x");
-            auto y = lua::get_num_field(L, "y");
+            auto x = lua::get_num_field(L, -1, "x");
+            auto y = lua::get_num_field(L, -1, "y");
             a->set_scale(sf::Vector2f(x, y));
             return 0;
         }
@@ -90,8 +90,8 @@ namespace lua {
             if (a == nullptr) {
                 return 0;
             }
-            auto x = lua::get_num_field(L, "x");
-            auto y = lua::get_num_field(L, "y");
+            auto x = lua::get_num_field(L, -1, "x");
+            auto y = lua::get_num_field(L, -1, "y");
             a->set_origin(sf::Vector2f(x, y));
             return 0;
         }
@@ -102,8 +102,8 @@ namespace lua {
             if (a == nullptr) {
                 return 0;
             }
-            auto x = lua::get_num_field(L, "x");
-            auto y = lua::get_num_field(L, "y");
+            auto x = lua::get_num_field(L, -1, "x");
+            auto y = lua::get_num_field(L, -1, "y");
             auto rect = a->get_rect();
             rect.width = x;
             rect.height = y;
@@ -133,8 +133,8 @@ namespace lua {
             if (a == nullptr) {
                 return 0;
             }
-            auto x = lua::get_num_field(L, "x");
-            auto y = lua::get_num_field(L, "y");
+            auto x = lua::get_num_field(L, -1, "x");
+            auto y = lua::get_num_field(L, -1, "y");
             a->set_velocity(sf::Vector2f(x, y));
             return 0;
         }
@@ -201,8 +201,8 @@ namespace lua {
         {
             auto a = (play::ActorManager *)lua::get_lightuserdata(L, -3);
             std::string name = lua_tostring(L, -2);
-            auto x = lua::get_num_field(L, "x");
-            auto y = lua::get_num_field(L, "y");
+            auto x = lua::get_num_field(L, -1, "x");
+            auto y = lua::get_num_field(L, -1, "y");
             auto h = a->spawn(name, sf::Vector2i(x, y));
             lua_pushnumber(L, h);
             return 1;

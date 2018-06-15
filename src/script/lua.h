@@ -22,8 +22,6 @@ extern "C" {
 #include "lua/lauxlib.h"
 #endif
 
-#include "core.h"
-
 namespace lua {
     void stacktrace(lua_State *L);
     void error(lua_State *L, const char *fmt, ...);
@@ -31,8 +29,6 @@ namespace lua {
 
     int get_global_table(lua_State *L, std::string name);
 
-    /* @todo: deprecate: assumes a table is at the top of the stack */
-    float get_num_field(lua_State *L, std::string key);
     float get_num_field(lua_State *L, int pos, std::string key);
     void add_num_field(lua_State *L, int pos, std::string key, float value);
 

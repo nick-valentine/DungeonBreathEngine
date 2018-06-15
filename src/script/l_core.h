@@ -1,6 +1,7 @@
 #ifndef SCRIPT_CORE_H
 #define SCRIPT_CORE_H
 
+#include "core.h"
 #include "lua.h"
 
 namespace lua {

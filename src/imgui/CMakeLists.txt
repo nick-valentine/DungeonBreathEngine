@@ -1,0 +1,6 @@
+SET (SOURCES
+    ${SOURCES}
+    ${CMAKE_CURRENT_SOURCE_DIR}/imgui.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/imgui_draw.cpp
+    PARENT_SCOPE
+)

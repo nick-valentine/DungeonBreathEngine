@@ -1,3 +1,5 @@
+add_subdirectory (imgui)
+add_subdirectory (imgui-sfml)
 add_subdirectory (lua)
 add_subdirectory (core)
 add_subdirectory (render)

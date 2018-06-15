@@ -6,6 +6,9 @@
 #include "core.h"
 #include "scene.h"
 
+#include "imgui.h"
+#include "imgui-SFML.h"
+
 // Global container instance
 core::Container core::app_container;
 
@@ -30,6 +33,7 @@ int main()
     const int frame_frequency = 33333; // 1/30 of a second
 
     sf::RenderWindow window(sf::VideoMode(resolution_x, resolution_y), "DungeonBreath");
+    ImGui::SFML::Init(window);
 
     GameStack stack;
     stack.push(StackItem(new scene::Scene("entry", sf::Vector2i(resolution_x, resolution_y))));
@@ -39,14 +43,21 @@ int main()
     int delta = 0;
     while (window.isOpen()) {
 
-        delta = int(timer.restart().asMicroseconds());
+        auto sfml_delta = timer.restart();
+        delta = int(sfml_delta.asMicroseconds());
         sf::sleep(sf::microseconds(sf::Int64(std::max(frame_frequency - float(delta), 0.0f))));
 
         handleEvents(window);
+        ImGui::SFML::Update(window, sfml_delta);
         stack.top()->update(delta, window);
+
+        ImGui::Begin("Hello World!");
+        ImGui::Button("button");
+        ImGui::End();
 
         window.clear(sf::Color::Black);
         stack.top()->draw(window);
+        ImGui::SFML::Render(window);
         window.display();
 
         scene::Scene::Status state = stack.top()->status();
@@ -67,6 +78,7 @@ int main()
             stack.top()->wakeup(m);
         }
     }
+    ImGui::SFML::Shutdown();
     return 0;
 }
 
@@ -74,6 +86,7 @@ void handleEvents(sf::RenderWindow &window)
 {
     sf::Event event;
     while (window.pollEvent(event)) {
+        ImGui::SFML::ProcessEvent(event);
         if (event.type == sf::Event::Closed) {
             window.close();
         }

@@ -2,8 +2,10 @@
 #define META_CORE_H
 
 #include "core/ConfigLoader.h"
+#include "core/DevConsoleLogger.h"
 #include "core/ConsoleLogger.h"
 #include "core/Container.h"
+#include "core/DevConsole.h"
 #include "core/DeviceButton.h"
 #include "core/Index.h"
 #include "core/Input.h"

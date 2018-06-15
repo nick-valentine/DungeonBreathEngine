@@ -51,9 +51,7 @@ int main()
         ImGui::SFML::Update(window, sfml_delta);
         stack.top()->update(delta, window);
 
-        ImGui::Begin("Hello World!");
-        ImGui::Button("button");
-        ImGui::End();
+        core::app_container.get_console()->imgui_draw();
 
         window.clear(sf::Color::Black);
         stack.top()->draw(window);

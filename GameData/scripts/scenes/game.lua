@@ -32,8 +32,6 @@ me = {
             update_camera(me.self, target)
         end
     end,
-    draw = function(window)
-    end,
     wakeup = function()
         music.play(music_list.overworld)
     end

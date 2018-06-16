@@ -35,6 +35,7 @@ namespace play {
 
         void update(int delta, sf::RenderWindow &window);
         void draw(sf::RenderWindow &window);
+        void render(sf::RenderWindow &window);
 
         void set_edit_mode(bool edit_mode);
 

@@ -154,6 +154,26 @@ namespace play {
 
     void World::draw(sf::RenderWindow &window)
     {
+        if (s == nullptr) {
+            return render(window);
+        }
+        lua_getglobal(s->s, TABLENAME);
+        if (!lua_istable(s->s, -1)) {
+            lua::error(s->s, "world table not found");
+        }
+        auto me_table = lua_gettop(s->s);
+        lua_getfield(s->s, me_table, "draw");
+        if (!lua_isfunction(s->s, -1)) {
+            return render(window);
+        }
+        lua_pushlightuserdata(s->s, &window);
+        if (lua_pcall(s->s, 1, 0, 0)) {
+            lua::error(s->s, "draw call failed");
+        }
+    }
+
+    void World::render(sf::RenderWindow &window)
+    {
         for (size_t i = 0; i < LAYERS_UNDER_ACTOR && i < world.size(); ++i) {
             auto & layer = world[i];
             for (auto& line: layer) {

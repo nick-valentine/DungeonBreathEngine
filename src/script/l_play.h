@@ -8,6 +8,7 @@ namespace lua {
         void add(lua_State *L);
         int change_level(lua_State *L);
         int get_actorman(lua_State *L);
+        int draw(lua_State *L);
     };
 
     namespace actor {

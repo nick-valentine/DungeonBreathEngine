@@ -8,6 +8,7 @@ namespace lua {
             LUALIB(lib) = {
                 { "change_level", change_level },
                 { "get_actorman", get_actorman },
+                { "draw", draw },
                 { NULL, NULL}
             };
             lua::add_lib(L, "world", lib);
@@ -30,6 +31,13 @@ namespace lua {
             auto a = w->get_actorman();
             lua_pushlightuserdata(L, a);
             return 1;
+        }
+
+        int draw(lua_State *L) {
+            auto w = (play::World *)lua::get_lightuserdata(L, -2);
+            auto win = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
+            w->render(*win);
+            return 0;
         }
     };
 

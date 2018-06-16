@@ -28,7 +28,7 @@ select_menu.update = function(delta)
     for k, v in pairs(dir_items) do
         if imgui.button(v) == 1.0 then
             select_menu.signal = {}
-            select_menu.signal.existing_name = v
+            select_menu.signal.name = v
         end
     end
     imgui.stop()

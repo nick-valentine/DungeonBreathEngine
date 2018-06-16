@@ -36,7 +36,9 @@ namespace render {
         for (size_t i = 0; i < sprites.size(); ++i) {
             if (sprites[i].get() == s) {
                 sprites[i].reset();
-                sprites[i].swap(sprites[sprites.size() - 1]);
+                if (sprites.size() > 0) {
+                    sprites[i].swap(sprites[sprites.size() - 1]);
+                }
                 sprites.pop_back();
                 return;
             }

@@ -13,6 +13,9 @@ namespace lua {
         int reset_camera(lua_State *L);
         int get_camera_center(lua_State *L);
         int move_camera(lua_State *L);
+        int set_viewport(lua_State *L);
+        int get_viewport(lua_State *L);
+        int zoom_camera(lua_State *L);
         int init_world(lua_State *L);
         int get_world(lua_State *L);
         int draw(lua_State *L);

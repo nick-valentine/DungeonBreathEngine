@@ -198,6 +198,21 @@ namespace scene {
         this->main_window.move(diff);
     }
 
+    void Scene::set_viewport(sf::FloatRect c)
+    {
+        this->main_window.setViewport(c);
+    }
+
+    sf::FloatRect Scene::get_viewport()
+    {
+        return this->main_window.getViewport();
+    }
+
+    void Scene::zoom_camera(float factor)
+    {
+        this->main_window.zoom(factor);
+    }
+
     void Scene::init_world()
     {
         this->world = new play::WorldManager();

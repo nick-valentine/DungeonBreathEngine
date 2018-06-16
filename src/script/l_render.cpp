@@ -59,6 +59,7 @@ namespace lua {
         void add(lua_State *L) {
             LUALIB(lib) = {
                 { "set_position", set_position },
+                { "set_scale", set_scale },
                 { "draw", draw },
                 { NULL, NULL },
             };
@@ -70,6 +71,13 @@ namespace lua {
             auto left = lua::get_num_field(L, -1, "x");
             auto top = lua::get_num_field(L, -1, "y");
             spr->setPosition(left, top);
+            return 0;
+        }
+
+        int set_scale(lua_State *L) {
+            auto spr = (sf::Sprite *)lua::get_lightuserdata(L, -2);
+            auto vec = lua::get_vec(L, -1);
+            spr->setScale(vec);
             return 0;
         }
 

@@ -46,6 +46,9 @@ namespace scene {
         void reset_camera();
         sf::Vector2f get_camera_center();
         void move_camera(sf::Vector2f diff);
+        void set_viewport(sf::FloatRect c);
+        sf::FloatRect get_viewport();
+        void zoom_camera(float factor);
 
         void init_world();
         play::World *get_world();

@@ -20,6 +20,7 @@ namespace lua {
         void add(lua_State *L);
 
         int set_position(lua_State *L);
+        int set_scale(lua_State *L);
         int draw(lua_State *L);
     };
 

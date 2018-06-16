@@ -13,6 +13,9 @@ namespace lua {
                 { "reset_camera", reset_camera },
                 { "get_camera_center", get_camera_center },
                 { "move_camera", move_camera },
+                { "set_viewport", set_viewport },
+                { "get_viewport", get_viewport },
+                { "zoom_camera", zoom_camera },
                 { "init_world", init_world },
                 { "get_world", get_world },
                 { "draw", draw },
@@ -82,6 +85,30 @@ namespace lua {
             auto x = lua::get_num_field(L, -1, "x");
             auto y = lua::get_num_field(L, -1, "y");
             s->move_camera(sf::Vector2f(x, y));
+            return 0;
+        }
+
+        int set_viewport(lua_State *L)
+        {
+            auto s = (scene::Scene *)lua::get_lightuserdata(L, -2);
+            auto r = lua::get_rect(L, -1);
+            s->set_viewport(r);
+            return 0;
+        }
+
+        int get_viewport(lua_State *L)
+        {
+            auto s = (scene::Scene *)lua::get_lightuserdata(L, -1);
+            auto r = s->get_viewport();
+            lua::put_rect(L, r);
+            return 1;
+        }
+
+        int zoom_camera(lua_State *L)
+        {
+            auto s = (scene::Scene *)lua::get_lightuserdata(L, -2);
+            auto r = lua::get_num(L, -1);
+            s->zoom_camera(r);
             return 0;
         }
 

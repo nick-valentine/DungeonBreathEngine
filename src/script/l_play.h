@@ -22,6 +22,7 @@ namespace lua {
         int pause_anim(lua_State *L);
         int play_anim(lua_State *L);
         int reset_anim(lua_State *L);
+        int draw(lua_State *L);
     };
 
     namespace actorman {

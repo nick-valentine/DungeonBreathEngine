@@ -1,9 +1,14 @@
+local spr = nil;
+
 function init_actor(self)
     actor_manager.set_camera_target(me.manager, me.handle)
     actor_manager.set_player(me.manager, me.handle)
     actor.set_scale(self, {x=0.75, y=0.75})
     actor.set_origin(self, {x=9, y=1})
     actor.set_collision_bounds(self, {x=50, y=80})
+
+    local spr_man = sprite_manager.get("Overworld.png", 16);
+    spr = sprite_manager.make_sprite(spr_man, {x=0, y=0}, {x=1, y=1})
 end
 
 function update_actor(self, delta)
@@ -51,6 +56,9 @@ function update_actor(self, delta)
     end
 
     actor.set_velocity(self, vel)
+
+    local target_rect = actor.get_rect(me.self)
+    sprite.set_position(spr, target_rect)
 end
 
 me = {
@@ -60,5 +68,9 @@ me = {
     end,
     init = function()
         init_actor(me.self)
+    end,
+    draw = function(window)
+        actor.draw(me.self, window)
+        sprite.draw(spr, window)
     end
 }

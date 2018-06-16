@@ -33,10 +33,10 @@ void lua::stacktrace(lua_State *L)
 
 void lua::error(lua_State *L, const char *fmt, ...)
 {
-    lua_Debug ar;
-    lua_getstack(L, 1, &ar);
-    lua_getinfo(L, "nSl", &ar);
-    printf("Lua: error on line %s:%d\n", ar.source, ar.currentline);
+    //lua_Debug ar;
+    //lua_getstack(L, 1, &ar);
+    //lua_getinfo(L, "nSl", &ar);
+    //printf("Lua: error on line %s:%d\n", ar.source, ar.currentline);
     va_list argp;
     va_start(argp, fmt);
     vfprintf(stderr, fmt, argp);

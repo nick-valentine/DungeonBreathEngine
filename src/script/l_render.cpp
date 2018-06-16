@@ -59,6 +59,7 @@ namespace lua {
         void add(lua_State *L) {
             LUALIB(lib) = {
                 { "set_position", set_position },
+                { "draw", draw },
                 { NULL, NULL },
             };
             lua::add_lib(L, "sprite", lib);
@@ -69,6 +70,13 @@ namespace lua {
             auto left = lua::get_num_field(L, -1, "x");
             auto top = lua::get_num_field(L, -1, "y");
             spr->setPosition(left, top);
+            return 0;
+        }
+
+        int draw(lua_State *L) {
+            auto spr = (sf::Sprite *)lua::get_lightuserdata(L, -2);
+            auto w = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
+            w->draw(*spr);
             return 0;
         }
 

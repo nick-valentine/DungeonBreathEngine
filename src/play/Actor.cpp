@@ -107,6 +107,24 @@ namespace play {
 
     void Actor::draw(sf::RenderWindow &window)
     {
+        lua_getglobal(s->s, TABLENAME);
+        if (!lua_istable(s->s, -1)) {
+            lua::error(s->s, "actor table not found");
+        }
+        auto actor_table = lua_gettop(s->s);
+        lua_getfield(s->s, actor_table, "draw");
+        if (!lua_isfunction(s->s, -1)) {
+            return;
+        }
+        lua_pushlightuserdata(s->s, &window);
+        if (lua_pcall(s->s, 1, 0, 0)) {
+            lua::error(s->s, "draw call failed");
+        }
+    }
+
+    void Actor::render(sf::RenderWindow &window)
+    {
+        core::app_container.get_logger()->info("render called");
         current_tile->draw(window);
 #if DEBUG
         auto x = sf::RectangleShape(sf::Vector2f(rect.width, rect.height));

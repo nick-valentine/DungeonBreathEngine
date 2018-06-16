@@ -63,5 +63,8 @@ me = {
     end,
     init = function()
         init_actor(me.self)
+    end,
+    draw = function(window)
+        actor.draw(me.self, window)
     end
 }

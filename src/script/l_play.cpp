@@ -47,6 +47,7 @@ namespace lua {
                 { "pause_anim", pause_anim },
                 { "play_anim", play_anim },
                 { "reset_anim", reset_anim },
+                { "draw", draw },
                 { NULL, NULL }
             };
             lua::add_lib(L, "actor", lib);
@@ -177,6 +178,15 @@ namespace lua {
                 return 0;
             }
             a->get_tile()->reset();
+            return 0;
+        }
+
+        int draw(lua_State *L)
+        {
+            core::app_container.get_logger()->info("draw called");
+            auto a = (play::Actor *)lua::get_lightuserdata(L, -2);
+            auto w = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
+            a->render(*w);
             return 0;
         }
     };

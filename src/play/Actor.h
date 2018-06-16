@@ -35,6 +35,7 @@ namespace play {
         void update(int delta);
         void commit_update(int delta);
         void draw(sf::RenderWindow &window);
+        void render(sf::RenderWindow &window);
         void hurt(pain p);
 
         std::string get_name() const;

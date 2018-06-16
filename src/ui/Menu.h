@@ -6,7 +6,6 @@
 #include <string>
 
 #include "Element.h"
-#include "TextButton.h"
 #include "SpriteButton.h"
 #include "Label.h"
 

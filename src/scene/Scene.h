@@ -27,6 +27,7 @@ namespace scene {
 
         void update(int delta, sf::RenderWindow &window);
         void draw(sf::RenderWindow &window);
+        void render(sf::RenderWindow &window);
 
         void init();
         void wakeup(sf::String message);

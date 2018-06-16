@@ -34,5 +34,8 @@ me = {
     end,
     wakeup = function()
         music.play(music_list.overworld)
+    end,
+    draw = function(window)
+        scene.draw(me.self, window)
     end
 }

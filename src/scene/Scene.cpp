@@ -62,6 +62,24 @@ namespace scene {
 
     void Scene::draw(sf::RenderWindow &window)
     {
+        lua_getglobal(s->s, TABLENAME);
+        if (!lua_istable(s->s, -1)) {
+            lua::error(s->s, TABLENAME " table not found");
+        }
+        auto me_table = lua_gettop(s->s);
+        lua_getfield(s->s, me_table, "draw");
+        if (!lua_isfunction(s->s, -1)) {
+            return render(window);
+        }
+        lua_pushlightuserdata(s->s, &window);
+        if (lua_pcall(s->s, 1, 0, 0) != 0) {
+            lua::error(s->s, "draw function failed");
+        }
+        lua_settop(s->s, me_table - 1);
+    }
+
+    void Scene::render(sf::RenderWindow &window)
+    {
         window.setView(this->main_window);
         menu->draw(window);
         if (world != nullptr) {

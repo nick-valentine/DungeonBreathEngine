@@ -15,6 +15,7 @@ namespace lua {
                 { "move_camera", move_camera },
                 { "init_world", init_world },
                 { "get_world", get_world },
+                { "draw", draw },
                 { NULL, NULL },
             };
 
@@ -97,6 +98,14 @@ namespace lua {
             auto w = s->get_world();
             lua_pushlightuserdata(L, w);
             return 1;
+        }
+
+        int draw(lua_State *L)
+        {
+            auto s = (scene::Scene *)lua::get_lightuserdata(L, -2);
+            auto w = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
+            s->render(*w);
+            return 0;
         }
     }
 };

@@ -48,6 +48,7 @@ namespace lua {
 
     std::vector<float> get_float_array(lua_State *L, int pos);
     std::vector<std::string> get_string_array(lua_State *L, int pos);
+    void put_string_array(lua_State *L, std::vector<std::string> arr);
 };
 
 #endif //LUA_H

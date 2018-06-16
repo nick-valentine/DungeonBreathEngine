@@ -188,4 +188,63 @@ namespace lua {
         }
     };
 
+    namespace index {
+        Container<core::Index> container = Container<core::Index>();
+
+        void add(lua_State *L) {
+            LUALIB(lib) = {
+                { "get", get },
+                { "release", release },
+                { "add", insert },
+                { "remove", remove },
+                { "save", save },
+                { "all", all },
+            };
+        }
+
+        int get(lua_State *L) {
+            auto s = lua::get_string(L, -1);
+            auto tmp = new core::Index(s);
+            container.add(tmp);
+            lua_pushlightuserdata(L, tmp);
+            return 0;
+        }
+
+        int release(lua_State *L) {
+            auto i = (core::Index *)lua::get_lightuserdata(L, -1);
+            container.remove(i);
+            return 0;
+        }
+
+        int insert(lua_State *L) {
+            auto i = (core::Index *)lua::get_lightuserdata(L, -2);
+            auto s = lua::get_string(L, -1);
+            i->add(s);
+            return 0;
+        }
+
+        int remove(lua_State *L) {
+            auto i = (core::Index *)lua::get_lightuserdata(L, -2);
+            auto s = lua::get_string(L, -1);
+            i->remove(s);
+            return 0;
+        }
+
+        int save(lua_State *L) {
+            auto i = (core::Index *)lua::get_lightuserdata(L, -1);
+            i->save();
+            return 0;
+        }
+
+        int all(lua_State *L) {
+            auto i = (core::Index *)lua::get_lightuserdata(L, -1);
+            auto s = i->get();
+            std::vector<std::string> str_arr;
+            for (const auto &v : s) {
+                str_arr.push_back(v);
+            }
+            lua::put_string_array(L, str_arr);
+            return 1;
+        }
+    };
 };

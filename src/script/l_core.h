@@ -1,6 +1,7 @@
 #ifndef SCRIPT_CORE_H
 #define SCRIPT_CORE_H
 
+#include "Container.h"
 #include "core.h"
 #include "lua.h"
 
@@ -36,6 +37,18 @@ namespace lua {
         int error(lua_State *s);
         // log is to help the other functions, not to be added to lua
         int log(core::Logger::LogLevel level, lua_State *s);
+    };
+
+    namespace index {
+        extern Container<core::Index> container;
+        void add(lua_State *L);
+
+        int get(lua_State *L);
+        int release(lua_State *L);
+        int insert(lua_State *L);
+        int remove(lua_State *L);
+        int save(lua_State *L);
+        int all(lua_State *L);
     };
 
 };

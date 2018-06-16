@@ -198,3 +198,13 @@ std::vector<std::string> lua::get_string_array(lua_State *L, int pos)
     }
     return arr;
 }
+
+void lua::put_string_array(lua_State *L, std::vector<std::string> arr)
+{
+    lua_newtable(L);
+    auto table = lua_gettop(L);
+    for (size_t i = 0; i < arr.size(); ++i) {
+        lua_pushstring(L, arr[i].c_str());
+        lua_rawseti(L, table, i);
+    }
+}

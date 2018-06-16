@@ -1,3 +1,5 @@
+package.path = package.path .. ";GameData/scripts/scenes/tileset/?.lua"
+local select_menu = require 'select_menu'
 local checked = 0;
 local input_text_field = "";
 local input_int_field = 0;
@@ -5,24 +7,19 @@ local input_float_field = 0;
 local list_input = 0;
 me = {
     init = function()
-
+        select_menu.init()
     end,
     update = function(delta)
-        imgui.start("tileset editor")
-        if imgui.button("hello world!") == 1.0 then
-            logger.info("hello world!")
+        select_menu.update(delta)
+        local m = select_menu.message()
+        if not m == {} then
+            logger.info(m.name)
+            logger.info(m.spritesheet)
+            logger.info(m.base_size)
         end
-        checked = imgui.checkbox("this is checkbox", checked)
-        if  checked == 1.0 then
-            logger.info("checkbox is checked")
-        end
-        imgui.text("hello progress:");
-        imgui.progressbar(0.5)
-        input_text_field = imgui.input_text("input text: ", input_text_field)
-        input_int_field = imgui.input_int("input int: ", input_int_field)
-        input_float_field = imgui.input_float("input float: ", input_float_field)
-        -- list_input = imgui.listbox("input list: ", list_input, {"option1", "option2", "option3"})
-        imgui.stop()
+    end,
+    draw = function(window)
+        select_menu.draw(window)
     end,
     wakeup = function()
 

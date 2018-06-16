@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "core.h"
+#include "script.h"
 #include "scene.h"
 
 #include "imgui.h"
@@ -71,6 +72,12 @@ int main()
         window.clear(sf::Color::Black);
         stack.top()->draw(window);
         ImGui::SFML::Render(window);
+        for (size_t i = 0; i < lua::sprite_manager::container.size(); ++i) {
+            auto c = lua::sprite_manager::container.get(i);
+            for (size_t i = 0; i < c->size(); ++i) {
+                window.draw(*(c->get_sprite(i)));
+            }
+        }
         window.display();
 
         scene::Scene::Status state = stack.top()->status();

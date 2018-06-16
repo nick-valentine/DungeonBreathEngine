@@ -8,6 +8,8 @@ namespace lua {
         luaL_openlibs(s);
         lua::container::add(s);
         lua::l_audio::add(s);
+        lua::sprite_manager::add(s);
+        lua::sprite::add(s);
         lua::l_imgui::add(s);
         lua::l_ui::add(s);
         lua::l_scene::add(s);

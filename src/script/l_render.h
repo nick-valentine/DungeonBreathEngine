@@ -13,15 +13,12 @@ namespace lua {
         int get(lua_State *L);
         int release(lua_State *L);
         int make_sprite(lua_State *L);
-        int get_sprite(lua_State *L);
+        int remove_sprite(lua_State *L);
     };
 
     namespace sprite {
-        extern Container<sf::Sprite> container;
         void add(lua_State *L);
 
-        // all factoried sprites must be released by end of life
-        int release(lua_State *L);
         int set_position(lua_State *L);
     };
 };

@@ -12,6 +12,9 @@ namespace lua {
 
         void add(T *item);
         void remove(T *item);
+
+        size_t size() const;
+        T *get(int i);
     private:
         std::vector<T*> items;
     };
@@ -19,9 +22,13 @@ namespace lua {
     template<class T>
     Container<T>::~Container()
     {
-        for (const auto &i : items) {
-            delete i;
+        for (auto &i : items) {
+            if (i != nullptr) {
+                delete i;
+                i = nullptr;
+            }
         }
+        items.clear();
     }
 
     template<class T>
@@ -35,10 +42,23 @@ namespace lua {
     {
         for (size_t i = 0; i < items.size(); ++i) {
             if (items[i] == item) {
+                delete items[i];
                 items[i] = items[items.size() - 1];
                 items.pop_back();
             }
         }
+    }
+
+    template<class T>
+    size_t Container<T>::size() const
+    {
+        return items.size();
+    }
+
+    template<class T>
+    T *Container<T>::get(int i)
+    {
+        return items[i];
     }
 };
 

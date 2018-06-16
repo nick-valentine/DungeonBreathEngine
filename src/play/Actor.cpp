@@ -35,6 +35,17 @@ namespace play {
 
     Actor::~Actor()
     {
+        lua_getglobal(s->s, TABLENAME);
+        if (!lua_istable(s->s, -1)) {
+            lua::error(s->s, "actor table not found");
+        }
+        auto actor_table = lua_gettop(s->s);
+        lua_getfield(s->s, actor_table, "release");
+        if (lua_isfunction(s->s, -1)) {
+            if (lua_pcall(s->s, 0, 0, 0)) {
+                lua::error(s->s, "release call failed");
+            }
+        }
         delete s;
         delete t;
     }
@@ -114,7 +125,7 @@ namespace play {
         auto actor_table = lua_gettop(s->s);
         lua_getfield(s->s, actor_table, "draw");
         if (!lua_isfunction(s->s, -1)) {
-            return;
+            return render(window);
         }
         lua_pushlightuserdata(s->s, &window);
         if (lua_pcall(s->s, 1, 0, 0)) {

@@ -29,6 +29,19 @@ namespace scene {
 
     Scene::~Scene()
     {
+        lua_getglobal(s->s, TABLENAME);
+        if (!lua_istable(s->s, -1)) {
+            lua::error(s->s, TABLENAME " table not found");
+        }
+        auto me_table = lua_gettop(s->s);
+        lua_getfield(s->s, me_table, "release");
+        if (lua_isfunction(s->s, -1)) {
+            if (lua_pcall(s->s, 0, 0, 0) != 0) {
+                lua::error(s->s, "release function failed");
+            }
+            lua_settop(s->s, me_table - 1);
+        }
+
         if (world != nullptr) {
             delete world;
         }

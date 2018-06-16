@@ -1,3 +1,4 @@
+local spr_man = nil;
 local spr = nil;
 local meTile = nil;
 
@@ -8,11 +9,12 @@ function init_actor(self)
     actor.set_origin(self, {x=9, y=1})
     actor.set_collision_bounds(self, {x=50, y=80})
 
-    local spr_man = sprite_manager.get("Overworld.png", 16);
+    spr_man = sprite_manager.get("Overworld.png", 16)
     spr = sprite_manager.make_sprite(spr_man, {x=0, y=0}, {x=1, y=1})
     local tset = tile_set.get("hero")
     meTile = tile_set.get_tile(tset, 1);
     tile.set_scale(meTile, {x=0.2, y=0.2})
+    tile_set.release(tset)
 end
 
 function update_actor(self, delta)
@@ -79,5 +81,10 @@ me = {
         actor.draw(me.self, window)
         sprite.draw(spr, window)
         tile.draw(meTile, window)
+    end,
+    release = function()
+        sprite_manager.remove_sprite(spr_man, spr)
+        sprite_manager.release(spr_man)
+        tile.release(meTile)
     end
 }

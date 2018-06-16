@@ -36,6 +36,17 @@ namespace play {
     World::~World()
     {
         if (s != nullptr) {
+            lua_getglobal(s->s, TABLENAME);
+            if (!lua_istable(s->s, -1)) {
+                lua::error(s->s, "world table not found");
+            }
+            auto me_table = lua_gettop(s->s);
+            lua_getfield(s->s, me_table, "release");
+            if (lua_isfunction(s->s, -1)) {
+                if (lua_pcall(s->s, 0, 0, 0)) {
+                    lua::error(s->s, "release call failed");
+                }
+            }
             delete s;
             s = nullptr;
         }

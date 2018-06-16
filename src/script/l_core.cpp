@@ -65,6 +65,7 @@ namespace lua {
             lua::logger::add(L);
             lua::input::add(L);
             lua::lang::add(L);
+            lua::index::add(L);
         }
     };
 
@@ -177,6 +178,9 @@ namespace lua {
                 case LUA_TNUMBER:
                     ss<<lua_tonumber(s, i)<<" ";
                     break;
+                case LUA_TNIL:
+                    ss<<"<nil>";
+                    break;
                 default:
                     lua::error(s, "type not supported for printing");
                     break;
@@ -199,7 +203,9 @@ namespace lua {
                 { "remove", remove },
                 { "save", save },
                 { "all", all },
+                { NULL, NULL },
             };
+            lua::add_lib(L, "index", lib);
         }
 
         int get(lua_State *L) {
@@ -207,7 +213,7 @@ namespace lua {
             auto tmp = new core::Index(s);
             container.add(tmp);
             lua_pushlightuserdata(L, tmp);
-            return 0;
+            return 1;
         }
 
         int release(lua_State *L) {

@@ -1,34 +1,36 @@
 #include "lua.h"
 
+#include "core.h"
+
 #include <string>
+#include <sstream>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <iostream>
-
 void lua::stacktrace(lua_State *L)
 {
+    std::stringstream ss;
     int top = lua_gettop(L);
     for (int i = 1; i <= top; ++i) {
         int t = lua_type(L, i);
         switch (t) {
         case LUA_TSTRING:
-            printf("`%s`", lua_tostring(L, i));
+            ss<<"`"<<lua_tostring(L, i)<<"`";
             break;
         case LUA_TBOOLEAN:
-            printf("%g", lua_tonumber(L, i));
+            ss<<lua_tonumber(L, i);
             break;
         case LUA_TNUMBER:
-            printf("%g", lua_tonumber(L, i));
+            ss<<lua_tonumber(L, i);
             break;
         default:
-            printf("%s", lua_typename(L, t));
+            ss<<lua_typename(L, i);
             break;
         }
-        printf("  ");
+        ss<<" ";
     }
-    printf("\n");
+    core::app_container.get_logger()->error(ss.str().c_str());
 }
 
 void lua::error(lua_State *L, const char *fmt, ...)
@@ -37,14 +39,14 @@ void lua::error(lua_State *L, const char *fmt, ...)
     //lua_getstack(L, 1, &ar);
     //lua_getinfo(L, "nSl", &ar);
     //printf("Lua: error on line %s:%d\n", ar.source, ar.currentline);
+    char buff[512];
     va_list argp;
     va_start(argp, fmt);
-    vfprintf(stderr, fmt, argp);
+    vsprintf(buff, fmt, argp);
     va_end(argp);
-    printf("\n");
+    core::app_container.get_logger()->error(buff);
     stacktrace(L);
-    lua_close(L);
-    exit(1);
+    //lua_close(L);
 }
 
 void lua::add_lib(lua_State *L, std::string name, const luaL_Reg *lib)

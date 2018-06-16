@@ -12,10 +12,11 @@ me = {
     update = function(delta)
         select_menu.update(delta)
         local m = select_menu.message()
-        if not m == {} then
+        if m then
             logger.info(m.name)
             logger.info(m.spritesheet)
             logger.info(m.base_size)
+            logger.info(m.existing_name)
         end
     end,
     draw = function(window)

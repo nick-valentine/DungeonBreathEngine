@@ -63,7 +63,7 @@ namespace lua {
             char input[INPUT_BUFF_SIZE];
             auto label = lua::get_string(L, -2);
             auto s = lua::get_string(L, -1);
-            strncpy(input, s.c_str(), s.size());
+            strncpy(input, s.c_str(), s.size()+1);
             ImGui::InputText(label.c_str(), input, INPUT_BUFF_SIZE);
             lua_pushstring(L, input);
             return 1;

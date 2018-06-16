@@ -32,7 +32,7 @@ namespace lua {
             int set_position(lua_State *L);
             int set_string(lua_State *L);
             int set_size(lua_State *L);
-
+            int draw(lua_State *L);
         };
     };
 

@@ -68,16 +68,7 @@ namespace lua {
             if (a != nullptr) {
                 rect = a->get_rect();
             }
-            lua_newtable(L);
-            auto table = lua_gettop(L);
-            lua_pushnumber(L, rect.left);
-            lua_setfield(L, table, "x");
-            lua_pushnumber(L, rect.top);
-            lua_setfield(L, table, "y");
-            lua_pushnumber(L, rect.width);
-            lua_setfield(L, table, "width");
-            lua_pushnumber(L, rect.height);
-            lua_setfield(L, table, "height");
+            lua::put_rect(L, rect);
             return 1;
         }
 

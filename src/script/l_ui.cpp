@@ -40,6 +40,7 @@ void lua::l_ui::add(lua_State *L)
         { "set_position", label::set_position },
         { "set_string", label::set_string },
         { "set_size", label::set_size },
+        { "draw", label::draw },
         { NULL, NULL },
     };
     lua::add_lib(L, "label", l_lib);
@@ -228,6 +229,14 @@ namespace lua {
                 auto l = (ui::Label *)lua::get_lightuserdata(L, -2);
                 auto size = lua::get_num(L, -1);
                 l->set_character_size(size);
+                return 0;
+            }
+
+            int draw(lua_State *L)
+            {
+                auto l = (ui::Label *)lua::get_lightuserdata(L, -2);
+                auto w = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
+                l->draw(*w);
                 return 0;
             }
         };

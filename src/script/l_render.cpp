@@ -79,6 +79,134 @@ namespace lua {
             w->draw(*spr);
             return 0;
         }
+    };
 
+    namespace tile_set {
+        Container<render::TileSet>container = Container<render::TileSet>();
+
+        void add(lua_State *L) {
+            LUALIB(lib) = {
+                { "get", get },
+                { "release", release },
+                { "get_tile", get_tile },
+                { NULL, NULL },
+            };
+            lua::add_lib(L, "tile_set", lib);
+        }
+
+        int get(lua_State *L) {
+            auto t = lua::get_string(L, -1);
+            auto s = new render::TileSet(t);
+            container.add(s);
+            lua_pushlightuserdata(L, s);
+            return 1;
+        }
+
+        int release(lua_State *L) {
+            auto s = (render::TileSet *)lua::get_lightuserdata(L, -1);
+            container.remove(s);
+            return 0;
+        }
+
+        int get_tile(lua_State *L) {
+            auto s = (render::TileSet *)lua::get_lightuserdata(L, -2);
+            auto i = (int) lua::get_num(L, -1);
+            auto t = s->spawn(render::TileType(i), sf::Vector2i(0, 0));
+            lua::tile::container.add(t);
+            lua_pushlightuserdata(L, t);
+            return 1;
+        }
+    };
+
+    namespace tile {
+        Container<render::Tile>container = Container<render::Tile>();
+
+        void add(lua_State *L) {
+            LUALIB(lib) = {
+                { "release", release },
+                { "update", update },
+                { "draw", draw },
+                { "play", play },
+                { "pause", pause },
+                { "reset", reset },
+                { "set_position", set_location },
+                { "get_position", get_location },
+                { "set_scale", set_scale },
+                { "set_origin", set_origin },
+                { NULL, NULL },
+            };
+            lua::add_lib(L, "tile", lib);
+        }
+
+        int release(lua_State *L) {
+            auto t = (render::Tile *)lua::get_lightuserdata(L, -1);
+            container.remove(t);
+            return 0;
+        }
+
+        int update(lua_State *L) {
+            auto t = (render::Tile *)lua::get_lightuserdata(L, -2);
+            auto delta = lua::get_num(L, -1);
+            t->update(delta);
+            return 0;
+        }
+
+        int draw(lua_State *L) {
+            auto t = (render::Tile *)lua::get_lightuserdata(L, -2);
+            auto w = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
+            t->draw(*w);
+            return 0;
+        }
+
+        int play(lua_State *L) {
+            auto t = (render::Tile *)lua::get_lightuserdata(L, -1);
+            t->play();
+            return 0;
+        }
+
+        int pause(lua_State *L) {
+            auto t = (render::Tile *)lua::get_lightuserdata(L, -1);
+            t->pause();
+            return 0;
+        }
+
+        int reset(lua_State *L) {
+            auto t = (render::Tile *)lua::get_lightuserdata(L, -1);
+            t->reset();
+            return 0;
+        }
+
+        int set_location(lua_State *L) {
+            auto t = (render::Tile *)lua::get_lightuserdata(L, -2);
+            auto p = lua::get_vec(L, -1);
+            t->set_location(sf::Vector2i(
+                p.x, p.y
+            ));
+            return 0;
+        }
+
+        int get_location(lua_State *L) {
+            auto t = (render::Tile *)lua::get_lightuserdata(L, -1);
+            auto p = t->get_location();
+            sf::Vector2f pf;
+            pf.x = p.x;
+            pf.y = p.y;
+            lua::put_vec(L, pf);
+            return 1;
+        }
+
+        int set_scale(lua_State *L) {
+            auto t = (render::Tile *)lua::get_lightuserdata(L, -2);
+            auto s = lua::get_vec(L, -1);
+            t->set_scale(s);
+            return 0;
+        }
+
+        int set_origin(lua_State *L) {
+            auto t = (render::Tile *)lua::get_lightuserdata(L, -2);
+            auto s = lua::get_vec(L, -1);
+            t->set_origin(s);
+            return 0;
+        }
     };
 };

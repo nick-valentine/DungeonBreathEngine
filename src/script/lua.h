@@ -1,6 +1,7 @@
 #ifndef LUA_H
 #define LUA_H
 
+#include <SFML/Graphics.hpp>
 #include "Macros.h"
 #include <string>
 #include <vector>
@@ -38,6 +39,12 @@ namespace lua {
     std::string get_string(lua_State *L, int pos);
     void *get_userdata(lua_State *L, int pos);
     void *get_lightuserdata(lua_State *L, int pos);
+
+    sf::FloatRect get_rect(lua_State *L, int pos);
+    void put_rect(lua_State *L, sf::FloatRect rect);
+
+    sf::Vector2f get_vec(lua_State *L, int pos);
+    void put_vec(lua_State *L, sf::Vector2f vec);
 
     std::vector<float> get_float_array(lua_State *L, int pos);
     std::vector<std::string> get_string_array(lua_State *L, int pos);

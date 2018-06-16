@@ -1,4 +1,5 @@
 local spr = nil;
+local meTile = nil;
 
 function init_actor(self)
     actor_manager.set_camera_target(me.manager, me.handle)
@@ -9,6 +10,9 @@ function init_actor(self)
 
     local spr_man = sprite_manager.get("Overworld.png", 16);
     spr = sprite_manager.make_sprite(spr_man, {x=0, y=0}, {x=1, y=1})
+    local tset = tile_set.get("hero")
+    meTile = tile_set.get_tile(tset, 1);
+    tile.set_scale(meTile, {x=0.2, y=0.2})
 end
 
 function update_actor(self, delta)
@@ -59,6 +63,8 @@ function update_actor(self, delta)
 
     local target_rect = actor.get_rect(me.self)
     sprite.set_position(spr, target_rect)
+    tile.set_position(meTile, target_rect)
+    tile.update(meTile, delta)
 end
 
 me = {
@@ -72,5 +78,6 @@ me = {
     draw = function(window)
         actor.draw(me.self, window)
         sprite.draw(spr, window)
+        tile.draw(meTile, window)
     end
 }

@@ -124,6 +124,48 @@ void *lua::get_lightuserdata(lua_State *L, int pos)
     return lua_touserdata(L, pos);
 }
 
+sf::FloatRect lua::get_rect(lua_State *L, int pos)
+{
+    sf::FloatRect x;
+    x.left = get_num_field(L, pos, "x");
+    x.top = get_num_field(L, pos, "y");
+    x.width = get_num_field(L, pos, "width");
+    x.height = get_num_field(L, pos, "height");
+    return x;
+}
+
+void lua::put_rect(lua_State *L, sf::FloatRect rect)
+{
+    lua_newtable(L);
+    auto table = lua_gettop(L);
+    lua_pushnumber(L, rect.left);
+    lua_setfield(L, table, "x");
+    lua_pushnumber(L, rect.top);
+    lua_setfield(L, table, "y");
+    lua_pushnumber(L, rect.width);
+    lua_setfield(L, table, "width");
+    lua_pushnumber(L, rect.height);
+    lua_setfield(L, table, "height");
+}
+
+sf::Vector2f lua::get_vec(lua_State *L, int pos)
+{
+    sf::Vector2f x;
+    x.x = get_num_field(L, pos, "x");
+    x.y = get_num_field(L, pos, "y");
+    return x;
+}
+
+void lua::put_vec(lua_State *L, sf::Vector2f vec)
+{
+    lua_newtable(L);
+    auto table = lua_gettop(L);
+    lua_pushnumber(L, vec.x);
+    lua_setfield(L, table, "x");
+    lua_pushnumber(L, vec.y);
+    lua_setfield(L, table, "y");
+}
+
 std::vector<float> lua::get_float_array(lua_State *L, int pos)
 {
     if (!lua_istable(L, pos)) {

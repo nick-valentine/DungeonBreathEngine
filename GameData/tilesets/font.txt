@@ -1,0 +1,5 @@
+font
+size 16
+tex font.png
+anim_speed 20
+---

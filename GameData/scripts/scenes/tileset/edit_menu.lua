@@ -18,6 +18,7 @@ local scale_factor = 1
 local rect = nil;
 local cursor_pos = {x=0, y=0}
 local last_keys = {up=false, down=false, left=false, right=false}
+local max_id = 0;
 
 function marker(id, start, size)
     local mark_rect = rectangle_shape.get()
@@ -38,6 +39,9 @@ function marker(id, start, size)
     )
     label.set_size(mark_label, 12);
 
+    if tonumber(id) > max_id then
+        max_id = tonumber(id) + 1
+    end
     local mark = {}
     mark.id = id 
     mark.label = mark_label
@@ -54,9 +58,21 @@ function draw_marker(marker, window)
     end
 end
 
+function release_marker(marker)
+    rectangle_shape.release(marker.rect)
+    label.release(marker.label)
+end
+
 local markers = {}
 
-function create_tileset(name, tex_name, base_size)
+function create_tileset(name, tex_name, base_size, anim_speed)
+    local f = io.open("./GameData/tilesets/" .. name .. ".txt", "w")
+    f:write(name, "\n")
+    f:write("size ", base_size, "\n")
+    f:write("tex ", tex_name, "\n")
+    f:write("anim_speed ", anim_speed, "\n")
+    f:write("---\n")
+    f:close()
 end
 
 function load_headers(data)
@@ -95,9 +111,9 @@ function load_line(line)
     end
 end
 
-function load_tileset(name, tex_name, base_size)
+function load_tileset(name, tex_name, base_size, anim_speed)
     if tex_name then
-        create_tileset(name, tex_name, base_size)
+        create_tileset(name, tex_name, base_size, anim_speed)
     end
     local filename = './GameData/tilesets/' .. name .. '.txt'
     local data = file.read(filename)
@@ -117,8 +133,8 @@ function load_tileset(name, tex_name, base_size)
     end
 end
 
-edit_menu.init = function(name, tex_name, base_size)
-    load_tileset(name, tex_name, base_size)
+edit_menu.init = function(name, tex_name, base_size, anim_speed)
+    load_tileset(name, tex_name, base_size, anim_speed)
     spriteman = sprite_manager.get(my_tex, my_base_size);
     spr = sprite_manager.make_sprite(spriteman, {x=0, y=0}, {x=512, y=512})
 
@@ -157,8 +173,6 @@ edit_menu.update = function(delta, self)
     camera.x = (cursor_pos.x*my_base_size) - camera.x
     camera.y = (cursor_pos.y*my_base_size) - camera.y
     scene.move_camera(self, camera)
-    logger.info("camera", camera.x, camera.y)
-    logger.info("curr", cursor_pos.x, cursor_pos.y)
 
     local old_scale_factor = scale_factor;
     imgui.start("tileset edit menu");
@@ -190,6 +204,9 @@ end
 
 edit_menu.release = function()
     sprite_manager.release(spriteman)
+    for k, v in pairs(markers) do
+        release_marker(v)
+    end
 end
 
 edit_menu.message = function()

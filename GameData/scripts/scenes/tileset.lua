@@ -10,6 +10,7 @@ local state = c_choose_menu
 local name;
 local tex_name;
 local base_size;
+local anim_speed;
 
 me = {
     init = function()
@@ -26,11 +27,13 @@ me = {
                 logger.info(m.spritesheet)
                 logger.info(m.base_size)
                 logger.info(m.existing_name)
+                logger.info(m.anim_speed)
                 name = m.name
                 tex_name = m.spritesheet
                 base_size = m.base_size
+                anim_speed = m.anim_speed
                 state = c_edit_menu
-                edit_menu.init(name, tex_name, base_size)
+                edit_menu.init(name, tex_name, base_size, anim_speed)
             end
         elseif state == c_edit_menu then
             edit_menu.update(delta, me.self)

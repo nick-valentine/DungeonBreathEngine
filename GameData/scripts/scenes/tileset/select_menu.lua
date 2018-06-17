@@ -4,11 +4,12 @@ select_menu.signal = nil
 local tileset_name = ""
 local spritesheet_name = ""
 local base_size = 0
+local anim_speed = 20
 local idx = nil
 local dir_items = {}
 
 select_menu.init = function()
-    local idx = index.get("GameData/tilesets");
+    idx = index.get("GameData/tilesets");
     dir_items = index.all(idx)
 end
 
@@ -17,11 +18,15 @@ select_menu.update = function(delta)
     tileset_name = imgui.input_text("tileset name: ", tileset_name)
     spritesheet_name = imgui.input_text("spritesheet name: ", spritesheet_name)
     base_size = imgui.input_int("base size: ", base_size)
+    anim_speed = imgui.input_int("anim speed: ", anim_speed)
     if imgui.button("next") == 1.0 then
         select_menu.signal = {}
         select_menu.signal.name = tileset_name
         select_menu.signal.spritesheet = spritesheet_name
         select_menu.signal.base_size = base_size
+        select_menu.signal.anim_speed = anim_speed
+        index.add(idx, tileset_name);
+        index.save(idx)
     end
     imgui.stop()
     imgui.start("existing tilesets")

@@ -1,6 +1,7 @@
 package.path = package.path .. ";GameData/scripts/?.lua"
 local file = require 'file'
 local strings = require 'strings'
+
 local edit_menu = {};
 edit_menu.signal = nil
 
@@ -17,6 +18,43 @@ local scale_factor = 1
 local rect = nil;
 local cursor_pos = {x=0, y=0}
 local last_keys = {up=false, down=false, left=false, right=false}
+
+function marker(id, start, size)
+    local mark_rect = rectangle_shape.get()
+    rectangle_shape.set_size(mark_rect, {x=size.x*my_base_size, y=size.y*my_base_size})
+    rectangle_shape.set_position(mark_rect, {x=start.x*my_base_size, y=start.y*my_base_size})
+    rectangle_shape.set_outline_color(mark_rect, {r=255, g=0, b=255})
+    rectangle_shape.set_outline_thickness(mark_rect, 1)
+    rectangle_shape.set_fill_color(mark_rect, {r=0, g=0, b=0, a=0})
+
+    local mark_label = label.get(
+        {
+            x=start.x*my_base_size, 
+            y=start.y*my_base_size, 
+            width=size.x*my_base_size,
+            height=size.y*my_base_size
+        },
+        tostring(id)
+    )
+    label.set_size(mark_label, 12);
+
+    local mark = {}
+    mark.id = id 
+    mark.label = mark_label
+    mark.rect = mark_rect
+    mark.pos = start
+    mark.size = size
+    return mark
+end
+
+function draw_marker(marker, window)
+    if marker.rect then
+        rectangle_shape.draw(marker.rect, window)
+        label.draw(marker.label, window)
+    end
+end
+
+local markers = {}
 
 function create_tileset(name, tex_name, base_size)
 end
@@ -40,6 +78,23 @@ function load_headers(data)
     end
 end
 
+function load_line(line)
+    local ints = strings.split(line, " ")
+    local id = 0
+    local m = {}
+    for k, v in pairs(ints) do
+        if k == 1 then
+            id = v
+        else
+            m[#m+1] = v
+        end
+        if #m == 4 then
+            markers[#markers+1] = marker(id, {x=m[1],y=m[2]}, {x=m[3], y=m[4]})
+            m = {}
+        end
+    end
+end
+
 function load_tileset(name, tex_name, base_size)
     if tex_name then
         create_tileset(name, tex_name, base_size)
@@ -51,6 +106,15 @@ function load_tileset(name, tex_name, base_size)
     logger.info("base size: ", my_base_size)
     logger.info("tex: ", my_tex)
     logger.info("anim_speed: ", my_anim_speed)
+    local activate = false
+    for k, v in pairs(data) do
+        if v == "---" then
+            activate = true
+        end
+        if activate then
+            load_line(v)
+        end
+    end
 end
 
 edit_menu.init = function(name, tex_name, base_size)
@@ -99,6 +163,8 @@ edit_menu.update = function(delta, self)
     local old_scale_factor = scale_factor;
     imgui.start("tileset edit menu");
     scale_factor = imgui.input_int("scale factor: ", scale_factor)
+    my_name = imgui.input_text("name: ", my_name)
+    my_base_size = imgui.input_int("base size: ", my_base_size)
     imgui.stop()
 
     if not (old_scale_factor == scale_factor) then
@@ -114,7 +180,12 @@ edit_menu.draw = function(window)
     if spr then
         sprite.draw(spr, window)
     end
-    rectangle_shape.draw(rect, window)
+    for k, v in pairs(markers) do
+        draw_marker(v, window)
+    end
+    if rect then
+        rectangle_shape.draw(rect, window)
+    end
 end
 
 edit_menu.release = function()

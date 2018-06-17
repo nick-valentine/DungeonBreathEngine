@@ -7,6 +7,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
 
 void lua::stacktrace(lua_State *L)
 {
@@ -31,6 +32,7 @@ void lua::stacktrace(lua_State *L)
         ss<<" ";
     }
     core::app_container.get_logger()->error(ss.str().c_str());
+    std::cout<<ss.str()<<std::endl;
 }
 
 void lua::error(lua_State *L, const char *fmt, ...)
@@ -45,6 +47,7 @@ void lua::error(lua_State *L, const char *fmt, ...)
     vsprintf(buff, fmt, argp);
     va_end(argp);
     core::app_container.get_logger()->error(buff);
+    std::cout<<buff<<std::endl;
     stacktrace(L);
     //lua_close(L);
 }

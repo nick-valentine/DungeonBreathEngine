@@ -1,7 +1,9 @@
 #ifndef SCRIPT_UI_H
 #define SCRIPT_UI_H
 
+#include "Container.h"
 #include "lua.h"
+#include "ui.h"
 
 namespace lua {
     namespace l_ui {
@@ -29,6 +31,10 @@ namespace lua {
         };
 
         namespace label {
+            extern Container<ui::Label> container;
+
+            int get(lua_State *L);
+            int release(lua_State *L);
             int set_position(lua_State *L);
             int set_string(lua_State *L);
             int set_size(lua_State *L);

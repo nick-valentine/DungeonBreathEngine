@@ -37,6 +37,8 @@ void lua::l_ui::add(lua_State *L)
     lua_setglobal(L, "menu_item");
 
     LUALIB(l_lib) = {
+        { "get", label::get },
+        { "release", label::release },
         { "set_position", label::set_position },
         { "set_string", label::set_string },
         { "set_size", label::set_size },
@@ -205,6 +207,26 @@ namespace lua {
         };
 
         namespace label {
+            Container<ui::Label> container = Container<ui::Label>();
+
+            int get(lua_State *L)
+            {
+                auto r = lua::get_rect(L, -2);
+                sf::IntRect irec(r.left, r.top, r.width, r.height);
+                auto c = lua::get_string(L, -1);
+                auto l = new ui::Label(irec, Strings::utf8_to_sfml(c));
+                container.add(l);
+                lua_pushlightuserdata(L, l);
+                return 1;
+            }
+
+            int release(lua_State *L)
+            {
+                auto l = (ui::Label *)lua::get_lightuserdata(L, -1);
+                container.remove(l);
+                return 0;
+            }
+
             int set_position(lua_State *L)
             {
                 auto l = (ui::Label *)lua::get_lightuserdata(L, -2);

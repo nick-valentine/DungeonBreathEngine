@@ -6,6 +6,7 @@
 #include "Macros.h"
 #include "core.h"
 #include "lua.h"
+#include "l_shape.h"
 #include "l_core.h"
 #include "l_render.h"
 #include "l_imgui.h"

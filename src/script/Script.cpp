@@ -7,6 +7,7 @@ namespace lua {
         s = luaL_newstate();
         luaL_openlibs(s);
         lua::container::add(s);
+        lua::shape::add(s);
         lua::l_audio::add(s);
         lua::sprite_manager::add(s);
         lua::sprite::add(s);

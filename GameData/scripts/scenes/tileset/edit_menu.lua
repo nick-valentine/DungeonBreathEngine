@@ -13,7 +13,10 @@ local my_tex = ""
 local my_anim_speed = 30
 
 local scale_factor = 1
-local current_pos = {x=0, y=0}
+
+local rect = nil;
+local cursor_pos = {x=0, y=0}
+local last_keys = {up=false, down=false, left=false, right=false}
 
 function create_tileset(name, tex_name, base_size)
 end
@@ -53,28 +56,45 @@ end
 edit_menu.init = function(name, tex_name, base_size)
     load_tileset(name, tex_name, base_size)
     spriteman = sprite_manager.get(my_tex, my_base_size);
-    spr = sprite_manager.make_sprite(spriteman, {x=1, y=1}, {x=512, y=512})
+    spr = sprite_manager.make_sprite(spriteman, {x=0, y=0}, {x=512, y=512})
+
+    rect = rectangle_shape.get()
+    rectangle_shape.set_size(rect, {x=my_base_size, y=my_base_size})
+    rectangle_shape.set_position(rect, cursor_pos)
+    rectangle_shape.set_outline_color(rect, {r=0, g=0, b=255})
+    rectangle_shape.set_outline_thickness(rect, 1)
+    rectangle_shape.set_fill_color(rect, {r=0, g=0, b=0, a=0})
 end
 
 edit_menu.update = function(delta, self)
+
+    keys = {
+        up=input.is_key_pressed(input.up),
+        down=input.is_key_pressed(input.down),
+        left=input.is_key_pressed(input.left),
+        right=input.is_key_pressed(input.right),
+    }
+    if (keys.up == 1 and last_keys.up == 0) then
+        cursor_pos.y = cursor_pos.y - 1
+    elseif (keys.down == 1 and last_keys.down == 0) then
+        cursor_pos.y = cursor_pos.y + 1
+    end
+
+    if (keys.left == 1 and last_keys.left == 0) then
+        cursor_pos.x = cursor_pos.x - 1
+    elseif (keys.right == 1 and last_keys.right == 0) then
+        cursor_pos.x = cursor_pos.x + 1
+    end
+    last_keys = keys
+
+    rectangle_shape.set_position(rect, {x=cursor_pos.x*my_base_size, y=cursor_pos.y*my_base_size})
+
     local camera = scene.get_camera_center(self);
-    camera.x = current_pos.x - camera.x
-    camera.y = current_pos.y - camera.y
+    camera.x = (cursor_pos.x*my_base_size) - camera.x
+    camera.y = (cursor_pos.y*my_base_size) - camera.y
     scene.move_camera(self, camera)
     logger.info("camera", camera.x, camera.y)
-    logger.info("curr", current_pos.x, current_pos.y)
-
-    if (input.is_key_pressed(input.up) == 1.0) then
-        current_pos.y = current_pos.y - 5
-    elseif (input.is_key_pressed(input.down) == 1.0) then
-        current_pos.y = current_pos.y + 5
-    end
-
-    if (input.is_key_pressed(input.left) == 1.0) then
-        current_pos.x = current_pos.x - 5
-    elseif (input.is_key_pressed(input.right) == 1.0) then
-        current_pos.x = current_pos.x + 5
-    end
+    logger.info("curr", cursor_pos.x, cursor_pos.y)
 
     local old_scale_factor = scale_factor;
     imgui.start("tileset edit menu");
@@ -94,6 +114,7 @@ edit_menu.draw = function(window)
     if spr then
         sprite.draw(spr, window)
     end
+    rectangle_shape.draw(rect, window)
 end
 
 edit_menu.release = function()

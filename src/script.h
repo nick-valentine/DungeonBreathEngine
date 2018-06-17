@@ -3,6 +3,7 @@
 
 #include "script/lua.h"
 #include "script/Script.h"
+#include "script/l_shape.h"
 #include "script/l_render.h"
 #include "script/l_audio.h"
 #include "script/l_core.h"

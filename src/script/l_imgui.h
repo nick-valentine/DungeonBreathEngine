@@ -3,6 +3,7 @@
 
 #include "lua.h"
 #include "imgui.h"
+#include "imgui-SFML.h"
 
 namespace lua {
     namespace l_imgui {
@@ -17,6 +18,7 @@ namespace lua {
         int input_text(lua_State *L);
         int input_int(lua_State *L);
         int input_float(lua_State *L);
+        int image_button(lua_State *L);
         // experimental
         int listbox(lua_State *L);
     };

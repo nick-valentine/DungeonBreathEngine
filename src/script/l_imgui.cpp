@@ -15,6 +15,7 @@ namespace lua {
                 { "input_text", input_text },
                 { "input_int", input_int },
                 { "input_float", input_float },
+                { "image_button", image_button },
                 { "listbox", listbox},
                 { NULL, NULL},
             };
@@ -82,6 +83,13 @@ namespace lua {
             auto f = lua::get_num(L, -1);
             ImGui::InputFloat(label.c_str(), &f);
             lua_pushnumber(L, f);
+            return 1;
+        }
+
+        int image_button(lua_State *L) {
+            auto spr = (sf::Sprite *)lua::get_lightuserdata(L, -1);
+            auto b = ImGui::ImageButton(*spr);
+            lua_pushnumber(L, b);
             return 1;
         }
 

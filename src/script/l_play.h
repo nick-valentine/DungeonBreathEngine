@@ -9,6 +9,14 @@ namespace lua {
         int change_level(lua_State *L);
         int get_actorman(lua_State *L);
         int draw(lua_State *L);
+        int draw_layer(lua_State *L);
+        int draw_actors(lua_State *L);
+        int set_edit_mode(lua_State *L);
+        int save_edits(lua_State *L);
+        int add_actor(lua_State *L);
+        int add_collision(lua_State *L);
+        int set_tile(lua_State *L);
+        int remove_tile(lua_State *L);
     };
 
     namespace actor {

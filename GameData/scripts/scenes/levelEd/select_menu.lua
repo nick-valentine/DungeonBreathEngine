@@ -4,6 +4,7 @@ select_menu.signal = nil
 select_menu.current = {}
 select_menu.current.name = ""
 select_menu.current.tileset = ""
+select_menu.current.script = "none"
 select_menu.current.size_x = 0
 select_menu.current.size_y = 0
 
@@ -19,9 +20,12 @@ select_menu.update = function(self, delta)
     imgui.start("new level")
     select_menu.current.name = imgui.input_text("level name", select_menu.current.name)
     select_menu.current.tileset = imgui.input_text("tileset", select_menu.current.tileset)
+    select_menu.current.script = imgui.input_text("script", select_menu.current.script)
     select_menu.current.size_x = imgui.input_int("size x", select_menu.current.size_x)
     select_menu.current.size_y = imgui.input_int("size y", select_menu.current.size_y)
     if imgui.button("next") == 1.0 then
+        index.add(select_menu.index, select_menu.current.name)
+        index.save(select_menu.index)
         select_menu.signal = select_menu.current
     end
     if imgui.button("back") == 1.0 then

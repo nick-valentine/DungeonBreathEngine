@@ -186,21 +186,21 @@ namespace play {
     void World::render(sf::RenderWindow &window)
     {
         for (size_t i = 0; i < LAYERS_UNDER_ACTOR && i < world.size(); ++i) {
-            auto & layer = world[i];
-            for (auto& line: layer) {
-                for (auto& value: line) {
-                    if (value != nullptr) {
-                        value->draw(window);
-                    }
-                }
-            }
+            render_layer(window, i);
         }
 
-        actor_man->draw(window);
+        render_actors(window);
 
         for (size_t i = LAYERS_UNDER_ACTOR; i < world.size(); ++i) {
-            auto & layer = world[i];
-            for (auto& line: layer) {
+            render_layer(window, i);
+        }
+    }
+
+    void World::render_layer(sf::RenderWindow &window, int layer)
+    {
+        if (layer >= 0 && layer <= 10) {
+            auto & l = world[layer];
+            for (auto& line: l) {
                 for (auto& value: line) {
                     if (value != nullptr) {
                         value->draw(window);
@@ -208,6 +208,11 @@ namespace play {
                 }
             }
         }
+    }
+
+    void World::render_actors(sf::RenderWindow &window)
+    {
+        actor_man->draw(window);
     }
 
     void World::set_edit_mode(bool edit_mode)

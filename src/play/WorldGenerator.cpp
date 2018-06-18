@@ -122,6 +122,10 @@ namespace play {
         }
 
         while (line != "---" && ifile.good()) {
+            if (line == "none") {
+                std::getline(ifile, line);
+                continue;
+            }
             std::stringstream ss(line);
             std::string name;
             sf::Vector2i pos;

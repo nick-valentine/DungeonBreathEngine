@@ -9,6 +9,14 @@ namespace lua {
                 { "change_level", change_level },
                 { "get_actorman", get_actorman },
                 { "draw", draw },
+                { "draw_layer", draw_layer },
+                { "draw_actors", draw_actors },
+                { "set_edit_mode", set_edit_mode },
+                { "save_edits", save_edits },
+                { "add_actor", add_actor },
+                { "add_collision", add_collision },
+                { "set_tile", set_tile },
+                { "remove_tile", remove_tile },
                 { NULL, NULL}
             };
             lua::add_lib(L, "world", lib);
@@ -37,6 +45,79 @@ namespace lua {
             auto w = (play::World *)lua::get_lightuserdata(L, -2);
             auto win = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
             w->render(*win);
+            return 0;
+        }
+
+        int draw_layer(lua_State *L)
+        {
+            auto w = (play::World *)lua::get_lightuserdata(L, -3);
+            auto win = (sf::RenderWindow *)lua::get_lightuserdata(L, -2);
+            auto l = (int) lua::get_num(L, -1);
+            w->render_layer(*win, l);
+            return 0;
+        }
+
+        int draw_actors(lua_State *L)
+        {
+            auto w = (play::World *)lua::get_lightuserdata(L, -2);
+            auto win = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
+            w->render_actors(*win);
+            return 0;
+        }
+
+        int set_edit_mode(lua_State *L)
+        {
+            auto w = (play::World *)lua::get_lightuserdata(L, -2);
+            auto e = (bool) lua::get_num(L, -1);
+            w->set_edit_mode(e);
+            return 0;
+        }
+
+        int save_edits(lua_State *L)
+        {
+            auto w = (play::World *)lua::get_lightuserdata(L, -1);
+            w->save();
+            return 0;
+        }
+
+        int add_actor(lua_State *L)
+        {
+            auto w = (play::World *)lua::get_lightuserdata(L, -3);
+            auto n = lua::get_string(L, -2);
+            auto p = lua::get_vec(L, -1);
+            sf::Vector2i pos(p.x, p.y);
+            w->add_actor(n, pos);
+            return 0;
+        }
+
+        int add_collision(lua_State *L)
+        {
+            auto w = (play::World *)lua::get_lightuserdata(L, -3);
+            auto t = (int) lua::get_num(L, -2);
+            auto p = lua::get_vec(L, -1);
+            sf::Vector2i pos(p.x, p.y);
+            w->add_collision(t, pos);
+            return 0;
+        }
+
+        int set_tile(lua_State *L)
+        {
+            auto w = (play::World *)lua::get_lightuserdata(L, -4);
+            auto t = (render::Tile *)lua::get_lightuserdata(L, -3);
+            auto l = (int) lua::get_num(L, -2);
+            auto p = lua::get_vec(L, -1);
+            sf::Vector2i pos(p.x, p.y);
+            w->set_tile(t, l, pos);
+            return 0;
+        }
+
+        int remove_tile(lua_State *L)
+        {
+            auto w = (play::World *)lua::get_lightuserdata(L, -3);
+            auto l = (int) lua::get_num(L, -2);
+            auto p = lua::get_vec(L, -1);
+            sf::Vector2i pos(p.x, p.y);
+            w->remove_tile(l, pos);
             return 0;
         }
     };
@@ -182,7 +263,6 @@ namespace lua {
 
         int draw(lua_State *L)
         {
-            core::app_container.get_logger()->info("draw called");
             auto a = (play::Actor *)lua::get_lightuserdata(L, -2);
             auto w = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
             a->render(*w);

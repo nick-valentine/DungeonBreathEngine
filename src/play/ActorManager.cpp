@@ -80,8 +80,10 @@ namespace play {
     {
         this->init_player_pos = pos;
         auto p = get_player();
-        if (pos.x != 0 && pos.y != 0) {
-            p->set_location(sf::Vector2f(pos.x, pos.y));
+        if (p != nullptr) {
+            if (pos.x != 0 && pos.y != 0) {
+                p->set_location(sf::Vector2f(pos.x, pos.y));
+            }
         }
     }
 

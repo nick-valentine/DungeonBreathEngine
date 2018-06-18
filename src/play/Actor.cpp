@@ -135,7 +135,6 @@ namespace play {
 
     void Actor::render(sf::RenderWindow &window)
     {
-        core::app_container.get_logger()->info("render called");
         current_tile->draw(window);
 #if DEBUG
         auto x = sf::RectangleShape(sf::Vector2f(rect.width, rect.height));

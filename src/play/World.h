@@ -23,7 +23,8 @@ namespace play {
         World(std::string tile_set, std::unique_ptr<WorldGenerator> &&gen);
         ~World();
 
-        void set_tile(render::Tile *tile, int layer, sf::Vector2i pos); void remove_tile(int layer, sf::Vector2i pos);
+        void set_tile(render::Tile *tile, int layer, sf::Vector2i pos); 
+        void remove_tile(int layer, sf::Vector2i pos);
 
         void set_init_player_pos(sf::Vector2i pos);
 
@@ -36,6 +37,8 @@ namespace play {
         void update(int delta, sf::RenderWindow &window);
         void draw(sf::RenderWindow &window);
         void render(sf::RenderWindow &window);
+        void render_layer(sf::RenderWindow &window, int layer);
+        void render_actors(sf::RenderWindow &window);
 
         void set_edit_mode(bool edit_mode);
 

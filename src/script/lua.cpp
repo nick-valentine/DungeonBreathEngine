@@ -35,6 +35,18 @@ void lua::stacktrace(lua_State *L)
     std::cout<<ss.str()<<std::endl;
 }
 
+void lua::call_error(lua_State *L, const char *fmt, ...)
+{
+    char buff[512];
+    va_list argp;
+    va_start(argp, fmt);
+    vsprintf(buff, fmt, argp);
+    va_end(argp);
+    core::app_container.get_logger()->error(buff);
+    std::cout<<buff<<std::endl;
+    stacktrace(L);
+}
+
 void lua::error(lua_State *L, const char *fmt, ...)
 {
     lua_Debug ar;

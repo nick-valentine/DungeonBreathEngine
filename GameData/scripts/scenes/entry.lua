@@ -31,6 +31,7 @@ me = {
         local pressed = menu.signal_tag(main)
         if pressed == "level_edit" then
             logger.info("level edit pressed")
+            scene.push(me.self, "levelEd")
         elseif pressed == "tile_edit" then
             logger.info("tile edit pressed")
             scene.push(me.self, "tileset")

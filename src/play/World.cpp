@@ -23,7 +23,7 @@ namespace play {
             s->call();
             lua_getglobal(s->s, TABLENAME);
             if (!lua_istable(s->s, -1)) {
-                lua::error(s->s, TABLENAME " table not found");
+                lua::call_error(s->s, TABLENAME " table not found");
             }
             auto me_table = lua_gettop(s->s);
             lua_pushlightuserdata(s->s, this);
@@ -38,13 +38,13 @@ namespace play {
         if (s != nullptr) {
             lua_getglobal(s->s, TABLENAME);
             if (!lua_istable(s->s, -1)) {
-                lua::error(s->s, "world table not found");
+                lua::call_error(s->s, "world table not found");
             }
             auto me_table = lua_gettop(s->s);
             lua_getfield(s->s, me_table, "release");
             if (lua_isfunction(s->s, -1)) {
                 if (lua_pcall(s->s, 0, 0, 0)) {
-                    lua::error(s->s, "release call failed");
+                    lua::call_error(s->s, "release call failed");
                 }
             }
             delete s;
@@ -147,15 +147,15 @@ namespace play {
                     lua_getglobal(s->s, TABLENAME);
                     auto world_table = lua_gettop(s->s);
                     if (!lua_istable(s->s, world_table)) {
-                        lua::error(s->s, TABLENAME " table not found");
+                        lua::call_error(s->s, TABLENAME " table not found");
                     }
                     // lua_getfield(s->s, world_table, type.target.c_str());
                      lua_getfield(s->s, world_table, "test");
                     if (!lua_isfunction(s->s, -1)) {
-                        lua::error(s->s, "event function not found");
+                        lua::call_error(s->s, "event function not found");
                     }
                     if (lua_pcall(s->s, 0, 0, 0) != 0) {
-                        lua::error(s->s, "event call failed");
+                        lua::call_error(s->s, "event call failed");
                     }
                     lua_settop(s->s, world_table - 1);
                 }
@@ -170,7 +170,7 @@ namespace play {
         }
         lua_getglobal(s->s, TABLENAME);
         if (!lua_istable(s->s, -1)) {
-            lua::error(s->s, "world table not found");
+            lua::call_error(s->s, "world table not found");
         }
         auto me_table = lua_gettop(s->s);
         lua_getfield(s->s, me_table, "draw");
@@ -179,7 +179,7 @@ namespace play {
         }
         lua_pushlightuserdata(s->s, &window);
         if (lua_pcall(s->s, 1, 0, 0)) {
-            lua::error(s->s, "draw call failed");
+            lua::call_error(s->s, "draw call failed");
         }
     }
 

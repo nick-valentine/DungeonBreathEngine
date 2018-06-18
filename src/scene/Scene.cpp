@@ -19,7 +19,7 @@ namespace scene {
         lua_getglobal(s->s, TABLENAME);
         auto me_table = lua_gettop(s->s);
         if (!lua_istable(s->s, -1)) {
-            lua::error(s->s, TABLENAME " table not found");
+            lua::call_error(s->s, TABLENAME " table not found");
         }
         lua_pushlightuserdata(s->s, this);
         lua_setfield(s->s, me_table, "self");
@@ -31,13 +31,13 @@ namespace scene {
     {
         lua_getglobal(s->s, TABLENAME);
         if (!lua_istable(s->s, -1)) {
-            lua::error(s->s, TABLENAME " table not found");
+            lua::call_error(s->s, TABLENAME " table not found");
         }
         auto me_table = lua_gettop(s->s);
         lua_getfield(s->s, me_table, "release");
         if (lua_isfunction(s->s, -1)) {
             if (lua_pcall(s->s, 0, 0, 0) != 0) {
-                lua::error(s->s, "release function failed");
+                lua::call_error(s->s, "release function failed");
             }
             lua_settop(s->s, me_table - 1);
         }
@@ -59,7 +59,7 @@ namespace scene {
 
         lua_getglobal(s->s, TABLENAME);
         if (!lua_istable(s->s, -1)) {
-            lua::error(s->s, TABLENAME " table not found");
+            lua::call_error(s->s, TABLENAME " table not found");
         }
         auto me_table = lua_gettop(s->s);
         lua_getfield(s->s, me_table, "update");
@@ -68,7 +68,7 @@ namespace scene {
         }
         lua_pushnumber(s->s, delta);
         if (lua_pcall(s->s, 1, 0, 0) != 0) {
-            lua::error(s->s, "update function failed");
+            lua::call_error(s->s, "update function failed");
         }
         lua_settop(s->s, me_table - 1);
     }
@@ -77,7 +77,7 @@ namespace scene {
     {
         lua_getglobal(s->s, TABLENAME);
         if (!lua_istable(s->s, -1)) {
-            lua::error(s->s, TABLENAME " table not found");
+            lua::call_error(s->s, TABLENAME " table not found");
         }
         auto me_table = lua_gettop(s->s);
         lua_getfield(s->s, me_table, "draw");
@@ -86,7 +86,7 @@ namespace scene {
         }
         lua_pushlightuserdata(s->s, &window);
         if (lua_pcall(s->s, 1, 0, 0) != 0) {
-            lua::error(s->s, "draw function failed");
+            lua::call_error(s->s, "draw function failed");
         }
         lua_settop(s->s, me_table - 1);
     }
@@ -104,7 +104,7 @@ namespace scene {
     {
         lua_getglobal(s->s, TABLENAME);
         if (!lua_istable(s->s, -1)) {
-            lua::error(s->s, TABLENAME " table not found");
+            lua::call_error(s->s, TABLENAME " table not found");
         }
         auto me_table = lua_gettop(s->s);
         lua_getfield(s->s, me_table, "init");
@@ -112,7 +112,7 @@ namespace scene {
             return;
         }
         if (lua_pcall(s->s, 0, 0, 0)) {
-            lua::error(s->s, "init function failed");
+            lua::call_error(s->s, "init function failed");
         }
         lua_settop(s->s, me_table - 1);
     }
@@ -121,7 +121,7 @@ namespace scene {
     {
         lua_getglobal(s->s, TABLENAME);
         if (!lua_istable(s->s, -1)) {
-            lua::error(s->s, TABLENAME " table not found");
+            lua::call_error(s->s, TABLENAME " table not found");
         }
         auto me_table = lua_gettop(s->s);
         lua_getfield(s->s, me_table, "wakeup");
@@ -130,7 +130,7 @@ namespace scene {
         }
         lua_pushstring(s->s, message.toAnsiString().c_str());
         if (lua_pcall(s->s, 1, 0, 0)) {
-            lua::error(s->s, "wakeup function failed");
+            lua::call_error(s->s, "wakeup function failed");
         }
         lua_settop(s->s, me_table - 1);
     }

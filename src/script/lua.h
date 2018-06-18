@@ -26,6 +26,7 @@ extern "C" {
 
 namespace lua {
     void stacktrace(lua_State *L);
+    void call_error(lua_State *L, const char *fmt, ...);
     void error(lua_State *L, const char *fmt, ...);
     void add_lib(lua_State *L, std::string name, const luaL_Reg *lib);
 

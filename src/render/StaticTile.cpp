@@ -54,6 +54,11 @@ namespace render {
         this->sprite.setOrigin(origin);
     }
 
+    sf::Sprite *StaticTile::get_icon()
+    {
+        return &sprite;
+    }
+
     void StaticTile::update(int delta)
     {
 

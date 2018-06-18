@@ -10,9 +10,14 @@ edit_menu.scale_factor = 1.0
 
 edit_menu.layers = {}
 
+edit_menu.tiles = {}
+
 local cursor = {}
 cursor.rect = nil;
 cursor.pos = {x=0, y=0}
+cursor.target = {}
+cursor.layer = 0
+cursor.sprite = nil
 
 local last_keys = {up=false, down=false, left=false, right=false}
 
@@ -42,6 +47,20 @@ edit_menu.write_default_layer = function(signal)
     f:write("---\n")
 end
 
+edit_menu.init_tiles = function(signal)
+    local tset = tile_set.get(signal.tileset)
+
+    local keys = tile_set.keys(tset)
+    for k, v in pairs(keys) do
+        local index = #edit_menu.tiles+1
+        edit_menu.tiles[index] = {}
+        edit_menu.tiles[index].tile = tile_set.get_tile(tset, v)
+        edit_menu.tiles[index].sprite = tile.get_icon(edit_menu.tiles[index].tile)
+    end
+
+    tile_set.release(tset)
+end
+
 edit_menu.init = function(self, signal)
 
     for i = 0, 10 do
@@ -63,12 +82,20 @@ edit_menu.init = function(self, signal)
     world.change_level(edit_menu.world, signal.name, {x=-1, y=-1})
     world.set_edit_mode(edit_menu.world, 1.0)
 
+    local world_size = world.get_size(edit_menu.world)
+    signal.size_x = world_size.x
+    signal.size_y = world_size.y
+    signal.tileset = world.get_tileset(edit_menu.world)
+    signal.script = world.get_script_name(edit_menu.world)
+
     cursor.rect = rectangle_shape.get()
     rectangle_shape.set_size(cursor.rect, {x=my_base_size, y=my_base_size})
     rectangle_shape.set_position(cursor.rect, cursor.pos)
     rectangle_shape.set_outline_color(cursor.rect, {r=0, g=0, b=255})
     rectangle_shape.set_outline_thickness(cursor.rect, 1)
     rectangle_shape.set_fill_color(cursor.rect, {r=0, g=0, b=0, a=0})
+
+    edit_menu.init_tiles(signal)
 end
 
 edit_menu.update_cursor = function(self, delta)
@@ -92,6 +119,9 @@ edit_menu.update_cursor = function(self, delta)
     end
 
     rectangle_shape.set_position(cursor.rect, {x=cursor.pos.x*my_base_size, y=cursor.pos.y*my_base_size})
+    if cursor.sprite then
+        sprite.set_position(cursor.sprite, {x=cursor.pos.x*my_base_size, y=cursor.pos.y*my_base_size})
+    end
     last_keys = keys
 end
 
@@ -121,6 +151,19 @@ edit_menu.update_layer_render = function(self)
     imgui.stop()
 end
 
+edit_menu.update_tile_menu = function(self)
+    imgui.start("tiles")
+    for k, v in pairs(edit_menu.tiles) do
+        if imgui.image_button(v.sprite) == 1.0 then
+            logger.info(k, "clicked")
+            cursor.target = {}
+            cursor.target.tile = k
+            cursor.sprite = v.sprite
+        end
+    end
+    imgui.stop()
+end
+
 edit_menu.update = function(self, delta)
     edit_menu.world = scene.get_world(self)
     edit_menu.actorman = world.get_actorman(edit_menu.world)
@@ -129,9 +172,27 @@ edit_menu.update = function(self, delta)
 
     imgui.start("level edit menu")
     edit_menu.update_scale_factor(self)
+    cursor.layer = imgui.input_int("layer", cursor.layer)
+    if imgui.button("add") == 1.0 then
+        if cursor.target.tile then
+            world.set_tile(
+                edit_menu.world, 
+                edit_menu.tiles[cursor.target.tile].tile,
+                cursor.layer,
+                cursor.pos
+            )
+        end
+    end
+    if imgui.button("save") == 1.0 then
+        world.save_edits(edit_menu.world)
+    end
+    if imgui.button("exit") == 1.0 then
+        edit_menu.signal = {pop= true}
+    end
     imgui.stop()
 
     edit_menu.update_layer_render(self)
+    edit_menu.update_tile_menu(self)
 
     local camera = scene.get_camera_center(self);
     camera.x = (cursor.pos.x*my_base_size) - camera.x
@@ -140,7 +201,6 @@ edit_menu.update = function(self, delta)
 end
 
 edit_menu.draw = function(self, window)
-    -- scene.draw(self, window)
     scene.apply_view(self, window)
     for k, v in pairs(edit_menu.layers) do
         if v.draw then
@@ -151,6 +211,9 @@ edit_menu.draw = function(self, window)
         end
     end
     rectangle_shape.draw(cursor.rect, window)
+    if cursor.sprite then
+        sprite.draw(cursor.sprite, window)
+    end
 end
 
 edit_menu.message = function()
@@ -165,6 +228,11 @@ edit_menu.release = function()
     cursor.pos = {x=0, y=0}
 
     last_keys = {up=false, down=false, left=false, right=false}
+
+    for k, v in pairs(edit_menu.tiles) do
+        tile.release(v.tile)
+    end
+    edit_menu.tilies = {}
 end
 
 return edit_menu

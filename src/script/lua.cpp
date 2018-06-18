@@ -203,6 +203,16 @@ std::vector<float> lua::get_float_array(lua_State *L, int pos)
     return arr;
 }
 
+void lua::put_int_array(lua_State *L, std::vector<int> arr)
+{
+    lua_newtable(L);
+    auto table = lua_gettop(L);
+    for (size_t i = 0; i < arr.size(); ++i) {
+        lua_pushnumber(L, arr[i]);
+        lua_rawseti(L, table, i);
+    }
+}
+
 std::vector<std::string> lua::get_string_array(lua_State *L, int pos)
 {
     if (!lua_istable(L, pos)) {

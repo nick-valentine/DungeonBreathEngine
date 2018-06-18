@@ -96,6 +96,7 @@ namespace lua {
             LUALIB(lib) = {
                 { "get", get },
                 { "release", release },
+                { "keys", keys },
                 { "get_tile", get_tile },
                 { NULL, NULL },
             };
@@ -114,6 +115,13 @@ namespace lua {
             auto s = (render::TileSet *)lua::get_lightuserdata(L, -1);
             container.remove(s);
             return 0;
+        }
+
+        int keys(lua_State *L) {
+            auto s = (render::TileSet *)lua::get_lightuserdata(L, -1);
+            auto k = s->get_keys();
+            lua::put_int_array(L, k);
+            return 1;
         }
 
         int get_tile(lua_State *L) {
@@ -141,6 +149,7 @@ namespace lua {
                 { "get_position", get_location },
                 { "set_scale", set_scale },
                 { "set_origin", set_origin },
+                { "get_icon", get_icon },
                 { NULL, NULL },
             };
             lua::add_lib(L, "tile", lib);
@@ -215,6 +224,13 @@ namespace lua {
             auto s = lua::get_vec(L, -1);
             t->set_origin(s);
             return 0;
+        }
+
+        int get_icon(lua_State *L) {
+            auto t = (render::Tile *)lua::get_lightuserdata(L, -1);
+            auto s = t->get_icon();
+            lua_pushlightuserdata(L, s);
+            return 1;
         }
     };
 };

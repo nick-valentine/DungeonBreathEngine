@@ -33,6 +33,9 @@ namespace play {
 
         void save();
         void set_size(sf::Vector2i size);
+        sf::Vector2i get_size();
+        std::string get_tileset();
+        std::string get_script_name();
 
         void update(int delta, sf::RenderWindow &window);
         void draw(sf::RenderWindow &window);

@@ -28,6 +28,13 @@ me.update = function(delta)
         end
     elseif me.state == c_edit_menu then
         edit_menu.update(me.self, delta)
+        local m = edit_menu.message()
+        if m then
+            if m.pop and m.pop == true then
+                edit_menu.release()
+                me.state = c_choose_menu
+            end
+        end
     end
 end
 

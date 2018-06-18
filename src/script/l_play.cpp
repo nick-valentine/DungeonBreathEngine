@@ -17,6 +17,9 @@ namespace lua {
                 { "add_collision", add_collision },
                 { "set_tile", set_tile },
                 { "remove_tile", remove_tile },
+                { "get_size", get_size },
+                { "get_tileset", get_tileset },
+                { "get_script_name", get_script_name },
                 { NULL, NULL}
             };
             lua::add_lib(L, "world", lib);
@@ -119,6 +122,31 @@ namespace lua {
             sf::Vector2i pos(p.x, p.y);
             w->remove_tile(l, pos);
             return 0;
+        }
+
+        int get_size(lua_State *L)
+        {
+            auto w = (play::World *)lua::get_lightuserdata(L, -1);
+            auto s = w->get_size();
+            sf::Vector2f sf(s.x, s.y);
+            lua::put_vec(L, sf);
+            return 1;
+        }
+
+        int get_tileset(lua_State *L)
+        {
+            auto w = (play::World *)lua::get_lightuserdata(L, -1);
+            auto t = w->get_tileset();
+            lua_pushstring(L, t.c_str());
+            return 1;
+        }
+
+        int get_script_name(lua_State *L)
+        {
+            auto w = (play::World *)lua::get_lightuserdata(L, -1);
+            auto s = w->get_script_name();
+            lua_pushstring(L, s.c_str());
+            return 1;
         }
     };
 

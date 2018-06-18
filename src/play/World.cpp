@@ -62,7 +62,10 @@ namespace play {
         }
         if (pos.y >= 0 && pos.y < world[layer].size() &&
                 pos.x >= 0 && pos.x < world[layer][pos.y].size()) {
-            world[layer][pos.y][pos.x].reset(tile);
+            auto t = tile->clone();
+            auto p = pos * 64;
+            t->set_location(p);
+            world[layer][pos.y][pos.x].reset(t);
         }
     }
 
@@ -91,17 +94,45 @@ namespace play {
         actor_man->add_collision_rect(type, sf::FloatRect(pos.x, pos.y, render::TileSet::tile_size(), render::TileSet::tile_size()));
     }
 
+    void World::set_size(sf::Vector2i size)
+    {
+        this->size = size;
+    }
+
+    sf::Vector2i World::get_size()
+    {
+        return this->size;
+    }
+
+    std::string World::get_tileset()
+    {
+        return this->tileset;
+    }
+
+    std::string World::get_script_name()
+    {
+        return this->script_name;
+    }
+
     void World::save()
     {
+        auto s_name = script_name;
+        if (s_name == "" || s_name == "none") {
+            s_name = "none";
+        }
+        auto actors = actor_man->get_actor_data();
+        if (actors == "") {
+            actors = "none";
+        }
         std::ofstream ofile(filename.c_str());
         ofile<<name<<"\n";
         ofile<<tileset<<"\n";
         ofile<<size.x<<" "<<size.y<<"\n";
-        ofile<<"none\n"; //script placeholder
+        ofile<<s_name<<"\n"; //script placeholder
         ofile<<"---\n";
-        ofile<<actor_man->get_actor_data();
+        ofile<<actors<<"\n";
         ofile<<"---\n";
-        ofile<<"0 collision placeholder";
+        ofile<<"0 collision placeholder\n";
         ofile<<"---\n";
         ofile<<convert_collision_boxes();
         ofile<<"---\n";

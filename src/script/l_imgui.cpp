@@ -88,7 +88,7 @@ namespace lua {
 
         int image_button(lua_State *L) {
             auto spr = (sf::Sprite *)lua::get_lightuserdata(L, -1);
-            auto b = ImGui::ImageButton(*spr);
+            auto b = ImGui::ImageButton(*spr, sf::Vector2f(40, 40));
             lua_pushnumber(L, b);
             return 1;
         }

@@ -31,6 +31,7 @@ namespace lua {
 
         int get(lua_State *L);
         int release(lua_State *L);
+        int keys(lua_State *L);
         int get_tile(lua_State *L);
     };
 
@@ -49,6 +50,7 @@ namespace lua {
         int get_location(lua_State *L);
         int set_scale(lua_State *L);
         int set_origin(lua_State *L);
+        int get_icon(lua_State *L);
     }
 };
 

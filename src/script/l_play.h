@@ -17,6 +17,9 @@ namespace lua {
         int add_collision(lua_State *L);
         int set_tile(lua_State *L);
         int remove_tile(lua_State *L);
+        int get_size(lua_State *L);
+        int get_tileset(lua_State *L);
+        int get_script_name(lua_State *L);
     };
 
     namespace actor {

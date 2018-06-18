@@ -198,7 +198,7 @@ namespace play {
 
     void World::render_layer(sf::RenderWindow &window, int layer)
     {
-        if (layer >= 0 && layer <= 10) {
+        if (layer >= 0 && layer < world.size()) {
             auto & l = world[layer];
             for (auto& line: l) {
                 for (auto& value: line) {

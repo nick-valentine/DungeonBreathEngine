@@ -6,6 +6,9 @@ edit_menu.signal = nil
 
 edit_menu.world = nil
 edit_menu.actorman = nil
+edit_menu.scale_factor = 1.0
+
+edit_menu.layers = {}
 
 local cursor = {}
 cursor.rect = nil;
@@ -40,6 +43,11 @@ edit_menu.write_default_layer = function(signal)
 end
 
 edit_menu.init = function(self, signal)
+
+    for i = 0, 10 do
+        edit_menu.layers[#edit_menu.layers + 1] = {draw= true}
+    end
+
     scene.init_world(self)
     edit_menu.world = scene.get_world(self)
     edit_menu.actorman = world.get_actorman(edit_menu.world)
@@ -87,11 +95,43 @@ edit_menu.update_cursor = function(self, delta)
     last_keys = keys
 end
 
+edit_menu.update_scale_factor = function(self)
+    local old_scale_factor = edit_menu.scale_factor;
+    edit_menu.scale_factor = imgui.input_int("scale factor", edit_menu.scale_factor)
+    if not (old_scale_factor == edit_menu.scale_factor) then
+        if old_scale_factor > edit_menu.scale_factor then
+            scene.zoom_camera(self, 1+1/4);
+        else
+            scene.zoom_camera(self, 1-1/4);
+        end
+    end
+end
+
+edit_menu.update_layer_render = function(self)
+    imgui.start("layers")
+    for k, v in pairs(edit_menu.layers) do
+        local label = "don't "
+        if not v.draw then
+            label = "do "
+        end
+        if imgui.button(label .. "render layer: " .. k) == 1.0 then
+            v.draw = not v.draw
+        end
+    end
+    imgui.stop()
+end
+
 edit_menu.update = function(self, delta)
-    me.world = scene.get_world(self)
-    me.actorman = world.get_actorman(me.world)
+    edit_menu.world = scene.get_world(self)
+    edit_menu.actorman = world.get_actorman(edit_menu.world)
 
     edit_menu.update_cursor(self, delta)
+
+    imgui.start("level edit menu")
+    edit_menu.update_scale_factor(self)
+    imgui.stop()
+
+    edit_menu.update_layer_render(self)
 
     local camera = scene.get_camera_center(self);
     camera.x = (cursor.pos.x*my_base_size) - camera.x
@@ -100,7 +140,16 @@ edit_menu.update = function(self, delta)
 end
 
 edit_menu.draw = function(self, window)
-    scene.draw(self, window)
+    -- scene.draw(self, window)
+    scene.apply_view(self, window)
+    for k, v in pairs(edit_menu.layers) do
+        if v.draw then
+            world.draw_layer(edit_menu.world, window, k-1)
+        end
+        if v == 5 then
+            world.draw_actors(edit_menu.world, window)
+        end
+    end
     rectangle_shape.draw(cursor.rect, window)
 end
 

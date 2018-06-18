@@ -49,6 +49,7 @@ namespace scene {
         void set_viewport(sf::FloatRect c);
         sf::FloatRect get_viewport();
         void zoom_camera(float factor);
+        void apply_view(sf::RenderWindow &window);
 
         void init_world();
         play::World *get_world();

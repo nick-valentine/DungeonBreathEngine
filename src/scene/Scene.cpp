@@ -213,6 +213,11 @@ namespace scene {
         this->main_window.zoom(factor);
     }
 
+    void Scene::apply_view(sf::RenderWindow &window)
+    {
+        window.setView(this->main_window);
+    }
+
     void Scene::init_world()
     {
         this->world = new play::WorldManager();

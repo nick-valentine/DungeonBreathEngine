@@ -16,6 +16,7 @@ namespace lua {
                 { "set_viewport", set_viewport },
                 { "get_viewport", get_viewport },
                 { "zoom_camera", zoom_camera },
+                { "apply_view", apply_view },
                 { "init_world", init_world },
                 { "get_world", get_world },
                 { "draw", draw },
@@ -109,6 +110,14 @@ namespace lua {
             auto s = (scene::Scene *)lua::get_lightuserdata(L, -2);
             auto r = lua::get_num(L, -1);
             s->zoom_camera(r);
+            return 0;
+        }
+
+        int apply_view(lua_State *L)
+        {
+            auto s = (scene::Scene *)lua::get_lightuserdata(L, -2);
+            auto w = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
+            s->apply_view(*w);
             return 0;
         }
 

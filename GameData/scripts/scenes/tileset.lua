@@ -23,6 +23,10 @@ me = {
             select_menu.update(delta)
             local m = select_menu.message()
             if m then
+                if m.back and m.back == true then
+                    scene.pop(me.self)
+                    return
+                end
                 logger.info(m.name)
                 logger.info(m.spritesheet)
                 logger.info(m.base_size)
@@ -37,6 +41,11 @@ me = {
             end
         elseif state == c_edit_menu then
             edit_menu.update(delta, me.self)
+            local m = edit_menu.message()
+            if m == "pop" then
+                edit_menu.reset()
+                state = c_choose_menu
+            end
         end
     end,
     draw = function(window)

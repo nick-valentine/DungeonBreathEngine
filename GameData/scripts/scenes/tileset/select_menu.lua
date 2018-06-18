@@ -28,6 +28,10 @@ select_menu.update = function(delta)
         index.add(idx, tileset_name);
         index.save(idx)
     end
+    if imgui.button("back") == 1.0 then
+        select_menu.signal = {}
+        select_menu.signal.back = true
+    end
     imgui.stop()
     imgui.start("existing tilesets")
     for k, v in pairs(dir_items) do

@@ -11,6 +11,7 @@ edit_menu.scale_factor = 1.0
 edit_menu.layers = {}
 
 edit_menu.tiles = {}
+edit_menu.actors = {}
 
 local cursor = {}
 cursor.rect = nil;
@@ -18,6 +19,16 @@ cursor.pos = {x=0, y=0}
 cursor.target = {}
 cursor.layer = 0
 cursor.sprite = nil
+cursor.label = nil
+
+function reset_cursor(c)
+    if c.label then
+        label.release(c.label)
+        c.label = nil
+    end
+    c.label = nil
+    c.sprite = nil
+end
 
 local last_keys = {up=false, down=false, left=false, right=false}
 
@@ -61,6 +72,17 @@ edit_menu.init_tiles = function(signal)
     tile_set.release(tset)
 end
 
+edit_menu.init_actors = function()
+    local idx = index.get("./GameData/scripts/actors")
+    local actors = index.all(idx)
+    for k, v in pairs(actors) do
+        local i = #edit_menu.actors+1
+        edit_menu.actors[i] = {}
+        edit_menu.actors[i].name = v
+    end
+    index.release(idx)
+end
+
 edit_menu.init = function(self, signal)
 
     for i = 0, 10 do
@@ -70,7 +92,6 @@ edit_menu.init = function(self, signal)
     scene.init_world(self)
     edit_menu.world = scene.get_world(self)
     edit_menu.actorman = world.get_actorman(edit_menu.world)
-    world.set_edit_mode(edit_menu.world, 1.0)
     if signal.tileset then
         logger.info("creating file")
         edit_menu.write_level_header(signal)
@@ -80,7 +101,6 @@ edit_menu.init = function(self, signal)
         edit_menu.write_default_layer(signal)
     end
     world.change_level(edit_menu.world, signal.name, {x=-1, y=-1})
-    world.set_edit_mode(edit_menu.world, 1.0)
 
     local world_size = world.get_size(edit_menu.world)
     signal.size_x = world_size.x
@@ -96,6 +116,7 @@ edit_menu.init = function(self, signal)
     rectangle_shape.set_fill_color(cursor.rect, {r=0, g=0, b=0, a=0})
 
     edit_menu.init_tiles(signal)
+    edit_menu.init_actors()
 end
 
 edit_menu.update_cursor = function(self, delta)
@@ -121,6 +142,9 @@ edit_menu.update_cursor = function(self, delta)
     rectangle_shape.set_position(cursor.rect, {x=cursor.pos.x*my_base_size, y=cursor.pos.y*my_base_size})
     if cursor.sprite then
         sprite.set_position(cursor.sprite, {x=cursor.pos.x*my_base_size, y=cursor.pos.y*my_base_size})
+    end
+    if cursor.label then
+        label.set_position(cursor.label, {x=cursor.pos.x*my_base_size, y=cursor.pos.y*my_base_size, width=100, height=50})
     end
     last_keys = keys
 end
@@ -151,12 +175,31 @@ edit_menu.update_layer_render = function(self)
     imgui.stop()
 end
 
+edit_menu.update_actor_select = function()
+    imgui.start("actors")
+    for k, v in pairs(edit_menu.actors) do
+        if imgui.button(v.name) == 1.0 then
+            reset_cursor(cursor)
+            cursor.target = {}
+            cursor.target.actor = v.name
+            local pos = {}
+            pos.x = cursor.pos.x
+            pos.y = cursor.pos.y
+            pos.width = 100
+            pos.height = 50
+            lab = label.get(pos, v.name)
+            cursor.label = lab
+        end
+    end
+    imgui.stop()
+end
+
 edit_menu.update_tile_menu = function(self)
     imgui.start("tiles")
     for k, v in pairs(edit_menu.tiles) do
         imgui.start_child("tile: " .. k, {x=60, y=60})
         if imgui.image_button(v.sprite) == 1.0 then
-            logger.info(k, "clicked")
+            reset_cursor(cursor)
             cursor.target = {}
             cursor.target.tile = k
             cursor.sprite = v.sprite
@@ -169,6 +212,7 @@ end
 edit_menu.update = function(self, delta)
     edit_menu.world = scene.get_world(self)
     edit_menu.actorman = world.get_actorman(edit_menu.world)
+    world.set_edit_mode(edit_menu.world, 1.0)
 
     edit_menu.update_cursor(self, delta)
 
@@ -184,6 +228,13 @@ edit_menu.update = function(self, delta)
                 cursor.pos
             )
         end
+        if cursor.target.actor then
+            world.add_actor(
+                edit_menu.world,
+                cursor.target.actor,
+                {x=cursor.pos.x*my_base_size, y=cursor.pos.y*my_base_size}
+            )
+        end
     end
     if imgui.button("save") == 1.0 then
         world.save_edits(edit_menu.world)
@@ -195,6 +246,7 @@ edit_menu.update = function(self, delta)
 
     edit_menu.update_layer_render(self)
     edit_menu.update_tile_menu(self)
+    edit_menu.update_actor_select(self)
 
     local camera = scene.get_camera_center(self);
     camera.x = (cursor.pos.x*my_base_size) - camera.x
@@ -208,13 +260,18 @@ edit_menu.draw = function(self, window)
         if v.draw then
             world.draw_layer(edit_menu.world, window, k-1)
         end
-        if v == 5 then
+        if k == 5 then
             world.draw_actors(edit_menu.world, window)
         end
     end
-    rectangle_shape.draw(cursor.rect, window)
+    if cursor.rect then
+        rectangle_shape.draw(cursor.rect, window)
+    end
     if cursor.sprite then
         sprite.draw(cursor.sprite, window)
+    end
+    if cursor.label then
+        label.draw(cursor.label, window)
     end
 end
 
@@ -225,17 +282,21 @@ edit_menu.message = function()
 end
 
 edit_menu.release = function()
-    cursor = {}
-    cursor.rect = nil;
+    reset_cursor(cursor)
     cursor.pos = {x=0, y=0}
     cursor.layer = 0
+    if cursor.rect then
+        rectangle_shape.release(cursor.rect)
+    end
+    cursor.rect = nil;
 
     last_keys = {up=false, down=false, left=false, right=false}
 
     for k, v in pairs(edit_menu.tiles) do
         tile.release(v.tile)
     end
-    edit_menu.tilies = {}
+    edit_menu.tiles = {}
+    edit_menu.actors = {}
 end
 
 return edit_menu

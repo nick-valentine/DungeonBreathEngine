@@ -71,7 +71,7 @@ namespace lua {
         int set_edit_mode(lua_State *L)
         {
             auto w = (play::World *)lua::get_lightuserdata(L, -2);
-            auto e = (bool) lua::get_num(L, -1);
+            auto e = (int) lua::get_num(L, -1);
             w->set_edit_mode(e);
             return 0;
         }

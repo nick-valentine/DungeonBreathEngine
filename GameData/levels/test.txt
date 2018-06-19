@@ -3,7 +3,11 @@ overworld
 40 40
 none
 ---
-none
+hero -1 -1
+hero 640 384
+hero 448 256
+hero 448 512
+
 ---
 0 collision placeholder
 ---

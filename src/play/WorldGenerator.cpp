@@ -122,7 +122,7 @@ namespace play {
         }
 
         while (line != "---" && ifile.good()) {
-            if (line == "none") {
+            if (line == "none" || line == "") {
                 std::getline(ifile, line);
                 continue;
             }

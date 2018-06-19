@@ -175,6 +175,715 @@ At this time in order to choose what events are triggered by collisions, you mus
 Where type is the integer associated with the collision type, action is either teleport or call, and target is either the new world to load, or the lua function to call.
 
 
+\chapter{Scripting}
+\section{API}
+\subsection{Audio}
+Functions:
+
+\begin{equation}
+music.play(<string> name) \rightarrow <void>
+\end{equation}
+play a song located in "./GameData/sound/" with the filename name
+
+
+\begin{equation}
+music.stop() \rightarrow <void>
+\end{equation}
+stop all currently playing music
+
+\begin{equation}
+music.playing() \rightarrow <string>
+\end{equation}
+get the name of the currently playing song
+
+\begin{equation}
+music.set\_volume(<float> volume) \rightarrow <void>
+\end{equation}
+set the volume
+
+\subsection{Core}
+\subsubsection{config}
+\begin{equation}
+config.get\_int(<string> name, <int> default) \rightarrow <int>
+\end{equation}
+get an int configuration option, provide a default. if config.save() is called, and the default was used, the default will be persisted.
+
+\begin{equation}
+config.get\_sring(<string> name, <string> default) \rightarrow <string>
+\end{equation}
+get an string configuration option, provide a default. if config.save() is called, and the default was used, the default will be persisted.
+
+\begin{equation}
+config.set(<string> name, <string|int> value) \rightarrow <void>
+\end{equation}
+change a configuration option. if config.save() is called, the change will be persisted.
+
+\begin{equation}
+config.save() \rightarrow <void>
+\end{equation}
+persist all configuration changes.
+
+\subsubsection{input}
+\begin{enumerate}
+ \item input.up
+ \item input.down
+ \item input.left
+ \item input.right
+ \item input.escape
+ \item input.accept
+ \item input.fire
+ \item input.alt\_fire
+ \item input.num\_keys
+\end{enumerate}
+Button enumerations.
+
+\begin{equation}
+input.is\_key\_pressed() \rightarrow <num>
+\end{equation}
+check if a button is pressed.
+
+\subsubsection{lang}
+\begin{equation}
+lang.next() \rightarrow <string>
+\end{equation}
+change the current language to the next one in the index. returns the language name.
+
+\begin{equation}
+lang.prev() \rightarrow <string>
+\end{equation}
+change the current language to the previous one in the index. returns the language name.
+
+\subsubsection{logger}
+\begin{equation}
+logger.debug(<string> value, ...) \rightarrow <void>
+\end{equation}
+log at the debug level.
+
+\begin{equation}
+logger.info(<string> value, ...) \rightarrow <void>
+\end{equation}
+log at the info level.
+
+\begin{equation}
+logger.warn(<string> value, ...) \rightarrow <void>
+\end{equation}
+log at the warn level.
+
+\begin{equation}
+logger.error(<string> value, ...) \rightarrow <void>
+\end{equation}
+log at the error level.
+
+\subsubsection{index}
+\begin{equation}
+index.get(<string> path) \rightarrow <Index>
+\end{equation}
+get an Index object that references path, all indexes got must be released.
+
+\begin{equation}
+index.release(<Index> idx) \rightarrow <void>
+\end{equation}
+release a Index object so it can be removed from memory.
+
+\begin{equation}
+index.add(<Index> idx, <string> value) \rightarrow <void>
+\end{equation}
+add a value to this index, changes must be saved in order to be reflected onto disk.
+
+\begin{equation}
+index.remove(<Index> idx, <string> value) \rightarrow <void>
+\end{equation}
+remove a value from this index, changes must be saved in order to be reflected onto disk.
+
+\begin{equation}
+index.save(<Index> idx) \rightarrow <void>
+\end{equation}
+save all changes made to this index.
+
+\begin{equation}
+index.all(<Index> idx) \rightarrow <[]string>
+\end{equation}
+get all items in this index.
+
+\subsubsection{imgui}
+This library is a dev tool for ui's that normal users will not see.
+
+\begin{equation}
+imgui.start(<string> name) \rightarrow <void>
+\end{equation}
+create a new imgui window.
+
+\begin{equation}
+imgui.stop() \rightarrow <void>
+\end{equation}
+end the current imgui window.
+
+\begin{equation}
+imgui.start\_child(<string> name, <vec2> pos) \rightarrow <void>
+\end{equation}
+create a new imgui sub window.
+
+\begin{equation}
+imgui.stop\_child() \rightarrow <void>
+\end{equation}
+end a imgui sub window.
+
+\begin{equation}
+imgui.button(<string> name) \rightarrow <bool>
+\end{equation}
+create a new imgui button.
+
+\begin{equation}
+imgui.checkbox(<string> name, <bool> checked) \rightarrow <bool>
+\end{equation}
+create a new imgui checkbox.
+
+\begin{equation}
+imgui.progressbar(<float> value) \rightarrow <void>
+\end{equation}
+create a new imgui progressbar.
+
+\begin{equation}
+imgui.text(<string> value) \rightarrow <void>
+\end{equation}
+create a new imgui text.
+
+\begin{equation}
+imgui.input\_text(<string> label, <string> value) \rightarrow <string>
+\end{equation}
+create a new imgui text input.
+
+\begin{equation}
+imgui.input\_int(<string> label, <int> value) \rightarrow <int>
+\end{equation}
+create a new imgui int input.
+
+\begin{equation}
+imgui.input\_float(<string> label, <float> value) \rightarrow <float>
+\end{equation}
+create a new imgui float input.
+
+\begin{equation}
+imgui.image\_button(<Sprite> image) \rightarrow <bool>
+\end{equation}
+create a new imgui image button.
+
+\begin{equation}
+imgui.listbox(<string> label, <int> current, <[]string> values) \rightarrow <int>
+\end{equation}
+create a new imgui listbox, returns currently selected.
+
+\subsection{Play}
+\subsubsection{world}
+
+\begin{equation}
+world.change\_level(<World> w, <string> name, <vec2> player\_location) \rightarrow <void>
+\end{equation}
+request a new level load.
+
+\begin{equation}
+world.get\_actorman(<World> w) \rightarrow <ActorManager>
+\end{equation}
+get the world's actormanager.
+
+\begin{equation}
+world.draw(<World> w, <RenderWindow> win) \rightarrow <void>
+\end{equation}
+draw the world.
+
+\begin{equation}
+world.draw\_layer(<World> w, <RenderWindow> win, <int> layer) \rightarrow <void>
+\end{equation}
+draw the a layer of world.
+
+\begin{equation}
+world.draw\_actors(<World> w, <RenderWindow> win) \rightarrow <void>
+\end{equation}
+draw the actors in this world.
+
+\begin{equation}
+world.set\_edit\_mode(<World> w, <bool> e) \rightarrow <void>
+\end{equation}
+change the mode the world is in to be more usable for editing the world.
+
+\begin{equation}
+world.save\_edits(<World> w) \rightarrow <void>
+\end{equation}
+save all changes made to this world back onto the original world file.
+
+\begin{equation}
+world.add\_actor(<World> w, <string> name, <vec2> pos) \rightarrow <void>
+\end{equation}
+add an actor into this world.
+
+\begin{equation}
+world.add\_collision(<World> w, <int> layer, <vec2> pos) \rightarrow <void>
+\end{equation}
+add a collision into this world.
+
+\begin{equation}
+world.set\_tile(<World> w, <Tile> tile, <int> layer, <vec2> pos) \rightarrow <void>
+\end{equation}
+change a tile in this world.
+
+\begin{equation}
+world.remove\_tile(<World> w, <int> layer, <vec2> pos) \rightarrow <void>
+\end{equation}
+remove a tile from this world.
+
+\begin{equation}
+world.get\_size(<World> w) \rightarrow <vec2>
+\end{equation}
+get the size in tiles of this world.
+
+
+\begin{equation}
+world.get\_tileset(<World> w) \rightarrow <string>
+\end{equation}
+get the name of the tileset of this world.
+
+\begin{equation}
+world.get\_script\_name(<World> w) \rightarrow <string>
+\end{equation}
+get the name of the script of this world.
+
+\subsubsection{Actor}
+\begin{equation}
+actor.get\_rect(<Actor> a) \rightarrow <rect>
+\end{equation}
+get the actor's collision rect
+
+\begin{equation}
+actor.set\_scale(<Actor> a, <vec2> v) \rightarrow <void>
+\end{equation}
+set the actor's scale
+
+\begin{equation}
+actor.set\_origin(<Actor> a, <vec2> v) \rightarrow <void>
+\end{equation}
+set the actor's origin
+
+\begin{equation}
+actor.set\_collision\_bounds(<Actor> a, <vec2> size) \rightarrow <void>
+\end{equation}
+set the actor's collision bounds
+
+\begin{equation}
+actor.get\_velocity(<Actor> a) \rightarrow <vec2>
+\end{equation}
+get the actor's velocity
+
+\begin{equation}
+actor.set\_velocity(<Actor> a, <vec2> v) \rightarrow <void>
+\end{equation}
+set the actor's velocity
+
+\begin{equation}
+actor.set\_tileset(<Actor> a, <int> t) \rightarrow <void>
+\end{equation}
+set the actor's tileset
+
+\begin{equation}
+actor.pause\_anim(<Actor> a) \rightarrow <void>
+\end{equation}
+pause the actor's animation
+
+\begin{equation}
+actor.play\_anim(<Actor> a) \rightarrow <void>
+\end{equation}
+play the actor's animation
+
+\begin{equation}
+actor.reset\_anim(<Actor> a) \rightarrow <void>
+\end{equation}
+reset the actor's animation
+
+\begin{equation}
+actor.draw(<Actor> a, <Window> w) \rightarrow <void>
+\end{equation}
+draw the actor
+
+\subsubsection{Actor Manager}
+
+\begin{equation}
+actor\_manager.spawn(<ActorManager> a, <string> name, <vec2> pos) \rightarrow <actor\_handle>
+\end{equation}
+spawn an actor
+
+\begin{equation}
+actor\_manager.remove(<ActorManager> a, <int> actor\_handle) \rightarrow <void>
+\end{equation}
+remove an actor
+
+\begin{equation}
+actor\_manager.clear(<ActorManager> a) \rightarrow <void>
+\end{equation}
+clear out all actors
+
+\begin{equation}
+actor\_manager.set\_camera\_target(<ActorManager> a, <actor\_handle> h) \rightarrow <void>
+\end{equation}
+set the actor that the camera should follow
+
+\begin{equation}
+actor\_manager.get\_camera\_target(<ActorManager> a) \rightarrow <Actor>
+\end{equation}
+get the actor that the camera should follow
+
+\begin{equation}
+actor\_manager.get\_player(<ActorManager> a) \rightarrow <Actor>
+\end{equation}
+get the actor that represents the player
+
+\begin{equation}
+actor\_manager.set\_player(<ActorManager> a, <actor\_handle> h) \rightarrow <void>
+\end{equation}
+set the actor that represents the player
+
+\subsection{Render}
+\subsubsection{Sprite Manager}
+
+\begin{equation}
+sprite\_manager.get(<string> texture\_name, <int> sprite\_name) \rightarrow <SpriteManager>
+\end{equation}
+get a new sprite manager, release should be called on all object yeilded from this method
+
+\begin{equation}
+sprite\_manager.release(<SpriteManager> s) \rightarrow <SpriteManager>
+\end{equation}
+frees this object from memory
+
+\begin{equation}
+sprite\_manager.make\_sprite(<SpriteManager> s, <vec2> pos, <vec2> size) \rightarrow <Sprite>
+\end{equation}
+creates a sprite on this sprite manager
+
+\begin{equation}
+sprite\_manager.remove\_sprite(<SpriteManager> s, <Sprite> spr) \rightarrow <void>
+\end{equation}
+removes a sprite from this sprite manager
+
+\subsubsection{Sprite}
+\begin{equation}
+sprite.set\_position(<Sprite> s, <vec2> pos) \rightarrow <void>
+\end{equation}
+sets the position of a sprite
+
+\begin{equation}
+sprite.set\_scale(<Sprite> s, <vec2> pos) \rightarrow <void>
+\end{equation}
+sets the scale of a sprite
+
+\begin{equation}
+sprite.draw(<Sprite> s, <Window> win) \rightarrow <void>
+\end{equation}
+draws a sprite to the window
+
+\subsubsection{TileSet}
+\begin{equation}
+tile\_set.get(<string> tileset\_name) \rightarrow <TileSet>
+\end{equation}
+get a new tileset, release should be called on all object yeilded from this method
+
+\begin{equation}
+tile\_set.release(<TileSet> t) \rightarrow <void>
+\end{equation}
+frees this object from memory
+
+\begin{equation}
+tile\_set.keys(<TileSet> t) \rightarrow <[]int>
+\end{equation}
+get all of the possible keys for tiles that can be spawned
+
+\begin{equation}
+tile\_set.get\_tile(<TileSet> t, <int> key) \rightarrow <Tile>
+\end{equation}
+get a tile from this tileset, release should be called on all object yeilded from this method
+
+\subsubsection{Tile}
+\begin{equation}
+tile.release(<Tile> t) \rightarrow <void>
+\end{equation}
+frees this object from memory
+
+\begin{equation}
+tile.update(<Tile> t, <int> delta) \rightarrow <void>
+\end{equation}
+update this tile
+
+\begin{equation}
+tile.draw(<Tile> t, <Window> window) \rightarrow <void>
+\end{equation}
+draw this tile to the window
+
+\begin{equation}
+tile.play(<Tile> t) \rightarrow <void>
+\end{equation}
+play this tile's animation.
+
+\begin{equation}
+tile.pause(<Tile> t) \rightarrow <void>
+\end{equation}
+pause this tile's animation.
+
+\begin{equation}
+tile.reset(<Tile> t) \rightarrow <void>
+\end{equation}
+reset this tile's animation.
+
+\begin{equation}
+tile.set\_location(<Tile> t, <vec2> pos) \rightarrow <void>
+\end{equation}
+set this tile's location
+
+\begin{equation}
+tile.get\_location(<Tile> t) \rightarrow <vec2>
+\end{equation}
+get this tile's location
+
+\begin{equation}
+tile.set\_scale(<Tile> t, <vec2> s) \rightarrow <void>
+\end{equation}
+set this tile's scale
+
+\begin{equation}
+tile.set\_origin(<Tile> t, <vec2> o) \rightarrow <void>
+\end{equation}
+set this tile's origin
+
+\begin{equation}
+tile.get\_icon(<Tile> t) \rightarrow <Sprite>
+\end{equation}
+set this tile's icon
+
+\subsection{Scene}
+\begin{equation}
+scene.push(<Scene> s, <string> name) \rightarrow <void>
+\end{equation}
+push a new scene onto the scene stack
+
+\begin{equation}
+scene.pop(<Scene> s) \rightarrow <void>
+\end{equation}
+pop this scene from the scene stack
+
+\begin{equation}
+scene.get\_menu(<Scene> s) \rightarrow <Menu>
+\end{equation}
+get the menu owned by this scene
+
+\begin{equation}
+scene.get\_size(<Scene> s) \rightarrow <vec2>
+\end{equation}
+get the size of this scene
+
+\begin{equation}
+scene.reset\_camera(<Scene> s) \rightarrow <void>
+\end{equation}
+reset the scene's camera back to 0
+
+\begin{equation}
+scene.get\_camera\_center(<Scene> s) \rightarrow <vec2>
+\end{equation}
+get the camera's center
+
+\begin{equation}
+scene.move\_camera(<Scene> s, <vec2> diff) \rightarrow <void>
+\end{equation}
+move the camera by diff
+
+\begin{equation}
+scene.set\_viewport(<Scene> s, <rect> r) \rightarrow <void>
+\end{equation}
+set the view to r
+
+\begin{equation}
+scene.get\_viewport(<Scene> s) \rightarrow <rect>
+\end{equation}
+get the scene's viewport
+
+\begin{equation}
+scene.zoom\_camera(<Scene> s, <float> mult) \rightarrow <void>
+\end{equation}
+zoom the scene by mult
+
+\begin{equation}
+scene.apply\_view(<Scene> s, <Window> window) \rightarrow <void>
+\end{equation}
+apply the scene's camera
+
+\begin{equation}
+scene.init\_world(<Scene> s) \rightarrow <void>
+\end{equation}
+initialize the scene's world
+
+\begin{equation}
+scene.get\_world(<Scene> s) \rightarrow <World>
+\end{equation}
+get the scene's world
+
+\begin{equation}
+scene.draw(<Scene> s, <Window> win) \rightarrow <void>
+\end{equation}
+draw the scene
+
+\subsection{Shape}
+\subsubsection{Rectangle Shape}
+
+\begin{equation}
+rectangle\_shape.get() \rightarrow <RectangleShape>
+\end{equation}
+get a rectangle, release should be called on all object yeilded from this method
+
+\begin{equation}
+rectangle\_shape.release(<RectangleShape> r) \rightarrow <void>
+\end{equation}
+free this object from memory
+
+\begin{equation}
+rectangle\_shape.set\_size(<RectangleShape> r, <vec2> s) \rightarrow <void>
+\end{equation}
+set this objects size
+
+\begin{equation}
+rectangle\_shape.set\_position(<RectangleShape> r, <vec2> p) \rightarrow <void>
+\end{equation}
+set this objects position
+
+\begin{equation}
+rectangle\_shape.set\_fill\_color(<RectangleShape> r, <rgb[a]> p) \rightarrow <void>
+\end{equation}
+set this objects fill color
+
+\begin{equation}
+rectangle\_shape.set\_outline\_color(<RectangleShape> r, <rgb[a]> p) \rightarrow <void>
+\end{equation}
+set this objects outline color
+
+\begin{equation}
+rectangle\_shape.set\_outline\_thickness(<RectangleShape> r, <float> s) \rightarrow <void>
+\end{equation}
+set this objects outline thickness
+
+\begin{equation}
+rectangle\_shape.draw(<RectangleShape> r, <Window> win) \rightarrow <void>
+\end{equation}
+draw this object to window
+
+\subsection{UI}
+\subsubsection{Menu}
+\begin{equation}
+menu.set\_current(<Menu> m, <MenuItem> mi) \rightarrow <void>
+\end{equation}
+set the currently hovered menu item
+
+\begin{equation}
+menu.add\_sprite\_button(<Menu> m, <string> tag, <rect> pos, <string> tex, <rect> normal, <rect> hover, <rect> press) \rightarrow <MenuItem>
+\end{equation}
+insert a spritebutton into this menu
+
+\begin{equation}
+menu.add\_label(<Menu> m, <rect> pos, <string> content\_key) \rightarrow <MenuItem>
+\end{equation}
+insert a label into this menu, content\_key is a lookup into the active lang file.
+
+\begin{equation}
+menu.add\_label\_raw(<Menu> m, <rect> pos, <string> content) \rightarrow <MenuItem>
+\end{equation}
+insert a label into this menu
+
+\begin{equation}
+menu.has\_signal(<Menu> m) \rightarrow <bool>
+\end{equation}
+see if this menu has a signal to be processed
+
+\begin{equation}
+menu.signal\_tag(<Menu> m) \rightarrow <string>
+\end{equation}
+get the signals ui tag
+
+\begin{equation}
+menu.signal\_str(<Menu> m) \rightarrow <string>
+\end{equation}
+get the signals string message
+
+\begin{equation}
+menu.signal\_int(<Menu> m) \rightarrow <int>
+\end{equation}
+get the signals int message
+
+\begin{equation}
+menu.clear(<Menu> m) \rightarrow <void>
+\end{equation}
+empty out this menu
+
+\subsubsection{MenuItem}
+\begin{equation}
+menu\_item.raw(<MenuItem> m) \rightarrow <MenuItem>
+\end{equation}
+get the underlying object in this menu item
+
+\begin{equation}
+menu\_item.set\_up(<MenuItem> m, <MenuItem> o) \rightarrow <void>
+\end{equation}
+set the relationship between two buttons
+
+\begin{equation}
+menu\_item.set\_down(<MenuItem> m, <MenuItem> o) \rightarrow <void>
+\end{equation}
+set the relationship between two buttons
+
+\begin{equation}
+menu\_item.set\_left(<MenuItem> m, <MenuItem> o) \rightarrow <void>
+\end{equation}
+set the relationship between two buttons
+
+\begin{equation}
+menu\_item.set\_right(<MenuItem> m, <MenuItem> o) \rightarrow <void>
+\end{equation}
+set the relationship between two buttons
+
+\begin{equation}
+menu\_item.pair\_items(<MenuItem> m, <MenuItem> o, <int> direction) \rightarrow <void>
+\end{equation}
+set the relationship between two buttons
+
+\begin{equation}
+menu\_item.get\_tag(<MenuItem> m) \rightarrow <string>
+\end{equation}
+get the tag set when creating this item
+
+\subsubsection{Label}
+
+\begin{equation}
+label.get(<rect> p, <string> contents) \rightarrow <Label>
+\end{equation}
+create a new unmanaged label, all labels created by this method should be released
+
+\begin{equation}
+label.release(<Label> l) \rightarrow <void>
+\end{equation}
+release an unmanaged label
+
+\begin{equation}
+label.set\_position(<Label> l, <rect> pos) \rightarrow <void>
+\end{equation}
+set this objects position
+
+\begin{equation}
+label.set\_string(<Label> l, <string> contents) \rightarrow <void>
+\end{equation}
+set this objects string
+
+\begin{equation}
+label.set\_size(<Label> l, <float> size) \rightarrow <void>
+\end{equation}
+set this objects char size
+
+\begin{equation}
+label.draw(<Label> l, <Window> win) \rightarrow <void>
+\end{equation}
+draw this object
 %------------------------------------------------
 
 %Tilesets\section{Citation}\index{Citation}

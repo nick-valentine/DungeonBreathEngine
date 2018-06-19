@@ -156,7 +156,7 @@ namespace lua {
                 return 1;
             }
 
-                                                        int set_up(lua_State *L)
+            int set_up(lua_State *L)
             {
                 auto mi = (ui::MenuItem *)lua::get_lightuserdata(L, -2);
                 auto other = (ui::MenuItem *)lua::get_lightuserdata(L, -1);

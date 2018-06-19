@@ -11,6 +11,8 @@ namespace lua {
 
         int begin(lua_State *L);
         int end(lua_State *L);
+        int begin_child(lua_State *L);
+        int end_child(lua_State *L);
         int button(lua_State *L);
         int checkbox(lua_State *L);
         int progressbar(lua_State *L);

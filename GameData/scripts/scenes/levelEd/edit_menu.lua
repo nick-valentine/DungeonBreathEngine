@@ -154,12 +154,14 @@ end
 edit_menu.update_tile_menu = function(self)
     imgui.start("tiles")
     for k, v in pairs(edit_menu.tiles) do
+        imgui.start_child("tile: " .. k, {x=60, y=60})
         if imgui.image_button(v.sprite) == 1.0 then
             logger.info(k, "clicked")
             cursor.target = {}
             cursor.target.tile = k
             cursor.sprite = v.sprite
         end
+        imgui.stop_child()
     end
     imgui.stop()
 end
@@ -226,6 +228,7 @@ edit_menu.release = function()
     cursor = {}
     cursor.rect = nil;
     cursor.pos = {x=0, y=0}
+    cursor.layer = 0
 
     last_keys = {up=false, down=false, left=false, right=false}
 

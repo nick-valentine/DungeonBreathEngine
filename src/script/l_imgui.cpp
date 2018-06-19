@@ -8,6 +8,8 @@ namespace lua {
             LUALIB(lib) = {
                 { "start", begin },
                 { "stop", end },
+                { "start_child", begin_child },
+                { "stop_child", end_child },
                 { "button", button },
                 { "checkbox", checkbox },
                 { "progressbar", progressbar },
@@ -30,6 +32,18 @@ namespace lua {
 
         int end(lua_State *L) {
             ImGui::End();
+            return 0;
+        }
+
+        int begin_child(lua_State *L) {
+            auto s = lua::get_string(L, -2);
+            auto v = lua::get_vec(L, -1);
+            ImGui::BeginChild(s.c_str(), ImVec2(v.x, v.y));
+            return 0;
+        }
+
+        int end_child(lua_State *L) {
+            ImGui::EndChild();
             return 0;
         }
 

@@ -24,6 +24,8 @@ namespace render {
         virtual void set_scale(sf::Vector2f scale) = 0;
         virtual void set_origin(sf::Vector2f scale) = 0;
 
+        virtual sf::Sprite *get_icon() = 0;
+
         virtual Tile *clone() = 0;
         constexpr static int size()
         {

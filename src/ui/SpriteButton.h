@@ -23,9 +23,6 @@ namespace ui {
         sf::Sprite hover;
         sf::Sprite press;
     };
-
-    SpriteButton left(sf::IntRect pos);
-    SpriteButton right(sf::IntRect pos);
 };
 
 #endif //SPRITEBUTTON_H

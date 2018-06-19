@@ -21,6 +21,8 @@ namespace render {
         virtual void set_scale(sf::Vector2f scale); 
         virtual void set_origin(sf::Vector2f scale); 
 
+        virtual sf::Sprite *get_icon();
+
         void update(int delta);
         void draw(sf::RenderWindow &window);
 

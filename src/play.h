@@ -3,6 +3,7 @@
 
 #include "play/Actor.h"
 #include "play/ActorManager.h"
+#include "play/Scene.h"
 #include "play/WorldGenerator.h"
 #include "play/World.h"
 #include "play/WorldManager.h"

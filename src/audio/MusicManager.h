@@ -14,23 +14,17 @@ namespace audio {
     class MusicManager
     {
     public:
-        enum Song {
-            none = 0,
-            main_menu,
-            playing_game
-        };
-
         MusicManager() = delete;
 
-        static void play(Song s);
+        static void play(std::string name);
         static void stop();
 
-        Song playing();
+        static std::string playing();
 
         static void set_volume(float volume);
 
     private:
-        static Song now_playing;
+        static std::string now_playing;
         static float volume;
         static sf::Music music;
         static std::vector<std::string> song_files;

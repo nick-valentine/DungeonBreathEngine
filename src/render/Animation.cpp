@@ -52,4 +52,9 @@ namespace render {
     {
         this->origin = origin;
     }
+
+    sf::Sprite *Animation::get_icon()
+    {
+        return frames.get_sprite(current_frame);
+    }
 };

@@ -27,6 +27,8 @@ namespace render {
         void draw(sf::RenderWindow &window, sf::FloatRect pos);
 
         void set_origin(sf::Vector2f origin);
+
+        sf::Sprite *get_icon();
     private:
         constexpr static int base_speed = 10000;
         SpriteSet frames;

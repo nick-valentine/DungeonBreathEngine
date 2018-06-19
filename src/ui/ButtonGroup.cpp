@@ -12,7 +12,7 @@ namespace ui {
         if (last_mouse_pos != mouse_pos) {
             gamepad = false;
             for (const auto &i : this->buttons) {
-                i.second->reset_hover_override();
+                i.second->set_mode(InputMode::mouse);
             }
         }
         last_mouse_pos = mouse_pos;
@@ -33,6 +33,7 @@ namespace ui {
 
         if (gamepad) {
             for (const auto &i : this->buttons) {
+                i.second->set_mode(InputMode::pad);
                 i.second->set_hover(false);
             }
 
@@ -40,7 +41,7 @@ namespace ui {
         }
 
         for (const auto &i : this->buttons) {
-            i.second->update(delta, input, window);
+            i.second->update(delta, window);
         }
     }
 

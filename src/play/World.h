@@ -23,7 +23,8 @@ namespace play {
         World(std::string tile_set, std::unique_ptr<WorldGenerator> &&gen);
         ~World();
 
-        void set_tile(render::Tile *tile, int layer, sf::Vector2i pos); void remove_tile(int layer, sf::Vector2i pos);
+        void set_tile(render::Tile *tile, int layer, sf::Vector2i pos); 
+        void remove_tile(int layer, sf::Vector2i pos);
 
         void set_init_player_pos(sf::Vector2i pos);
 
@@ -32,9 +33,15 @@ namespace play {
 
         void save();
         void set_size(sf::Vector2i size);
+        sf::Vector2i get_size();
+        std::string get_tileset();
+        std::string get_script_name();
 
         void update(int delta, sf::RenderWindow &window);
         void draw(sf::RenderWindow &window);
+        void render(sf::RenderWindow &window);
+        void render_layer(sf::RenderWindow &window, int layer);
+        void render_actors(sf::RenderWindow &window);
 
         void set_edit_mode(bool edit_mode);
 
@@ -45,6 +52,7 @@ namespace play {
         sf::Vector2i next_player_pos();
 
         ActorManager::actor_ptr get_camera_target();
+        ActorManager *get_actorman();
     private:
         void add_layer(int num_layers = 1);
         std::string convert_collision_boxes();

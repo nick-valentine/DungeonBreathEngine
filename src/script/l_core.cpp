@@ -4,35 +4,21 @@ namespace lua {
     namespace config {
         void add(lua_State *L)
         {
-            static const struct luaL_Reg mylib[] = {
+            LUALIB(lib) = {
                 {"get_int", get_int},
                 {"get_string", get_string},
                 {"set", set},
                 {"save", save},
                 {NULL, NULL}
             };
-            lua_getglobal(L, "config");
-            if (lua_isnil(L, -1)) {
-                lua_pop(L, 1);
-                lua_newtable(L);
-            }
-            luaL_setfuncs(L, mylib, 0);
-            lua_setglobal(L, "config");
+            lua::add_lib(L, "config", lib);
         }
 
         int get_int(lua_State *L)
         {
-            if (!lua_isstring(L, -2)) {
-                error(L, "config.get_int arg 1 not string");
-            }
-            auto c = lua_tostring(L, -2);
-            if (!lua_isnumber(L, -1)) {
-                error(L, "config.get_int arg 2 not int");
-            }
-            auto d = lua_tonumber(L, -1);
-
+            auto c = lua::get_string(L, -2);
+            auto d = lua::get_num(L, -1);
             int n = core::ConfigLoader::get_int_option(c, d);
-
             lua_pushnumber(L, n);
 
             return 1;
@@ -40,17 +26,9 @@ namespace lua {
 
         int get_string(lua_State *L)
         {
-            if (!lua_isstring(L, -2)) {
-                error(L, "config.get_string arg 1 not string");
-            }
-            auto c = lua_tostring(L, -2);
-            if (!lua_isstring(L, -1)) {
-                error(L, "config.get_string arg 2 not string");
-            }
-            auto d = lua_tostring(L, -1);
-
+            auto c = lua::get_string(L, -2);
+            auto d = lua::get_string(L, -1);
             auto s = core::ConfigLoader::get_string_option(c, d);
-
             lua_pushstring(L, s.c_str());
 
             return 1;
@@ -58,10 +36,7 @@ namespace lua {
 
         int set(lua_State *L)
         {
-            if (!lua_isstring(L, -2)) {
-                error(L, "config.set arg 1 not string");
-            }
-            auto c = lua_tostring(L, -2);
+            auto c = lua::get_string(L, -2);
             if (lua_isnumber(L, -1)) {
                 auto d = lua_tonumber(L, -1);
                 core::ConfigLoader::mutate_option(c, d);
@@ -87,95 +62,83 @@ namespace lua {
         void add(lua_State *L)
         {
             lua::config::add(L);
-            lua::logger::add(core::app_container.get_logger(), L);
-            lua::input::add(core::app_container.get_input(), L);
+            lua::logger::add(L);
+            lua::input::add(L);
+            lua::lang::add(L);
+            lua::index::add(L);
         }
     };
 
     namespace input {
-        void add(core::Input *i, lua_State *s)
+        void add(lua_State *L)
         {
-            static const struct luaL_Reg mylib[] = {
+            LUALIB(lib) = {
                 { "is_key_pressed", is_key_pressed },
                 { NULL, NULL }
             };
-            lua_getglobal(s, "input");
-            if (lua_isnil(s, -1)) {
-                lua_pop(s, 1);
-                lua_newtable(s);
-            }
-            luaL_setfuncs(s, mylib, 0);
+            lua::add_lib(L, "input", lib);
 
-            lua_pushlightuserdata(s, i);
-            lua_setfield(s, -2, "device");
+            auto table = lua::get_global_table(L, "input");
+            lua::add_num_field(L, table, "up", core::Input::up);
+            lua::add_num_field(L, table, "down", core::Input::down);
+            lua::add_num_field(L, table, "left", core::Input::left);
+            lua::add_num_field(L, table, "right", core::Input::right);
+            lua::add_num_field(L, table, "escape", core::Input::escape);
+            lua::add_num_field(L, table, "accept", core::Input::accept);
+            lua::add_num_field(L, table, "fire", core::Input::fire);
+            lua::add_num_field(L, table, "alt_fire", core::Input::alt_fire);
+            lua::add_num_field(L, table, "num_keys", core::Input::num_keys);
 
-            lua_pushnumber(s, core::Input::up);
-            lua_setfield(s, -2, "up");
-
-            lua_pushnumber(s, core::Input::down);
-            lua_setfield(s, -2, "down");
-
-            lua_pushnumber(s, core::Input::left);
-            lua_setfield(s, -2, "left");
-
-            lua_pushnumber(s, core::Input::right);
-            lua_setfield(s, -2, "right");
-
-            lua_pushnumber(s, core::Input::escape);
-            lua_setfield(s, -2, "escape");
-
-            lua_pushnumber(s, core::Input::accept);
-            lua_setfield(s, -2, "accept");
-
-            lua_pushnumber(s, core::Input::fire);
-            lua_setfield(s, -2, "fire");
-
-            lua_pushnumber(s, core::Input::alt_fire);
-            lua_setfield(s, -2, "alt_fire");
-
-            lua_pushnumber(s, core::Input::num_keys);
-            lua_setfield(s, -2, "num_keys");
-
-            lua_setglobal(s, "input");
+            lua_setglobal(L, "input");
         }
 
-        int is_key_pressed(lua_State *s)
+        int is_key_pressed(lua_State *L)
         {
-            core::Input *i = (core::Input *)lua_touserdata(s, 1);
-            if (!lua_isnumber(s, 2)) {
-                error(s, "arg 2 expected to be number");
-            }
-            auto key = (int) lua_tonumber(s, 2);
+            auto key = (int) lua::get_num(L, -1);
+            auto pressed = core::app_container.get_input()->is_key_pressed(core::Input::Key(key));
 
-            auto pressed = i->is_key_pressed(core::Input::Key(key));
-
-            lua_pushnumber(s, pressed);
-
+            lua_pushnumber(L, pressed);
             return 1;
         }
     };
 
-    namespace logger {
-        void add(core::Logger *l, lua_State *S)
+    namespace lang {
+        void add(lua_State *S)
         {
-            static const struct luaL_Reg mylib[] = {
-            { "debug", debug },
-            { "info", info },
-            { "warn", warn },
-            { "error", error },
-            { NULL, NULL }
+            LUALIB(lib) = {
+                { "next", next },
+                { "prev", prev },
+                { NULL, NULL },
             };
-            lua_getglobal(S, "logger");
-            if (lua_isnil(S, -1)) {
-                lua_pop(S, 1);
-                lua_newtable(S);
-            }
-            luaL_setfuncs(S, mylib, 0);
+            lua::add_lib(S, "lang", lib);
+        }
 
-            lua_pushlightuserdata(S, l);
-            lua_setfield(S, -2, "log");
+        int next(lua_State *S)
+        {
+            auto l = core::StringProvider::next_lang();
+            lua_pushstring(S, l.c_str());
+            return 1;
+        }
 
-            lua_setglobal(S, "logger"); 
+        int prev(lua_State *S)
+        {
+            auto l = core::StringProvider::prev_lang();
+            lua_pushstring(S, l.c_str());
+            return 1;
+        }
+    }
+
+    namespace logger {
+        void add(lua_State *S)
+        {
+            LUALIB(lib) = {
+                { "debug", debug },
+                { "info", info },
+                { "warn", warn },
+                { "error", error },
+                { NULL, NULL }
+            };
+            lua::add_lib(S, "logger", lib);
         }
 
         int debug(lua_State *s)
@@ -215,6 +178,9 @@ namespace lua {
                 case LUA_TNUMBER:
                     ss<<lua_tonumber(s, i)<<" ";
                     break;
+                case LUA_TNIL:
+                    ss<<"<nil>";
+                    break;
                 default:
                     lua::error(s, "type not supported for printing");
                     break;
@@ -226,4 +192,65 @@ namespace lua {
         }
     };
 
+    namespace index {
+        Container<core::Index> container = Container<core::Index>();
+
+        void add(lua_State *L) {
+            LUALIB(lib) = {
+                { "get", get },
+                { "release", release },
+                { "add", insert },
+                { "remove", remove },
+                { "save", save },
+                { "all", all },
+                { NULL, NULL },
+            };
+            lua::add_lib(L, "index", lib);
+        }
+
+        int get(lua_State *L) {
+            auto s = lua::get_string(L, -1);
+            auto tmp = new core::Index(s);
+            container.add(tmp);
+            lua_pushlightuserdata(L, tmp);
+            return 1;
+        }
+
+        int release(lua_State *L) {
+            auto i = (core::Index *)lua::get_lightuserdata(L, -1);
+            container.remove(i);
+            return 0;
+        }
+
+        int insert(lua_State *L) {
+            auto i = (core::Index *)lua::get_lightuserdata(L, -2);
+            auto s = lua::get_string(L, -1);
+            i->add(s);
+            return 0;
+        }
+
+        int remove(lua_State *L) {
+            auto i = (core::Index *)lua::get_lightuserdata(L, -2);
+            auto s = lua::get_string(L, -1);
+            i->remove(s);
+            return 0;
+        }
+
+        int save(lua_State *L) {
+            auto i = (core::Index *)lua::get_lightuserdata(L, -1);
+            i->save();
+            return 0;
+        }
+
+        int all(lua_State *L) {
+            auto i = (core::Index *)lua::get_lightuserdata(L, -1);
+            auto s = i->get();
+            std::vector<std::string> str_arr;
+            for (const auto &v : s) {
+                str_arr.push_back(v);
+            }
+            lua::put_string_array(L, str_arr);
+            return 1;
+        }
+    };
 };

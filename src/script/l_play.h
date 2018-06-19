@@ -2,12 +2,24 @@
 #define SCRIPT_PLAY_H
 
 #include "lua.h"
-#include "play.h"
 
 namespace lua {
     namespace world {
         void add(lua_State *L);
         int change_level(lua_State *L);
+        int get_actorman(lua_State *L);
+        int draw(lua_State *L);
+        int draw_layer(lua_State *L);
+        int draw_actors(lua_State *L);
+        int set_edit_mode(lua_State *L);
+        int save_edits(lua_State *L);
+        int add_actor(lua_State *L);
+        int add_collision(lua_State *L);
+        int set_tile(lua_State *L);
+        int remove_tile(lua_State *L);
+        int get_size(lua_State *L);
+        int get_tileset(lua_State *L);
+        int get_script_name(lua_State *L);
     };
 
     namespace actor {
@@ -22,6 +34,7 @@ namespace lua {
         int pause_anim(lua_State *L);
         int play_anim(lua_State *L);
         int reset_anim(lua_State *L);
+        int draw(lua_State *L);
     };
 
     namespace actorman {

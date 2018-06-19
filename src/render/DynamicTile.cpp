@@ -57,6 +57,11 @@ namespace render {
         anim.set_origin(origin);
     }
 
+    sf::Sprite *DynamicTile::get_icon()
+    {
+        return anim.get_icon();
+    }
+
     void DynamicTile::update(int delta)
     {
         anim.update(delta);

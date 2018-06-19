@@ -10,6 +10,7 @@ namespace core {
     {
         delete logger;
         delete input;
+        delete console;
     }
 
     void Container::init()
@@ -18,8 +19,9 @@ namespace core {
             return;
         }
 
-        logger = new ConsoleLogger();
+        logger = new DevConsoleLogger();
         input = new Input();
+        console = new DevConsole();
         initialized = true;
     }
 
@@ -31,6 +33,11 @@ namespace core {
     Input *Container::get_input()
     {
         return this->input;
+    }
+
+    DevConsole *Container::get_console()
+    {
+        return this->console;
     }
 };
 

@@ -23,7 +23,7 @@ namespace play {
             s->call();
             lua_getglobal(s->s, TABLENAME);
             if (!lua_istable(s->s, -1)) {
-                lua::error(s->s, TABLENAME " table not found");
+                lua::call_error(s->s, TABLENAME " table not found");
             }
             auto me_table = lua_gettop(s->s);
             lua_pushlightuserdata(s->s, this);
@@ -36,6 +36,17 @@ namespace play {
     World::~World()
     {
         if (s != nullptr) {
+            lua_getglobal(s->s, TABLENAME);
+            if (!lua_istable(s->s, -1)) {
+                lua::call_error(s->s, "world table not found");
+            }
+            auto me_table = lua_gettop(s->s);
+            lua_getfield(s->s, me_table, "release");
+            if (lua_isfunction(s->s, -1)) {
+                if (lua_pcall(s->s, 0, 0, 0)) {
+                    lua::call_error(s->s, "release call failed");
+                }
+            }
             delete s;
             s = nullptr;
         }
@@ -51,7 +62,10 @@ namespace play {
         }
         if (pos.y >= 0 && pos.y < world[layer].size() &&
                 pos.x >= 0 && pos.x < world[layer][pos.y].size()) {
-            world[layer][pos.y][pos.x].reset(tile);
+            auto t = tile->clone();
+            auto p = pos * 64;
+            t->set_location(p);
+            world[layer][pos.y][pos.x].reset(t);
         }
     }
 
@@ -80,17 +94,45 @@ namespace play {
         actor_man->add_collision_rect(type, sf::FloatRect(pos.x, pos.y, render::TileSet::tile_size(), render::TileSet::tile_size()));
     }
 
+    void World::set_size(sf::Vector2i size)
+    {
+        this->size = size;
+    }
+
+    sf::Vector2i World::get_size()
+    {
+        return this->size;
+    }
+
+    std::string World::get_tileset()
+    {
+        return this->tileset;
+    }
+
+    std::string World::get_script_name()
+    {
+        return this->script_name;
+    }
+
     void World::save()
     {
+        auto s_name = script_name;
+        if (s_name == "" || s_name == "none") {
+            s_name = "none";
+        }
+        auto actors = actor_man->get_actor_data();
+        if (actors == "") {
+            actors = "none";
+        }
         std::ofstream ofile(filename.c_str());
         ofile<<name<<"\n";
         ofile<<tileset<<"\n";
         ofile<<size.x<<" "<<size.y<<"\n";
-        ofile<<"none\n"; //script placeholder
+        ofile<<s_name<<"\n"; //script placeholder
         ofile<<"---\n";
-        ofile<<actor_man->get_actor_data();
+        ofile<<actors<<"\n";
         ofile<<"---\n";
-        ofile<<"0 collision placeholder";
+        ofile<<"0 collision placeholder\n";
         ofile<<"---\n";
         ofile<<convert_collision_boxes();
         ofile<<"---\n";
@@ -136,15 +178,15 @@ namespace play {
                     lua_getglobal(s->s, TABLENAME);
                     auto world_table = lua_gettop(s->s);
                     if (!lua_istable(s->s, world_table)) {
-                        lua::error(s->s, TABLENAME " table not found");
+                        lua::call_error(s->s, TABLENAME " table not found");
                     }
                     // lua_getfield(s->s, world_table, type.target.c_str());
                      lua_getfield(s->s, world_table, "test");
                     if (!lua_isfunction(s->s, -1)) {
-                        lua::error(s->s, "event function not found");
+                        lua::call_error(s->s, "event function not found");
                     }
                     if (lua_pcall(s->s, 0, 0, 0) != 0) {
-                        lua::error(s->s, "event call failed");
+                        lua::call_error(s->s, "event call failed");
                     }
                     lua_settop(s->s, world_table - 1);
                 }
@@ -154,22 +196,42 @@ namespace play {
 
     void World::draw(sf::RenderWindow &window)
     {
+        if (s == nullptr) {
+            return render(window);
+        }
+        lua_getglobal(s->s, TABLENAME);
+        if (!lua_istable(s->s, -1)) {
+            lua::call_error(s->s, "world table not found");
+        }
+        auto me_table = lua_gettop(s->s);
+        lua_getfield(s->s, me_table, "draw");
+        if (!lua_isfunction(s->s, -1)) {
+            return render(window);
+        }
+        lua_pushlightuserdata(s->s, &window);
+        if (lua_pcall(s->s, 1, 0, 0)) {
+            lua::call_error(s->s, "draw call failed");
+        }
+    }
+
+    void World::render(sf::RenderWindow &window)
+    {
         for (size_t i = 0; i < LAYERS_UNDER_ACTOR && i < world.size(); ++i) {
-            auto & layer = world[i];
-            for (auto& line: layer) {
-                for (auto& value: line) {
-                    if (value != nullptr) {
-                        value->draw(window);
-                    }
-                }
-            }
+            render_layer(window, i);
         }
 
-        actor_man->draw(window);
+        render_actors(window);
 
         for (size_t i = LAYERS_UNDER_ACTOR; i < world.size(); ++i) {
-            auto & layer = world[i];
-            for (auto& line: layer) {
+            render_layer(window, i);
+        }
+    }
+
+    void World::render_layer(sf::RenderWindow &window, int layer)
+    {
+        if (layer >= 0 && layer < world.size()) {
+            auto & l = world[layer];
+            for (auto& line: l) {
                 for (auto& value: line) {
                     if (value != nullptr) {
                         value->draw(window);
@@ -179,9 +241,15 @@ namespace play {
         }
     }
 
+    void World::render_actors(sf::RenderWindow &window)
+    {
+        actor_man->draw(window);
+    }
+
     void World::set_edit_mode(bool edit_mode)
     {
         this->update_actors = !edit_mode;
+        this->actor_man->set_edit_mode(edit_mode);
     }
 
     void World::request_level_load(std::string name, sf::Vector2i player_pos)
@@ -209,6 +277,11 @@ namespace play {
     ActorManager::actor_ptr World::get_camera_target()
     {
         return this->actor_man->get_camera_target();
+    }
+
+    ActorManager *World::get_actorman()
+    {
+        return this->actor_man.get();
     }
 
     void World::add_layer(int num_layers)

@@ -4,7 +4,8 @@
 #include "ConfigLoader.h"
 #include "StringProvider.h"
 #include "Logger.h"
-#include "ConsoleLogger.h"
+#include "DevConsole.h"
+#include "DevConsoleLogger.h"
 #include  "Input.h"
 
 namespace core {
@@ -18,10 +19,12 @@ namespace core {
 
         Logger *get_logger();
         Input *get_input();
+        DevConsole *get_console();
     private:
         bool initialized = false;
         Logger * logger;
         Input *input;
+        DevConsole *console;
     };
 
     // Global container instance

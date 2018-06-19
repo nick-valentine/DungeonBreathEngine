@@ -12,4 +12,4 @@ next k:num2
 prev k:num3
 resolution_x 1280
 resolution_y 720
-volume 70
+volume 100

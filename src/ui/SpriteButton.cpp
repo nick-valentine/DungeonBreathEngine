@@ -28,26 +28,4 @@ namespace ui {
         }
         Button::draw(window);
     }
-
-    SpriteButton left(sf::IntRect pos)
-    {
-        return SpriteButton(
-            pos,
-            render::TextureMap::request("./GameData/img/RPG_GUI_v1.png"),
-            sf::IntRect(320, 60, 40, 40),
-            sf::IntRect(320, 110, 40, 40),
-            sf::IntRect(320, 10, 40, 40)
-        );
-    }
-
-    SpriteButton right(sf::IntRect pos)
-    {
-        return SpriteButton(
-            pos,
-            render::TextureMap::request("./GameData/img/RPG_GUI_v1.png"),
-            sf::IntRect(360, 60, 50, 50),
-            sf::IntRect(360, 110, 50, 50),
-            sf::IntRect(360, 10, 50, 50)
-        );
-    }
 };

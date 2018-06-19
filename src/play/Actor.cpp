@@ -13,14 +13,12 @@ namespace play {
         filename += name;
         filename += ".lua";
         s = new lua::Script(filename);
-        lua::actor::add(s->s);
-        lua::actorman::add(s->s);
         s->call();
 
         lua_getglobal(s->s, TABLENAME);
         auto me_table = lua_gettop(s->s);
         if (!lua_istable(s->s, -1)) {
-            lua::error(s->s, TABLENAME " table not found");
+            lua::call_error(s->s, TABLENAME " table not found");
         }
         auto tileset = s->get_field("tileset");
         lua_pushlightuserdata(s->s, this);
@@ -37,6 +35,17 @@ namespace play {
 
     Actor::~Actor()
     {
+        lua_getglobal(s->s, TABLENAME);
+        if (!lua_istable(s->s, -1)) {
+            lua::call_error(s->s, "actor table not found");
+        }
+        auto actor_table = lua_gettop(s->s);
+        lua_getfield(s->s, actor_table, "release");
+        if (lua_isfunction(s->s, -1)) {
+            if (lua_pcall(s->s, 0, 0, 0)) {
+                lua::call_error(s->s, "release call failed");
+            }
+        }
         delete s;
         delete t;
     }
@@ -55,7 +64,7 @@ namespace play {
         lua_getglobal(s->s, TABLENAME);
         auto me_table = lua_gettop(s->s);
         if (!lua_istable(s->s, -1)) {
-            lua::error(s->s, TABLENAME " table not found");
+            lua::call_error(s->s, TABLENAME " table not found");
         }
         auto tileset = s->get_field("tileset");
         lua_pushlightuserdata(s->s, this);
@@ -73,7 +82,7 @@ namespace play {
     {
         lua_getglobal(s->s, TABLENAME);
         if (!lua_istable(s->s, -1)) {
-            lua::error(s->s, "actor table not found");
+            lua::call_error(s->s, "actor table not found");
         }
         auto actor_table = lua_gettop(s->s);
         lua_getfield(s->s, actor_table, "init");
@@ -84,16 +93,16 @@ namespace play {
     {
         lua_getglobal(s->s, TABLENAME);
         if (!lua_istable(s->s, -1)) {
-            lua::error(s->s, "actor table not found");
+            lua::call_error(s->s, "actor table not found");
         }
         auto actor_table = lua_gettop(s->s);
         lua_getfield(s->s, actor_table, "update");
         if (!lua_isfunction(s->s, -1)) {
-            lua::error(s->s, "event function not found");
+            lua::call_error(s->s, "event function not found");
         }
         lua_pushnumber(s->s, delta);
         if (lua_pcall(s->s, 1, 0, 0) != 0) {
-            lua::error(s->s, "update function failed");
+            lua::call_error(s->s, "update function failed");
         }
         lua_settop(s->s, actor_table - 1);
 
@@ -108,6 +117,23 @@ namespace play {
     }
 
     void Actor::draw(sf::RenderWindow &window)
+    {
+        lua_getglobal(s->s, TABLENAME);
+        if (!lua_istable(s->s, -1)) {
+            lua::call_error(s->s, "actor table not found");
+        }
+        auto actor_table = lua_gettop(s->s);
+        lua_getfield(s->s, actor_table, "draw");
+        if (!lua_isfunction(s->s, -1)) {
+            return render(window);
+        }
+        lua_pushlightuserdata(s->s, &window);
+        if (lua_pcall(s->s, 1, 0, 0)) {
+            lua::call_error(s->s, "draw call failed");
+        }
+    }
+
+    void Actor::render(sf::RenderWindow &window)
     {
         current_tile->draw(window);
 #if DEBUG

@@ -4,31 +4,38 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
+#include "Element.h"
+
+#include "Macros.h"
 #include "core.h"
 
 namespace ui {
-    class Button
+    class Button : public Element
     {
     public:
         Button(sf::IntRect pos);
         virtual ~Button() = default;
 
-        virtual void update(int delta, core::Input *input, sf::RenderWindow &window);
+        virtual void update(int delta, sf::RenderWindow &window);
         virtual void draw(sf::RenderWindow &window);
 
         virtual bool pressed();
         virtual bool neg_edge();
+
+        virtual EReturn signal();
+
         virtual void set_hover(bool hover);
-        virtual void reset_hover_override();
         virtual void set_pressed(bool pressed);
     protected:
-        bool was_pressed;
-        bool last_pressed;
-        bool is_hover;
-        bool is_override_hover;
-        sf::Rect<int> rect;
+        inline void update_pad_mode(int delta, sf::RenderWindow &window);
+        inline void update_mouse_mode(int delta, sf::RenderWindow &window);
+        bool was_pressed = false;
+        bool last_pressed = false;
+        bool is_hover = false;
 
-        sf::RectangleShape debug_draw;
+#if DEBUG
+        sf::RectangleShape debug_draw = sf::RectangleShape();
+#endif //DEBUG
     };
 };
 

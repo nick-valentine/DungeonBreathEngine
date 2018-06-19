@@ -1,28 +1,23 @@
 #include "MusicManager.h"
 
 namespace audio {
-    std::vector<std::string> MusicManager::song_files = {
-        "./GameData/sound/prepare_your_swords.ogg",
-        "./GameData/sound/Harp.ogg",
-        "./GameData/sound/little town - orchestral.ogg"
-    };
-
     float MusicManager::volume = -1;
-    MusicManager::Song MusicManager::now_playing = none;
+    std::string MusicManager::now_playing = "";
 
     sf::Music MusicManager::music;
 
-    void MusicManager::play(Song s)
+    void MusicManager::play(std::string name)
     {
-        if (s == now_playing) {
+        name = AUDIODIR + name;
+        if (name == now_playing) {
             return;
         }
-        now_playing = s;
+        now_playing = name;
         if (volume == -1) {
             volume = core::ConfigLoader::get_int_option("volume", 100);
         }
         music.stop();
-        if (!music.openFromFile(song_files[s])) {
+        if (!music.openFromFile(name)) {
             throw core::FileNotFoundException();
         }
         music.setLoop(true);
@@ -35,7 +30,7 @@ namespace audio {
         music.stop();
     }
 
-    MusicManager::Song MusicManager::playing()
+    std::string MusicManager::playing()
     {
         return now_playing;
     }

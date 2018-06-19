@@ -20,6 +20,7 @@ cursor.target = {}
 cursor.layer = 0
 cursor.sprite = nil
 cursor.label = nil
+cursor.collision_type = 0
 
 function reset_cursor(c)
     if c.label then
@@ -219,6 +220,14 @@ edit_menu.update = function(self, delta)
     imgui.start("level edit menu")
     edit_menu.update_scale_factor(self)
     cursor.layer = imgui.input_int("layer", cursor.layer)
+    cursor.collision_type = imgui.input_int("collision type", cursor.collision_type)
+    if imgui.button("add collision") == 1.0 then
+        world.add_collision(
+            edit_menu.world,
+            cursor.collision_type,
+            {x=cursor.pos.x*my_base_size, y=cursor.pos.y*my_base_size}
+        )
+    end
     if imgui.button("add") == 1.0 then
         if cursor.target.tile then
             world.set_tile(

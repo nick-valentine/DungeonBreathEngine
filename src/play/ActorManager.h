@@ -49,6 +49,7 @@ namespace play {
         actor_ptr get_camera_target();
         std::string get_actor_data() const;
         std::vector<Collision> get_collision_boxes() const;
+        void set_edit_mode(bool e);
 
         collision_ptr get_event();
         CType get_collision_type(int type);
@@ -73,6 +74,8 @@ namespace play {
         std::vector<std::string> available_actors;
 
         sf::Vector2i init_player_pos;
+
+        bool edit_mode = 0;
     };
 };
 

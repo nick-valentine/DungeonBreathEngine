@@ -30,18 +30,18 @@ namespace play {
             i.second->draw(window);
         }
 
-#if DEBUG
-        for (auto &i : collision_boxes) {
-            auto x = sf::RectangleShape(sf::Vector2f(i.rect.width, i.rect.height));
-            x.setPosition(sf::Vector2f(i.rect.left, i.rect.top));
-            x.setFillColor(sf::Color::Transparent);
-            x.setOutlineColor(sf::Color::White);
-            x.setOutlineThickness(5);
+        if (edit_mode) {
+            for (auto &i : collision_boxes) {
+                auto x = sf::RectangleShape(sf::Vector2f(i.rect.width, i.rect.height));
+                x.setPosition(sf::Vector2f(i.rect.left, i.rect.top));
+                x.setFillColor(sf::Color::Transparent);
+                x.setOutlineColor(sf::Color::White);
+                x.setOutlineThickness(5);
 
-            window.draw(x);
+                window.draw(x);
 
+            }
         }
-#endif //DEBUG
     }
 
     int ActorManager::spawn(std::string name, sf::Vector2i pos)
@@ -137,6 +137,11 @@ namespace play {
     std::vector<Collision> ActorManager::get_collision_boxes() const
     {
         return this->collision_boxes;
+    }
+
+    void ActorManager::set_edit_mode(bool e)
+    {
+        this->edit_mode = e;
     }
 
     bool ActorManager::check_available(std::string name)

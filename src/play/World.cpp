@@ -249,6 +249,7 @@ namespace play {
     void World::set_edit_mode(bool edit_mode)
     {
         this->update_actors = !edit_mode;
+        this->actor_man->set_edit_mode(edit_mode);
     }
 
     void World::request_level_load(std::string name, sf::Vector2i player_pos)

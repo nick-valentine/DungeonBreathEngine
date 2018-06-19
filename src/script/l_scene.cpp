@@ -1,5 +1,5 @@
 #include "l_scene.h"
-#include "scene.h"
+#include "play.h"
 
 namespace lua {
     namespace l_scene {
@@ -28,7 +28,7 @@ namespace lua {
 
         int get_menu(lua_State *L)
         {
-            auto s = (scene::Scene *)lua::get_lightuserdata(L, -1);
+            auto s = (play::Scene *)lua::get_lightuserdata(L, -1);
             if (s == nullptr) {
                 return 0;
             }
@@ -38,7 +38,7 @@ namespace lua {
 
         int get_size(lua_State *L)
         {
-            auto s = (scene::Scene *)lua::get_lightuserdata(L, -1);
+            auto s = (play::Scene *)lua::get_lightuserdata(L, -1);
             auto v = s->get_size();
             lua_newtable(L);
             auto t = lua_gettop(L);
@@ -49,7 +49,7 @@ namespace lua {
 
         int push(lua_State *L)
         {
-            auto s = (scene::Scene *)lua::get_lightuserdata(L, -2);
+            auto s = (play::Scene *)lua::get_lightuserdata(L, -2);
             auto name = lua::get_string(L, -1);
             s->indicate_push(name);
             return 0;
@@ -57,21 +57,21 @@ namespace lua {
 
         int pop(lua_State *L)
         {
-            auto s = (scene::Scene *)lua::get_lightuserdata(L, -1);
+            auto s = (play::Scene *)lua::get_lightuserdata(L, -1);
             s->indicate_pop();
             return 0;
         }
 
         int reset_camera(lua_State *L)
         {
-            auto s = (scene::Scene *)lua::get_lightuserdata(L, -1);
+            auto s = (play::Scene *)lua::get_lightuserdata(L, -1);
             s->reset_camera();
             return 0;
         }
 
         int get_camera_center(lua_State *L)
         {
-            auto s = (scene::Scene *)lua::get_lightuserdata(L, -1);
+            auto s = (play::Scene *)lua::get_lightuserdata(L, -1);
             auto c = s->get_camera_center();
             lua_newtable(L);
             auto t = lua_gettop(L);
@@ -82,7 +82,7 @@ namespace lua {
 
         int move_camera(lua_State *L)
         {
-            auto s = (scene::Scene *)lua::get_lightuserdata(L, -2);
+            auto s = (play::Scene *)lua::get_lightuserdata(L, -2);
             auto x = lua::get_num_field(L, -1, "x");
             auto y = lua::get_num_field(L, -1, "y");
             s->move_camera(sf::Vector2f(x, y));
@@ -91,7 +91,7 @@ namespace lua {
 
         int set_viewport(lua_State *L)
         {
-            auto s = (scene::Scene *)lua::get_lightuserdata(L, -2);
+            auto s = (play::Scene *)lua::get_lightuserdata(L, -2);
             auto r = lua::get_rect(L, -1);
             s->set_viewport(r);
             return 0;
@@ -99,7 +99,7 @@ namespace lua {
 
         int get_viewport(lua_State *L)
         {
-            auto s = (scene::Scene *)lua::get_lightuserdata(L, -1);
+            auto s = (play::Scene *)lua::get_lightuserdata(L, -1);
             auto r = s->get_viewport();
             lua::put_rect(L, r);
             return 1;
@@ -107,7 +107,7 @@ namespace lua {
 
         int zoom_camera(lua_State *L)
         {
-            auto s = (scene::Scene *)lua::get_lightuserdata(L, -2);
+            auto s = (play::Scene *)lua::get_lightuserdata(L, -2);
             auto r = lua::get_num(L, -1);
             s->zoom_camera(r);
             return 0;
@@ -115,7 +115,7 @@ namespace lua {
 
         int apply_view(lua_State *L)
         {
-            auto s = (scene::Scene *)lua::get_lightuserdata(L, -2);
+            auto s = (play::Scene *)lua::get_lightuserdata(L, -2);
             auto w = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
             s->apply_view(*w);
             return 0;
@@ -123,14 +123,14 @@ namespace lua {
 
         int init_world(lua_State *L)
         {
-            auto s = (scene::Scene *)lua::get_lightuserdata(L, -1);
+            auto s = (play::Scene *)lua::get_lightuserdata(L, -1);
             s->init_world();
             return 0;
         }
 
         int get_world(lua_State *L)
         {
-            auto s = (scene::Scene *)lua::get_lightuserdata(L, -1);
+            auto s = (play::Scene *)lua::get_lightuserdata(L, -1);
             auto w = s->get_world();
             lua_pushlightuserdata(L, w);
             return 1;
@@ -138,7 +138,7 @@ namespace lua {
 
         int draw(lua_State *L)
         {
-            auto s = (scene::Scene *)lua::get_lightuserdata(L, -2);
+            auto s = (play::Scene *)lua::get_lightuserdata(L, -2);
             auto w = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
             s->render(*w);
             return 0;

@@ -2,7 +2,7 @@
 
 #define TABLENAME "me"
 
-namespace scene {
+namespace play {
     Scene::Scene(std::string name, sf::Vector2i size) : size(size), name(name)
     {
         this->reset_camera();

@@ -4,8 +4,8 @@
 #include <memory>
 
 #include "core.h"
+#include "play.h"
 #include "script.h"
-#include "scene.h"
 
 #include "imgui.h"
 #include "imgui-SFML.h"
@@ -15,7 +15,7 @@ core::Container core::app_container;
 
 void handleEvents(sf::RenderWindow &window);
 
-typedef std::unique_ptr<scene::Scene> StackItem;
+typedef std::unique_ptr<play::Scene> StackItem;
 typedef std::stack<StackItem> GameStack;
 
 int main()
@@ -41,7 +41,7 @@ int main()
     ImGui::SFML::Init(window);
 
     GameStack stack;
-    stack.push(StackItem(new scene::Scene("entry", sf::Vector2i(resolution_x, resolution_y))));
+    stack.push(StackItem(new play::Scene("entry", sf::Vector2i(resolution_x, resolution_y))));
     stack.top()->wakeup("");
     sf::Clock timer;
 
@@ -74,16 +74,16 @@ int main()
         ImGui::SFML::Render(window);
         window.display();
 
-        scene::Scene::Status state = stack.top()->status();
-        if (state == scene::Scene::Status::exit_program) {
+        play::Scene::Status state = stack.top()->status();
+        if (state == play::Scene::Status::exit_program) {
             break;
-        } else if (state == scene::Scene::Status::push_scene) {
-            scene::Scene *next = stack.top()->new_scene();
+        } else if (state == play::Scene::Status::push_scene) {
+            play::Scene *next = stack.top()->new_scene();
             stack.top()->reset_status();
             auto m = stack.top()->sleep();
             next->wakeup(m);
             stack.push(StackItem(next));
-        } else if (state == scene::Scene::Status::pop_scene) {
+        } else if (state == play::Scene::Status::pop_scene) {
             auto m = stack.top()->pop();
             stack.pop();
             if (stack.empty()) {

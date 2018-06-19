@@ -7,11 +7,14 @@
 
 #include "Macros.h"
 #include "core.h"
-#include "play.h"
+#include "World.h"
+#include "WorldManager.h"
+#include "ActorManager.h"
+#include "Actor.h"
 #include "ui.h"
 #include "script.h"
 
-namespace scene {
+namespace play {
     class Scene
     {
     public:

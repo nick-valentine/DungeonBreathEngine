@@ -884,6 +884,57 @@ set this objects char size
 label.draw(<Label> l, <Window> win) \rightarrow <void>
 \end{equation}
 draw this object
+
+\section{Hooks}
+There are three main script hooks into this engine.
+\subsection{Actors}
+An actor is anything that moves while on screen, actors are composed of a global table named 'me' which is to contain a tileset string variable denoting which tileset the actor wishes to use. An update function of the form:
+\begin{equation}
+me.update(<int> delta) \rightarrow <void>
+\end{equation}
+an init function:
+\begin{equation}
+me.init() \rightarrow <void>
+\end{equation}
+a draw function, which is optional in order to override default drawing behavior:
+\begin{equation}
+me.draw(<Window> win) \rightarrow <void>
+\end{equation}
+and a release function to release resources when the actor is destructed
+\begin{equation}
+me.release() \rightarrow <void>
+\end{equation}
+
+\subsection{Levels}
+Levels are scriptable add potential events to special collisions, in a level you can define one script to run, then in the collision section, map collision types to functions inside a me table inside that script. the functions should take no parameters and have no return. Like actor: draw is overridable.
+
+\subsection{Scenes}
+Scenes are your game state. Everything is a scene, menus, submenus, even the game itsself. scenes should export a me table as well, the me table should have the functions:
+\begin{equation}
+me.update(<int> delta) \rightarrow <void>
+\end{equation}
+an init function:
+\begin{equation}
+me.init() \rightarrow <void>
+\end{equation}
+a draw function, which is optional in order to override default drawing behavior:
+\begin{equation}
+me.draw(<Window> win) \rightarrow <void>
+\end{equation}
+a release function to release resources when the actor is destructed
+\begin{equation}
+me.release() \rightarrow <void>
+\end{equation}
+a wakeup function for when this scene comes back into focus
+\begin{equation}
+me.wakeup() \rightarrow <void>
+\end{equation}
+and a sleep function for when this scene goes out of focus
+\begin{equation}
+me.sleep() \rightarrow <void>
+\end{equation}
+
+
 %------------------------------------------------
 
 %Tilesets\section{Citation}\index{Citation}

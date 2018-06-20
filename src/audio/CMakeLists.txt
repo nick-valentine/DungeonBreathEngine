@@ -1,5 +1,6 @@
 SET (SOURCES
     ${SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/MusicManager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/SoundMap.cpp
     PARENT_SCOPE
 )

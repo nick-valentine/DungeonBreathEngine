@@ -20,6 +20,10 @@ namespace lua {
                 { "stop", sound::stop },
                 { "set_playing_offset", sound::set_playing_offset },
                 { "get_playing_offset", sound::get_playing_offset },
+                { "set_loop", sound::set_loop },
+                { "get_loop", sound::get_loop },
+                { "set_volume", sound::set_volume },
+                { "is_playing", sound::is_playing },
                 { NULL, NULL },
             };
             lua::add_lib(L, "sound", sound_lib);
@@ -57,6 +61,7 @@ namespace lua {
                 auto name = lua::get_string(L, -1);
                 auto a = audio::SoundMap::request(name);
                 sf::Sound *s = new sf::Sound(*a);
+                s->setVolume(core::ConfigLoader::get_int_option("volume", 100));
                 container.add(s);
                 lua_pushlightuserdata(L, s);
                 return 1;
@@ -100,6 +105,33 @@ namespace lua {
                 return 1;
             }
 
+            int set_loop(lua_State *L) {
+                auto s = (sf::Sound *)lua::get_lightuserdata(L, -2);
+                auto l = (int) lua::get_num(L, -1);
+                s->setLoop(l);
+                return 0;
+            }
+
+            int get_loop(lua_State *L) {
+                auto s = (sf::Sound *)lua::get_lightuserdata(L, -1);
+                auto l = s->getLoop();
+                lua_pushnumber(L, l);
+                return 1;
+            }
+
+            int set_volume(lua_State *L) {
+                auto s = (sf::Sound *)lua::get_lightuserdata(L, -2);
+                auto l = (int) lua::get_num(L, -1);
+                s->setVolume(l);
+                return 0;
+            }
+
+            int is_playing(lua_State *L) {
+                auto s = (sf::Sound *)lua::get_lightuserdata(L, -1);
+                auto l = s->getStatus() == sf::Sound::Playing;
+                lua_pushnumber(L, l);
+                return 1;
+            }
         };
     };
 };

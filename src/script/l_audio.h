@@ -27,6 +27,10 @@ namespace lua {
             int stop(lua_State *L);
             int set_playing_offset(lua_State *L);
             int get_playing_offset(lua_State *L);
+            int set_loop(lua_State *L);
+            int get_loop(lua_State *L);
+            int set_volume(lua_State *L);
+            int is_playing(lua_State *L);
         };
     };
 

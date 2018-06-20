@@ -165,6 +165,7 @@ namespace lua {
                 { "play_anim", play_anim },
                 { "reset_anim", reset_anim },
                 { "draw", draw },
+                { "attack", attack },
                 { NULL, NULL }
             };
             lua::add_lib(L, "actor", lib);
@@ -294,6 +295,22 @@ namespace lua {
             auto a = (play::Actor *)lua::get_lightuserdata(L, -2);
             auto w = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
             a->render(*w);
+            return 0;
+        }
+
+        int attack(lua_State *L)
+        {
+            auto t = lua_gettop(L);
+            auto a = (play::Actor *)lua::get_lightuserdata(L, -2);
+            auto dmg = (int) lua::get_num_field(L, -1, "raw_damage");
+            lua_pushstring(L, "force");
+            lua_gettable(L, t);
+            auto force = lua::get_vec(L, -1);
+            lua_settop(L, t);
+            lua_pushstring(L, "attacker");
+            lua_gettable(L, t);
+            auto attacker = (play::Actor *)lua::get_lightuserdata(L, -1);
+            a->hurt(play::pain{dmg, force, attacker});
             return 0;
         }
     };

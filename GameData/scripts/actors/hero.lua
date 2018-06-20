@@ -98,6 +98,10 @@ me.draw = function(window)
     tile.draw(meTile, window)
 end
 
+me.hurt = function(pain)
+    logger.info(pain.raw_damage, pain.force.x, pain.force.y)
+end
+
 me.release = function()
     sprite_manager.remove_sprite(spr_man, spr)
     sprite_manager.release(spr_man)

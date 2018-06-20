@@ -4,6 +4,7 @@ overworld
 entry
 ---
 hero 400 400
+enemy 400 800
 ---
 2 teleport two 10 100
 3 call test

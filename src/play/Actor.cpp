@@ -148,7 +148,26 @@ namespace play {
 
     void Actor::hurt(pain p)
     {
-
+        lua_getglobal(s->s, TABLENAME);
+        if (!lua_istable(s->s, -1)) {
+            lua::call_error(s->s, "actor table not found");
+        }
+        auto actor_table = lua_gettop(s->s);
+        lua_getfield(s->s, actor_table, "hurt");
+        if (!lua_isfunction(s->s, -1)) {
+            return;
+        }
+        lua_newtable(s->s);
+        auto t = lua_gettop(s->s);
+        lua_pushnumber(s->s, p.raw_dmg);
+        lua_setfield(s->s, t, "raw_damage");
+        lua::put_vec(s->s, p.force);
+        lua_setfield(s->s, t, "force");
+        lua_pushlightuserdata(s->s, p.attacker);
+        lua_setfield(s->s, t, "attacker");
+        if (lua_pcall(s->s, 1, 0, 0)) {
+            lua::call_error(s->s, "hurt call failed");
+        }
     }
 
     sf::FloatRect Actor::get_rect() const

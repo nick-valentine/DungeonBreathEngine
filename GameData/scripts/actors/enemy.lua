@@ -54,6 +54,8 @@ function update_actor(self, delta)
     end
 
     actor.set_velocity(self, vel)
+
+    actor.attack(player, {raw_damage= 45, force={x=10, y=15}, attacker=me.self})
 end
 
 me = {

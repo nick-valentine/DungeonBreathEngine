@@ -38,6 +38,9 @@ namespace core {
 
         bool is_key_pressed(Key k);
         std::vector<bool> poll_all();
+
+		void set_active_joystick(int stick);
+		std::string get_input();
     private:
         const static std::vector<std::string> config_options;
         const static std::vector<std::string> config_options_defaults;
@@ -45,9 +48,9 @@ namespace core {
         DeviceButton* parse_dsn(std::string dsn);
         DeviceButton* parse_keyboard_dsn(std::string dsn);
         DeviceButton* parse_joystick_dsn(std::string dsn);
-        void populate_key_map();
 
-        std::map<std::string, int> key_map;
+		int active_joystick = 0;
+
         std::vector<DeviceButton*> buttons;
     };
 };

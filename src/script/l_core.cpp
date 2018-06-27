@@ -74,6 +74,8 @@ namespace lua {
         {
             LUALIB(lib) = {
                 { "is_key_pressed", is_key_pressed },
+				{ "get_input", get_input },
+				{ "set_active_joystick", set_active_joystick },
                 { NULL, NULL }
             };
             lua::add_lib(L, "input", lib);
@@ -100,6 +102,20 @@ namespace lua {
             lua_pushnumber(L, pressed);
             return 1;
         }
+
+		int get_input(lua_State *L)
+		{
+			auto dsn = core::app_container.get_input()->get_input();
+			lua_pushstring(L, dsn.c_str());
+			return 1;
+		}
+
+		int set_active_joystick(lua_State *L)
+		{
+			auto i = (int)lua::get_num(L, -1);
+			core::app_container.get_input()->set_active_joystick(i);
+			return 0;
+		}
     };
 
     namespace lang {

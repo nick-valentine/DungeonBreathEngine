@@ -2,8 +2,6 @@ local ui = {}
 
 ui.tex = "RPG_GUI_v1.png"
 
--- @todo add text button to remove that from engine
-
 ui.left = function(m, tag, rect)
     return menu.add_sprite_button(
         m, tag, rect, ui.tex,

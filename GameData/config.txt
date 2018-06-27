@@ -1,15 +1,15 @@
  
-accept k:enter
-alt_fire k:num1
-escape k:esc
-fire k:space
+accept k:58
+alt_fire k:27
+escape k:36
+fire k:57
 language eng
-move_down k:s
-move_left k:a
-move_right k:d
-move_up k:w
-next k:num2
-prev k:num3
+move_down k:18
+move_left k:0
+move_right k:3
+move_up k:22
+next k:28
+prev k:29
 resolution_x 1280
 resolution_y 720
 volume 100

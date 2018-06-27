@@ -1,5 +1,7 @@
 #include "Input.h"
 
+#define MIN_AXIS_TRIGGER 40
+
 namespace core {
 
     const std::vector<std::string> Input::config_options = {
@@ -28,9 +30,8 @@ namespace core {
         "k:num3"
     };
 
-    Input::Input() : key_map(), buttons()
+    Input::Input() : buttons()
     {
-        populate_key_map();
         // these buttons must be inserted in the same order as the key enum
         // for the update function to work properly
         for (size_t i = 0; i < config_options.size(); ++i) {
@@ -51,7 +52,7 @@ namespace core {
 
     bool Input::is_key_pressed(Key k)
     {
-        return buttons[k]->is_pressed();
+        return buttons[k]->is_pressed(this->active_joystick);
     }
 
     std::vector<bool> Input::poll_all()
@@ -63,9 +64,56 @@ namespace core {
         return presses;
     }
 
+	void Input::set_active_joystick(int stick)
+	{
+		this->active_joystick = stick;
+	}
+
+	std::string Input::get_input()
+	{
+		for (auto i = sf::Keyboard::Key(0); i < sf::Keyboard::KeyCount; i = sf::Keyboard::Key(i+1)) {
+			if (sf::Keyboard::isKeyPressed(i)) {
+				std::stringstream ss;
+				ss << "k:" << i;
+				return ss.str();
+			}
+		}
+
+		for (auto i = 0; i < sf::Joystick::Count; ++i) {
+			if (!sf::Joystick::isConnected(i)) {
+				continue;
+			}
+			for (auto j = 0; j < sf::Joystick::ButtonCount; ++j) {
+				if (sf::Joystick::isButtonPressed(i, j)) {
+					std::stringstream ss;
+					ss << "j:b:" << j;
+					this->set_active_joystick(i);
+					return ss.str();
+				}
+			}
+			for (auto j = sf::Joystick::Axis(0); j <= sf::Joystick::PovY; j = sf::Joystick::Axis(j+1)) {
+				if (sf::Joystick::hasAxis(i, j)) {
+					auto pos = sf::Joystick::getAxisPosition(i, j);
+					if (pos > MIN_AXIS_TRIGGER) {
+						std::stringstream ss;
+						ss << "j:a:40:" << j;
+						this->set_active_joystick(i);
+						return ss.str();
+					} else if (pos < -MIN_AXIS_TRIGGER) {
+						std::stringstream ss;
+						ss << "j:a:-40:" << j;
+						this->set_active_joystick(i);
+						return ss.str();
+					}
+				}
+			}
+		}
+		return "";
+	}
+
     /**
      * The dsn for keyboard inputs should be trivially simple:
-     * <input device>:[<input number>]:[<axis or button>]:[min value]:<specific button>
+     * <input device>:[<axis or button>]:[min value]:<specific button>
      * input device:
      *  - k: keyboard
      *  - j: joystick
@@ -92,8 +140,11 @@ namespace core {
     DeviceButton *Input::parse_keyboard_dsn(std::string dsn)
     {
         std::string key = dsn.substr(dsn.find(':') + 1);
-        if (key_map.find(key) != key_map.end()) {
-            return new KeyboardButton(sf::Keyboard::Key(key_map[key]));
+		int k;
+		std::stringstream ss(key);
+		ss >> k;
+        if (k >= 0 && k < sf::Keyboard::KeyCount) {
+            return new KeyboardButton(sf::Keyboard::Key(k));
         }
         throw InvalidConfigException();
     }
@@ -109,66 +160,8 @@ namespace core {
         ss.str(dsn);
         char device, axis;
         int number, button, min_value;
-        ss>>device>>number>>axis>>min_value>>button;
+        ss>>device>>axis>>min_value>>button;
         return new JoystickButton(number, axis, min_value, button);
-    }
-
-    // @todo: there's probably a better way to do this
-    void Input::populate_key_map()
-    {
-        key_map["a"] = sf::Keyboard::A;
-        key_map["b"] = sf::Keyboard::B;
-        key_map["c"] = sf::Keyboard::C;
-        key_map["d"] = sf::Keyboard::D;
-        key_map["e"] = sf::Keyboard::E;
-        key_map["f"] = sf::Keyboard::F;
-        key_map["g"] = sf::Keyboard::G;
-        key_map["h"] = sf::Keyboard::H;
-        key_map["i"] = sf::Keyboard::I;
-        key_map["j"] = sf::Keyboard::J;
-        key_map["k"] = sf::Keyboard::K;
-        key_map["l"] = sf::Keyboard::L;
-        key_map["m"] = sf::Keyboard::M;
-        key_map["n"] = sf::Keyboard::N;
-        key_map["o"] = sf::Keyboard::O;
-        key_map["p"] = sf::Keyboard::P;
-        key_map["q"] = sf::Keyboard::Q;
-        key_map["r"] = sf::Keyboard::R;
-        key_map["s"] = sf::Keyboard::S;
-        key_map["t"] = sf::Keyboard::T;
-        key_map["u"] = sf::Keyboard::U;
-        key_map["v"] = sf::Keyboard::V;
-        key_map["w"] = sf::Keyboard::W;
-        key_map["x"] = sf::Keyboard::X;
-        key_map["y"] = sf::Keyboard::Y;
-        key_map["z"] = sf::Keyboard::Z;
-        key_map["num0"] = sf::Keyboard::Num0;
-        key_map["num1"] = sf::Keyboard::Num1;
-        key_map["num2"] = sf::Keyboard::Num2;
-        key_map["num3"] = sf::Keyboard::Num3;
-        key_map["num4"] = sf::Keyboard::Num4;
-        key_map["num5"] = sf::Keyboard::Num5;
-        key_map["num6"] = sf::Keyboard::Num6;
-        key_map["num7"] = sf::Keyboard::Num7;
-        key_map["num8"] = sf::Keyboard::Num8;
-        key_map["num9"] = sf::Keyboard::Num9;
-        key_map["esc"] = sf::Keyboard::Escape;
-        key_map["numpad0"] = sf::Keyboard::Numpad0;
-        key_map["numpad1"] = sf::Keyboard::Numpad1;
-        key_map["numpad2"] = sf::Keyboard::Numpad2;
-        key_map["numpad3"] = sf::Keyboard::Numpad3;
-        key_map["numpad4"] = sf::Keyboard::Numpad4;
-        key_map["numpad5"] = sf::Keyboard::Numpad5;
-        key_map["numpad6"] = sf::Keyboard::Numpad6;
-        key_map["numpad7"] = sf::Keyboard::Numpad7;
-        key_map["numpad8"] = sf::Keyboard::Numpad8;
-        key_map["numpad9"] = sf::Keyboard::Numpad9;
-        key_map["up"] = sf::Keyboard::Up;
-        key_map["down"] = sf::Keyboard::Down;
-        key_map["left"] = sf::Keyboard::Left;
-        key_map["right"] = sf::Keyboard::Right;
-        key_map["space"] = sf::Keyboard::Space;
-        key_map["enter"] = sf::Keyboard::Return;
     }
 };
 

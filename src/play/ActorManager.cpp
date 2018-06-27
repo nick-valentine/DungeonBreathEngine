@@ -212,9 +212,9 @@ namespace play {
     inline void ActorManager::trigger_event(actor_ptr a, Collision c, const sf::FloatRect &intersect)
     {
         this->event = collision_ptr(new Collision{
-            type: c.type,
-            rect: intersect,
-            collider: a
+            c.type,
+            intersect,
+            a,
         });
     }
 };

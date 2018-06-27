@@ -6,6 +6,7 @@
 #include "core.h"
 #include "play.h"
 #include "script.h"
+#include "audio.h"
 
 #include "imgui.h"
 #include "imgui-SFML.h"
@@ -23,6 +24,8 @@ int main()
     auto stats = core::Stats();
     auto console_open = false;
     bool last_tilde_pressed = false;
+
+	audio::MusicManager::init();
 
     core::ConfigLoader::load();
     std::string lang = core::ConfigLoader::get_string_option("language", "eng");
@@ -92,6 +95,7 @@ int main()
             stack.top()->wakeup(m);
         }
     }
+	audio::MusicManager::close();
     ImGui::SFML::Shutdown();
     return 0;
 }

@@ -17,14 +17,14 @@ namespace core {
         char buff[MAX_BUFFER_SIZE];
         int idx = 0;
         for (auto i = buffer.rbegin(); i != buffer.rend(); ++i) {
-            if (i->size() + idx >= MAX_BUFFER_SIZE) {
+            if (i->size() + idx >= MAX_BUFFER_SIZE - 1) {
                 break;
             }
             strncpy(&buff[idx], i->c_str(), i->size());
             idx += i->size();
             buff[idx++] = '\n';
         }
-        buff[idx+1] = '\0';
+        buff[idx] = '\0';
         ImGui::Begin("Dev Console:");
         ImGui::InputTextMultiline("", buff, idx, ImVec2(size.x, size.y/3));
         ImGui::End();

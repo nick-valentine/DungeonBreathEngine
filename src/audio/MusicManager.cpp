@@ -4,8 +4,21 @@ namespace audio {
     float MusicManager::volume = -1;
     std::string MusicManager::now_playing = "";
 
-    sf::Music MusicManager::music;
+    sf::Music *MusicManager::music = nullptr;
 
+	void MusicManager::init()
+	{
+		if (music == nullptr) {
+			music = new sf::Music();
+		}
+	}
+	
+	void MusicManager::close()
+	{
+		delete music;
+		music = nullptr;
+	}
+	
     void MusicManager::play(std::string name)
     {
         name = AUDIODIR + name;
@@ -16,18 +29,18 @@ namespace audio {
         if (volume == -1) {
             volume = core::ConfigLoader::get_int_option("volume", 100);
         }
-        music.stop();
-        if (!music.openFromFile(name)) {
+        music->stop();
+        if (!music->openFromFile(name)) {
             throw core::FileNotFoundException();
         }
-        music.setLoop(true);
-        music.setVolume(volume);
-        music.play();
+        music->setLoop(true);
+        music->setVolume(volume);
+        music->play();
     }
 
     void MusicManager::stop()
     {
-        music.stop();
+        music->stop();
     }
 
     std::string MusicManager::playing()
@@ -38,6 +51,6 @@ namespace audio {
     void MusicManager::set_volume(float volume)
     {
         MusicManager::volume = volume;
-        music.setVolume(volume);
+        music->setVolume(volume);
     }
 };

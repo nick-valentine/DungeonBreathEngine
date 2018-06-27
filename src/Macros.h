@@ -15,7 +15,7 @@
 #define WORLDSCRIPTDIR "levels/"
 #define SCENEDIR "scenes/"
 
-#define WINDOWS 0
-#define LINUX 1
+#define WINDOWS 1
+#define LINUX 0
 
 #endif //MACROS_H

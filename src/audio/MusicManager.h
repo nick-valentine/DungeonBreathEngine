@@ -16,17 +16,19 @@ namespace audio {
     public:
         MusicManager() = delete;
 
+		static void init();
+		static void close();
+		
         static void play(std::string name);
         static void stop();
 
         static std::string playing();
 
         static void set_volume(float volume);
-
     private:
         static std::string now_playing;
         static float volume;
-        static sf::Music music;
+        static sf::Music *music;
         static std::vector<std::string> song_files;
     };
 };

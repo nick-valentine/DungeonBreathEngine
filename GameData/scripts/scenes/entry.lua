@@ -1,53 +1,31 @@
-package.path = package.path .. ";GameData/scripts/?.lua"
-local music_list = require 'music_list'
-local ui = require 'ui'
+me = {}
 
-main = nil;
-size = nil
-function build_menu()
-    local level_edit_button = ui.textbutton(main, "level_edit", {x=10, y=size.y-340}, "mainmenu.level_editor_button").button
-    local tile_edit_button = ui.textbutton(main, "tile_edit", {x=10, y=size.y-280}, "mainmenu.tile_editor_button").button
-    local play_button = ui.textbutton(main, "play", {x=10, y=size.y-220}, "mainmenu.new_game_button").button
-    local options_button = ui.textbutton(main, "options", {x=10, y=size.y-160}, "mainmenu.options_button").button
-    local exit_button = ui.textbutton(main, "exit", {x=10, y=size.y-100}, "mainmenu.exit_button").button
+me.label = nil
 
-    menu.set_current(main, play_button)
-    menu_item.pair_items(level_edit_button, tile_edit_button, 1)
-    menu_item.pair_items(tile_edit_button, play_button, 1)
-    menu_item.pair_items(play_button, options_button, 1)
-    menu_item.pair_items(options_button, exit_button, 1)
+me.init = function()
+	me.size = scene.get_size(me.self)
+	me.label = label.get({x=(me.size.x / 2) - 100, y=me.size.y-100, width=100, height=50}, "Press start to play")
 end
-me = {
-    init = function()
-        size = scene.get_size(me.self)
-        main = scene.get_menu(me.self)
-        build_menu()
-    end,
-    update = function(delta)
-        if menu.has_signal(main) == 0 then
-            return
-        end
 
-        local pressed = menu.signal_tag(main)
-        if pressed == "level_edit" then
-            logger.info("level edit pressed")
-            scene.push(me.self, "levelEd")
-        elseif pressed == "tile_edit" then
-            logger.info("tile edit pressed")
-            scene.push(me.self, "tileset")
-        elseif pressed == "play" then
-            logger.info("play pressed")
-            scene.push(me.self, "game")
-        elseif pressed == "options" then
-            logger.info("options pressed")
-            scene.push(me.self, "options")
-        elseif pressed == "exit" then
-            scene.pop(me.self)
-        end
-    end,
-    wakeup = function()
-        music.play(music_list.menu)
-        menu.clear(main)
-        build_menu()
-    end
-}
+me.update = function(delta)
+	local dsn = input.get_input()
+	logger.info("input: ", dsn)
+	if not (dsn == "") then
+		scene.push(me.self, "mainMenu")
+	end
+	if input.is_key_pressed(input.escape) == 1 then
+		scene.pop(me.self)
+	end
+end
+
+me.wakeup = function()
+
+end
+
+me.draw = function(window)
+	label.draw(me.label, window)
+end
+
+me.release = function()
+	label.release(me.label)
+end

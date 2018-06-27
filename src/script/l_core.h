@@ -21,6 +21,8 @@ namespace lua {
     namespace input {
         void add(lua_State *L);
         int is_key_pressed(lua_State *L);
+		int get_input(lua_State *L);
+		int set_active_joystick(lua_State *L);
     };
 
     namespace lang {

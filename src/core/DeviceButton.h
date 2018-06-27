@@ -17,7 +17,7 @@ namespace core {
         DeviceButton() = default;
         virtual ~DeviceButton() = default;
 
-        virtual bool is_pressed() = 0;
+        virtual bool is_pressed(int dev_id) = 0;
     private:
     };
 
@@ -27,7 +27,7 @@ namespace core {
         KeyboardButton(sf::Keyboard::Key k);
         virtual ~KeyboardButton() = default;
 
-        virtual bool is_pressed();
+        virtual bool is_pressed(int dev_id);
     private:
         sf::Keyboard::Key key;
     };
@@ -38,9 +38,8 @@ namespace core {
         JoystickButton(int number, bool is_axis, int min_value, int button);
         virtual ~JoystickButton() = default;
 
-        virtual bool is_pressed();
+        virtual bool is_pressed(int dev_id);
     private:
-        int number;
         bool is_axis;
         int min_value;
         int button;

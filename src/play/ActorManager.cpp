@@ -180,6 +180,8 @@ namespace play {
             }
             auto other = i.second->get_rect();
             if (other.intersects(rect, intersection)) {
+				i.second->collide(a.get());
+				a->collide(i.second.get());
                 resolve_collision(rect, other, intersection);
             }
         }

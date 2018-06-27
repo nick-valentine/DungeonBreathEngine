@@ -37,6 +37,7 @@ namespace play {
         void draw(sf::RenderWindow &window);
         void render(sf::RenderWindow &window);
         void hurt(pain p);
+		void collide(Actor *a);
 
         std::string get_name() const;
         sf::FloatRect get_rect() const;

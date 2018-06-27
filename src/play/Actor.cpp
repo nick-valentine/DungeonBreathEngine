@@ -170,6 +170,23 @@ namespace play {
         }
     }
 
+	void Actor::collide(Actor *a)
+	{
+		lua_getglobal(s->s, TABLENAME);
+		if (!lua_istable(s->s, -1)) {
+			lua::call_error(s->s, "actor table not found");
+		}
+		auto actor_table = lua_gettop(s->s);
+		lua_getfield(s->s, actor_table, "collide");
+		if (!lua_isfunction(s->s, -1)) {
+			return;
+		}
+		lua_pushlightuserdata(s->s, a);
+		if (lua_pcall(s->s, 1, 0, 0)) {
+			lua::call_error(s->s, "collide call failed");
+		}
+	}
+
     sf::FloatRect Actor::get_rect() const
     {
         return this->rect;

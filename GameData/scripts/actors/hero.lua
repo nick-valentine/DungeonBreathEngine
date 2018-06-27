@@ -102,6 +102,10 @@ me.hurt = function(pain)
     logger.info(pain.raw_damage, pain.force.x, pain.force.y)
 end
 
+me.collide = function(other)
+	logger.info("i am colliding")
+end
+
 me.release = function()
     sprite_manager.remove_sprite(spr_man, spr)
     sprite_manager.release(spr_man)

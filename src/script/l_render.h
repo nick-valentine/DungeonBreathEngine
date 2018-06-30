@@ -52,6 +52,19 @@ namespace lua {
         int set_origin(lua_State *L);
         int get_icon(lua_State *L);
     }
+
+	namespace particle {
+		extern Container<render::ParticleEffect> container;
+
+		void add(lua_State *L);
+
+		int get(lua_State *L);
+		int release(lua_State *L);
+		int set_location(lua_State *L);
+		int get_location(lua_State *L);
+		int draw(lua_State *L);
+		int update(lua_State *L);
+	}
 };
 
 #define SCRIPT_RENDER_H

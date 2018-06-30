@@ -6,6 +6,7 @@ me = {}
 
 me.tileset = "hero"
 me.footsteps = nil
+me.particles = nil
 
 me.init = function()
     actor_manager.set_camera_target(me.manager, me.handle)
@@ -24,6 +25,19 @@ me.init = function()
     me.footsteps = sound.get("./GameData/sound/inventory/cloth.wav")
     sound.set_loop(me.footsteps, 1.0)
     sound.set_volume(me.footsteps, 25)
+
+	me.particles = particle_effect.get("Overworld.png", 16, 
+		{x=16, y=16}, 
+		{x=16, y=16},
+		{x=16, y=16},
+		{x=10, y=10},
+		{x=-4, y=0},
+		{x=2, y=0},
+		10,
+		2,
+		1000,
+		1000
+	)
 end
 
 me.update_velocity = function(vel, delta)
@@ -90,12 +104,15 @@ me.update = function(delta)
     sprite.set_position(spr, target_rect)
     tile.set_position(meTile, target_rect)
     tile.update(meTile, delta)
+
+	particle_effect.update(me.particles, delta)
 end
 
 me.draw = function(window)
     actor.draw(me.self, window)
     sprite.draw(spr, window)
     tile.draw(meTile, window)
+	particle_effect.draw(me.particles, window)
 end
 
 me.hurt = function(pain)
@@ -111,5 +128,6 @@ me.release = function()
     sprite_manager.release(spr_man)
     tile.release(meTile)
     sound.release(me.footsteps)
+	particle_effect.release(me.particles)
 end
 

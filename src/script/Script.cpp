@@ -13,6 +13,7 @@ namespace lua {
         lua::sprite::add(s);
         lua::tile_set::add(s);
         lua::tile::add(s);
+		lua::particle::add(s);
         lua::l_imgui::add(s);
         lua::l_ui::add(s);
         lua::l_scene::add(s);

@@ -169,6 +169,15 @@ void lua::put_rect(lua_State *L, sf::FloatRect rect)
     lua_setfield(L, table, "height");
 }
 
+sf::Vector2i lua::get_veci(lua_State *L, int pos)
+{
+	auto vf = get_vec(L, pos);
+	sf::Vector2i vi;
+	vi.x = vf.x;
+	vi.y = vf.y;
+	return vi;
+}
+
 sf::Vector2f lua::get_vec(lua_State *L, int pos)
 {
     sf::Vector2f x;

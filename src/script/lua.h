@@ -46,6 +46,7 @@ namespace lua {
     sf::FloatRect get_rect(lua_State *L, int pos);
     void put_rect(lua_State *L, sf::FloatRect rect);
 
+	sf::Vector2i get_veci(lua_State *L, int pos);
     sf::Vector2f get_vec(lua_State *L, int pos);
     void put_vec(lua_State *L, sf::Vector2f vec);
 

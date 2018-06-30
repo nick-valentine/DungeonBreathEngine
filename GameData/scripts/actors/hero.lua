@@ -26,15 +26,15 @@ me.init = function()
     sound.set_loop(me.footsteps, 1.0)
     sound.set_volume(me.footsteps, 25)
 
-    me.particles = particle_effect.get("Overworld.png", 16, 
-        {x=16, y=16}, 
+    me.particles = particle_effect.get("objects.png", 16, 
+        {x=11, y=3}, 
         {x=16, y=16},
-        {x=16, y=16},
-        {x=10, y=10},
-        {x=-4, y=0},
-        {x=2, y=0},
-        10,
-        2,
+        {x=0, y=-1},
+        {x=0, y=-0.01},
+        {x=-0, y=-0.1},
+        {x=0.1, y=0.05},
+        1000000,
+        20000000,
         1000,
         1000
     )
@@ -105,6 +105,7 @@ me.update = function(delta)
     tile.set_position(meTile, target_rect)
     tile.update(meTile, delta)
 
+    particle_effect.set_location(me.particles, target_rect)
     particle_effect.update(me.particles, delta)
 end
 
@@ -116,11 +117,11 @@ me.draw = function(window)
 end
 
 me.hurt = function(pain)
-    logger.info(pain.raw_damage, pain.force.x, pain.force.y)
+    -- logger.info(pain.raw_damage, pain.force.x, pain.force.y)
 end
 
 me.collide = function(other)
-    logger.info("i am colliding")
+    -- logger.info("i am colliding")
 end
 
 me.release = function()

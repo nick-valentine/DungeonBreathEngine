@@ -3,6 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 #include "SpriteSet.h"
+#include <time.h>
+#include "core.h"
 
 namespace render {
     
@@ -30,6 +32,7 @@ namespace render {
             float spawn_rate,
             float spawn_rate_randomness
         );
+        ~ParticleEffect();
 
         void set_location(sf::Vector2i loc);
         sf::Vector2i get_location();
@@ -38,7 +41,13 @@ namespace render {
         void draw(sf::RenderWindow &window);
     private:
         SpriteSet sprites;
-        std::vector<particle> particles = std::vector<particle>();
+        std::vector<particle*> particles = std::vector<particle*>();
+        std::vector<particle*> dead = std::vector<particle*>();
+
+        float get_rand(float center, float range);
+        void spawn_particle();
+        void kill_particle(size_t i);
+        particle *get_particle();
 
         sf::Vector2i pos;
         sf::Vector2i sprite_pos;

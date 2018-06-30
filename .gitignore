@@ -32,3 +32,5 @@ RelWithDebInfo/
 *.bcf
 *.ptc
 *.ind
+dungeonbreath.exe
+imgui.ini

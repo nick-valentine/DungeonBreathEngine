@@ -234,92 +234,93 @@ namespace lua {
         }
     };
 
-	namespace particle {
-		Container<render::ParticleEffect>container = Container<render::ParticleEffect>();
+    namespace particle {
+        Container<render::ParticleEffect>container = Container<render::ParticleEffect>();
 
-		void add(lua_State *L) {
-			LUALIB(lib) {
-				{ "get", get },
-				{ "set_location", set_location },
-				{ "get_location", get_location },
-				{ "draw", draw },
-				{ "update", update },
-				{ NULL, NULL }
-			};
-			lua::add_lib(L, "particle_effect", lib);
-		}
+        void add(lua_State *L) {
+            LUALIB(lib) {
+                { "get", get },
+                { "release", release },
+                { "set_location", set_location },
+                { "get_location", get_location },
+                { "draw", draw },
+                { "update", update },
+                { NULL, NULL }
+            };
+            lua::add_lib(L, "particle_effect", lib);
+        }
 
-		int get(lua_State *L)
-		{
-			auto t = lua::get_string(L, -12);
-			t = IMGDIR + t;
-			auto size = (int)lua::get_num(L, -11);
-			auto sprite_pos = lua::get_veci(L, -10);
-			auto pos = lua::get_veci(L, -9);
-			auto vel = lua::get_vec(L, -8);
-			auto vel_r = lua::get_vec(L, -7);
-			auto accel = lua::get_vec(L, -6);
-			auto accel_r = lua::get_vec(L, -5);
-			auto lifetime = lua::get_num(L, -4);
-			auto lifetime_r = lua::get_num(L, -3);
-			auto spawn = lua::get_num(L, -2);
-			auto spawn_r = lua::get_num(L, -1);
-			auto s = new render::ParticleEffect(
-				render::TextureMap::request(t), 
-				size,
-				sprite_pos,
-				pos,
-				vel,
-				vel_r,
-				accel,
-				accel_r,
-				lifetime,
-				lifetime_r,
-				spawn,
-				spawn_r
-			);
-			container.add(s);
-			lua_pushlightuserdata(L, s);
-			return 1;
-		}
+        int get(lua_State *L)
+        {
+            auto t = lua::get_string(L, -12);
+            t = IMGDIR + t;
+            auto size = (int)lua::get_num(L, -11);
+            auto sprite_pos = lua::get_veci(L, -10);
+            auto pos = lua::get_veci(L, -9);
+            auto vel = lua::get_vec(L, -8);
+            auto vel_r = lua::get_vec(L, -7);
+            auto accel = lua::get_vec(L, -6);
+            auto accel_r = lua::get_vec(L, -5);
+            auto lifetime = lua::get_num(L, -4);
+            auto lifetime_r = lua::get_num(L, -3);
+            auto spawn = lua::get_num(L, -2);
+            auto spawn_r = lua::get_num(L, -1);
+            auto s = new render::ParticleEffect(
+                render::TextureMap::request(t), 
+                size,
+                sprite_pos,
+                pos,
+                vel,
+                vel_r,
+                accel,
+                accel_r,
+                lifetime,
+                lifetime_r,
+                spawn,
+                spawn_r
+            );
+            container.add(s);
+            lua_pushlightuserdata(L, s);
+            return 1;
+        }
 
-		int release(lua_State *L)
-		{
-			auto p = (render::ParticleEffect*)lua::get_lightuserdata(L, -1);
-			container.remove(p);
-			return 0;
-		}
+        int release(lua_State *L)
+        {
+            auto p = (render::ParticleEffect*)lua::get_lightuserdata(L, -1);
+            container.remove(p);
+            return 0;
+        }
 
-		int set_location(lua_State *L)
-		{
-			auto s = (render::ParticleEffect *)lua::get_lightuserdata(L, -2);
-			auto pos = lua::get_veci(L, -1);
-			s->set_location(pos);
-			return 0;
-		}
+        int set_location(lua_State *L)
+        {
+            auto s = (render::ParticleEffect *)lua::get_lightuserdata(L, -2);
+            auto pos = lua::get_veci(L, -1);
+            s->set_location(pos);
+            return 0;
+        }
 
-		int get_location(lua_State *L)
-		{
-			auto s = (render::ParticleEffect *)lua::get_lightuserdata(L, -1);
-			auto pos = s->get_location();
-			lua::put_vec(L, sf::Vector2f(pos.x, pos.y));
-			return 1;
-		}
+        int get_location(lua_State *L)
+        {
+            auto s = (render::ParticleEffect *)lua::get_lightuserdata(L, -1);
+            auto pos = s->get_location();
+            lua::put_vec(L, sf::Vector2f(pos.x, pos.y));
+            return 1;
+        }
 
-		int draw(lua_State *L)
-		{
-			auto s = (render::ParticleEffect *)lua::get_lightuserdata(L, -2);
-			auto w = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
-			s->draw(*w);
-			return 0;
-		}
+        int draw(lua_State *L)
+        {
+            auto s = (render::ParticleEffect *)lua::get_lightuserdata(L, -2);
+            auto w = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
+            s->draw(*w);
+            return 0;
+        }
 
-		int update(lua_State *L)
-		{
-			auto s = (render::ParticleEffect *)lua::get_lightuserdata(L, -2);
-			auto d = (int)lua::get_num(L, -1);
-			s->update(d);
-			return 0;
-		}
-	};
+        int update(lua_State *L)
+        {
+            auto s = (render::ParticleEffect *)lua::get_lightuserdata(L, -2);
+            auto d = (int)lua::get_num(L, -1);
+            s->update(d);
+            return 0;
+        }
+    };
 };

@@ -321,6 +321,7 @@ namespace lua {
             LUALIB(lib) = {
                 { "spawn", spawn },
                 { "remove", remove },
+                { "get", get },
                 { "clear", clear },
                 { "set_camera_target", set_camera_target },
                 { "get_camera_target", get_camera_target },
@@ -351,6 +352,15 @@ namespace lua {
             auto h = (int) lua::get_num(L, -1);
             a->remove(h);
             return 0;
+        }
+
+        int get(lua_State *L)
+        {
+            auto a = (play::ActorManager *)lua::get_lightuserdata(L, -2);
+            auto h = (int) lua::get_num(L, -1);
+            auto a_ptr = a->get(h);
+            lua_pushlightuserdata(L, a_ptr.get());
+            return 1;
         }
 
         int clear(lua_State *L)

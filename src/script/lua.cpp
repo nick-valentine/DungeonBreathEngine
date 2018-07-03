@@ -26,7 +26,11 @@ void lua::stacktrace(lua_State *L)
             ss<<lua_tonumber(L, i);
             break;
         default:
-            ss<<lua_typename(L, i);
+            //auto c = lua_typename(L, i);
+            //char b[64];
+            //strcpy(b, c);
+            //std::string tmp = b;
+            //ss<<tmp;
             break;
         }
         ss<<" ";
@@ -37,7 +41,7 @@ void lua::stacktrace(lua_State *L)
 
 void lua::call_error(lua_State *L, const char *fmt, ...)
 {
-    char buff[512];
+    char buff[1024];
     va_list argp;
     va_start(argp, fmt);
     vsprintf(buff, fmt, argp);

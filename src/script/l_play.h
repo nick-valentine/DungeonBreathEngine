@@ -42,6 +42,7 @@ namespace lua {
         void add(lua_State *L);
         int spawn(lua_State *L);
         int remove(lua_State *L);
+        int get(lua_State *L);
         int clear(lua_State *L);
         int set_camera_target(lua_State *L);
         int get_camera_target(lua_State *L);

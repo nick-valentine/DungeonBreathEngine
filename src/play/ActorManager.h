@@ -42,6 +42,7 @@ namespace play {
         void add_collision_type(int type, std::string action, std::string target, sf::Vector2i loc = sf::Vector2i(0, 0));
         void add_collision_rect(int type, sf::FloatRect rect);
         void remove(int handle);
+        actor_ptr get(int handle);
         void clear();
         void set_camera_target(int handle);
         void set_init_player_pos(sf::Vector2i pos);
@@ -61,8 +62,10 @@ namespace play {
         void check_collision(actor_ptr a);
         inline void resolve_collision(sf::FloatRect &a_rect, const sf::FloatRect &with, const sf::FloatRect &intersect);
         inline void trigger_event(actor_ptr a, Collision c, const sf::FloatRect &intersect);
+        void sweep_remove();
 
         std::map<int, actor_ptr> actors;
+        std::set<int> release_queue = std::set<int>();
         int max_id = 0;
         actor_ptr camera_target = nullptr;
         actor_ptr player = nullptr;

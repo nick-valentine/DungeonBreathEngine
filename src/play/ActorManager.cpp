@@ -22,6 +22,7 @@ namespace play {
             this->check_collision(i.second);
             i.second->commit_update(delta);
         }
+        sweep_remove();
     }
 
     void ActorManager::draw(sf::RenderWindow &window)
@@ -68,7 +69,23 @@ namespace play {
 
     void ActorManager::remove(int handle)
     {
-        actors.erase(handle);
+        release_queue.insert(handle);
+    }
+
+    void ActorManager::sweep_remove()
+    {
+        for (const auto &i : release_queue) {
+            actors.erase(i);
+        }
+        release_queue.clear();
+    }
+
+    ActorManager::actor_ptr ActorManager::get(int handle)
+    {
+        if (actors.find(handle) != actors.end()) {
+            return actors[handle];
+        }
+        return NULL;
     }
 
     void ActorManager::clear()
@@ -180,8 +197,8 @@ namespace play {
             }
             auto other = i.second->get_rect();
             if (other.intersects(rect, intersection)) {
-				i.second->collide(a.get());
-				a->collide(i.second.get());
+                i.second->collide(a.get());
+                a->collide(i.second.get());
                 resolve_collision(rect, other, intersection);
             }
         }

@@ -102,7 +102,9 @@ namespace play {
         }
         lua_pushnumber(s->s, delta);
         if (lua_pcall(s->s, 1, 0, 0) != 0) {
-            lua::call_error(s->s, "update function failed");
+            std::string error_msg("update function failed ");
+            error_msg += s->name;
+            lua::call_error(s->s, error_msg.c_str());
         }
         lua_settop(s->s, actor_table - 1);
 
@@ -170,22 +172,22 @@ namespace play {
         }
     }
 
-	void Actor::collide(Actor *a)
-	{
-		lua_getglobal(s->s, TABLENAME);
-		if (!lua_istable(s->s, -1)) {
-			lua::call_error(s->s, "actor table not found");
-		}
-		auto actor_table = lua_gettop(s->s);
-		lua_getfield(s->s, actor_table, "collide");
-		if (!lua_isfunction(s->s, -1)) {
-			return;
-		}
-		lua_pushlightuserdata(s->s, a);
-		if (lua_pcall(s->s, 1, 0, 0)) {
-			lua::call_error(s->s, "collide call failed");
-		}
-	}
+    void Actor::collide(Actor *a)
+    {
+        lua_getglobal(s->s, TABLENAME);
+        if (!lua_istable(s->s, -1)) {
+            lua::call_error(s->s, "actor table not found");
+        }
+        auto actor_table = lua_gettop(s->s);
+        lua_getfield(s->s, actor_table, "collide");
+        if (!lua_isfunction(s->s, -1)) {
+            return;
+        }
+        lua_pushlightuserdata(s->s, a);
+        if (lua_pcall(s->s, 1, 0, 0)) {
+            lua::call_error(s->s, "collide call failed");
+        }
+    }
 
     sf::FloatRect Actor::get_rect() const
     {

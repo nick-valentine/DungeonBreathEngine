@@ -12,7 +12,7 @@ namespace play {
         filename = gen->get_filename();
         size = gen->get_size();
         actor_man = gen->get_actor_manager();
-        tileset = tile_set;
+        tileset = gen->get_tileset();
 
         if (script_name != "none") {
             auto filename = WORLDSCRIPTDIR + script_name + ".lua";

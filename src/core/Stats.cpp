@@ -8,11 +8,27 @@ namespace core {
         frame_deltas[delta_idx] = delta;
     }
 
+    void Stats::push_update(int delta)
+    {
+        update_idx++;
+        update_idx %= STATS_KEEP_FRAMES;
+        update_deltas[update_idx] = delta;
+    }
+
+    void Stats::push_draw(int delta)
+    {
+        draw_idx++;
+        draw_idx %= STATS_KEEP_FRAMES;
+        draw_deltas[draw_idx] = delta;
+    }
+
     void Stats::imgui_draw(sf::Vector2i size)
     {
         ImGui::Begin("Stats:");
         ImGui::Text("FPS: %f", 1e6/frame_deltas[delta_idx]);
         ImGui::PlotHistogram("frames: ", frame_deltas, STATS_KEEP_FRAMES);
+        ImGui::PlotHistogram("updates: ", update_deltas, STATS_KEEP_FRAMES);
+        ImGui::PlotHistogram("draws: ", draw_deltas, STATS_KEEP_FRAMES);
         ImGui::End();
     }
 }

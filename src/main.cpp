@@ -47,6 +47,8 @@ int main()
     stack.push(StackItem(new play::Scene("entry", sf::Vector2i(resolution_x, resolution_y))));
     stack.top()->wakeup("");
     sf::Clock timer;
+    sf::Clock update_timer;
+    sf::Clock draw_timer;
 
     int delta = 0;
     while (window.isOpen()) {
@@ -56,9 +58,13 @@ int main()
         stats.push_delta(delta);
         sf::sleep(sf::microseconds(sf::Int64(std::max(frame_frequency - float(delta), 0.0f))));
 
+        update_timer.restart();
         handleEvents(window);
         ImGui::SFML::Update(window, sfml_delta);
         stack.top()->update(delta, window);
+        auto update_delta = update_timer.restart();
+        delta = int(update_delta.asMicroseconds());
+        stats.push_update(delta);
 
         if (console_open) {
             core::app_container.get_console()->imgui_draw(sf::Vector2i(resolution_x, resolution_y));
@@ -72,10 +78,14 @@ int main()
             last_tilde_pressed = tilde_pressed;
         }
 
+        draw_timer.restart();
         window.clear(sf::Color::Black);
         stack.top()->draw(window);
         ImGui::SFML::Render(window);
         window.display();
+        auto draw_delta = draw_timer.restart();
+        delta = int(draw_delta.asMicroseconds());
+        stats.push_draw(delta);
 
         play::Scene::Status state = stack.top()->status();
         if (state == play::Scene::Status::exit_program) {

@@ -38,6 +38,7 @@ namespace play {
         void render(sf::RenderWindow &window);
         void hurt(pain p);
 		void collide(Actor *a);
+        void message(Actor *a, std::string msg);
 
         std::string get_name() const;
         sf::FloatRect get_rect() const;

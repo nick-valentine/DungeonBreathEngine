@@ -189,6 +189,24 @@ namespace play {
         }
     }
 
+    void Actor::message(Actor *a, std::string msg)
+    {
+        lua_getglobal(s->s, TABLENAME);
+        if (!lua_istable(s->s, -1)) {
+            lua::call_error(s->s, "actor table not found");
+        }
+        auto actor_table = lua_gettop(s->s);
+        lua_getfield(s->s, actor_table, "message");
+        if (!lua_isfunction(s->s, -1)) {
+            return;
+        }
+        lua_pushlightuserdata(s->s, a);
+        lua_pushstring(s->s, msg.c_str());
+        if (lua_pcall(s->s, 2, 0, 0)) {
+            lua::call_error(s->s, "message call failed");
+        }
+    }
+
     sf::FloatRect Actor::get_rect() const
     {
         return this->rect;

@@ -36,6 +36,7 @@ namespace lua {
         int reset_anim(lua_State *L);
         int draw(lua_State *L);
         int attack(lua_State *L);
+        int message(lua_State *L);
     };
 
     namespace actorman {

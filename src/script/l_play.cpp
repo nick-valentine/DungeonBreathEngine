@@ -166,6 +166,7 @@ namespace lua {
                 { "reset_anim", reset_anim },
                 { "draw", draw },
                 { "attack", attack },
+                { "message", message },
                 { NULL, NULL }
             };
             lua::add_lib(L, "actor", lib);
@@ -311,6 +312,15 @@ namespace lua {
             lua_gettable(L, t);
             auto attacker = (play::Actor *)lua::get_lightuserdata(L, -1);
             a->hurt(play::pain{dmg, force, attacker});
+            return 0;
+        }
+
+        int message(lua_State *L)
+        {
+            auto to = (play::Actor *)lua::get_lightuserdata(L, -3);
+            auto from = (play::Actor *)lua::get_lightuserdata(L, -2);
+            auto s = lua::get_string(L, -1);
+            to->message(from, s);
             return 0;
         }
     };

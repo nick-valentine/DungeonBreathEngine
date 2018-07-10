@@ -17,12 +17,14 @@ namespace render {
         virtual void reset() = 0;
 
         virtual void update(int delta) = 0;
-        virtual void draw(sf::RenderWindow &window) = 0;
+        virtual void draw(sf::RenderTarget &window) = 0;
 
         virtual int get_key() = 0;
         virtual sf::Vector2i get_size() = 0;
         virtual void set_scale(sf::Vector2f scale) = 0;
         virtual void set_origin(sf::Vector2f scale) = 0;
+
+        virtual bool is_cacheable() const noexcept = 0;
 
         virtual sf::Sprite *get_icon() = 0;
 

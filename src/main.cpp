@@ -41,6 +41,7 @@ int main()
     const int frame_frequency = 33333; // 1/30 of a second
 
     sf::RenderWindow window(sf::VideoMode(resolution_x, resolution_y), "DungeonBreath");
+    window.setFramerateLimit(60);
     ImGui::SFML::Init(window);
 
     GameStack stack;
@@ -56,7 +57,6 @@ int main()
         auto sfml_delta = timer.restart();
         delta = int(sfml_delta.asMicroseconds());
         stats.push_delta(delta);
-        sf::sleep(sf::microseconds(sf::Int64(std::max(frame_frequency - float(delta), 0.0f))));
 
         update_timer.restart();
         handleEvents(window);

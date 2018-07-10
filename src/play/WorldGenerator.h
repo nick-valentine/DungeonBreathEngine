@@ -11,7 +11,7 @@
 
 namespace play {
     namespace Dimension {
-        typedef std::unique_ptr<render::Tile> TilePtr;
+        typedef std::shared_ptr<render::Tile> TilePtr;
         typedef std::vector<TilePtr> Line;
         typedef std::vector<Line> Layer;
         typedef std::vector<Layer> Room;

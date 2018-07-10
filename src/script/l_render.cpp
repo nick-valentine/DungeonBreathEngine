@@ -83,7 +83,7 @@ namespace lua {
 
         int draw(lua_State *L) {
             auto spr = (sf::Sprite *)lua::get_lightuserdata(L, -2);
-            auto w = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
+            auto w = (sf::RenderTarget *)lua::get_lightuserdata(L, -1);
             w->draw(*spr);
             return 0;
         }
@@ -170,7 +170,7 @@ namespace lua {
 
         int draw(lua_State *L) {
             auto t = (render::Tile *)lua::get_lightuserdata(L, -2);
-            auto w = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
+            auto w = (sf::RenderTarget *)lua::get_lightuserdata(L, -1);
             t->draw(*w);
             return 0;
         }
@@ -310,7 +310,7 @@ namespace lua {
         int draw(lua_State *L)
         {
             auto s = (render::ParticleEffect *)lua::get_lightuserdata(L, -2);
-            auto w = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
+            auto w = (sf::RenderTarget *)lua::get_lightuserdata(L, -1);
             s->draw(*w);
             return 0;
         }

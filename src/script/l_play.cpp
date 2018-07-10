@@ -46,7 +46,7 @@ namespace lua {
 
         int draw(lua_State *L) {
             auto w = (play::World *)lua::get_lightuserdata(L, -2);
-            auto win = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
+            auto win = (sf::RenderTarget *)lua::get_lightuserdata(L, -1);
             w->render(*win);
             return 0;
         }
@@ -54,7 +54,7 @@ namespace lua {
         int draw_layer(lua_State *L)
         {
             auto w = (play::World *)lua::get_lightuserdata(L, -3);
-            auto win = (sf::RenderWindow *)lua::get_lightuserdata(L, -2);
+            auto win = (sf::RenderTarget *)lua::get_lightuserdata(L, -2);
             auto l = (int) lua::get_num(L, -1);
             w->render_layer(*win, l);
             return 0;
@@ -63,7 +63,7 @@ namespace lua {
         int draw_actors(lua_State *L)
         {
             auto w = (play::World *)lua::get_lightuserdata(L, -2);
-            auto win = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
+            auto win = (sf::RenderTarget *)lua::get_lightuserdata(L, -1);
             w->render_actors(*win);
             return 0;
         }
@@ -294,7 +294,7 @@ namespace lua {
         int draw(lua_State *L)
         {
             auto a = (play::Actor *)lua::get_lightuserdata(L, -2);
-            auto w = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
+            auto w = (sf::RenderTarget *)lua::get_lightuserdata(L, -1);
             a->render(*w);
             return 0;
         }

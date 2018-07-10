@@ -34,8 +34,8 @@ namespace play {
         void init();
         void update(int delta);
         void commit_update(int delta);
-        void draw(sf::RenderWindow &window);
-        void render(sf::RenderWindow &window);
+        void draw(sf::RenderTarget &window);
+        void render(sf::RenderTarget &window);
         void hurt(pain p);
 		void collide(Actor *a);
         void message(Actor *a, std::string msg);

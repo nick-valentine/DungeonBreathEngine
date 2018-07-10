@@ -27,10 +27,12 @@ namespace render {
         virtual void set_scale(sf::Vector2f scale);
         virtual void set_origin(sf::Vector2f scale);
 
+        virtual bool is_cacheable() const noexcept;
+
         virtual sf::Sprite *get_icon();
 
         void update(int delta);
-        void draw(sf::RenderWindow &window);
+        void draw(sf::RenderTarget &window);
 
         Tile *clone();
     private:

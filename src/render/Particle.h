@@ -38,7 +38,7 @@ namespace render {
         sf::Vector2i get_location();
 
         void update(int delta);
-        void draw(sf::RenderWindow &window);
+        void draw(sf::RenderTarget &window);
     private:
         SpriteSet sprites;
         std::vector<particle*> particles = std::vector<particle*>();

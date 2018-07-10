@@ -38,10 +38,10 @@ namespace play {
         std::string get_script_name();
 
         void update(int delta, sf::RenderWindow &window);
-        void draw(sf::RenderWindow &window);
-        void render(sf::RenderWindow &window);
-        void render_layer(sf::RenderWindow &window, int layer);
-        void render_actors(sf::RenderWindow &window);
+        void draw(sf::RenderTarget &window);
+        void render(sf::RenderTarget &window);
+        void render_layer(sf::RenderTarget &window, int layer);
+        void render_actors(sf::RenderTarget &window);
 
         void set_edit_mode(bool edit_mode);
 
@@ -56,6 +56,7 @@ namespace play {
     private:
         void add_layer(int num_layers = 1);
         std::string convert_collision_boxes();
+        void cache_render(int layer);
 
         bool update_actors =  true;
         static constexpr int world_height = 20;
@@ -66,6 +67,11 @@ namespace play {
         std::string tileset;
         std::shared_ptr<ActorManager> actor_man;
         Dimension::Room world;
+
+        std::vector<sf::RenderTexture*> cached_render;
+        std::vector<bool> render_is_cached = std::vector<bool>(10, false);
+        std::vector<Dimension::TilePtr> uncacheable_low;
+        std::vector<Dimension::TilePtr> uncacheable_high;
 
         state game_state = playing;
         std::string request_level = "";

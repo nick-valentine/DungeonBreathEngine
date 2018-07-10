@@ -24,7 +24,7 @@ namespace render {
         void reset();
 
         void update(int delta);
-        void draw(sf::RenderWindow &window, sf::FloatRect pos);
+        void draw(sf::RenderTarget &window, sf::FloatRect pos);
 
         void set_origin(sf::Vector2f origin);
 

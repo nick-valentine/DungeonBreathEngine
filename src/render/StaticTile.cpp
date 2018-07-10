@@ -54,6 +54,11 @@ namespace render {
         this->sprite.setOrigin(origin);
     }
 
+    bool StaticTile::is_cacheable() const noexcept
+    {
+        return true;
+    }
+
     sf::Sprite *StaticTile::get_icon()
     {
         return &sprite;
@@ -64,7 +69,7 @@ namespace render {
 
     }
 
-    void StaticTile::draw(sf::RenderWindow &window)
+    void StaticTile::draw(sf::RenderTarget &window)
     {
         window.draw(this->sprite);
     }

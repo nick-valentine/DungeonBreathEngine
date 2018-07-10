@@ -37,7 +37,7 @@ namespace play {
         ActorManager();
 
         void update(int delta);
-        void draw(sf::RenderWindow &window);
+        void draw(sf::RenderTarget &window);
         int spawn(std::string name, sf::Vector2i pos);
         void add_collision_type(int type, std::string action, std::string target, sf::Vector2i loc = sf::Vector2i(0, 0));
         void add_collision_rect(int type, sf::FloatRect rect);

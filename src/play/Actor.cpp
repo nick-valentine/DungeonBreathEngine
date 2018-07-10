@@ -118,7 +118,7 @@ namespace play {
         this->current_tile->set_origin(this->origin);
     }
 
-    void Actor::draw(sf::RenderWindow &window)
+    void Actor::draw(sf::RenderTarget &window)
     {
         lua_getglobal(s->s, TABLENAME);
         if (!lua_istable(s->s, -1)) {
@@ -135,7 +135,7 @@ namespace play {
         }
     }
 
-    void Actor::render(sf::RenderWindow &window)
+    void Actor::render(sf::RenderTarget &window)
     {
         current_tile->draw(window);
 #if DEBUG

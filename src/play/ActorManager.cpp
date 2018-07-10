@@ -25,7 +25,7 @@ namespace play {
         sweep_remove();
     }
 
-    void ActorManager::draw(sf::RenderWindow &window)
+    void ActorManager::draw(sf::RenderTarget &window)
     {
         for (auto &i : actors) {
             i.second->draw(window);

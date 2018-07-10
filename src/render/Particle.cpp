@@ -64,7 +64,7 @@ namespace render {
         }
     }
 
-    void ParticleEffect::draw(sf::RenderWindow &window)
+    void ParticleEffect::draw(sf::RenderTarget &window)
     {
         for (const auto &i : particles) {
             window.draw(*i->p);

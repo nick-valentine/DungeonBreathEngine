@@ -26,6 +26,8 @@ namespace core {
     {
         ImGui::Begin("Stats:");
         ImGui::Text("FPS: %f", 1e6/frame_deltas[delta_idx]);
+        ImGui::Text("Update time: %f", update_deltas[update_idx]);
+        ImGui::Text("Draw time: %f", draw_deltas[draw_idx]);
         ImGui::PlotHistogram("frames: ", frame_deltas, STATS_KEEP_FRAMES);
         ImGui::PlotHistogram("updates: ", update_deltas, STATS_KEEP_FRAMES);
         ImGui::PlotHistogram("draws: ", draw_deltas, STATS_KEEP_FRAMES);

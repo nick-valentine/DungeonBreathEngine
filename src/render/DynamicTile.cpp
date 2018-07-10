@@ -57,6 +57,11 @@ namespace render {
         anim.set_origin(origin);
     }
 
+    bool DynamicTile::is_cacheable() const noexcept
+    {
+        return false;
+    }
+
     sf::Sprite *DynamicTile::get_icon()
     {
         return anim.get_icon();
@@ -67,7 +72,7 @@ namespace render {
         anim.update(delta);
     }
 
-    void DynamicTile::draw(sf::RenderWindow &window)
+    void DynamicTile::draw(sf::RenderTarget &window)
     {
         anim.draw(window, sf::FloatRect(loc.x, loc.y, Tile::size() * scale.x, Tile::size() * scale.y));
     }

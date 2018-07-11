@@ -16,7 +16,7 @@ namespace ui {
             sf::IntRect press
         );
 
-        void draw(sf::RenderWindow &window);
+        void draw(sf::RenderTarget &window);
     private:
         sf::Texture *tex;
         sf::Sprite normal;

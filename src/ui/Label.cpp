@@ -12,7 +12,7 @@ namespace ui {
         this->text.setPosition(float(pos.left), float(pos.top));
     }
 
-    void Label::draw(sf::RenderWindow &window)
+    void Label::draw(sf::RenderTarget &window)
     {
         window.draw(this->text);
     }

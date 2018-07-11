@@ -70,8 +70,7 @@ namespace play {
 
         std::vector<sf::RenderTexture*> cached_render;
         std::vector<bool> render_is_cached = std::vector<bool>(10, false);
-        std::vector<Dimension::TilePtr> uncacheable_low;
-        std::vector<Dimension::TilePtr> uncacheable_high;
+        std::vector< std::vector<Dimension::TilePtr> > uncacheable;
 
         state game_state = playing;
         std::string request_level = "";

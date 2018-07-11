@@ -224,19 +224,12 @@ namespace play {
             render_layer(window, i);
         }
 
-        for (const auto &i : uncacheable_low) {
-            i->draw(window);
-        }
-
         render_actors(window);
 
         for (size_t i = LAYERS_UNDER_ACTOR; i < world.size(); ++i) {
             render_layer(window, i);
         }
 
-        for (const auto &i : uncacheable_high) {
-            i->draw(window);
-        }
     }
 
     void World::render_layer(sf::RenderTarget &window, int layer)
@@ -245,6 +238,9 @@ namespace play {
             cache_render(layer);
         }
         window.draw(sf::Sprite(cached_render[layer]->getTexture()));
+        for (const auto &i : uncacheable[layer]) {
+            i->draw(window);
+        }
     }
 
     void World::render_actors(sf::RenderTarget &window)
@@ -329,8 +325,12 @@ namespace play {
     {
         while (cached_render.size() <= layer) {
             cached_render.push_back(new sf::RenderTexture);
+            uncacheable.push_back(std::vector<Dimension::TilePtr>());
         }
-        cached_render[layer]->create(size.x * render::TileSet::tile_size(), size.y * render::TileSet::tile_size());
+        cached_render[layer]->create(
+                size.x * render::TileSet::tile_size(), 
+                size.y * render::TileSet::tile_size()
+        );
         if (layer >= 0 && layer < world.size()) {
             auto & l = world[layer];
             for (auto& line: l) {
@@ -339,11 +339,7 @@ namespace play {
                         if (value->is_cacheable()) {
                             value->draw(*cached_render[layer]);
                         } else {
-                            if (layer <= 5) {
-                                uncacheable_low.push_back(value);
-                            } else {
-                                uncacheable_high.push_back(value);
-                            }
+                            uncacheable[layer].push_back(value);
                         }
                     }
                 }

@@ -73,7 +73,7 @@ namespace play {
         lua_settop(s->s, me_table - 1);
     }
 
-    void Scene::draw(sf::RenderWindow &window)
+    void Scene::draw(sf::RenderTarget &window)
     {
         lua_getglobal(s->s, TABLENAME);
         if (!lua_istable(s->s, -1)) {
@@ -91,7 +91,7 @@ namespace play {
         lua_settop(s->s, me_table - 1);
     }
 
-    void Scene::render(sf::RenderWindow &window)
+    void Scene::render(sf::RenderTarget &window)
     {
         window.setView(this->main_window);
         menu->draw(window);
@@ -213,7 +213,7 @@ namespace play {
         this->main_window.zoom(factor);
     }
 
-    void Scene::apply_view(sf::RenderWindow &window)
+    void Scene::apply_view(sf::RenderTarget &window)
     {
         window.setView(this->main_window);
     }

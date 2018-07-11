@@ -30,7 +30,7 @@ namespace ui {
         virtual ~Element() = default;
 
         virtual void update(int delta, sf::RenderWindow &window) = 0;
-        virtual void draw(sf::RenderWindow &window) = 0;
+        virtual void draw(sf::RenderTarget &window) = 0;
 
         virtual void set_pos(sf::IntRect pos);
         virtual sf::IntRect get_pos() const;

@@ -13,7 +13,7 @@ namespace play {
         WorldManager();
 
         void update(int delta, sf::RenderWindow &window);
-        void draw(sf::RenderWindow &window);
+        void draw(sf::RenderTarget &window);
 
         void load(std::string name, sf::Vector2i player_coords);
 

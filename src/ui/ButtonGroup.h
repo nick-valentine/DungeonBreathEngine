@@ -26,7 +26,7 @@ namespace ui {
         void add_button(std::string name, Button *b);
 
         void update(int delta, core::Input *input, sf::RenderWindow &window);
-        void draw(sf::RenderWindow &window);
+        void draw(sf::RenderTarget &window);
 
         std::string pressed_button();
         std::string neg_edge_button();

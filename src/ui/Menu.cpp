@@ -18,7 +18,7 @@ namespace ui {
         me->update(delta, window);
     }
 
-    void MenuItem::draw(sf::RenderWindow &window)
+    void MenuItem::draw(sf::RenderTarget &window)
     {
         me->draw(window);
     }
@@ -182,7 +182,7 @@ namespace ui {
         }
     }
 
-    void Menu::draw(sf::RenderWindow &window)
+    void Menu::draw(sf::RenderTarget &window)
     {
         for (const auto &i : menu_items) {
             i->draw(window);

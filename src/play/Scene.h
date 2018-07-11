@@ -29,8 +29,8 @@ namespace play {
         ~Scene();
 
         void update(int delta, sf::RenderWindow &window);
-        void draw(sf::RenderWindow &window);
-        void render(sf::RenderWindow &window);
+        void draw(sf::RenderTarget &window);
+        void render(sf::RenderTarget &window);
 
         void init();
         void wakeup(sf::String message);
@@ -52,7 +52,7 @@ namespace play {
         void set_viewport(sf::FloatRect c);
         sf::FloatRect get_viewport();
         void zoom_camera(float factor);
-        void apply_view(sf::RenderWindow &window);
+        void apply_view(sf::RenderTarget &window);
 
         void init_world();
         play::World *get_world();

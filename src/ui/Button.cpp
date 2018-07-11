@@ -25,7 +25,7 @@ namespace ui {
         }
     }
 
-    void Button::draw(sf::RenderWindow &window)
+    void Button::draw(sf::RenderTarget &window)
     {
 #if DEBUG
         if (this->was_pressed) {

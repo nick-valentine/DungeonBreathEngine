@@ -35,7 +35,7 @@ namespace ui {
         MenuItem &operator=(const MenuItem &&other) = delete;
 
         void update(int delta, sf::RenderWindow &window);
-        void draw(sf::RenderWindow &window);
+        void draw(sf::RenderTarget &window);
 
         EReturn signal();
 
@@ -71,7 +71,7 @@ namespace ui {
         Menu &operator=(const Menu &&other) = delete;
 
         void update(int delta, sf::RenderWindow &window);
-        void draw(sf::RenderWindow &window);
+        void draw(sf::RenderTarget &window);
 
         void set_current(Element * x);
 

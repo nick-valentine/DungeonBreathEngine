@@ -14,7 +14,7 @@ namespace play {
         }
     }
 
-    void WorldManager::draw(sf::RenderWindow &window)
+    void WorldManager::draw(sf::RenderTarget &window)
     {
         current->draw(window);
     }

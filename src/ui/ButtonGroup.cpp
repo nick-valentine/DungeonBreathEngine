@@ -45,7 +45,7 @@ namespace ui {
         }
     }
 
-    void ButtonGroup::draw(sf::RenderWindow &window)
+    void ButtonGroup::draw(sf::RenderTarget &window)
     {
         for (const auto &i : this->buttons) {
             i.second->draw(window);

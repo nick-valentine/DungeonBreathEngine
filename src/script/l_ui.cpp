@@ -257,7 +257,7 @@ namespace lua {
             int draw(lua_State *L)
             {
                 auto l = (ui::Label *)lua::get_lightuserdata(L, -2);
-                auto w = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
+                auto w = (sf::RenderTarget *)lua::get_lightuserdata(L, -1);
                 l->draw(*w);
                 return 0;
             }

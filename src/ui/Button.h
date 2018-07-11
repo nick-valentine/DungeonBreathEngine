@@ -17,7 +17,7 @@ namespace ui {
         virtual ~Button() = default;
 
         virtual void update(int delta, sf::RenderWindow &window);
-        virtual void draw(sf::RenderWindow &window);
+        virtual void draw(sf::RenderTarget &window);
 
         virtual bool pressed();
         virtual bool neg_edge();

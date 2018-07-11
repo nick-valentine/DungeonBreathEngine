@@ -116,7 +116,7 @@ namespace lua {
         int apply_view(lua_State *L)
         {
             auto s = (play::Scene *)lua::get_lightuserdata(L, -2);
-            auto w = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
+            auto w = (sf::RenderTarget *)lua::get_lightuserdata(L, -1);
             s->apply_view(*w);
             return 0;
         }
@@ -139,7 +139,7 @@ namespace lua {
         int draw(lua_State *L)
         {
             auto s = (play::Scene *)lua::get_lightuserdata(L, -2);
-            auto w = (sf::RenderWindow *)lua::get_lightuserdata(L, -1);
+            auto w = (sf::RenderTarget *)lua::get_lightuserdata(L, -1);
             s->render(*w);
             return 0;
         }

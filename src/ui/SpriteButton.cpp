@@ -17,7 +17,7 @@ namespace ui {
         this->press.setPosition(sf::Vector2f(float(pos.left), float(pos.top)));
     }
 
-    void SpriteButton::draw(sf::RenderWindow &window)
+    void SpriteButton::draw(sf::RenderTarget &window)
     {
         if (this->was_pressed) {
             window.draw(this->press);
